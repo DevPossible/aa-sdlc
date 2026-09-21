@@ -3,9 +3,10 @@
 .SYNOPSIS
     Validates the structure of the SDK content package.
 .DESCRIPTION
-    Checks every skill folder under src/aasdlc/skills has a SKILL.md whose frontmatter
-    'name' matches the folder and whose 'description' is present. Returns the list of
-    problems found; an empty list means the package is valid.
+    Checks every skill folder under src/aasdlc/skills (grouped as <discipline>/<step>, or the
+    top-level meta skill) has a SKILL.md whose frontmatter 'name' matches the folder and whose
+    'description' is present, and that step names are unique across disciplines. Returns the
+    list of problems found; an empty list means the package is valid.
 .PARAMETER SourceRoot
     Path to the SDK content package. Defaults to src/aasdlc relative to the repo root.
 #>
@@ -24,18 +25,20 @@ if (-not (Test-Path $skillsDir)) {
     return $problems
 }
 
-$skillFolders = Get-ChildItem -Path $skillsDir -Directory
+# A skill folder is any folder that directly contains SKILL.md: either a top-level meta skill
+# or <discipline>/<step>. Discipline folders themselves hold no SKILL.md.
+$skillFolders = Get-ChildItem -Path $skillsDir -Recurse -Filter 'SKILL.md' -File |
+    ForEach-Object { $_.Directory }
 if ($skillFolders.Count -eq 0) {
     Write-Warning 'No skills defined yet.'
 }
 
+$skillFolders | Group-Object Name | Where-Object Count -gt 1 | ForEach-Object {
+    $problems.Add("$($_.Name): step name used in more than one discipline")
+}
+
 foreach ($folder in $skillFolders) {
     $skillFile = Join-Path $folder.FullName 'SKILL.md'
-    if (-not (Test-Path $skillFile)) {
-        $problems.Add("$($folder.Name): missing SKILL.md")
-        continue
-    }
-
     $content = Get-Content $skillFile -Raw
     if ($content -notmatch '(?s)^---\r?\n(.*?)\r?\n---') {
         $problems.Add("$($folder.Name): SKILL.md has no frontmatter")

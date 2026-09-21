@@ -24,61 +24,58 @@ Reference projects the SDK is deliberately similar to:
 - **superpowers** (obra): small, sharp behavioural skills, a meta skill that routes to them, and
   a plugin-style install.
 
-## 2. Principles
+## 2. Tenets and vocabulary
 
-1. **Opinionated, not enforced.** The workflow is described end to end, but every step has its
-   own command that can be run standalone at any time, in any order. The SDK never refuses to run
-   a step because an earlier one was skipped.
-2. **The SDK owns no process state.** The ticket system is the state store, the wiki or notes
-   system is the memory, and source control is the output. Every command anchors on a ticket ID,
-   reads what it needs from the ticket and wiki, does its step, and writes results back.
-3. **No wrapper skills for external systems.** If the agent already has an MCP server, connector,
-   or CLI for the ticket system, wiki, or source control, the skills use it by describing intent
-   in plain language ("update the ticket", "record the decision in the wiki", "open a merge
-   request"). A skill that wraps an MCP server only restates what the agent can already see.
-4. **Graceful degradation.** If a system is absent, a step still runs and produces its artifact
-   locally. The `health` command is where the user learns something is missing, not a failure
-   inside a step.
-5. **Target-agnostic core.** The portable unit is the `SKILL.md` folder (the Agent Skills
-   standard). Only slash commands, hooks, and subagent definitions differ per target.
-6. **Not tech-stack or tool dependent.** Core skills describe outcomes. Tech-stack specifics
-   (a .NET pack, a Node pack) and extra processes (a compliance pack) are plugins.
-7. **Consistency is the product.** The point of being opinionated is that two teams using the SDK
-   produce recognisably the same artifacts, in the same places, linked the same way.
-8. **Extensibility is a requirement of every core skill.** The core roughs in the framework;
-   plugins, project skills, and the user's existing tooling supply the specifics.
-
-These principles govern the SDK's design. The practices the SDK teaches the agent and the user
-at each step are the **tenets**, kept separately in [tenets.md](tenets.md) so skills can cite
-them by ID.
+The principles that govern the SDK's design are the **tenets**, kept in [tenets.md](tenets.md)
+and cited by ID (T-01 to T-10). The terms used throughout are defined in
+[vocabulary.md](vocabulary.md). In one line: tenets govern everything; **disciplines** group
+skills by kind of work; a **process** is an ordered set of **steps** toward a goal; each step is
+delivered as a **skill** and invoked by a **command**; **guidance** is the specific advice
+attached to a step or process. Guidance not yet attached to a step is tracked in
+[guidance.md](guidance.md).
 
 ## 3. Architecture
 
-Three layers of skills plus one meta skill and one diagnostic command.
+### 3.1 Disciplines
 
-### 3.1 Phase skills
+Skills are grouped by discipline, the kind of work they perform. Current disciplines:
 
-One skill per methodology step. Each produces that step's named artifact(s) with the acceptance
-criteria from the methodology, and records the outcome against the anchoring ticket. Each has a
-matching command.
+| Discipline | Kind of work |
+|------------|--------------|
+| Business Analysis | discovering, capturing, and validating what the business needs |
+| Technical Analysis | architecture, technology choices, prototypes, decision records |
+| Refinement | turning requirements into a well-formed, prioritised backlog |
+| Implementation Planning | planning how a single ticket will be built before building it |
+| Development | building, reviewing, and merging code |
+| Testing | proving behaviour at every level |
+| Documentation | keeping the knowledge base and repo docs true |
+| Project Management | coordination, triage, retrospectives, health |
+| Operations *(proposed)* | infrastructure, pipelines, releases, observability |
 
-### 3.2 Discipline skills
+### 3.2 Processes and steps
 
-How the agent behaves inside any step. These are the superpowers-style layer and are referenced
-by phase skills rather than restated in them. Candidate list, to be refined:
+A step is one self-contained unit of work in one discipline. It produces named artifacts with the
+acceptance criteria from the methodology and records its outcome on the anchor ticket. Every step
+has a skill and a command, and every step runs standalone (T-03).
 
-- `test-driven-development`
-- `systematic-debugging`
-- `verify-before-done`
-- `plan-then-execute`
+A process is an ordered set of steps toward a goal, drawn from any disciplines. The methodology's
+six phases are the core processes. Smaller processes ("deliver a ticket", "ship a release") are
+expected, and plugins may add more. Processes are defined as data in `src/aasdlc/workflow/`.
 
-### 3.3 Meta skill
+### 3.3 Guidance
 
-`aasdlc` (working name): explains the SDK to the agent, describes the workflow at a glance, and
-routes to the right phase or discipline skill for the task at hand. Modelled on superpowers'
+Guidance is the specific, actionable advice on how best to perform a step or process. It lives in
+the skill for its step or in the process definition, is written against tool categories only
+(T-01), and is cited by ID. Guidance replaces the earlier idea of separate "discipline skills"
+for behaviour: the behaviour is attached where it applies rather than held in a parallel layer.
+
+### 3.4 Meta skill
+
+`aasdlc` (working name): explains the SDK to the agent, describes the disciplines and processes
+at a glance, and routes to the right step for the task at hand. Modelled on superpowers'
 `using-superpowers`.
 
-### 3.4 The health command
+### 3.5 The health command
 
 `aasdlc-health` is the single place the SDK's expectations are enumerated and checked. It
 reports, and never blocks. It checks:
@@ -91,48 +88,53 @@ reports, and never blocks. It checks:
 
 It is the first thing the installer tells the user to run.
 
-## 4. Methodology to skill map
+## 4. Methodology to step map
 
 The methodology has six phases and 23 steps plus a quarterly meta-process (see the website's
-workflow page, mirrored in `src/aasdlc/workflow/`). Skills are organised by what the agent does,
-not by tier or team, so some steps merge and a few steps the methodology left implicit are added.
+workflow page, mirrored in `src/aasdlc/workflow/`). The phases become the core processes. Each
+methodology step becomes an SDK step in one discipline. Some steps merge and a few the
+methodology left implicit are added.
 
-| Phase | Methodology step | Skill / command | Primary artifacts |
-|-------|------------------|-----------------|-------------------|
-| 1 Conception | 1.1 Initial Discovery Session | `discover` | Initial Requirements Document, Question Log |
-| 1 Conception | 1.2 Requirement Refinement & Gap Analysis | `refine-requirements` | Refined Requirements Document, Technical Constraints Document |
-| 1 Conception | 1.3 Design & Prototyping | `prototype` | UI/UX Mockups, Interactive Prototype |
-| 1 Conception | 1.4 Architecture & Technical Planning | `architect` | System Architecture Diagram, Technology Stack Document, ADRs |
-| 1 Conception | *(implicit in methodology)* Work breakdown | `plan-work` | Epics, stories, tasks in the ticket system |
-| 2 Development | 2.1 Development Environment Setup | `setup-environment` | Repository Structure, Development Environment Configuration |
-| 2 Development | 2.2 Backend, 2.3 Frontend, 2.4 Integration | `implement` | Application code, schema and migrations, integration code |
-| 2 Development | *(implicit in methodology)* Code review | `review` | Review findings on the merge request |
-| 2 Development | *(implicit in methodology)* Merge | `finish-branch` | Merge request linked to ticket, ticket transitioned |
-| 3 Testing | 3.1 Automated Test Suite Generation | `generate-tests` | Gherkin Feature Files, Comprehensive Test Suite |
-| 3 Testing | 3.2 Automated UI/E2E Testing | `e2e-tests` | E2E Test Suite, Visual Regression Test Suite |
-| 3 Testing | 3.3 Performance & Load Testing | `performance-test` | Performance Test Suite, Performance Baseline Report |
-| 3 Testing | 3.4 Security Testing | `security-test` | Security Test Results, Security Compliance Report |
-| 4 Deployment | 4.1 Deployment Environment Setup | `setup-infrastructure` | Infrastructure Code, Deployment Runbooks |
-| 4 Deployment | 4.2 Continuous Deployment Pipeline | `setup-pipeline` | Deployment Pipeline Configuration, Deployment Strategy Documentation |
-| 4 Deployment | 4.3 Production Deployment | `release` | Release notes, Production Deployment Record, Deployment Verification Report |
-| 5 Verification | 5.1 Monitoring & Observability Setup | `observability` | Monitoring Dashboards, Alert Configuration |
-| 5 Verification | 5.2 User Acceptance Testing | `uat` | UAT Test Cases, UAT Results Report |
-| 5 Verification | 5.3 Production Validation | `validate-production` | Production Validation Test Results, Production Metrics Report |
-| 6 Maintenance | 6.1 Ongoing Monitoring & Support | `triage` | Incident Log entries, tickets raised |
-| 6 Maintenance | 6.2 Performance Optimization | `optimize` | Performance Optimization Backlog, Optimization Implementation Report |
-| 6 Maintenance | 6.3 Feature Iteration & Enhancement | `iterate` | Product Feedback Analysis, Feature Roadmap |
-| 6 Maintenance | 6.4 Security & Compliance Maintenance | `maintain-security` | Security Patch Log, Compliance Audit Reports |
-| 6 Maintenance | 6.5 Documentation Maintenance | `maintain-docs` | Up-to-Date Documentation, Documentation Health Report |
-| Meta | Workflow Retrospective | `retrospective` | Workflow Health Report, Process Improvement Backlog |
-| Cross-cutting | n/a | `health` | Health report |
+| Process (phase) | Methodology step | Discipline | Step / command | Primary artifacts |
+|-----------------|------------------|------------|----------------|-------------------|
+| 1 Conception | 1.1 Initial Discovery Session | Business Analysis | `discover` | Initial Requirements Document, Question Log |
+| 1 Conception | 1.2 Requirement Refinement & Gap Analysis | Business Analysis | `refine-requirements` | Refined Requirements Document, Technical Constraints Document |
+| 1 Conception | 1.3 Design & Prototyping | Technical Analysis | `prototype` | UI/UX Mockups, Interactive Prototype |
+| 1 Conception | 1.4 Architecture & Technical Planning | Technical Analysis | `architect` | System Architecture Diagram, Technology Stack Document, decision records |
+| 1 Conception | *(implicit)* Backlog refinement | Refinement | `plan-work` | Epics, stories, tasks with acceptance criteria in the ticket system |
+| 2 Development | *(implicit)* Plan a ticket | Implementation Planning | `plan-implementation` | Implementation plan on the ticket |
+| 2 Development | 2.1 Development Environment Setup | Development | `setup-environment` | Repository Structure, Development Environment Configuration |
+| 2 Development | 2.2 Backend, 2.3 Frontend, 2.4 Integration | Development | `implement` | Application code, schema and migrations, integration code |
+| 2 Development | *(implicit)* Code review | Development | `review` | Review findings on the merge request |
+| 2 Development | *(implicit)* Merge | Development | `finish-branch` | Merge request linked to ticket, ticket transitioned |
+| 3 Testing | 3.1 Automated Test Suite Generation | Testing | `generate-tests` | Gherkin Feature Files, Comprehensive Test Suite |
+| 3 Testing | 3.2 Automated UI/E2E Testing | Testing | `e2e-tests` | E2E Test Suite, Visual Regression Test Suite |
+| 3 Testing | 3.3 Performance & Load Testing | Testing | `performance-test` | Performance Test Suite, Performance Baseline Report |
+| 3 Testing | 3.4 Security Testing | Testing | `security-test` | Security Test Results, Security Compliance Report |
+| 4 Deployment | 4.1 Deployment Environment Setup | Operations | `setup-infrastructure` | Infrastructure Code, Deployment Runbooks |
+| 4 Deployment | 4.2 Continuous Deployment Pipeline | Operations | `setup-pipeline` | Deployment Pipeline Configuration, Deployment Strategy Documentation |
+| 4 Deployment | 4.3 Production Deployment | Operations | `release` | Release notes, Production Deployment Record, Deployment Verification Report |
+| 5 Verification | 5.1 Monitoring & Observability Setup | Operations | `observability` | Monitoring Dashboards, Alert Configuration |
+| 5 Verification | 5.2 User Acceptance Testing | Business Analysis | `uat` | UAT Test Cases, UAT Results Report |
+| 5 Verification | 5.3 Production Validation | Testing | `validate-production` | Production Validation Test Results, Production Metrics Report |
+| 6 Maintenance | 6.1 Ongoing Monitoring & Support | Project Management | `triage` | Incident Log entries, tickets raised |
+| 6 Maintenance | 6.2 Performance Optimization | Development | `optimize` | Performance Optimization Backlog, Optimization Implementation Report |
+| 6 Maintenance | 6.3 Feature Iteration & Enhancement | Business Analysis | `iterate` | Product Feedback Analysis, Feature Roadmap |
+| 6 Maintenance | 6.4 Security & Compliance Maintenance | Development | `maintain-security` | Security Patch Log, Compliance Audit Reports |
+| 6 Maintenance | 6.5 Documentation Maintenance | Documentation | `maintain-docs` | Up-to-Date Documentation, Documentation Health Report |
+| Meta | Workflow Retrospective | Project Management | `retrospective` | Workflow Health Report, Process Improvement Backlog |
+| Cross-cutting | n/a | Project Management | `health` | Health report |
 
 Notes on the merges and additions:
 
 - Backend, frontend, and integration development collapse into `implement` because the split is a
-  tech-stack concern, which belongs in plugins.
-- The methodology has no explicit work-breakdown, code-review, or merge step. Those are added as
-  `plan-work`, `review`, and `finish-branch`, and the methodology should be updated to match.
-- Human-only artifacts (meeting recordings, on-call schedules) are not skill outputs.
+  tech-stack concern, which belongs in plugins (T-02).
+- The methodology has no explicit backlog-refinement, implementation-planning, code-review, or
+  merge step. Those are added as `plan-work`, `plan-implementation`, `review`, and
+  `finish-branch`, and the methodology should be updated to match.
+- Human-only artifacts (meeting recordings, on-call schedules) are not step outputs.
+- Discipline assignments are a first pass. Several steps could sit in two disciplines (for
+  example `validate-production` in Testing or Operations).
 
 ## 5. Commands
 
@@ -188,9 +190,9 @@ aasdlc-sdk/
   docs/                 this design and future specs
   scripts/              build and validation helpers
   src/aasdlc/           the SDK content package
-    skills/             core skills, one folder each: SKILL.md, references/, templates/
+    skills/             core skills grouped by discipline: <discipline>/<step>/SKILL.md
     commands/           target-neutral command definitions
-    workflow/           the methodology as data: phases, steps, artifacts, acceptance criteria
+    workflow/           processes as data: ordered steps, artifacts, acceptance criteria, process guidance
     plugins/            tech-stack and process packs
     targets/            per-target adapter templates
   tests/                integration tests for the package and installer
@@ -230,6 +232,10 @@ decided.
 | 5 | 2026-09-21 | `SKILL.md` is the portable unit; per-target adapters only for commands, hooks, subagents | Most targets read the Agent Skills format, so the core needs no per-target generation |
 | 6 | 2026-09-21 | Skills organised by what the agent does, not by tier or team | Backend/frontend split is a tech-stack concern, which belongs in plugins |
 | 7 | 2026-09-21 | Standard devpossible repo layout with the SDK content under `src/aasdlc/` | House convention: every project is a `src/` subfolder with root PowerShell scripts |
+| 8 | 2026-09-21 | Adopt the vocabulary Tenet, Discipline, Process, Step, Guidance | Shared words keep the design, skills, website, and health command consistent |
+| 9 | 2026-09-21 | Tenets are framework-level principles only; step-level practices are guidance | The first draft of tenets was too low-level; guidance attaches where it applies, tenets govern everything |
+| 10 | 2026-09-21 | Drop the separate "discipline skills" behaviour layer in favour of guidance on steps | Behaviour belongs with the step it applies to, not in a parallel layer; "discipline" now means a grouping of skills |
+| 11 | 2026-09-21 | Skills grouped by discipline in the source tree, flattened on install | Source stays navigable by kind of work; targets expect flat skill folders |
 
 ## 12. Open questions
 
@@ -240,9 +246,12 @@ decided.
   `aasdlc`. Rename before anything links to it.
 - **Public hosting and licence.** Likely private GitLab mirrored to GitHub, matching existing
   mirror setup. Licence not chosen.
-- **Exact skill and command names.** The names in section 4 are working names.
-- **Discipline skill list.** Section 3.2 is a candidate list.
+- **Exact step and command names.** The names in section 4 are working names.
+- **Operations as a discipline.** Infrastructure, pipelines, releases, and observability need a
+  home; "Operations" is proposed, not confirmed.
+- **Discipline assignments.** Section 4 is a first pass; some steps fit two disciplines.
 - **Workflow data format.** YAML, JSON, or Markdown with frontmatter for `src/aasdlc/workflow/`.
 - **Whether `health` also offers to fix** what it finds (for example, initialise a project
   config) or stays strictly read-only.
-- **Methodology updates** to add the implicit work-breakdown, review, and merge steps.
+- **Methodology updates** to add the implicit backlog-refinement, implementation-planning,
+  review, and merge steps.
