@@ -45,6 +45,12 @@ Reference projects the SDK is deliberately similar to:
    (a .NET pack, a Node pack) and extra processes (a compliance pack) are plugins.
 7. **Consistency is the product.** The point of being opinionated is that two teams using the SDK
    produce recognisably the same artifacts, in the same places, linked the same way.
+8. **Extensibility is a requirement of every core skill.** The core roughs in the framework;
+   plugins, project skills, and the user's existing tooling supply the specifics.
+
+These principles govern the SDK's design. The practices the SDK teaches the agent and the user
+at each step are the **tenets**, kept separately in [tenets.md](tenets.md) so skills can cite
+them by ID.
 
 ## 3. Architecture
 
