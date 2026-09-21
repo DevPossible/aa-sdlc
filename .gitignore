@@ -1,0 +1,63 @@
+# Build Outputs
+/.build/
+/.dist/
+/.tools/
+**/bin/
+**/obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+
+# IDE
+.vs/
+*.suo
+*.user
+*.userosscache
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.sln.iml
+
+# .NET / NuGet
+*.nupkg
+*.snupkg
+project.lock.json
+artifacts/
+
+# Testing
+**/TestResults/
+**/coverage/
+*.coverage
+coverage*.json
+
+# Logs
+*.log
+logs/
+*.diagsession
+
+# OS
+Thumbs.db
+.DS_Store
+*~
+
+# Secrets
+*.env
+*.env.local
+appsettings.Local.json
+appsettings.*.Local.json
+secrets.json
+.secrets/
+
+# Publish
+publish/
+*.zip
+*.tar.gz
+
+# Misc
+*.bak
+*.tmp
+.tmp/
+node_modules/
