@@ -30,8 +30,8 @@ try {
     & ./build.ps1; if ($LASTEXITCODE -ne 0) { throw "Build failed" }
     if (-not $SkipTests) { & ./test-full.ps1; if ($LASTEXITCODE -ne 0) { throw "Tests failed" } }
 
-    $zipPath = Join-Path $DistDir "aasdlc-sdk-$Version.zip"
-    Compress-Archive -Path (Join-Path $BuildDir 'aasdlc') -DestinationPath $zipPath
+    $zipPath = Join-Path $DistDir "aa-sdlc-$Version.zip"
+    Compress-Archive -Path (Join-Path $BuildDir 'aa-sdlc') -DestinationPath $zipPath
 
     @{ Version = $Version; BuildDate = (Get-Date -Format 'o'); GitCommit = (git rev-parse HEAD 2>$null) } |
         ConvertTo-Json | Set-Content (Join-Path $DistDir 'version.json')

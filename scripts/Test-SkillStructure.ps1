@@ -3,17 +3,17 @@
 .SYNOPSIS
     Validates the structure of the SDK content package.
 .DESCRIPTION
-    Checks every skill folder under src/aasdlc/skills (grouped as <discipline>/<step>, or the
+    Checks every skill folder under src/aa-sdlc/skills (grouped as <discipline>/<step>, or the
     top-level meta skill) has a SKILL.md whose frontmatter 'name' matches the folder and whose
     'description' is present, and that step names are unique across disciplines. Returns the
     list of problems found; an empty list means the package is valid.
 .PARAMETER SourceRoot
-    Path to the SDK content package. Defaults to src/aasdlc relative to the repo root.
+    Path to the SDK content package. Defaults to src/aa-sdlc relative to the repo root.
 #>
 [CmdletBinding()]
 param(
     [Parameter()]
-    [string]$SourceRoot = (Join-Path $PSScriptRoot '..' 'src' 'aasdlc')
+    [string]$SourceRoot = (Join-Path $PSScriptRoot '..' 'src' 'aa-sdlc')
 )
 
 $ErrorActionPreference = 'Stop'

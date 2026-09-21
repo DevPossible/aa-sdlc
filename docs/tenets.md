@@ -1,4 +1,4 @@
-# AASDLC Tenets
+# AA-SDLC Tenets
 
 **Status:** working draft, under active brainstorming. Last updated 2026-09-21.
 

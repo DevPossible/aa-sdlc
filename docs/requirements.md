@@ -41,7 +41,7 @@ requirements that do name tools, because that is what plugins are for.
 |----|-------------|-------|-----------|--------|--------|
 | R-05 | The project is under source control with a configured remote. | required | T-04, G-11, all Development steps | A repository is initialised at the project root and has at least one remote. | `aa-init` initialises the repository; the user supplies the remote. |
 | R-06 | A documents folder exists for repo-resident artifacts (decision records, runbooks, generated docs). | required | G-10, `architect`, `maintain-docs`, `setup-infrastructure` | A documents folder exists at the conventional location for the project, or the project config names one. | `aa-init` creates it. |
-| R-07 | An AASDLC project configuration exists. | required | every step, scope merging, `aa-health` | The config file exists at the project root and parses. | `aa-init` creates it from the merged user, team, and enterprise scopes. |
+| R-07 | An AA-SDLC project configuration exists. | required | every step, scope merging, `aa-health` | The config file exists at the project root and parses. | `aa-init` creates it from the merged user, team, and enterprise scopes. |
 | R-08 | Conventions for referencing the anchor ticket in branch names and commit messages are defined. | recommended | G-09, `finish-branch` | The project config, or the ticket system, defines a ticket reference pattern. | `aa-init` writes a default pattern into the project config. |
 
 ## Tooling: what the project supplies

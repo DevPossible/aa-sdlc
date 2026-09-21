@@ -1,17 +1,17 @@
-# Project: AASDLC SDK
+# Project: AA-SDLC SDK
 
-Agent skills and commands implementing the AASDLC methodology. Read `docs/design.md`,
+Agent skills and commands implementing the AA-SDLC methodology. Read `docs/design.md`,
 `docs/tenets.md`, and `docs/vocabulary.md` before changing anything. Use the vocabulary exactly:
 Tenet, Discipline, Process, Step, Guidance, Skill, Command, Artifact, Anchor ticket.
 
 ## Structure
 
-- `src/aasdlc/skills/<discipline>/<step>/SKILL.md` is the unit of delivery. Frontmatter `name`
+- `src/aa-sdlc/skills/<discipline>/<step>/SKILL.md` is the unit of delivery. Frontmatter `name`
   must equal the step folder name and `description` must be present. Step names are unique across
   disciplines.
-- `src/aasdlc/commands/` are thin, target-neutral, and only name a skill plus arguments.
-- `src/aasdlc/workflow/` is the single source of truth for the methodology.
-- `src/aasdlc/targets/<target>/` holds only what differs per target.
+- `src/aa-sdlc/commands/` are thin, target-neutral, and only name a skill plus arguments.
+- `src/aa-sdlc/workflow/` is the single source of truth for the methodology.
+- `src/aa-sdlc/targets/<target>/` holds only what differs per target.
 
 ## Rules for skills
 
@@ -29,7 +29,7 @@ Tenet, Discipline, Process, Step, Guidance, Skill, Command, Artifact, Anchor tic
 ## Commands
 
 ```powershell
-./build.ps1        # validate skills, assemble .build/aasdlc
+./build.ps1        # validate skills, assemble .build/aa-sdlc
 ./test-smoke.ps1   # structural validation
 ./test-full.ps1    # smoke plus Pester tests in tests/
 ./package.ps1      # version, build, test, zip to .dist/

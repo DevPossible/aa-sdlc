@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 
 $BuildDir = Join-Path $PSScriptRoot '.build'
-$SourceRoot = Join-Path $PSScriptRoot 'src' 'aasdlc'
+$SourceRoot = Join-Path $PSScriptRoot 'src' 'aa-sdlc'
 
 #region Build Directory Cleanup
 function Clear-BuildDirectory {
@@ -43,7 +43,7 @@ try {
         throw "Skill validation failed with $($problems.Count) problem(s)."
     }
 
-    $packageDir = Join-Path $BuildDir 'aasdlc'
+    $packageDir = Join-Path $BuildDir 'aa-sdlc'
     New-Item -ItemType Directory -Path $packageDir -Force | Out-Null
     Copy-Item -Path (Join-Path $SourceRoot '*') -Destination $packageDir -Recurse
 

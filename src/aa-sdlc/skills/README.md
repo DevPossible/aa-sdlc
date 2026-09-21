@@ -8,5 +8,5 @@ step names must be unique across disciplines.
 Disciplines: `business-analysis`, `technical-analysis`, `refinement`, `implementation-planning`,
 `development`, `testing`, `documentation`, `project-management`, `operations` (proposed).
 
-Guidance for a step lives inside its skill. The `aasdlc` meta skill that routes between steps
+Guidance for a step lives inside its skill. The `aa-sdlc` meta skill that routes between steps
 lives at the top level of this folder. See `docs/vocabulary.md` and `docs/design.md`.

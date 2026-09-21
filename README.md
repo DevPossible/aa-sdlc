@@ -1,10 +1,28 @@
-# AASDLC SDK
+# AA-SDLC SDK
 
 Agent skills and commands that implement the Agent Assisted Software Development Life Cycle
-(AASDLC) methodology. The methodology says what a well-run agent-assisted project produces at
+(AA-SDLC) methodology. The methodology says what a well-run agent-assisted project produces at
 each step and why; this SDK gives an agent the how.
 
 **Status:** early design. Nothing is installable yet. See [docs/design.md](docs/design.md).
+
+## Install (planned)
+
+```
+npm install -g aa-sdlc
+cd c:\dev\myproject
+aa init
+```
+
+or
+
+```
+npm install -g aa-sdlc
+aa init -path c:\dev\myproject
+```
+
+The `aa` CLI drives all framework tooling: installing skills and commands into your agent,
+updating, managing plugins, and checking or bootstrapping a project.
 
 ## What it will be
 
@@ -24,7 +42,7 @@ each step and why; this SDK gives an agent the how.
 ```
 docs/          design and specs
 scripts/       build and validation helpers
-src/aasdlc/    the SDK content: skills, commands, workflow, plugins, targets
+src/aa-sdlc/    the SDK content: skills, commands, workflow, plugins, targets
 tests/         integration tests
 build.ps1      validate skills and assemble the package into .build/
 test-smoke.ps1 fast structural validation
