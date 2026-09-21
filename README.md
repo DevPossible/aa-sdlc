@@ -10,19 +10,16 @@ each step and why; this SDK gives an agent the how.
 
 ```
 npm install -g aa-sdlc
+aa setup                          # once per machine
 cd c:\dev\myproject
-aa init
+aa init                           # once per repository
 ```
 
-or
+or, without changing directory: `aa init -path c:\dev\myproject`
 
-```
-npm install -g aa-sdlc
-aa init -path c:\dev\myproject
-```
-
-The `aa` CLI drives all framework tooling: installing skills and commands into your agent,
-updating, managing plugins, and checking or bootstrapping a project.
+The `aa` CLI bootstraps and maintains the install: `setup` for the machine, `init` for a
+repository, plus `update` and `plugin`. The work itself happens inside your agent through
+`/aa-<step>` commands such as `/aa-health`, `/aa-init`, and `/aa-implement`.
 
 ## What it will be
 
@@ -34,7 +31,7 @@ updating, managing plugins, and checking or bootstrapping a project.
   OpenClaw and others. Only commands and hooks are adapted per target.
 - Plugins for tech-stack packs and extra processes. Deployable at project, user, team, or
   enterprise scope.
-- `aa-health` checks the install, the environment, and the current project, and reports what
+- `/aa-health` checks the install, the environment, and the current project, and reports what
   is missing without blocking anything.
 
 ## Layout

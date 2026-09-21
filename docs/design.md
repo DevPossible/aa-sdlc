@@ -18,21 +18,24 @@ not depend on the skills. The website pivots to lead with the SDK and keep the m
 backing reference.
 
 **Naming.** The brand is **AA-SDLC**, the npm package and repository are `aa-sdlc`, the CLI is
-`aa`, and every in-agent command is `aa-<step>`. The website domain stays aasdlc.com.
+`aa`, and every in-agent command is `/aa-<step>`. The website domain stays aasdlc.com.
 
 **Delivery.** The SDK ships as an npm package. Installing it globally provides the `aa` CLI,
 which drives all framework tooling: installing skills and commands into a target, updating,
-managing plugins, and the mechanical parts of health and init.
+and managing plugins. `aa setup` bootstraps the machine and is the main verb; `aa init`
+bootstraps a repository.
 
 ```
 npm install -g aa-sdlc
+aa setup                          # once per machine
 cd c:\dev\myproject
-aa init
+aa init                           # once per repository
 
-# or
-npm install -g aa-sdlc
+# or, without changing directory
 aa init -path c:\dev\myproject
 ```
+
+Health is deliberately not a CLI verb. It belongs to the agent alone, as `/aa-health`.
 
 Reference projects the SDK is deliberately similar to:
 
@@ -113,23 +116,27 @@ name tools.
 
 ### 3.6 Health and init
 
-`aa-health` aggregates every requirement declared by the installed skills, plugins, and
+`/aa-health` aggregates every requirement declared by the installed skills, plugins, and
 processes, probes each one, and reports which are met, unmet, or not applicable, and what
 depends on each. It also reports the install itself: scope, version, target, skills and
 commands present, update available. It never blocks and never changes anything (T-10).
 
-`aa-init` bootstraps a project. It runs health, then fixes the unmet requirements it can fix
+`/aa-init` bootstraps a project. It runs health, then fixes the unmet requirements it can fix
 (initialise the repository, create the documents folder, write the project config, set default
 conventions) with the user's consent, lists the ones it cannot (a missing formatter, an
-uncovered technology) with the available remedies, and re-runs health. It is the first thing the
-installer tells the user to run. Helping a project get bootstrapped is a core job of the
+uncovered technology) with the available remedies, and re-runs health. It is the first thing
+`aa init` tells the user to run in their agent. Helping a project get bootstrapped is a core job of the
 framework, not an afterthought.
 
-Both exist in two forms. `aa health` and `aa init` on the CLI perform the mechanical probes and
-fixes (files, folders, config, repository state, installed skills) and need no agent. `aa-health`
-and `aa-init` inside the agent call the CLI where it is available and add the probes only an
-agent can perform: whether it can actually reach the ticket system, the knowledge base, and
-source control, and which skills are in its scope.
+Health exists only inside the agent. The probes that matter most (can the agent actually reach
+the ticket system, the knowledge base, and source control; which skills are in its scope) can
+only be performed by the agent, so a CLI health verb would give a partial answer under the same
+name as the real one. The CLI therefore has no `health` verb.
+
+Init exists in both places with distinct jobs. `aa init` on the CLI lays down what needs no
+agent: the project config, the documents folder, project-scope skills and commands. `/aa-init`
+inside the agent runs `/aa-health`, then works through the unmet requirements that need
+judgement, such as a language with no formatter or a technology with no skill in scope.
 
 ## 4. Methodology to step map
 
@@ -182,16 +189,17 @@ Notes on the merges and additions:
 
 ## 5. Commands
 
-- One command per step, plus `health`. Every command is prefixed `aa-`, so the step `health` is
-  `aa-health` and `implement` is `aa-implement`, on every target.
+- One command per step. Agent commands are named `/aa-<step>` on every target, so the step
+  `health` is `/aa-health` and `implement` is `/aa-implement`.
 - Every command accepts a ticket ID as its anchor. If none is given, the command asks for one or,
   when no ticket system is in scope, proceeds with a local artifact and says so.
 - Commands are thin: they name the skill to load and the arguments. Behaviour lives in the skill.
 - Commands are defined once, target-neutrally, in `src/aa-sdlc/commands/` and rendered per target
   by the installer.
-- The `aa` CLI and the `aa-` commands are deliberately parallel. `aa <verb>` runs on the
-  developer's machine without an agent; `aa-<step>` runs inside the agent. Where a verb exists in
-  both (`health`, `init`), the in-agent command delegates the mechanical part to the CLI.
+- The `aa` CLI and the `/aa-` commands are kept distinct. `aa <verb>` runs on the developer's
+  machine without an agent and only bootstraps and maintains the install; `/aa-<step>` runs
+  inside the agent and does the work. CLI verbs avoid agent command names, with `init` the one
+  deliberate overlap (see 3.6).
 
 ## 6. Multi-target strategy
 
@@ -224,14 +232,16 @@ together. The CLI then places skills and rendered commands into the chosen targe
 
 | Verb | Does |
 |------|------|
-| `aa init [-path <dir>]` | bootstrap a project: install into the detected or chosen target at project scope, create the project config, then run health and fix what it can |
-| `aa install --target <t> --scope <s>` | install or reinstall skills and commands for a target at a scope |
-| `aa update` | update the installed skills and commands to the package version |
-| `aa health [-path <dir>]` | mechanical health report for the install and the project |
+| `aa setup` | bootstrap the machine: detect the agent targets installed, install skills and commands for each at user scope, write the user config, and connect a team or enterprise config repository if one is given. The main verb. |
+| `aa init [-path <dir>]` | bootstrap a repository: write the project config, create the documents folder, install project-scope skills and commands, then point the user at `/aa-init` and `/aa-health` in their agent |
+| `aa update` | update everything `setup` and `init` installed to the package version |
 | `aa plugin add / remove / list` | manage plugins at a scope |
 
+There is no `health` verb and no separate `install` verb: `setup` and `init` are the two ways
+things get installed, at machine and repository level respectively.
+
 Enterprise and team scopes point the CLI at a config repository whose plugins and settings are
-layered on top of core. Verbs and flags are working names.
+layered on top of core. Flags are working names.
 
 ## 8. Plugins
 
@@ -294,7 +304,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 1 | 2026-09-21 | Pivot AA-SDLC to skills-first SDK with the methodology as backing reference | The skills are the concrete, adoptable form of the methodology |
 | 2 | 2026-09-21 | Ticket system is the state store; the SDK owns no process state | Enterprises already have ticket, wiki, and SCM systems and will not adopt a fourth state store; ticket-anchored state lets any step run at any time |
 | 3 | 2026-09-21 | No wrapper skills for ticket, wiki, or source control | An MCP server or CLI already gives the agent the tools; a wrapper only restates them and must be maintained |
-| 4 | 2026-09-21 | `aa-health` is the only place expectations are enumerated; it reports and never blocks | Keeps steps simple and degradation graceful |
+| 4 | 2026-09-21 | `/aa-health` is the only place expectations are enumerated; it reports and never blocks | Keeps steps simple and degradation graceful |
 | 5 | 2026-09-21 | `SKILL.md` is the portable unit; per-target adapters only for commands, hooks, subagents | Most targets read the Agent Skills format, so the core needs no per-target generation |
 | 6 | 2026-09-21 | Skills organised by what the agent does, not by tier or team | Backend/frontend split is a tech-stack concern, which belongs in plugins |
 | 7 | 2026-09-21 | Standard devpossible repo layout with the SDK content under `src/aa-sdlc/` | House convention: every project is a `src/` subfolder with root PowerShell scripts |
@@ -302,16 +312,19 @@ produces the npm tarball; publishing to npm is a release step.
 | 9 | 2026-09-21 | Tenets are framework-level principles only; step-level practices are guidance | The first draft of tenets was too low-level; guidance attaches where it applies, tenets govern everything |
 | 10 | 2026-09-21 | Drop the separate "discipline skills" behaviour layer in favour of guidance on steps | Behaviour belongs with the step it applies to, not in a parallel layer; "discipline" now means a grouping of skills |
 | 11 | 2026-09-21 | Skills grouped by discipline in the source tree, flattened on install | Source stays navigable by kind of work; targets expect flat skill folders |
-| 12 | 2026-09-21 | Command prefix is `aa-` on every target (`aa-health`, `aa-implement`) | Short, unambiguous, and identical everywhere; avoids depending on target namespace support |
+| 12 | 2026-09-21 | Command prefix is `aa-` on every target (`/aa-health`, `/aa-implement`) | Short, unambiguous, and identical everywhere; avoids depending on target namespace support |
 | 13 | 2026-09-21 | Requirements are a first-class concept: declared where they arise, registered by ID, checked by health | Category-level guidance creates gaps the agent would otherwise hit mid-step; the framework owns the check (T-11) |
-| 14 | 2026-09-21 | `aa-health` reports only; `aa-init` bootstraps | Keeps health side-effect free (T-10) while making bootstrapping a core job of the framework |
-| 15 | 2026-09-21 | Rebrand to AA-SDLC; package and repo `aa-sdlc`; CLI `aa`; commands `aa-<step>` | One short stem names the brand, the package, the CLI, and every command consistently |
+| 14 | 2026-09-21 | `/aa-health` reports only; `/aa-init` bootstraps | Keeps health side-effect free (T-10) while making bootstrapping a core job of the framework |
+| 15 | 2026-09-21 | Rebrand to AA-SDLC; package and repo `aa-sdlc`; CLI `aa`; commands `/aa-<step>` | One short stem names the brand, the package, the CLI, and every command consistently |
 | 16 | 2026-09-21 | Primary delivery is npm: `npm install -g aa-sdlc` provides `aa`, which drives all framework tooling | Cross-platform reach, matches the reference projects, and versions the CLI with the content it installs |
+| 17 | 2026-09-21 | CLI verbs are `setup` (machine, the main verb), `init` (repository), `update`, `plugin`; no `install` verb | Two bootstrap levels cover every install; fewer verbs to learn |
+| 18 | 2026-09-21 | No `health` CLI verb; health is agent-only as `/aa-health` | A CLI health would collide with the agent command and could only give a partial answer, since the key probes need the agent |
+| 19 | 2026-09-21 | Agent commands are written and invoked as `/aa-<step>` | Makes agent commands visibly distinct from `aa <verb>` CLI usage |
 
 ## 12. Open questions
 
-- **CLI verb set and flags.** Section 7.1 lists working names; the final set, and how `aa init`
-  detects the target, are undecided.
+- **CLI flags and target detection.** The verb set is decided (section 7.1); flags, and how
+  `aa setup` detects installed targets, are not.
 - **CLI implementation.** Plain Node or TypeScript; the package must work on Node LTS without a
   build step for consumers.
 - **Public hosting and licence.** Likely private GitLab mirrored to GitHub, matching existing
@@ -322,8 +335,8 @@ produces the npm tarball; publishing to npm is a release step.
 - **Discipline assignments.** Section 4 is a first pass; some steps fit two disciplines.
 - **Workflow data format.** YAML, JSON, or Markdown with frontmatter for `src/aa-sdlc/workflow/`.
 - **Requirement declaration format** in `SKILL.md` frontmatter and in plugin manifests, so
-  `aa-health` can aggregate from the installed set rather than from the registry document.
-- **Stack detection for R-13.** How `aa-health` identifies the major technologies in a project
+  `/aa-health` can aggregate from the installed set rather than from the registry document.
+- **Stack detection for R-13.** How `/aa-health` identifies the major technologies in a project
   and matches them to skills in scope, without naming tools in core.
 - **Methodology updates** to add the implicit backlog-refinement, implementation-planning,
   review, and merge steps.
