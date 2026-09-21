@@ -44,8 +44,8 @@ ship unchanged to every target.
 
 **Command**
 The user-facing entry point that invokes a skill. Thin, target-neutral in source, rendered per
-target by the installer. Named `aasdlc:<step>` where namespaces exist, `aasdlc-<step>` where they
-do not.
+target by the installer. Named `aa-<step>` on every target, so the step `health` is invoked as
+`aa-health`.
 
 **Artifact**
 A named deliverable a step produces, with acceptance criteria defined in the workflow. Same
@@ -68,7 +68,7 @@ others). Only commands, hooks, and subagent definitions differ per target.
 Where an install lands and whose configuration applies: project, user, team, or enterprise.
 
 **Health**
-The `aasdlc-health` command. Reports the state of the install, the environment, and the current
+The `aa-health` command. Reports the state of the install, the environment, and the current
 project. It never blocks.
 
 ## How the terms fit together

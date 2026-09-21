@@ -77,7 +77,7 @@ at a glance, and routes to the right step for the task at hand. Modelled on supe
 
 ### 3.5 The health command
 
-`aasdlc-health` is the single place the SDK's expectations are enumerated and checked. It
+`aa-health` is the single place the SDK's expectations are enumerated and checked. It
 reports, and never blocks. It checks:
 
 | Area | What it checks |
@@ -138,8 +138,8 @@ Notes on the merges and additions:
 
 ## 5. Commands
 
-- One command per phase skill, plus `health`. Naming is `aasdlc:<skill>` on targets that support
-  namespaces and `aasdlc-<skill>` where they do not.
+- One command per step, plus `health`. Every command is prefixed `aa-`, so the step `health` is
+  `aa-health` and `implement` is `aa-implement`, on every target.
 - Every command accepts a ticket ID as its anchor. If none is given, the command asks for one or,
   when no ticket system is in scope, proceeds with a local artifact and says so.
 - Commands are thin: they name the skill to load and the arguments. Behaviour lives in the skill.
@@ -228,7 +228,7 @@ decided.
 | 1 | 2026-09-21 | Pivot AASDLC to skills-first SDK with the methodology as backing reference | The skills are the concrete, adoptable form of the methodology |
 | 2 | 2026-09-21 | Ticket system is the state store; the SDK owns no process state | Enterprises already have ticket, wiki, and SCM systems and will not adopt a fourth state store; ticket-anchored state lets any step run at any time |
 | 3 | 2026-09-21 | No wrapper skills for ticket, wiki, or source control | An MCP server or CLI already gives the agent the tools; a wrapper only restates them and must be maintained |
-| 4 | 2026-09-21 | `aasdlc-health` is the only place expectations are enumerated; it reports and never blocks | Keeps steps simple and degradation graceful |
+| 4 | 2026-09-21 | `aa-health` is the only place expectations are enumerated; it reports and never blocks | Keeps steps simple and degradation graceful |
 | 5 | 2026-09-21 | `SKILL.md` is the portable unit; per-target adapters only for commands, hooks, subagents | Most targets read the Agent Skills format, so the core needs no per-target generation |
 | 6 | 2026-09-21 | Skills organised by what the agent does, not by tier or team | Backend/frontend split is a tech-stack concern, which belongs in plugins |
 | 7 | 2026-09-21 | Standard devpossible repo layout with the SDK content under `src/aasdlc/` | House convention: every project is a `src/` subfolder with root PowerShell scripts |
@@ -236,6 +236,7 @@ decided.
 | 9 | 2026-09-21 | Tenets are framework-level principles only; step-level practices are guidance | The first draft of tenets was too low-level; guidance attaches where it applies, tenets govern everything |
 | 10 | 2026-09-21 | Drop the separate "discipline skills" behaviour layer in favour of guidance on steps | Behaviour belongs with the step it applies to, not in a parallel layer; "discipline" now means a grouping of skills |
 | 11 | 2026-09-21 | Skills grouped by discipline in the source tree, flattened on install | Source stays navigable by kind of work; targets expect flat skill folders |
+| 12 | 2026-09-21 | Command prefix is `aa-` on every target (`aa-health`, `aa-implement`) | Short, unambiguous, and identical everywhere; avoids depending on target namespace support |
 
 ## 12. Open questions
 

@@ -16,7 +16,7 @@ each step and why; this SDK gives an agent the how.
   OpenClaw and others. Only commands and hooks are adapted per target.
 - Plugins for tech-stack packs and extra processes. Deployable at project, user, team, or
   enterprise scope.
-- `aasdlc-health` checks the install, the environment, and the current project, and reports what
+- `aa-health` checks the install, the environment, and the current project, and reports what
   is missing without blocking anything.
 
 ## Layout
