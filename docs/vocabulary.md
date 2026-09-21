@@ -35,6 +35,13 @@ code for the changed files before committing, but do not format files that were 
 Guidance lives inside the skill for its step, or in the process definition for its process.
 See [guidance.md](guidance.md) for the backlog of guidance not yet attached.
 
+**Requirement**
+A capability or condition that a step, process, or piece of guidance depends on in order to be
+performed. Requirements name categories, not tools: "a formatter that can run on a list of
+files", "the project is under source control", "every major technology in the stack has a skill
+in scope". They are declared where they arise, aggregated and checked by `aa-health`, and where
+possible fixed by `aa-init`. See [requirements.md](requirements.md).
+
 ## Delivery terms
 
 **Skill**
@@ -68,8 +75,13 @@ others). Only commands, hooks, and subagent definitions differ per target.
 Where an install lands and whose configuration applies: project, user, team, or enterprise.
 
 **Health**
-The `aa-health` command. Reports the state of the install, the environment, and the current
-project. It never blocks.
+The `aa-health` command. Aggregates every declared requirement, probes each one, and reports
+which are met, unmet, or not applicable, and what depends on each. It never blocks and never
+changes anything.
+
+**Init**
+The `aa-init` command. Bootstraps a project: runs health, then fixes the unmet requirements it
+can fix, with the user's consent, and reports the rest.
 
 ## How the terms fit together
 
@@ -79,8 +91,10 @@ Tenets            govern everything below
     Step          one unit of work, delivered as a Skill, invoked by a Command
       Guidance    how best to perform the step
       Artifact    what the step produces
+      Requirement what the step or its guidance needs in order to be performed
   Process         an ordered set of Steps from any disciplines, toward a goal
       Guidance    how best to perform the process as a whole
-Plugin            adds Steps, Processes, or Guidance; never changes core
+Plugin            adds Steps, Processes, Guidance, or Requirements; never changes core
+Health / Init     check every declared Requirement; bootstrap the ones that can be fixed
 Target / Scope    where and for whom the above is installed
 ```

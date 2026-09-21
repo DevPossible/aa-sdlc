@@ -21,7 +21,10 @@ Tenet, Discipline, Process, Step, Guidance, Skill, Command, Artifact, Anchor tic
   agent already has. Never add a skill that wraps an MCP server, connector, or CLI (T-05).
 - Every step anchors on a ticket ID and degrades gracefully when no ticket system is in scope.
 - Guidance lives inside the skill for its step and is cited by ID from `docs/guidance.md`.
-- Expectation checks live in the `health` skill only. Steps never block on missing systems.
+- Anything a skill or its guidance depends on is declared as a requirement (`docs/requirements.md`,
+  `R-nn`) in the skill's frontmatter. Never assume a capability (T-11).
+- Requirement checks live in the `health` skill only; fixes live in `init` only. Steps never
+  block on missing systems.
 
 ## Commands
 

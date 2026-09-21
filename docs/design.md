@@ -27,12 +27,13 @@ Reference projects the SDK is deliberately similar to:
 ## 2. Tenets and vocabulary
 
 The principles that govern the SDK's design are the **tenets**, kept in [tenets.md](tenets.md)
-and cited by ID (T-01 to T-10). The terms used throughout are defined in
+and cited by ID (T-01 to T-11). The terms used throughout are defined in
 [vocabulary.md](vocabulary.md). In one line: tenets govern everything; **disciplines** group
 skills by kind of work; a **process** is an ordered set of **steps** toward a goal; each step is
 delivered as a **skill** and invoked by a **command**; **guidance** is the specific advice
-attached to a step or process. Guidance not yet attached to a step is tracked in
-[guidance.md](guidance.md).
+attached to a step or process; a **requirement** is what a step or its guidance needs in order
+to be performed. Guidance not yet attached to a step is tracked in [guidance.md](guidance.md);
+requirements are registered in [requirements.md](requirements.md).
 
 ## 3. Architecture
 
@@ -75,18 +76,37 @@ for behaviour: the behaviour is attached where it applies rather than held in a 
 at a glance, and routes to the right step for the task at hand. Modelled on superpowers'
 `using-superpowers`.
 
-### 3.5 The health command
+### 3.5 Requirements
 
-`aa-health` is the single place the SDK's expectations are enumerated and checked. It
-reports, and never blocks. It checks:
+Guidance is written at the category level, so it can name a capability the project does not
+have. Rather than leave the agent to discover that gap mid-step, anything that depends on a
+capability declares it as a **requirement** (T-11). Requirements are registered in
+[requirements.md](requirements.md) in four kinds:
 
-| Area | What it checks |
-|------|----------------|
-| SDK install | scope, version, target, which skills and commands are present, whether an update is available |
-| Environment | which external capabilities are reachable: a ticket system, a knowledge base, source control, and via what (MCP, connector, CLI) |
-| Current project (if one is in scope) | is it a git repo, is there an `aasdlc` config, is current work linked to tickets, which phase artifacts exist |
+| Kind | What it covers | Examples |
+|------|----------------|----------|
+| environment | what the agent can reach | source control, a ticket system, a knowledge base, code execution |
+| project | what the repository contains | under source control with a remote, a documents folder, an AASDLC config |
+| tooling | what the project supplies | a formatter per language, a build command, a test runner |
+| coverage | what skills are in scope | every major technology in the stack has a skill in scope |
 
-It is the first thing the installer tells the user to run.
+Each has a level (required, recommended, informational), a plain-language detection method, and
+a remedy. Skills list their requirements in `SKILL.md` frontmatter; plugins add their own and may
+name tools.
+
+### 3.6 Health and init
+
+`aa-health` aggregates every requirement declared by the installed skills, plugins, and
+processes, probes each one, and reports which are met, unmet, or not applicable, and what
+depends on each. It also reports the install itself: scope, version, target, skills and
+commands present, update available. It never blocks and never changes anything (T-10).
+
+`aa-init` bootstraps a project. It runs health, then fixes the unmet requirements it can fix
+(initialise the repository, create the documents folder, write the project config, set default
+conventions) with the user's consent, lists the ones it cannot (a missing formatter, an
+uncovered technology) with the available remedies, and re-runs health. It is the first thing the
+installer tells the user to run. Helping a project get bootstrapped is a core job of the
+framework, not an afterthought.
 
 ## 4. Methodology to step map
 
@@ -124,6 +144,7 @@ methodology left implicit are added.
 | 6 Maintenance | 6.5 Documentation Maintenance | Documentation | `maintain-docs` | Up-to-Date Documentation, Documentation Health Report |
 | Meta | Workflow Retrospective | Project Management | `retrospective` | Workflow Health Report, Process Improvement Backlog |
 | Cross-cutting | n/a | Project Management | `health` | Health report |
+| Cross-cutting | n/a | Project Management | `init` | Bootstrapped project: repository, documents folder, project config, conventions; health report |
 
 Notes on the merges and additions:
 
@@ -237,6 +258,8 @@ decided.
 | 10 | 2026-09-21 | Drop the separate "discipline skills" behaviour layer in favour of guidance on steps | Behaviour belongs with the step it applies to, not in a parallel layer; "discipline" now means a grouping of skills |
 | 11 | 2026-09-21 | Skills grouped by discipline in the source tree, flattened on install | Source stays navigable by kind of work; targets expect flat skill folders |
 | 12 | 2026-09-21 | Command prefix is `aa-` on every target (`aa-health`, `aa-implement`) | Short, unambiguous, and identical everywhere; avoids depending on target namespace support |
+| 13 | 2026-09-21 | Requirements are a first-class concept: declared where they arise, registered by ID, checked by health | Category-level guidance creates gaps the agent would otherwise hit mid-step; the framework owns the check (T-11) |
+| 14 | 2026-09-21 | `aa-health` reports only; `aa-init` bootstraps | Keeps health side-effect free (T-10) while making bootstrapping a core job of the framework |
 
 ## 12. Open questions
 
@@ -252,7 +275,9 @@ decided.
   home; "Operations" is proposed, not confirmed.
 - **Discipline assignments.** Section 4 is a first pass; some steps fit two disciplines.
 - **Workflow data format.** YAML, JSON, or Markdown with frontmatter for `src/aasdlc/workflow/`.
-- **Whether `health` also offers to fix** what it finds (for example, initialise a project
-  config) or stays strictly read-only.
+- **Requirement declaration format** in `SKILL.md` frontmatter and in plugin manifests, so
+  `aa-health` can aggregate from the installed set rather than from the registry document.
+- **Stack detection for R-13.** How `aa-health` identifies the major technologies in a project
+  and matches them to skills in scope, without naming tools in core.
 - **Methodology updates** to add the implicit backlog-refinement, implementation-planning,
   review, and merge steps.

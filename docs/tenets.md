@@ -7,7 +7,8 @@ few and stable. Every discipline, process, step, and piece of guidance must be c
 them. Practical, step-level advice is **guidance**, not a tenet; see [guidance.md](guidance.md)
 and the [vocabulary](vocabulary.md).
 
-Each tenet has a stable ID so design decisions, skills, and reviews can cite it.
+Each tenet has a stable ID so design decisions, skills, and reviews can cite it. Ten govern the
+shape of the content (T-01 to T-10); T-11 governs how the framework keeps that content honest.
 
 ---
 
@@ -60,6 +61,13 @@ same either way.
 One command enumerates and checks the SDK's expectations of the install, the environment, and
 the project. It tells the user what is missing. Nothing else in the SDK checks for, or fails on,
 a missing system.
+
+**T-11 Declare every dependency; never assume one.**
+Guidance written at the category level creates gaps: "format before committing" is useless in a
+project with no formatter. So anything that depends on a capability declares it as a
+requirement, the framework aggregates those declarations, health checks them, and init fills the
+gaps it can. Bootstrapping a project to meet its requirements is part of the framework's job,
+not something the agent works out the first time a step runs.
 
 ---
 
