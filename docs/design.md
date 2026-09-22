@@ -252,8 +252,10 @@ Targets in scope: Claude Code, Codex, Cursor, Hermes, OpenClaw, and others that 
 | team | a shared location or a team config repo layered on core | a team with shared plugins and conventions |
 | enterprise | an org config repo the installer pulls, layering org plugins and settings on top of core | an organisation standardising on AA-SDLC |
 
-A single `aa` config file per scope records the active plugins and any conventions (ticket
-prefix, branch naming, artifact locations). Scopes merge from enterprise down to project.
+A single `aa.config.yaml` per scope records the targets, active plugins, conventions (ticket
+reference pattern, branch and commit patterns), and folder mappings for repositories that predate
+the convention. Scopes merge from enterprise down to project; the format and merge rules are in
+[formats.md](formats.md).
 
 ### 7.1 Installation
 
@@ -386,6 +388,9 @@ produces the npm tarball; publishing to npm is a release step.
 | 26 | 2026-09-21 | Development writes the tests that prove the requirement; Testing extends the suite beyond it and turns gaps into scenarios (O-08) | Gives each discipline a job the other cannot do and keeps "done" honest |
 | 27 | 2026-09-21 | `/aa-extend` is a core framework skill that scaffolds, validates, installs, and shares extensions | T-02 makes extensibility a requirement of every core skill; a skill that makes extensions easy is how the framework keeps that promise |
 | 28 | 2026-09-21 | This repository adopts O-05, O-06, O-07 for itself: `initialize`, `build`, `test -Tier`, `pack`, and `tests/integration`, `tests/e2e`; the prior devpossible house convention is expected to convert to this model | The framework is forging the new path; the house convention follows it rather than the reverse |
+| 29 | 2026-09-21 | Workflow data is YAML: `workflow/processes/<process>.yaml` and `workflow/steps/<step>.yaml` (see formats.md) | Human-editable with comments, read by both the CLI and the site generator |
+| 30 | 2026-09-21 | The config file is `aa.config.yaml`, one per scope, merged enterprise to project, validated against a published schema | Hand-edited more than tool-edited, so comments matter; schema validation catches mistakes before merge |
+| 31 | 2026-09-21 | Skills declare `aa.requires: [R-nn]` in frontmatter; definitions live once in feature files; plugins use namespaced ids and a `plugin.yaml` manifest | No duplication, cheap to declare, and `/aa-health` resolves ids against the installed set |
 
 ## 12. Open questions
 
@@ -399,9 +404,8 @@ produces the npm tarball; publishing to npm is a release step.
 - **Operations as a discipline.** Infrastructure, pipelines, releases, and observability need a
   home; "Operations" is proposed, not confirmed.
 - **Discipline assignments.** Section 4 is a first pass; some steps fit two disciplines.
-- **Workflow data format.** YAML, JSON, or Markdown with frontmatter for `src/aa-sdlc/workflow/`.
-- **Requirement declaration format** in `SKILL.md` frontmatter and in plugin manifests, so
-  `/aa-health` can aggregate from the installed set rather than from the registry document.
+- **Schema files** for workflow data and `aa.config.yaml`, to be written alongside the CLI
+  (formats are decided in [formats.md](formats.md)).
 - **Stack detection for R-13.** How `/aa-health` identifies the major technologies in a project
   and matches them to skills in scope, without naming tools in core.
 - **Methodology updates** to add the implicit backlog-refinement, implementation-planning,

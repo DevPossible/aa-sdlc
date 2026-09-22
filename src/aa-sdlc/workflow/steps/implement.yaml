@@ -1,0 +1,27 @@
+id: implement
+name: Implement a ticket
+discipline: development
+command: /aa-implement
+summary: >
+  Build what the anchor ticket asks for, with the tests that prove it, on a branch that
+  references the ticket.
+methodology:
+  phase: 2
+  steps: ["2.2", "2.3", "2.4"]
+anchor: required
+inputs:
+  - The anchor ticket and its scenarios in the feature files
+  - The implementation plan on the ticket, if plan-implementation ran
+artifacts:
+  - name: Application code
+    location: source folder, on a branch named per the ticket convention
+    acceptance:
+      - Builds with the root build script
+      - Every scenario for the ticket has a passing test at each tier the change touches
+  - name: Tests that prove the requirement
+    location: unit tests with the project; integration and e2e under tests/
+    acceptance:
+      - Happy paths, general permutations, and obvious negative cases are covered (G-20)
+guidance: [G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20]
+requires: [R-01, R-02, R-04, R-05, R-10, R-11, R-21]
+tenets: [T-04, T-07]
