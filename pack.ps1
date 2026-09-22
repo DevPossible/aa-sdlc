@@ -28,7 +28,7 @@ try {
     New-Item -ItemType Directory -Path $DistDir -Force | Out-Null
 
     & ./build.ps1; if ($LASTEXITCODE -ne 0) { throw "Build failed" }
-    if (-not $SkipTests) { & ./test-full.ps1; if ($LASTEXITCODE -ne 0) { throw "Tests failed" } }
+    if (-not $SkipTests) { & ./test.ps1; if ($LASTEXITCODE -ne 0) { throw "Tests failed" } }
 
     $zipPath = Join-Path $DistDir "aa-sdlc-$Version.zip"
     Compress-Archive -Path (Join-Path $BuildDir 'aa-sdlc') -DestinationPath $zipPath

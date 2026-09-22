@@ -322,18 +322,24 @@ aa-sdlc/
     workflow/           processes as data: ordered steps, artifacts, acceptance criteria, process guidance
     plugins/            tech-stack and process packs
     targets/            per-target adapter templates
-  tests/                integration tests for the package and CLI
+  tests/
+    integration/        integration tests for the package and CLI
+    e2e/                end-to-end tests driving aa and the agent commands
+  initialize.ps1        bootstrap a fresh clone: tools, folders (O-06)
   build.ps1             validate skills and feature files, build the CLI, assemble the package into .build/
-  test-smoke.ps1        fast structural validation
-  test-full.ps1         smoke plus tests/
-  package.ps1           version, build, test, and produce the npm tarball in .dist/
+  test.ps1              run tests by tier: -Tier unit|integration|e2e|all, -Filter (O-06, O-07)
+  pack.ps1              version, build, test, and produce the npm tarball in .dist/
 ```
+
+Unit tests live with each project under `src/`; the unit tier also runs the structural
+validators. This is the O-05 and O-06 layout applied to the framework's own repository
+(decision 28).
 
 `src/aa-sdlc/workflow/` is the single source of truth for the methodology. The website's
 methodology page should be generated from it, or at least checked against it, so the site and the
 skills cannot drift.
 
-The CLI and the content live in one package so they cannot drift from each other. `package.ps1`
+The CLI and the content live in one package so they cannot drift from each other. `pack.ps1`
 produces the npm tarball; publishing to npm is a release step.
 
 ## 10. Website pivot
@@ -379,6 +385,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 25 | 2026-09-21 | Every repository has unit, integration, and end-to-end tiers, selectable from the root test script (O-07) | Each tier catches a class of defect the others cannot |
 | 26 | 2026-09-21 | Development writes the tests that prove the requirement; Testing extends the suite beyond it and turns gaps into scenarios (O-08) | Gives each discipline a job the other cannot do and keeps "done" honest |
 | 27 | 2026-09-21 | `/aa-extend` is a core framework skill that scaffolds, validates, installs, and shares extensions | T-02 makes extensibility a requirement of every core skill; a skill that makes extensions easy is how the framework keeps that promise |
+| 28 | 2026-09-21 | This repository adopts O-05, O-06, O-07 for itself: `initialize`, `build`, `test -Tier`, `pack`, and `tests/integration`, `tests/e2e`; the prior devpossible house convention is expected to convert to this model | The framework is forging the new path; the house convention follows it rather than the reverse |
 
 ## 12. Open questions
 
@@ -403,11 +410,5 @@ produces the npm tarball; publishing to npm is a release step.
   how conflicts are detected (hashes, timestamps, or content diff), and which steps run the sync.
 - **Executable feature files for the framework.** Whether and when `features/` gets step
   definitions that drive the CLI and agent tests, or stays a readable contract.
-- **This repository's own root scripts.** O-06 names `initialize`, `build`, `test`, `pack`;
-  this repository currently follows the devpossible house convention (`build`, `test-smoke`,
-  `test-full`, `package`, no `initialize`). Either the repository aligns to O-06 (add
-  `initialize`, rename `package` to `pack`, merge the two test scripts into `test` with a tier
-  parameter) or the house templates change. Decision 21 says dogfood, so alignment is expected;
-  the timing is the user's call.
 - **Exact conventional folder names** for O-05 (`docs` versus `documents`, `tests` layout per
   tier) and how the project config maps an existing repository's equivalents.

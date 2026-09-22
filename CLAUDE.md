@@ -36,8 +36,8 @@ it. `docs/requirements.md` is an index and defers to `features/requirements/`.
 ## Commands
 
 ```powershell
+./initialize.ps1   # bootstrap a fresh clone: tools and folders
 ./build.ps1        # validate skills and feature files, assemble .build/aa-sdlc
-./test-smoke.ps1   # structural validation
-./test-full.ps1    # smoke plus Pester tests in tests/
-./package.ps1      # version, build, test, zip to .dist/
+./test.ps1         # all tiers; -Tier unit|integration|e2e, -Filter '<pester name>'
+./pack.ps1         # version, build, test, zip to .dist/
 ```

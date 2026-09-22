@@ -66,14 +66,14 @@ docs/          design, tenets, opinions, vocabulary, guidance, requirements inde
 features/      the framework's own requirements as Gherkin (source of truth)
 scripts/       build and validation helpers
 src/aa-sdlc/    the SDK content: skills, commands, workflow, plugins, targets
-tests/         integration tests
-build.ps1      validate skills and assemble the package into .build/
-test-smoke.ps1 fast structural validation
-test-full.ps1  smoke plus tests/
-package.ps1    version, build, test, and zip into .dist/
+tests/         integration/ and e2e/ tiers (unit tests live with each project in src/)
+initialize.ps1 bootstrap a fresh clone: tools and folders
+build.ps1      validate skills and feature files, assemble the package into .build/
+test.ps1       run tests by tier: -Tier unit|integration|e2e|all, -Filter
+pack.ps1       version, build, test, and zip into .dist/
 ```
 
-There is no `start-*.ps1` because a skills package has nothing to run.
+This is opinions 5, 6, and 7 applied to the framework's own repository.
 
 ## Related
 
