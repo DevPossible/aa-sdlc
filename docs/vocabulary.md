@@ -12,6 +12,12 @@ A principle governing how the SDK and its content are designed. Tenets are few, 
 framework-level. They shape every discipline, process, step, and piece of guidance. See
 [tenets.md](tenets.md).
 
+**Opinion**
+A deliberate stance the framework takes where reasonable alternatives exist, so that every
+project does it the same way. Tenets say how the framework is designed; opinions say which
+defensible option it picks. Examples: requirements are Gherkin; every project uses source
+control, a ticket manager, and a knowledge repository. See [opinions.md](opinions.md).
+
 **Discipline**
 A set of skills related to performing a specific kind of work. Disciplines group skills by the
 nature of the work, not by when it happens. Current disciplines: Business Analysis, Technical
@@ -58,6 +64,12 @@ target by the installer. Named `/aa-<step>` on every target, so the step `health
 A named deliverable a step produces, with acceptance criteria defined in the workflow. Same
 artifact, same place, same name, every time.
 
+**Feature file**
+A Gherkin file in the project's features folder. The source of truth for requirements (T-12,
+O-01). Each scenario is tagged with its anchor ticket; each feature names its knowledge base
+page; the tooling keeps all three aligned. The framework's own requirements are feature files
+under `features/` in this repository.
+
 **Anchor ticket**
 The ticket a step reads from and writes to. The ticket system is the state store; the SDK owns
 no process state.
@@ -98,6 +110,7 @@ only; there is no `aa health`.
 
 ```
 Tenets            govern everything below
+Opinions          the stances the framework takes where alternatives exist
   Discipline      groups skills by kind of work
     Step          one unit of work, delivered as a Skill, invoked by a Command
       Guidance    how best to perform the step

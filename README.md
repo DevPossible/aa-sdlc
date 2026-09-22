@@ -6,6 +6,22 @@ each step and why; this SDK gives an agent the how.
 
 **Status:** early design. Nothing is installable yet. See [docs/design.md](docs/design.md).
 
+## We are opinionated, and here are the opinions
+
+Read these before anything else. If you disagree, the framework is probably not for you, and we
+would rather you know now. Full statements, with what each rejects and what would change our
+mind, are in [docs/opinions.md](docs/opinions.md).
+
+1. **Requirements are written in Gherkin**, kept in the repository, and are the source of truth
+   for what the software must do. The tooling keeps them linked to tickets and wiki pages.
+2. **All good development uses source control.** Work that is not committed did not happen.
+3. **All good projects use a ticket manager.** Every unit of work anchors on a ticket, and the
+   ticket system is the state store.
+4. **All projects need a knowledge repository.** Tickets say what happened; the wiki says why.
+
+The framework's own requirements follow opinion 1: they are feature files under
+[features/](features/).
+
 ## Install (planned)
 
 ```
@@ -37,7 +53,8 @@ repository, plus `update` and `plugin`. The work itself happens inside your agen
 ## Layout
 
 ```
-docs/          design and specs
+docs/          design, tenets, opinions, vocabulary, guidance, requirements index
+features/      the framework's own requirements as Gherkin (source of truth)
 scripts/       build and validation helpers
 src/aa-sdlc/    the SDK content: skills, commands, workflow, plugins, targets
 tests/         integration tests

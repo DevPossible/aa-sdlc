@@ -53,7 +53,12 @@ skills by kind of work; a **process** is an ordered set of **steps** toward a go
 delivered as a **skill** and invoked by a **command**; **guidance** is the specific advice
 attached to a step or process; a **requirement** is what a step or its guidance needs in order
 to be performed. Guidance not yet attached to a step is tracked in [guidance.md](guidance.md);
-requirements are registered in [requirements.md](requirements.md).
+requirements are registered in [requirements.md](requirements.md) and defined authoritatively
+as feature files under [`features/`](../features/).
+
+The framework is opinionated, and its **opinions** are stated up front in
+[opinions.md](opinions.md): requirements are Gherkin, and every project uses source control, a
+ticket manager, and a knowledge repository.
 
 ## 3. Architecture
 
@@ -114,6 +119,29 @@ Each has a level (required, recommended, informational), a plain-language detect
 a remedy. Skills list their requirements in `SKILL.md` frontmatter; plugins add their own and may
 name tools.
 
+The framework's requirements are themselves feature files (T-12): `features/requirements/`
+holds one scenario pair per requirement describing how `/aa-health` detects it as met or unmet
+and what the remedy is, and `features/cli/` and `features/agent/` describe each verb and
+command. The registry tables index those files and defer to them.
+
+### 3.5a Requirements as Gherkin, and the three-way link
+
+Every project using the framework keeps its requirements as feature files in the repository,
+and those files are the source of truth for what the software must do (T-12, O-01). Each
+scenario is tagged with its anchor ticket, and each feature names its knowledge base page. The
+tooling maintains the relationship in every direction:
+
+| Change made in | The tooling |
+|----------------|-------------|
+| the feature file | updates the ticket's acceptance criteria and the knowledge base page, and records the change on the ticket |
+| the ticket alone | reports a conflict with the feature file and lets the user decide; never rewrites either side |
+| the knowledge base page alone | reports a conflict with the feature file and lets the user decide; never rewrites either side |
+
+The steps that own this are `discover` and `refine-requirements` (write scenarios),
+`plan-work` (link scenarios to tickets), `generate-tests` (scenarios become the business-facing
+tests), and `maintain-docs` (keep the pages aligned). The ticket system stays the truth for
+work state and the knowledge base for decisions; feature files are the truth for requirements.
+
 ### 3.6 Health and init
 
 `/aa-health` aggregates every requirement declared by the installed skills, plugins, and
@@ -148,7 +176,7 @@ methodology left implicit are added.
 | Process (phase) | Methodology step | Discipline | Step / command | Primary artifacts |
 |-----------------|------------------|------------|----------------|-------------------|
 | 1 Conception | 1.1 Initial Discovery Session | Business Analysis | `discover` | Initial Requirements Document, Question Log |
-| 1 Conception | 1.2 Requirement Refinement & Gap Analysis | Business Analysis | `refine-requirements` | Refined Requirements Document, Technical Constraints Document |
+| 1 Conception | 1.2 Requirement Refinement & Gap Analysis | Business Analysis | `refine-requirements` | Feature files (Gherkin scenarios, linked to tickets and pages), Technical Constraints Document |
 | 1 Conception | 1.3 Design & Prototyping | Technical Analysis | `prototype` | UI/UX Mockups, Interactive Prototype |
 | 1 Conception | 1.4 Architecture & Technical Planning | Technical Analysis | `architect` | System Architecture Diagram, Technology Stack Document, decision records |
 | 1 Conception | *(implicit)* Backlog refinement | Refinement | `plan-work` | Epics, stories, tasks with acceptance criteria in the ticket system |
@@ -261,7 +289,12 @@ aa-sdlc/
   .aitemp/              AI agent working files (gitignored)
   .build/               build outputs (gitignored)
   .dist/                distribution artifacts (gitignored)
-  docs/                 this design and future specs
+  docs/                 design, tenets, opinions, vocabulary, guidance, requirements index
+  features/             the framework's own requirements as Gherkin (source of truth, T-12)
+    framework/          how the framework itself behaves
+    cli/                one feature per aa verb
+    agent/              one feature per agent-only command
+    requirements/       the requirements registry as scenarios, one file per kind
   scripts/              build and validation helpers
   src/aa-sdlc/          the npm package: CLI plus SDK content
     package.json        package name aa-sdlc, bin aa
@@ -272,7 +305,7 @@ aa-sdlc/
     plugins/            tech-stack and process packs
     targets/            per-target adapter templates
   tests/                integration tests for the package and CLI
-  build.ps1             validate skills, build the CLI, assemble the package into .build/
+  build.ps1             validate skills and feature files, build the CLI, assemble the package into .build/
   test-smoke.ps1        fast structural validation
   test-full.ps1         smoke plus tests/
   package.ps1           version, build, test, and produce the npm tarball in .dist/
@@ -320,6 +353,9 @@ produces the npm tarball; publishing to npm is a release step.
 | 17 | 2026-09-21 | CLI verbs are `setup` (machine, the main verb), `init` (repository), `update`, `plugin`; no `install` verb | Two bootstrap levels cover every install; fewer verbs to learn |
 | 18 | 2026-09-21 | No `health` CLI verb; health is agent-only as `/aa-health` | A CLI health would collide with the agent command and could only give a partial answer, since the key probes need the agent |
 | 19 | 2026-09-21 | Agent commands are written and invoked as `/aa-<step>` | Makes agent commands visibly distinct from `aa <verb>` CLI usage |
+| 20 | 2026-09-21 | Requirements are Gherkin feature files in the repository and are the source of truth for them; the tooling maintains the feature-ticket-page link (T-12, O-01) | Structured natural language serves stakeholders, agents, and tests with one artifact; the repository gives it history and review |
+| 21 | 2026-09-21 | The framework dogfoods T-12: its own requirements live in `features/` and the registry tables index them | If the rule is good enough for consumers it is good enough for the framework; it also makes `/aa-health` a spec-driven command |
+| 22 | 2026-09-21 | Opinions are a first-class, up-front document: Gherkin requirements, source control, a ticket manager, a knowledge repository | Being opinionated only works if the opinions are stated before adoption, with what they reject and what would change them |
 
 ## 12. Open questions
 
@@ -340,3 +376,7 @@ produces the npm tarball; publishing to npm is a release step.
   and matches them to skills in scope, without naming tools in core.
 - **Methodology updates** to add the implicit backlog-refinement, implementation-planning,
   review, and merge steps.
+- **Feature-ticket-page link mechanics.** Tag format for the ticket, where the page link lives,
+  how conflicts are detected (hashes, timestamps, or content diff), and which steps run the sync.
+- **Executable feature files for the framework.** Whether and when `features/` gets step
+  definitions that drive the CLI and agent tests, or stays a readable contract.

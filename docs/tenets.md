@@ -8,7 +8,9 @@ them. Practical, step-level advice is **guidance**, not a tenet; see [guidance.m
 and the [vocabulary](vocabulary.md).
 
 Each tenet has a stable ID so design decisions, skills, and reviews can cite it. Ten govern the
-shape of the content (T-01 to T-10); T-11 governs how the framework keeps that content honest.
+shape of the content (T-01 to T-10); T-11 and T-12 govern how the framework keeps that content
+honest. The concrete stances the framework takes where alternatives exist are **opinions**, kept
+in [opinions.md](opinions.md).
 
 ---
 
@@ -68,6 +70,16 @@ project with no formatter. So anything that depends on a capability declares it 
 requirement, the framework aggregates those declarations, health checks them, and init fills the
 gaps it can. Bootstrapping a project to meet its requirements is part of the framework's job,
 not something the agent works out the first time a step runs.
+
+**T-12 The repository holds the requirements, in Gherkin, and they are the source of truth.**
+Every project using the framework, and the framework itself, captures its requirements as
+feature files in the repository. Gherkin is structured natural language, so one artifact serves
+stakeholders, agents, and tests alike (O-01). Each feature is linked to its ticket and its
+knowledge base page, and the tooling maintains that relationship in every direction: a change
+to a feature file propagates outward, and a change made only in a ticket or a page is surfaced
+as a conflict, never silently absorbed. The ticket system remains the truth for work state and
+the knowledge base for decisions; the feature files are the truth for what the software must
+do.
 
 ---
 

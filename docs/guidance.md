@@ -21,7 +21,7 @@ written, guidance moves out of here and into the skill (for a step) or the proce
 | G-04 | Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence. | Development, Testing | R-10, R-11 |
 | G-05 | Reproduce a bug with a failing test or a captured observation before changing any code to fix it. | Development: implement | R-11 |
 | G-06 | Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket. | all steps | none |
-| G-07 | Write behaviour as executable tests before or alongside the change. Write business-facing behaviour in a form the stakeholder can read. | Testing: generate-tests; Development: implement | R-11 |
+| G-07 | Write business-facing behaviour as Gherkin scenarios in the features folder before the change, and technical behaviour as executable tests alongside it. | Testing: generate-tests; Development: implement | R-11, R-16, R-17 |
 | G-08 | One concern per commit, one ticket per branch. Before any multi-step change, write the plan and get it confirmed. | Implementation Planning; Development | R-01, R-05 |
 | G-09 | Reference the anchor ticket in the branch name and every commit message. | Development: finish-branch | R-01, R-02, R-08 |
 | G-10 | Record architectural and product decisions in the knowledge base, or as decision records in the documents folder, and link them from the anchor ticket. | Technical Analysis: architect; Documentation | R-03 or R-06 |
@@ -32,6 +32,8 @@ written, guidance moves out of here and into the skill (for a step) or the proce
 | G-15 | Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial. | all steps | none |
 | G-16 | State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket. | Business Analysis; Technical Analysis | R-02 |
 | G-17 | After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation. | Development: implement | none |
+| G-18 | Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict. | Business Analysis: refine-requirements; Refinement: plan-work | R-16, R-02, R-03 |
+| G-19 | Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description. | Business Analysis: discover, refine-requirements | R-16, R-02, R-03 |
 
 ## Conventions for writing guidance
 

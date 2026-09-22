@@ -8,6 +8,10 @@ category level ("format changed files before committing"), so the framework must
 guidance needs ("a formatter that can run on a list of files") and check for it, rather than
 leaving the agent to discover the gap the first time the step runs (tenet T-11).
 
+**This document is an index.** Per T-12 and O-01, the authoritative definition of each
+requirement is its scenarios in [`features/requirements/`](../features/requirements/). Where a
+table row and a feature file disagree, the feature file wins and the row is corrected.
+
 Requirements are declared where they arise (in guidance, in a skill's frontmatter, in a plugin,
 in a process) and aggregated by `/aa-health`, which probes each one and reports. `/aa-init` brings
 a project up to the requirements it can fix. Neither names a tool: a requirement names a
@@ -42,7 +46,8 @@ requirements that do name tools, because that is what plugins are for.
 | R-05 | The project is under source control with a configured remote. | required | T-04, G-11, all Development steps | A repository is initialised at the project root and has at least one remote. | `/aa-init` initialises the repository; the user supplies the remote. |
 | R-06 | A documents folder exists for repo-resident artifacts (decision records, runbooks, generated docs). | required | G-10, `architect`, `maintain-docs`, `setup-infrastructure` | A documents folder exists at the conventional location for the project, or the project config names one. | `/aa-init` creates it. |
 | R-07 | An AA-SDLC project configuration exists. | required | every step, scope merging, `/aa-health` | The config file exists at the project root and parses. | `/aa-init` creates it from the merged user, team, and enterprise scopes. |
-| R-08 | Conventions for referencing the anchor ticket in branch names and commit messages are defined. | recommended | G-09, `finish-branch` | The project config, or the ticket system, defines a ticket reference pattern. | `/aa-init` writes a default pattern into the project config. |
+| R-08 | Conventions for referencing the anchor ticket in branch names and commit messages are defined. | recommended | G-09, `finish-branch` | The project config, or the ticket system, defines a ticket reference pattern. | `aa init` writes a default pattern into the project config. |
+| R-16 | A features folder exists for the project's Gherkin feature files. | required | T-12, O-01, G-07, G-18, `discover`, `refine-requirements`, `generate-tests` | A features folder exists at the conventional location, or the project config names one. | `aa init` or `/aa-init` creates it. |
 
 ## Tooling: what the project supplies
 
@@ -52,6 +57,7 @@ requirements that do name tools, because that is what plugins are for.
 | R-10 | A single command that builds the project. | required | G-04, `implement`, `review` | A build script or build configuration exists at the project root and completes. | `/aa-init` reports it missing; the user, or a tech-stack plugin, supplies one. |
 | R-11 | A single command that runs the project's tests. | required | G-04, G-05, G-07, all Testing steps | A test script or test configuration exists and runs, even if it runs zero tests. | `/aa-init` reports it missing; the user, or a tech-stack plugin, supplies one. |
 | R-12 | A linter or static analyser for each language in the project. | recommended | `review` | For each language detected, a linter configuration exists and runs. | `/aa-init` reports which languages have none. |
+| R-17 | A tool that can execute the project's feature files. | recommended | T-12, O-01, G-07, `generate-tests`, `uat` | A feature-file executor is configured and runs, even against zero scenarios. | `/aa-init` reports it missing; the user, or a tech-stack plugin, supplies one. Feature files remain the source of truth without it. |
 
 ## Coverage: what skills are in scope
 

@@ -1,8 +1,15 @@
 # Project: AA-SDLC SDK
 
 Agent skills and commands implementing the AA-SDLC methodology. Read `docs/design.md`,
-`docs/tenets.md`, and `docs/vocabulary.md` before changing anything. Use the vocabulary exactly:
-Tenet, Discipline, Process, Step, Guidance, Skill, Command, Artifact, Anchor ticket.
+`docs/tenets.md`, `docs/opinions.md`, and `docs/vocabulary.md` before changing anything. Use the
+vocabulary exactly: Tenet, Opinion, Discipline, Process, Step, Guidance, Requirement, Skill,
+Command, Artifact, Anchor ticket, Feature file.
+
+## Requirements are Gherkin
+
+The framework's own requirements are feature files under `features/` and they are the source of
+truth (T-12). When behaviour changes, change the feature file first, then the docs that index
+it. `docs/requirements.md` is an index and defers to `features/requirements/`.
 
 ## Structure
 
@@ -29,7 +36,7 @@ Tenet, Discipline, Process, Step, Guidance, Skill, Command, Artifact, Anchor tic
 ## Commands
 
 ```powershell
-./build.ps1        # validate skills, assemble .build/aa-sdlc
+./build.ps1        # validate skills and feature files, assemble .build/aa-sdlc
 ./test-smoke.ps1   # structural validation
 ./test-full.ps1    # smoke plus Pester tests in tests/
 ./package.ps1      # version, build, test, zip to .dist/

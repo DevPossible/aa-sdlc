@@ -37,10 +37,12 @@ Push-Location $PSScriptRoot
 try {
     Clear-BuildDirectory -Path $BuildDir
 
-    $problems = & (Join-Path 'scripts' 'Test-SkillStructure.ps1') -SourceRoot $SourceRoot
+    $problems = @()
+    $problems += & (Join-Path 'scripts' 'Test-SkillStructure.ps1') -SourceRoot $SourceRoot
+    $problems += & (Join-Path 'scripts' 'Test-FeatureStructure.ps1')
     if ($problems.Count -gt 0) {
         $problems | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }
-        throw "Skill validation failed with $($problems.Count) problem(s)."
+        throw "Validation failed with $($problems.Count) problem(s)."
     }
 
     $packageDir = Join-Path $BuildDir 'aa-sdlc'
