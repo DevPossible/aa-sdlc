@@ -10,6 +10,7 @@ steps:
   - refine-requirements
   - prototype
   - architect
+  - threat-model
   - plan-work
 guidance: [G-16, G-18, G-19]
 exit: >

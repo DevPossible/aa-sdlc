@@ -27,7 +27,7 @@ written, guidance moves out of here and into the skill (for a step) or the proce
 | G-10 | Record architectural and product decisions in the knowledge base, or as decision records in the documents folder, and link them from the anchor ticket. | Technical Analysis: architect; Documentation | R-03 or R-06 |
 | G-11 | Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation. | all steps | R-05 |
 | G-12 | End every step by updating the anchor ticket with what was done, what was produced, and what remains. | all steps | R-02 |
-| G-13 | Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance. | Operations: release; Development: finish-branch | none |
+| G-13 | Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance. | Release Management: release, rollback; Development: finish-branch | none |
 | G-14 | Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user. | Development: finish-branch | none |
 | G-15 | Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial. | all steps | none |
 | G-16 | State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket. | Business Analysis; Technical Analysis | R-02 |

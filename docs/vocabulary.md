@@ -20,9 +20,11 @@ control, a ticket manager, and a knowledge repository. See [opinions.md](opinion
 
 **Discipline**
 A set of skills related to performing a specific kind of work. Disciplines group skills by the
-nature of the work, not by when it happens. Current disciplines: Business Analysis, Technical
-Analysis, Refinement, Implementation Planning, Development, Testing, Documentation, Project
-Management, and Operations (proposed, see design open questions).
+nature of the work, not by when it happens. Fourteen disciplines: Business Analysis, Product
+Management, UX Design, Technical Analysis, Refinement, Implementation Planning, Development,
+Testing, Security, Documentation, Release Management, Operations, Support, and Project
+Management. A discipline is a kind of work, not a headcount; one person or one agent session
+may work in several.
 
 **Process**
 A series of steps needed to accomplish a goal. A process may draw steps from several

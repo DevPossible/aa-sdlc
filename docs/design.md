@@ -68,17 +68,27 @@ and end-to-end tests; and Development proves the requirement while Testing goes 
 
 Skills are grouped by discipline, the kind of work they perform. Current disciplines:
 
-| Discipline | Kind of work |
-|------------|--------------|
-| Business Analysis | discovering, capturing, and validating what the business needs |
-| Technical Analysis | architecture, technology choices, prototypes, decision records |
-| Refinement | turning requirements into a well-formed, prioritised backlog |
-| Implementation Planning | planning how a single ticket will be built before building it |
-| Development | building, reviewing, and merging code, and the automated tests that prove each requirement is met (O-08) |
-| Testing | making the test suite as comprehensive as is reasonable: beyond the stated requirement, to find gaps in understanding and in user interaction (O-08) |
-| Documentation | keeping the knowledge base and repo docs true |
-| Project Management | coordination, triage, retrospectives, health |
-| Operations *(proposed)* | infrastructure, pipelines, releases, observability |
+| Discipline | id | Kind of work |
+|------------|----|--------------|
+| Business Analysis | `business-analysis` | discovering, capturing, and validating what the business needs; user acceptance |
+| Product Management | `product-management` | roadmap, prioritisation, feedback analysis, deciding what to build next |
+| UX Design | `ux-design` | user research, mockups, prototypes, interaction review |
+| Technical Analysis | `technical-analysis` | architecture, technology choices, decision records |
+| Refinement | `refinement` | turning requirements into a well-formed, prioritised backlog of tickets |
+| Implementation Planning | `implementation-planning` | planning how a single ticket will be built before building it |
+| Development | `development` | building, reviewing, and merging code, and the automated tests that prove each requirement is met (O-08) |
+| Testing | `testing` | making the test suite as comprehensive as is reasonable: beyond the stated requirement, to find gaps in understanding and in user interaction (O-08) |
+| Security | `security` | threat modelling, security testing, dependency and secret hygiene, compliance maintenance |
+| Documentation | `documentation` | keeping the knowledge base and repo docs true |
+| Release Management | `release-management` | versioning, release notes, change coordination, go/no-go, deployment to production, rollback |
+| Operations | `operations` | infrastructure, pipelines, observability, production validation |
+| Support | `support` | incident triage, incident response, user-facing follow-up |
+| Project Management | `project-management` | coordination, retrospectives, and the framework's own health, init, and extend |
+
+Fourteen is deliberately more than a small team has people for. A discipline is a kind of
+work, not a headcount: one person, or one agent session, may work in several. What matters is
+that every common kind of work has a named home, so its steps and guidance have somewhere to
+live and `/aa-health` has something to report coverage against.
 
 ### 3.2 Processes and steps
 
@@ -179,8 +189,9 @@ methodology left implicit are added.
 |-----------------|------------------|------------|----------------|-------------------|
 | 1 Conception | 1.1 Initial Discovery Session | Business Analysis | `discover` | Initial Requirements Document, Question Log |
 | 1 Conception | 1.2 Requirement Refinement & Gap Analysis | Business Analysis | `refine-requirements` | Feature files (Gherkin scenarios, linked to tickets and pages), Technical Constraints Document |
-| 1 Conception | 1.3 Design & Prototyping | Technical Analysis | `prototype` | UI/UX Mockups, Interactive Prototype |
+| 1 Conception | 1.3 Design & Prototyping | UX Design | `prototype` | UI/UX Mockups, Interactive Prototype |
 | 1 Conception | 1.4 Architecture & Technical Planning | Technical Analysis | `architect` | System Architecture Diagram, Technology Stack Document, decision records |
+| 1 Conception | *(implicit)* Threat modelling | Security | `threat-model` | Threat model, security requirements as scenarios, mitigations on the backlog |
 | 1 Conception | *(implicit)* Backlog refinement | Refinement | `plan-work` | Epics, stories, tasks with acceptance criteria in the ticket system |
 | 2 Development | *(implicit)* Plan a ticket | Implementation Planning | `plan-implementation` | Implementation plan on the ticket |
 | 2 Development | 2.1 Development Environment Setup | Development | `setup-environment` | Repository Structure, Development Environment Configuration |
@@ -190,17 +201,21 @@ methodology left implicit are added.
 | 3 Testing | 3.1 Automated Test Suite Generation | Testing | `generate-tests` | Comprehensive Test Suite beyond the stated requirement, new scenarios for gaps found, questions on the ticket |
 | 3 Testing | 3.2 Automated UI/E2E Testing | Testing | `e2e-tests` | E2E Test Suite, Visual Regression Test Suite |
 | 3 Testing | 3.3 Performance & Load Testing | Testing | `performance-test` | Performance Test Suite, Performance Baseline Report |
-| 3 Testing | 3.4 Security Testing | Testing | `security-test` | Security Test Results, Security Compliance Report |
+| 3 Testing | 3.4 Security Testing | Security | `security-test` | Security Test Results, Security Compliance Report |
 | 4 Deployment | 4.1 Deployment Environment Setup | Operations | `setup-infrastructure` | Infrastructure Code, Deployment Runbooks |
 | 4 Deployment | 4.2 Continuous Deployment Pipeline | Operations | `setup-pipeline` | Deployment Pipeline Configuration, Deployment Strategy Documentation |
-| 4 Deployment | 4.3 Production Deployment | Operations | `release` | Release notes, Production Deployment Record, Deployment Verification Report |
+| 4 Deployment | *(implicit)* Prepare a release | Release Management | `prepare-release` | Version, release notes from tickets and commits, change record, go/no-go checklist |
+| 4 Deployment | 4.3 Production Deployment | Release Management | `release` | Production Deployment Record, Deployment Verification Report |
+| 4 Deployment | *(implicit)* Rollback | Release Management | `rollback` | Rollback executed and recorded, incident or ticket updated |
 | 5 Verification | 5.1 Monitoring & Observability Setup | Operations | `observability` | Monitoring Dashboards, Alert Configuration |
 | 5 Verification | 5.2 User Acceptance Testing | Business Analysis | `uat` | UAT Test Cases, UAT Results Report |
-| 5 Verification | 5.3 Production Validation | Testing | `validate-production` | Production Validation Test Results, Production Metrics Report |
-| 6 Maintenance | 6.1 Ongoing Monitoring & Support | Project Management | `triage` | Incident Log entries, tickets raised |
+| 5 Verification | *(implicit)* Interaction review | UX Design | `review-ux` | Usability findings, tickets raised for interaction defects |
+| 5 Verification | 5.3 Production Validation | Operations | `validate-production` | Production Validation Test Results, Production Metrics Report |
+| 6 Maintenance | 6.1 Ongoing Monitoring & Support | Support | `triage` | Incident Log entries, tickets raised and prioritised |
+| 6 Maintenance | *(implicit)* Incident response | Support | `respond-incident` | Incident timeline, mitigation, post-incident ticket |
 | 6 Maintenance | 6.2 Performance Optimization | Development | `optimize` | Performance Optimization Backlog, Optimization Implementation Report |
-| 6 Maintenance | 6.3 Feature Iteration & Enhancement | Business Analysis | `iterate` | Product Feedback Analysis, Feature Roadmap |
-| 6 Maintenance | 6.4 Security & Compliance Maintenance | Development | `maintain-security` | Security Patch Log, Compliance Audit Reports |
+| 6 Maintenance | 6.3 Feature Iteration & Enhancement | Product Management | `iterate` | Product Feedback Analysis, Feature Roadmap |
+| 6 Maintenance | 6.4 Security & Compliance Maintenance | Security | `maintain-security` | Security Patch Log, Compliance Audit Reports |
 | 6 Maintenance | 6.5 Documentation Maintenance | Documentation | `maintain-docs` | Up-to-Date Documentation, Documentation Health Report |
 | Meta | Workflow Retrospective | Project Management | `retrospective` | Workflow Health Report, Process Improvement Backlog |
 | Cross-cutting | n/a | Project Management | `health` | Health report |
@@ -211,12 +226,15 @@ Notes on the merges and additions:
 
 - Backend, frontend, and integration development collapse into `implement` because the split is a
   tech-stack concern, which belongs in plugins (T-02).
-- The methodology has no explicit backlog-refinement, implementation-planning, code-review, or
-  merge step. Those are added as `plan-work`, `plan-implementation`, `review`, and
-  `finish-branch`, and the methodology should be updated to match.
+- The methodology has no explicit backlog-refinement, implementation-planning, code-review,
+  merge, threat-modelling, release-preparation, rollback, interaction-review, or
+  incident-response step. Those are added as `plan-work`, `plan-implementation`, `review`,
+  `finish-branch`, `threat-model`, `prepare-release`, `rollback`, `review-ux`, and
+  `respond-incident`, and the methodology should be updated to match.
 - Human-only artifacts (meeting recordings, on-call schedules) are not step outputs.
-- Discipline assignments are a first pass. Several steps could sit in two disciplines (for
-  example `validate-production` in Testing or Operations).
+- Discipline assignments follow decision 32. `validate-production` sits in Operations because
+  it is performed against the live environment; `uat` stays in Business Analysis because it
+  validates the business need.
 
 ## 5. Commands
 
@@ -391,6 +409,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 29 | 2026-09-21 | Workflow data is YAML: `workflow/processes/<process>.yaml` and `workflow/steps/<step>.yaml` (see formats.md) | Human-editable with comments, read by both the CLI and the site generator |
 | 30 | 2026-09-21 | The config file is `aa.config.yaml`, one per scope, merged enterprise to project, validated against a published schema | Hand-edited more than tool-edited, so comments matter; schema validation catches mistakes before merge |
 | 31 | 2026-09-21 | Skills declare `aa.requires: [R-nn]` in frontmatter; definitions live once in feature files; plugins use namespaced ids and a `plugin.yaml` manifest | No duplication, cheap to declare, and `/aa-health` resolves ids against the installed set |
+| 32 | 2026-09-21 | Fourteen disciplines: add Product Management, UX Design, Security, Release Management, and Support; confirm Operations; move triage to Support, release to Release Management, prototype to UX Design, security steps to Security, iterate to Product Management | Common roles must have a named home; a discipline is a kind of work, not a headcount |
 
 ## 12. Open questions
 
@@ -401,9 +420,8 @@ produces the npm tarball; publishing to npm is a release step.
 - **Public hosting and licence.** Likely private GitLab mirrored to GitHub, matching existing
   mirror setup. Licence not chosen.
 - **Exact step and command names.** The names in section 4 are working names.
-- **Operations as a discipline.** Infrastructure, pipelines, releases, and observability need a
-  home; "Operations" is proposed, not confirmed.
-- **Discipline assignments.** Section 4 is a first pass; some steps fit two disciplines.
+- **New step definitions.** `threat-model`, `prepare-release`, `rollback`, `review-ux`, and
+  `respond-incident` have a row in the map and no workflow YAML or feature file yet.
 - **Schema files** for workflow data and `aa.config.yaml`, to be written alongside the CLI
   (formats are decided in [formats.md](formats.md)).
 - **Stack detection for R-13.** How `/aa-health` identifies the major technologies in a project
