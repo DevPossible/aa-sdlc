@@ -35,7 +35,7 @@ guidance_inline:
   - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
   - Do not widen the change. Adjacent problems become tickets, not fixes on this branch; every hunk on the branch names the ticket, scenario, or decision it serves (O-19).
   - Change a dependency with the package manager, never by editing a version in a file. If the tool refuses, the refusal goes on the ticket; it is not bypassed (O-22).
-  - Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16).
+  - "Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16)."
   - Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
 requires: [R-26, R-27, R-34, R-39, R-13]
 tenets: [T-04, T-07]

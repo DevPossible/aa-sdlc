@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aasdlc.com/schemas/step.schema.json",
+  "title": "AA-SDLC workflow step",
+  "description": "One step of the workflow: src/aa-sdlc/workflow/steps/<id>.yaml. See docs/formats.md section 1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "discipline", "command", "summary", "anchor", "artifacts"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "name": { "type": "string", "minLength": 1 },
+    "discipline": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "command": { "type": "string", "pattern": "^/aa-[a-z]{2,3}-[a-z][a-z0-9-]*$" },
+    "summary": { "type": "string", "minLength": 1 },
+    "anchor": { "type": "string", "enum": ["required", "optional", "none"] },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase"],
+      "properties": {
+        "phase": { "type": "integer", "minimum": 1 },
+        "steps": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "inputs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "location", "acceptance"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "location": { "type": "string", "minLength": 1 },
+          "acceptance": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+        }
+      }
+    },
+    "guidance_sets": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" }, "uniqueItems": true },
+    "guidance": { "type": "array", "items": { "$ref": "#/$defs/guidanceId" }, "uniqueItems": true },
+    "guidance_inline": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "requires": { "type": "array", "items": { "$ref": "#/$defs/requirementId" }, "uniqueItems": true },
+    "tenets": { "type": "array", "items": { "type": "string", "pattern": "^T-[0-9]{2}$" }, "uniqueItems": true },
+    "opinions": { "type": "array", "items": { "type": "string", "pattern": "^O-[0-9]{2}$" }, "uniqueItems": true }
+  },
+  "$defs": {
+    "guidanceId": { "type": "string", "pattern": "^G-([0-9]{2}|[a-z][a-z0-9-]*-[0-9]{2})$" },
+    "requirementId": { "type": "string", "pattern": "^R-([0-9]{2}|[a-z][a-z0-9-]*-[0-9]{2})$" }
+  }
+}

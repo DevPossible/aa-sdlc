@@ -14,6 +14,8 @@
     Path to the workflow folder. Defaults to src/aa-sdlc/workflow relative to the repo root.
 .PARAMETER DocsRoot
     Path to the docs folder. Defaults to docs relative to the repo root.
+.PARAMETER SchemaRoot
+    Path to the JSON Schema folder. Defaults to src/aa-sdlc/schemas relative to the repo root.
 #>
 [CmdletBinding()]
 param(
@@ -21,7 +23,10 @@ param(
     [string]$WorkflowRoot = (Join-Path $PSScriptRoot '..' 'src' 'aa-sdlc' 'workflow'),
 
     [Parameter()]
-    [string]$DocsRoot = (Join-Path $PSScriptRoot '..' 'docs')
+    [string]$DocsRoot = (Join-Path $PSScriptRoot '..' 'docs'),
+
+    [Parameter()]
+    [string]$SchemaRoot = (Join-Path $PSScriptRoot '..' 'src' 'aa-sdlc' 'schemas')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -53,6 +58,30 @@ $supersededGuidance = Get-DefinedId (Join-Path $DocsRoot 'guidance.md') '\| (G-\
 $requirementIds = Get-DefinedId (Join-Path $DocsRoot 'requirements.md') '\| (R-\d+) \|'
 $tenetIds = Get-DefinedId (Join-Path $DocsRoot 'tenets.md') '\*\*(T-\d+)'
 $opinionIds = Get-DefinedId (Join-Path $DocsRoot 'opinions.md') '\*\*(O-\d+)'
+
+# Schema validation: every YAML file validates against its JSON Schema (src/aa-sdlc/schemas/)
+function Test-AgainstSchema {
+    param([hashtable]$Items, [string]$Kind, [string]$SchemaFile)
+    $schemaPath = Join-Path $SchemaRoot $SchemaFile
+    if (-not (Test-Path $schemaPath)) { $problems.Add("schema ${SchemaFile}: not found"); return }
+    foreach ($id in $Items.Keys) {
+        $json = $Items[$id] | ConvertTo-Json -Depth 20
+        $errors = $null
+        $ok = Test-Json -Json $json -SchemaFile $schemaPath -ErrorAction SilentlyContinue -ErrorVariable errors
+        if (-not $ok) {
+            $detail = if ($errors) { ($errors | ForEach-Object { $_.Exception.Message }) -join '; ' } else { 'does not match schema' }
+            $problems.Add("${Kind} ${id}: schema: $detail")
+        }
+    }
+}
+Test-AgainstSchema -Items $disciplines -Kind 'discipline' -SchemaFile 'discipline.schema.json'
+Test-AgainstSchema -Items $steps -Kind 'step' -SchemaFile 'step.schema.json'
+Test-AgainstSchema -Items $processes -Kind 'process' -SchemaFile 'process.schema.json'
+Test-AgainstSchema -Items $sets -Kind 'guidance set' -SchemaFile 'guidance-set.schema.json'
+$configPath = Join-Path $WorkflowRoot '..' '..' '..' 'aa.config.yaml'
+if (Test-Path $configPath) {
+    Test-AgainstSchema -Items @{ 'aa.config.yaml' = (ConvertFrom-Yaml (Get-Content $configPath -Raw)) } -Kind 'config' -SchemaFile 'aa.config.schema.json'
+}
 
 # Guidance sets: id matches file, fields present, ids defined and not superseded
 foreach ($id in $sets.Keys) {

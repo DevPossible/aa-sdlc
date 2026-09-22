@@ -1730,7 +1730,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
 - Do not widen the change. Adjacent problems become tickets, not fixes on this branch; every hunk on the branch names the ticket, scenario, or decision it serves (O-19).
 - Change a dependency with the package manager, never by editing a version in a file. If the tool refuses, the refusal goes on the ticket; it is not bypassed (O-22).
-- System.Collections.Hashtable
+- Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16).
 - Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
 
 *Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-26, R-27, R-34, R-39, R-13 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*

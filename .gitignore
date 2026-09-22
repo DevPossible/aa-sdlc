@@ -65,5 +65,9 @@ node_modules/
 # AI agent working files
 /.aitemp/
 
+# Go CLI: content package copied in at build time and embedded; compiled outputs
+/src/aa-sdlc-cli/internal/content/data/
+/src/aa-sdlc-cli/bin/
+
 # Editor workspace files (personal)
 *.code-workspace

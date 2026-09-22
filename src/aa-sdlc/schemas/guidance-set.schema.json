@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aasdlc.com/schemas/guidance-set.schema.json",
+  "title": "AA-SDLC guidance set",
+  "description": "A named list of guidance and requirement ids many steps share: src/aa-sdlc/workflow/guidance-sets/<id>.yaml. See docs/formats.md section 1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "purpose", "guidance", "requires"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "purpose": { "type": "string", "minLength": 1 },
+    "guidance": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^G-([0-9]{2}|[a-z][a-z0-9-]*-[0-9]{2})$" }, "uniqueItems": true },
+    "requires": { "type": "array", "items": { "type": "string", "pattern": "^R-([0-9]{2}|[a-z][a-z0-9-]*-[0-9]{2})$" }, "uniqueItems": true }
+  }
+}
