@@ -1,4 +1,4 @@
-@framework @O-23 @O-07 @T-07
+@framework @agent @O-23 @O-07 @T-07
 Feature: Tests are deterministic and independent
   Every test, at every tier, gives the same result every time, alone or with any other tests
   in any order. Time is injected or frozen, randomness is seeded or injected, state is owned

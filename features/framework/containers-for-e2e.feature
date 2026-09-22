@@ -1,4 +1,4 @@
-@framework @O-12 @O-07 @O-11 @T-07
+@framework @agent @O-12 @O-07 @O-11 @T-07
 Feature: End-to-end tests run against containers
   The end-to-end tier starts the system and its dependencies in containers, from definitions
   committed to the repository, wherever the stack allows. The same definitions serve any

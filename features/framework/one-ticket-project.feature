@@ -1,4 +1,4 @@
-@framework @O-09 @O-03
+@framework @agent @O-09 @O-03
 Feature: One repository, one ticket project
   Every repository maps to exactly one ticket system project. Many repositories may share it;
   none manages tickets across two. The mapping lives in the project config and every anchored

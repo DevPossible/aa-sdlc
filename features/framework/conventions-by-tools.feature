@@ -1,4 +1,4 @@
-@framework @O-21 @T-09 @T-10
+@framework @agent @O-21 @T-09 @T-10
 Feature: Conventions are enforced by tools, not by people
   Coding conventions live as formatter and linter configuration committed to the repository.
   Formatting is automated on changed files. Linting runs from the root build and the pipeline

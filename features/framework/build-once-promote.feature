@@ -1,4 +1,4 @@
-@framework @O-24 @O-06 @O-11 @T-07
+@framework @agent @O-24 @O-06 @O-11 @T-07
 Feature: Build once; promote the same artifact
   A release artifact is built once, from one commit, and given an immutable identity. That
   same identity is what every successive environment deploys. Nothing is rebuilt for a later

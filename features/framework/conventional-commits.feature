@@ -1,4 +1,4 @@
-@framework @O-14 @O-02 @T-07
+@framework @agent @O-14 @O-02 @T-07
 Feature: Commit messages are Conventional Commits
   Every commit in a source code repository has a type from the project's list, an optional
   scope, an imperative subject, a body that says why, and a footer with the ticket reference

@@ -1,4 +1,4 @@
-@framework @O-20 @O-01 @T-07
+@framework @agent @O-20 @O-01 @T-07
 Feature: The simplest design that meets the scenarios
   The design of a system, a component, or a change is the simplest one that satisfies the
   scenarios that exist. Nothing is added for a scenario that does not exist yet. Every

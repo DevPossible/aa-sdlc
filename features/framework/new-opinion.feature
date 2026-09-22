@@ -1,4 +1,4 @@
-@framework @fw
+@framework @agent @fw
 Feature: /aa-fw-new-opinion adds an opinion with all of its plumbing
   An opinion is only real when the framework depends on it. The command adds the entry and
   everything the entry implies, in one change, in the aa-sdlc repository.

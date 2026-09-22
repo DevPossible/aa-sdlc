@@ -1,4 +1,4 @@
-@framework @O-08 @T-07
+@framework @agent @O-08 @T-07
 Feature: Development proves the requirement; Testing goes beyond it
   The Development discipline writes the automated tests that show a requirement is met. The
   Testing discipline makes the suite as comprehensive as is reasonable and turns every gap it

@@ -1,4 +1,4 @@
-@framework @O-16 @O-02 @T-07
+@framework @agent @O-16 @O-02 @T-07
 Feature: Version everything needed to build and operate the software
   The repository holds everything required to build, deploy, and run the system: the code,
   configuration templates with no secret values, migrations, automation, and the documentation

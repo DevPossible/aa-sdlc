@@ -1,4 +1,4 @@
-@requirements @project
+@requirements @health @project
 Feature: Project requirements
   What the repository must contain. aa init lays most of these down; /aa-fw-health reports them.
 

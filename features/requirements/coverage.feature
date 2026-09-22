@@ -1,4 +1,4 @@
-@requirements @coverage @T-02
+@requirements @health @coverage @T-02
 Feature: Coverage requirements
   What skills are in scope, and what the target can do. Coverage is where the core admits what
   it does not know and points at the plugin or skill that does.

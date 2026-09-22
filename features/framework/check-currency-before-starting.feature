@@ -1,4 +1,4 @@
-@framework @O-13 @T-12 @T-03
+@framework @agent @O-13 @T-12 @T-03
 Feature: A refined ticket is checked against the repository before work starts
   Refinement has a shelf life. A ticket records the repository revision its scenarios and plan
   were checked against. The step that picks it up compares that revision with the repository

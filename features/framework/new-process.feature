@@ -1,4 +1,4 @@
-@framework @fw @T-03
+@framework @agent @fw @T-03
 Feature: /aa-fw-new-process adds a described, never enforced, process
   A process is an ordering of steps toward a goal. Every step in it still runs alone.
 

@@ -1,4 +1,4 @@
-@framework @T-12 @O-01
+@framework @agent @T-12 @O-01
 Feature: Gherkin is the source of truth for requirements
   Every project using the framework, and the framework itself, keeps its requirements as feature
   files in the repository. Each feature is linked to its ticket and its knowledge base page, and

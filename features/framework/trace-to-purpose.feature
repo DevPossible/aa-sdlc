@@ -1,4 +1,4 @@
-@framework @O-19 @O-03 @T-12
+@framework @agent @O-19 @O-03 @T-12
 Feature: Every change traces back to its purpose
   Every change to the repository can be followed back to why it was made. The commit names a
   ticket, the ticket links to the scenarios it satisfies or to the decision record or page that

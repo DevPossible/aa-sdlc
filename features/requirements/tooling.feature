@@ -1,4 +1,4 @@
-@requirements @tooling @T-01
+@requirements @health @tooling @T-01
 Feature: Tooling requirements
   What the project must supply. The framework names the category and the project, or a
   tech-stack plugin, supplies the tool. /aa-fw-health detects presence; it never recommends a brand.

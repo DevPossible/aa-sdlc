@@ -1,4 +1,4 @@
-@framework @T-02 @T-01
+@framework @agent @T-02 @T-01
 Feature: /aa-fw-extend helps the user create extensions to the framework
   The core roughs in the framework and expects others to supply the specifics (T-02). /aa-fw-extend
   is the skill that makes supplying them easy: it walks the user from "I need the framework to

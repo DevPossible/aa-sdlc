@@ -1,4 +1,4 @@
-@framework @O-18 @O-04 @T-04
+@framework @agent @O-18 @O-04 @T-04
 Feature: Decisions are decision records
   Every significant decision, technical, product, or process, is a decision record: one
   screen, numbered next in one sequence per repository, dated, with context, options,

@@ -1,4 +1,4 @@
-@framework @fw @T-13
+@framework @agent @fw @T-13
 Feature: /aa-fw-new-discipline adds a discipline that can be reviewed on day one
   A discipline with no steps, no code, or no boundaries cannot be reviewed or installed. The
   command creates all of it together.

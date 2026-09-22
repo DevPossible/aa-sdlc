@@ -1,4 +1,4 @@
-@framework @O-22 @O-16 @T-07
+@framework @agent @O-22 @O-16 @T-07
 Feature: Dependencies change through the package manager, never by hand
   A dependency is added, updated, or removed only through the ecosystem's package manager, so
   conflicts are resolved, warnings surfaced, transitive dependencies re-resolved, and the lock

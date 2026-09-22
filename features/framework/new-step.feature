@@ -1,4 +1,4 @@
-@framework @fw
+@framework @agent @fw
 Feature: /aa-fw-new-step adds a step with all of its plumbing
   A step is a definition, a command, a skill, scenarios, guidance, and requirements, listed by
   its discipline and any process. The command creates all of it or none of it.

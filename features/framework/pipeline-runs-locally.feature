@@ -1,4 +1,4 @@
-@framework @O-11 @O-06 @T-07 @T-13
+@framework @agent @O-11 @O-06 @T-07 @T-13
 Feature: Every pipeline step runs locally, exactly
   Every step the delivery pipeline performs can be reproduced exactly on any machine, from the
   command line or a local tool, with the same script, the same arguments, and the same inputs.

@@ -1,4 +1,4 @@
-@framework @T-13
+@framework @agent @T-13
 Feature: One person or fifteen, the same framework
   A discipline is a kind of work, not a headcount. A solo developer and a fifteen-person team
   run the same steps, produce the same artifacts, and follow the same guidance. They differ

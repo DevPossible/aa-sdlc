@@ -1,4 +1,4 @@
-@framework @O-17 @O-02 @T-06
+@framework @agent @O-17 @O-02 @T-06
 Feature: Small, cohesive commits, made by the user
   Every commit is one understandable change, small enough to review in one sitting. The agent
   never makes the commit unless the user asked for that commit. It stages the change, writes

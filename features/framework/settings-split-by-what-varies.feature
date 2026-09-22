@@ -1,4 +1,4 @@
-@framework @O-25 @O-16 @O-24 @T-01
+@framework @agent @O-25 @O-16 @O-24 @T-01
 Feature: Environment settings and functional settings live apart
   Configuration is split by what varies. Settings that differ between deployed environments,
   such as connection strings, endpoints, resource names, and credentials, live in an

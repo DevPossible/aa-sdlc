@@ -1,4 +1,4 @@
-@requirements @environment
+@requirements @health @environment
 Feature: Environment requirements
   What the agent must be able to reach. These are probed by /aa-fw-health and can only be
   established from inside the agent.

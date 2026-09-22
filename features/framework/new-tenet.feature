@@ -1,4 +1,4 @@
-@framework @fw
+@framework @agent @fw
 Feature: /aa-fw-new-tenet adds a tenet and makes existing content agree with it
   Tenets are few and govern everything. Adding one means showing it in action and checking
   that nothing already written contradicts it.

@@ -39,6 +39,14 @@ foreach ($file in $featureFiles) {
         $problems.Add("${name}: expected exactly one 'Feature:', found $featureCount")
     }
 
+    # Every feature says what can execute it: exactly one of @cli, @health, @agent (decision record 0005)
+    $featureLine = ($lines | Select-String '^\s*Feature:' | Select-Object -First 1).LineNumber
+    $tagLines = if ($featureLine -gt 1) { $lines[0..($featureLine - 2)] | Where-Object { $_ -match '^\s*@' } } else { @() }
+    $executorTags = @([regex]::Matches(($tagLines -join ' '), '@(cli|health|agent)\b') | ForEach-Object { $_.Value } | Sort-Object -Unique)
+    if ($executorTags.Count -ne 1) {
+        $problems.Add("${name}: expected exactly one executor tag (@cli, @health, or @agent) on the feature, found: $($executorTags -join ' ')")
+    }
+
     $blockPattern = '^\s*(Background|Scenario Outline|Scenario|Example):'
     $blockIndexes = @()
     for ($i = 0; $i -lt $lines.Count; $i++) {

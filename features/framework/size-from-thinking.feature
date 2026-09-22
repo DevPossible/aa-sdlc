@@ -1,4 +1,4 @@
-@framework @O-10 @T-07
+@framework @agent @O-10 @T-07
 Feature: A size is grounded in implementation thinking
   No unit of work carries a size or an effort estimate that is not backed by written thought
   about how it will be built: what changes, what is unknown, what could go wrong. The depth

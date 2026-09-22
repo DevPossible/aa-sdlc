@@ -1,4 +1,4 @@
-@framework @O-15 @O-01 @T-12
+@framework @agent @O-15 @O-01 @T-12
 Feature: A requirement starts with written goals; the mock-up comes after
   No requirement begins as a screenshot or a mock-up. It begins as written goals, the outcome
   and then the scenarios, refined until they are unambiguous and testable. The mock-up is
