@@ -8,12 +8,17 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
+	"os"
 	"path"
 	"sort"
 	"strings"
 
 	"gopkg.in/yaml.v3"
 )
+
+// osDirFS wraps a directory on disk as an fs.FS, so plugins load the same way from the package
+// and from an organisation repository or a local path.
+func osDirFS(dir string) fs.FS { return os.DirFS(dir) }
 
 //go:embed all:data
 var data embed.FS
@@ -129,6 +134,119 @@ func Skills() ([]Skill, error) {
 // ReadFile reads one file from the embedded content.
 func ReadFile(name string) ([]byte, error) {
 	return fs.ReadFile(FS(), name)
+}
+
+// Plugin is a tech-stack or process pack: a plugin.yaml manifest and the skills under
+// skills/<name>/SKILL.md (docs/formats.md section 3).
+type Plugin struct {
+	Name     string   `yaml:"name"`
+	Version  string   `yaml:"version"`
+	Kind     string   `yaml:"kind"`
+	Requires []string `yaml:"requires"`
+	Adds     struct {
+		Skills []string `yaml:"skills"`
+	} `yaml:"adds"`
+	Skills []PluginSkill `yaml:"-"`
+	Source string        `yaml:"-"` // "package", or the directory it was loaded from
+}
+
+// PluginSkill is one installable skill of a plugin.
+type PluginSkill struct {
+	Name        string
+	Description string
+	Files       map[string][]byte
+}
+
+// Plugins returns the plugins shipped inside the package (plugins/<name>/plugin.yaml).
+func Plugins() ([]Plugin, error) {
+	root := FS()
+	entries, err := fs.ReadDir(root, "plugins")
+	if err != nil {
+		return nil, nil // no plugins folder means no plugins
+	}
+	var out []Plugin
+	for _, e := range entries {
+		if !e.IsDir() {
+			continue
+		}
+		sub, err := fs.Sub(root, path.Join("plugins", e.Name()))
+		if err != nil {
+			return nil, err
+		}
+		p, err := loadPlugin(sub, "package")
+		if err != nil {
+			return nil, fmt.Errorf("plugin %s: %w", e.Name(), err)
+		}
+		if p != nil {
+			out = append(out, *p)
+		}
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].Name < out[j].Name })
+	return out, nil
+}
+
+// LoadPluginDir reads a plugin from a directory on disk.
+func LoadPluginDir(dir string) (*Plugin, error) {
+	return loadPlugin(osDirFS(dir), dir)
+}
+
+func loadPlugin(root fs.FS, source string) (*Plugin, error) {
+	b, err := fs.ReadFile(root, "plugin.yaml")
+	if err != nil {
+		return nil, nil // not a plugin folder
+	}
+	var p Plugin
+	if err := yaml.Unmarshal(b, &p); err != nil {
+		return nil, err
+	}
+	if p.Name == "" {
+		return nil, fmt.Errorf("plugin.yaml has no name")
+	}
+	p.Source = source
+	skillDirs, _ := fs.ReadDir(root, "skills")
+	for _, d := range skillDirs {
+		if !d.IsDir() {
+			continue
+		}
+		dir := path.Join("skills", d.Name())
+		if _, err := fs.Stat(root, path.Join(dir, "SKILL.md")); err != nil {
+			continue
+		}
+		files := map[string][]byte{}
+		err := fs.WalkDir(root, dir, func(pth string, e fs.DirEntry, err error) error {
+			if err != nil || e.IsDir() {
+				return err
+			}
+			fb, err := fs.ReadFile(root, pth)
+			if err != nil {
+				return err
+			}
+			files[strings.TrimPrefix(pth, dir+"/")] = fb
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+		p.Skills = append(p.Skills, PluginSkill{Name: d.Name(), Description: frontmatterDescription(files["SKILL.md"]), Files: files})
+	}
+	sort.Slice(p.Skills, func(i, j int) bool { return p.Skills[i].Name < p.Skills[j].Name })
+	return &p, nil
+}
+
+func frontmatterDescription(skill []byte) string {
+	s := string(skill)
+	if !strings.HasPrefix(s, "---") {
+		return ""
+	}
+	end := strings.Index(s[3:], "\n---")
+	if end < 0 {
+		return ""
+	}
+	var front struct {
+		Description string `yaml:"description"`
+	}
+	_ = yaml.Unmarshal([]byte(s[3:3+end]), &front)
+	return strings.Join(strings.Fields(front.Description), " ")
 }
 
 func eachYAML(dir string, fn func([]byte) error) error {
