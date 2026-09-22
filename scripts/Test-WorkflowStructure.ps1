@@ -84,6 +84,27 @@ foreach ($id in $steps.Keys) {
     foreach ($o in @($s.opinions | Where-Object { $_ })) { if ($o -notin $opinionIds) { $problems.Add("step ${id}: unknown opinion '$o'") } }
 }
 
+# Skills that declare aa.step must match their step's requires and guidance exactly
+$skillsRoot = Join-Path $WorkflowRoot '..' 'skills'
+if (Test-Path $skillsRoot) {
+    Get-ChildItem -Path $skillsRoot -Recurse -Filter 'SKILL.md' -File | ForEach-Object {
+        $content = Get-Content $_.FullName -Raw
+        if ($content -notmatch '(?s)^---\r?\n(.*?)\r?\n---') { return }
+        $front = ConvertFrom-Yaml $Matches[1]
+        if (-not $front.aa -or -not $front.aa.step) { return }
+        $stepId = $front.aa.step
+        $label = "skill $($_.Directory.Parent.Name)/$($_.Directory.Name)"
+        if (-not $steps.ContainsKey($stepId)) { $problems.Add("${label}: aa.step '$stepId' has no workflow step"); return }
+        if ($front.name -ne $stepId) { $problems.Add("${label}: name '$($front.name)' does not equal aa.step '$stepId'") }
+        if ($front.aa.discipline -ne $steps[$stepId].discipline) { $problems.Add("${label}: aa.discipline '$($front.aa.discipline)' does not match step's '$($steps[$stepId].discipline)'") }
+        foreach ($field in 'requires', 'guidance') {
+            $a = @($front.aa[$field] | Where-Object { $_ }) | Sort-Object
+            $b = @($steps[$stepId][$field] | Where-Object { $_ }) | Sort-Object
+            if (($a -join ',') -ne ($b -join ',')) { $problems.Add("${label}: aa.$field [$($a -join ', ')] differs from step's [$($b -join ', ')]") }
+        }
+    }
+}
+
 foreach ($id in $processes.Keys) {
     $p = $processes[$id]
     if ($p.id -ne $id) { $problems.Add("process ${id}: id '$($p.id)' does not match file name") }

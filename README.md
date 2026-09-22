@@ -4,7 +4,9 @@ Agent skills and commands that implement the Agent Assisted Software Development
 (AA-SDLC) methodology. The methodology says what a well-run agent-assisted project produces at
 each step and why; this SDK gives an agent the how.
 
-**Status:** early design. Nothing is installable yet. See [docs/design.md](docs/design.md).
+**Status:** early design. The five framework authoring commands are real skills, runnable in
+this repository with Claude Code (open it in this folder); nothing else is installable yet. See
+[docs/design.md](docs/design.md).
 
 ## We are opinionated, and here are the opinions
 

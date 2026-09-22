@@ -452,6 +452,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 35 | 2026-09-21 | All fifteen disciplines defined as workflow data (`disciplines/<id>.yaml`) with bounded responsibilities, 47 steps with artifacts and guidance, six processes; `docs/discipline-review.md` is generated from them and validated in the unit tier | The workflow data is the source of truth; a generated review document keeps it readable without letting it drift |
 | 36 | 2026-09-21 | Framework authoring commands `/aa-fw-new-opinion`, `-tenet`, `-discipline`, `-process`, `-step`, each responsible for all the plumbing of the item it adds | Adding to the framework by hand misses pieces; a command that owns the whole checklist keeps the framework consistent with itself |
 | 37 | 2026-09-21 | Opinion O-09: one repository maps to exactly one ticket project; many repositories may share one; the mapping lives in the project config (R-22, G-27) | A state store split across projects has two truths; one mapping keeps ids, branches, commits, init, and health unambiguous |
+| 38 | 2026-09-21 | The five framework authoring commands are implemented as skills under `skills/fw/` with Claude Code command wrappers in `.claude/commands/`; the validator checks a skill's `aa.requires` and `aa.guidance` against its step | The first real skills; a specification without a skill is not a command, and the wrappers make them runnable in this repository today |
 
 ## 12. Open questions
 
@@ -462,8 +463,9 @@ produces the npm tarball; publishing to npm is a release step.
 - **Public hosting and licence.** Likely private GitLab mirrored to GitHub, matching existing
   mirror setup. Licence not chosen.
 - **Exact step and command names.** The names in section 4 are working names.
-- **Feature files for the 44 discipline steps.** Only the framework's own commands have
-  scenarios; every discipline step now has workflow YAML but no feature file.
+- **Skills for every step except the five framework authoring commands.** 52 steps have
+  workflow YAML; 5 have a SKILL.md. `health`, `init`, `extend`, and all 44 discipline steps
+  have no skill yet, and the 44 discipline steps have no feature file.
 - **Review of the generated discipline definitions.** `docs/discipline-review.md` is a first
   draft awaiting the user's adjustments (see `plan-discipline-review.md`).
 - **Schema files** for workflow data and `aa.config.yaml`, to be written alongside the CLI
