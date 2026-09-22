@@ -18,6 +18,13 @@ mind, are in [docs/opinions.md](docs/opinions.md).
 3. **All good projects use a ticket manager.** Every unit of work anchors on a ticket, and the
    ticket system is the state store.
 4. **All projects need a knowledge repository.** Tickets say what happened; the wiki says why.
+5. **All repositories share one folder structure**, whatever they contain.
+6. **Every repository has root scripts** for initialize, build, test, and pack, with general
+   parameters for filtering and switches.
+7. **Every repository has unit, integration, and end-to-end tests**, each selectable by tier.
+8. **Development proves the requirement; Testing goes beyond it.** Developers write the tests
+   that show a ticket is met. Testers make the suite as comprehensive as is reasonable and turn
+   every gap they find into a scenario.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).

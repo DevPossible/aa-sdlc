@@ -61,6 +61,68 @@ a documents folder as the sole store (acceptable as a fallback per R-06, not as 
 *Would change our mind:* nothing foreseeable.
 *Requirements:* R-03, R-06.
 
+**O-05 All repositories share one folder structure, whatever they contain.**
+*The stance:* every repository uses the same top-level layout regardless of stack or purpose: a
+documents folder, a features folder, a scripts folder, a source folder with one subfolder per
+project, a tests folder, and root scripts. A single-file utility and a polyglot monorepo look the
+same from the root.
+*Why:* an agent, a new team member, and the tooling should be able to find things without
+reading a README. Consistency is the product (T-08), and it starts at the repository root.
+Stack-specific layout lives inside each project's own subfolder, where the stack's tooling
+expects it.
+*Rejected:* per-stack root layouts (a Node root, a .NET root, a Python root); letting the first
+contributor's habits define the structure; stack templates that own the root.
+*Would change our mind:* a stack whose tooling cannot be made to work from a subfolder. None
+found so far.
+*Requirements:* R-18.
+
+**O-06 Every repository has root scripts for initialize, build, test, and pack.**
+*The stance:* four scripts at the repository root, in the shell the project chooses, with the
+same names everywhere: `initialize` (bootstrap the environment and seed data as needed),
+`build`, `test`, and `pack`. Each takes general parameters for filtering and conditional
+switches as the project needs, such as a test tier, a project filter, or a configuration.
+*Why:* the agent and the pipeline need one way to do each thing that works on a fresh clone.
+The scripts are the contract between the repository and everything that runs it; what they call
+underneath is the project's business. This is what makes "a single build command" (R-10) and "a
+single test command" (R-11) true for every repository, not just the ones that happen to have
+them.
+*Rejected:* build instructions in a README; per-stack commands the caller must know; IDE-only
+builds; scripts that assume tools are already installed.
+*Would change our mind:* nothing foreseeable. The shell is the project's choice; the verbs and
+their presence are not.
+*Requirements:* R-10, R-11, R-19, R-20.
+
+**O-07 Every repository has unit, integration, and end-to-end tests.**
+*The stance:* three tiers, each with a home in the repository and each selectable from the root
+test script. Unit tests live with the project they test, integration and end-to-end tests live
+in the tests folder. A tier may be nearly empty for a small repository; it may not be absent.
+*Why:* each tier catches what the others cannot. Unit tests prove logic, integration tests prove
+the pieces fit, end-to-end tests prove the user gets what the feature file promised. A repository
+missing a tier has a class of defect it cannot see, and an agent working in it has no way to
+prove that class of change.
+*Rejected:* unit tests only; end-to-end tests only; tests that exist but cannot be run by tier.
+*Would change our mind:* nothing foreseeable.
+*Requirements:* R-11, R-21.
+
+**O-08 Development proves the requirement; Testing goes beyond it.**
+*The stance:* the Development discipline is responsible for the automated tests that show a
+requirement is met: every happy path, the general permutations and cases, and the obvious
+negative tests, across unit, integration, and end-to-end tiers as the change warrants. A ticket
+is not done until those exist and pass; they are part of meeting the requirement, not a separate
+task. The Testing discipline is responsible for making the suite as comprehensive as is
+reasonable: starting from the feature files, then applying general testing strategies to find
+what the requirement did not say, including gaps in understanding and in how users actually
+interact with the system. Every gap Testing finds becomes a question on the ticket and a new
+scenario in the feature file.
+*Why:* a developer who does not write the tests does not know if the code works. A tester who
+only checks the stated requirement finds only the defects someone already imagined. Splitting the
+responsibility this way gives each discipline a job the other cannot do, and keeps "done" honest
+(T-07).
+*Rejected:* throwing code over the wall to a test team; a test team that only automates the
+acceptance criteria; treating tests as a phase after development rather than part of it.
+*Would change our mind:* nothing foreseeable.
+*Requirements:* R-11, R-16, R-21. *Guidance:* G-20, G-21.
+
 ---
 
 Opinions O-02, O-03, and O-04 name the three systems the framework builds on. Together with
@@ -74,6 +136,9 @@ O-01 they define what the framework treats as the truth for each kind of informa
 | Why, and what was decided | the knowledge repository (O-04) |
 
 The tooling keeps the links between them current (T-12). No one of them holds another's truth.
+
+Opinions O-05, O-06, and O-07 describe the shape of every repository, and O-08 describes who
+proves what. Together they are what `aa init` lays down and `/aa-health` checks for.
 
 ## Candidates
 

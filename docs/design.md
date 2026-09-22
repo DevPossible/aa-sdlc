@@ -57,8 +57,10 @@ requirements are registered in [requirements.md](requirements.md) and defined au
 as feature files under [`features/`](../features/).
 
 The framework is opinionated, and its **opinions** are stated up front in
-[opinions.md](opinions.md): requirements are Gherkin, and every project uses source control, a
-ticket manager, and a knowledge repository.
+[opinions.md](opinions.md): requirements are Gherkin; every project uses source control, a
+ticket manager, and a knowledge repository; every repository shares one folder structure and
+has root scripts for initialize, build, test, and pack; every repository has unit, integration,
+and end-to-end tests; and Development proves the requirement while Testing goes beyond it.
 
 ## 3. Architecture
 
@@ -72,8 +74,8 @@ Skills are grouped by discipline, the kind of work they perform. Current discipl
 | Technical Analysis | architecture, technology choices, prototypes, decision records |
 | Refinement | turning requirements into a well-formed, prioritised backlog |
 | Implementation Planning | planning how a single ticket will be built before building it |
-| Development | building, reviewing, and merging code |
-| Testing | proving behaviour at every level |
+| Development | building, reviewing, and merging code, and the automated tests that prove each requirement is met (O-08) |
+| Testing | making the test suite as comprehensive as is reasonable: beyond the stated requirement, to find gaps in understanding and in user interaction (O-08) |
 | Documentation | keeping the knowledge base and repo docs true |
 | Project Management | coordination, triage, retrospectives, health |
 | Operations *(proposed)* | infrastructure, pipelines, releases, observability |
@@ -182,10 +184,10 @@ methodology left implicit are added.
 | 1 Conception | *(implicit)* Backlog refinement | Refinement | `plan-work` | Epics, stories, tasks with acceptance criteria in the ticket system |
 | 2 Development | *(implicit)* Plan a ticket | Implementation Planning | `plan-implementation` | Implementation plan on the ticket |
 | 2 Development | 2.1 Development Environment Setup | Development | `setup-environment` | Repository Structure, Development Environment Configuration |
-| 2 Development | 2.2 Backend, 2.3 Frontend, 2.4 Integration | Development | `implement` | Application code, schema and migrations, integration code |
+| 2 Development | 2.2 Backend, 2.3 Frontend, 2.4 Integration | Development | `implement` | Application code, schema and migrations, integration code, and the tests that prove the requirement (happy paths, permutations, obvious negatives) at each tier touched |
 | 2 Development | *(implicit)* Code review | Development | `review` | Review findings on the merge request |
 | 2 Development | *(implicit)* Merge | Development | `finish-branch` | Merge request linked to ticket, ticket transitioned |
-| 3 Testing | 3.1 Automated Test Suite Generation | Testing | `generate-tests` | Gherkin Feature Files, Comprehensive Test Suite |
+| 3 Testing | 3.1 Automated Test Suite Generation | Testing | `generate-tests` | Comprehensive Test Suite beyond the stated requirement, new scenarios for gaps found, questions on the ticket |
 | 3 Testing | 3.2 Automated UI/E2E Testing | Testing | `e2e-tests` | E2E Test Suite, Visual Regression Test Suite |
 | 3 Testing | 3.3 Performance & Load Testing | Testing | `performance-test` | Performance Test Suite, Performance Baseline Report |
 | 3 Testing | 3.4 Security Testing | Testing | `security-test` | Security Test Results, Security Compliance Report |
@@ -356,6 +358,10 @@ produces the npm tarball; publishing to npm is a release step.
 | 20 | 2026-09-21 | Requirements are Gherkin feature files in the repository and are the source of truth for them; the tooling maintains the feature-ticket-page link (T-12, O-01) | Structured natural language serves stakeholders, agents, and tests with one artifact; the repository gives it history and review |
 | 21 | 2026-09-21 | The framework dogfoods T-12: its own requirements live in `features/` and the registry tables index them | If the rule is good enough for consumers it is good enough for the framework; it also makes `/aa-health` a spec-driven command |
 | 22 | 2026-09-21 | Opinions are a first-class, up-front document: Gherkin requirements, source control, a ticket manager, a knowledge repository | Being opinionated only works if the opinions are stated before adoption, with what they reject and what would change them |
+| 23 | 2026-09-21 | One folder structure for every repository regardless of content (O-05) | Agents, people, and tooling find things without reading; stack layout lives inside each project's subfolder |
+| 24 | 2026-09-21 | Root scripts `initialize`, `build`, `test`, `pack` in every repository, with general filter and switch parameters (O-06) | One contract between a repository and everything that runs it; makes R-10 and R-11 true everywhere |
+| 25 | 2026-09-21 | Every repository has unit, integration, and end-to-end tiers, selectable from the root test script (O-07) | Each tier catches a class of defect the others cannot |
+| 26 | 2026-09-21 | Development writes the tests that prove the requirement; Testing extends the suite beyond it and turns gaps into scenarios (O-08) | Gives each discipline a job the other cannot do and keeps "done" honest |
 
 ## 12. Open questions
 
@@ -380,3 +386,11 @@ produces the npm tarball; publishing to npm is a release step.
   how conflicts are detected (hashes, timestamps, or content diff), and which steps run the sync.
 - **Executable feature files for the framework.** Whether and when `features/` gets step
   definitions that drive the CLI and agent tests, or stays a readable contract.
+- **This repository's own root scripts.** O-06 names `initialize`, `build`, `test`, `pack`;
+  this repository currently follows the devpossible house convention (`build`, `test-smoke`,
+  `test-full`, `package`, no `initialize`). Either the repository aligns to O-06 (add
+  `initialize`, rename `package` to `pack`, merge the two test scripts into `test` with a tier
+  parameter) or the house templates change. Decision 21 says dogfood, so alignment is expected;
+  the timing is the user's call.
+- **Exact conventional folder names** for O-05 (`docs` versus `documents`, `tests` layout per
+  tier) and how the project config maps an existing repository's equivalents.

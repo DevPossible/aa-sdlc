@@ -34,6 +34,8 @@ written, guidance moves out of here and into the skill (for a step) or the proce
 | G-17 | After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation. | Development: implement | none |
 | G-18 | Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict. | Business Analysis: refine-requirements; Refinement: plan-work | R-16, R-02, R-03 |
 | G-19 | Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description. | Business Analysis: discover, refine-requirements | R-16, R-02, R-03 |
+| G-20 | When implementing a ticket, write the automated tests that prove it: every happy path, the general permutations and cases, and the obvious negative cases, at each tier the change touches. The ticket is not done until they exist and pass. | Development: implement | R-11, R-21 |
+| G-21 | Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file. | Testing: generate-tests, e2e-tests | R-11, R-16, R-21 |
 
 ## Conventions for writing guidance
 

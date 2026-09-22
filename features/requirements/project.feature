@@ -72,3 +72,26 @@ Feature: Project requirements
     Then R-16 is reported as unmet
     And the report says requirements cannot be captured as the source of truth until it exists
     And the remedy is for "aa init" or "/aa-init" to create it
+
+  @R-18 @required @O-05
+  Scenario: The repository follows the conventional structure
+    Given the documents, features, scripts, source, and tests folders exist at the root
+    And the source folder has one subfolder per project
+    When "/aa-health" probes R-18
+    Then R-18 is reported as met
+
+  @R-18 @required @O-05
+  Scenario: The repository maps an existing layout to the convention
+    Given the repository predates the framework and uses different folder names
+    And the project config maps each conventional folder to its equivalent
+    When "/aa-health" probes R-18
+    Then R-18 is reported as met
+    And the report shows the mapping
+
+  @R-18 @required @O-05
+  Scenario: The repository does not follow the conventional structure
+    Given a conventional folder is missing and the project config does not map it
+    When "/aa-health" probes R-18
+    Then R-18 is reported as unmet
+    And the report names the missing folders
+    And the remedy is for "aa init" to create them or "/aa-init" to propose a mapping
