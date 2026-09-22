@@ -376,26 +376,30 @@ aa-sdlc/
     agent/              one feature per agent-only command
     requirements/       the requirements registry as scenarios, one file per kind
   scripts/              build and validation helpers
-  src/aa-sdlc/          the npm package: CLI plus SDK content
-    package.json        package name aa-sdlc, bin aa
-    cli/                the aa CLI source
+  src/aa-sdlc/          the content package: everything the CLI installs
     skills/             core skills grouped by discipline: <discipline>/<step>/SKILL.md
     commands/           target-neutral command definitions
-    workflow/           processes as data: ordered steps, artifacts, acceptance criteria, process guidance
+    workflow/           disciplines, steps, processes, and guidance sets as data
+    schemas/            JSON Schema for the workflow data and aa.config.yaml
     plugins/            tech-stack and process packs
     targets/            per-target adapter templates
+  src/aa-sdlc-cli/      the aa CLI: a Go module (decision record 0004)
+    cmd/aa/             main package
+    internal/           verbs, config merging, target adapters, embedded content
+    npm/                the aa-sdlc npm package and one package per platform, built by pack.ps1
   tests/
     integration/        integration tests for the package and CLI
     e2e/                end-to-end tests driving aa and the agent commands
   initialize.ps1        bootstrap a fresh clone: tools, folders (O-06)
-  build.ps1             validate skills and feature files, build the CLI, assemble the package into .build/
+  build.ps1             validate the content, embed it, build the CLI for this platform, assemble .build/ (-Lint runs the analysers)
   test.ps1              run tests by tier: -Tier unit|integration|e2e|all, -Filter (O-06, O-07)
-  pack.ps1              version, build, test, and produce the npm tarball in .dist/
+  pack.ps1              version, build, test, cross-compile, and produce the npm packages in .dist/
 ```
 
-Unit tests live with each project under `src/`; the unit tier also runs the structural
-validators. This is the O-05 and O-06 layout applied to the framework's own repository
-(decision 28).
+Unit tests live with each project under `src/` (Go tests in the CLI module); the unit tier
+also runs the structural validators. This is the O-05 and O-06 layout applied to the
+framework's own repository (decision 28). The content package is compiled into the binary
+with `embed` at build time, so the CLI and the content it installs cannot drift.
 
 `src/aa-sdlc/workflow/` is the single source of truth for the methodology. The website's
 methodology page should be generated from it, or at least checked against it, so the site and the
@@ -487,10 +491,9 @@ row it supersedes; the superseded row gains only a "Superseded by" note.
 
 - **CLI flags and target detection.** The verb set is decided (section 7.1); flags, and how
   `aa setup` detects installed targets, are not.
-- **CLI language.** A compiled native binary in Go, Rust, or .NET with native AOT; no Node or
-  TypeScript in the repository. Delivery stays npm (decision 16): the package carries one
-  binary per platform as an optional dependency, the way esbuild and Biome ship. The choice is
-  task D1 in [plan-framework-gaps.md](plan-framework-gaps.md).
+- **CLI language.** Closed: Go, with the content package embedded in the binary and npm
+  delivery through one optional dependency per platform (decision record
+  [0004](decisions/0004-cli-in-go-delivered-by-npm.md)).
 - **Public hosting and licence.** Likely private GitLab mirrored to GitHub, matching existing
   mirror setup. Licence not chosen.
 - **Exact step and command names.** The names in section 4 are working names.
