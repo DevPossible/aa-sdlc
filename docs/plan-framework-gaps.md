@@ -134,6 +134,6 @@ list that is about to be restructured.
 | A | A1 to A6 | done 2026-09-22 (commits cee232d to 04fd5a5) |
 | B | B1 to B4 | done 2026-09-22 (0a9a6bf, 6aae2c5, bd4b2c2; B4 folded into B3's document) |
 | C | C1 to C5 | done 2026-09-22 (c0e190b, d055c3d, 8e3e0f8; baseline in development-environment.md); B5 raised by the baseline |
-| D | D1 to D5 | D1 done (0466675), D2 done (5e5ad39), D3 and D4 done 2026-09-22 (Go module, `aa init`, `aa setup`); D5 pack and npm packages not started |
-| E | E1 to E3 | not started |
+| D | D1 to D5 | done 2026-09-22 (0466675, 5e5ad39, 8088b9b, bc03373, 06cb646; launcher fix in the following commit) |
+| E | E1 to E3 | done 2026-09-22 (4187ece, b80f518, d1490af); `aa update` and `aa plugin` scenarios remain undefined until those verbs exist |
 | F | F1 to F4 | not started |

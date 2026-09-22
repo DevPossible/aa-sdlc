@@ -63,12 +63,13 @@ runs nothing in an environment. Therefore:
 
 | Tier | Home | Today |
 |------|------|-------|
-| unit | `scripts/Test-*.ps1` via `./test.ps1 -Tier unit`, plus Pester tests under `src/` | structural validators; no Pester tests yet |
-| integration | `tests/integration/` | empty, planned in plan task E2 |
-| e2e | `tests/e2e/` | empty, planned in plan task E2 |
+| unit | `scripts/Test-*.ps1` via `./test.ps1 -Tier unit`, plus the Go tests in `src/aa-sdlc-cli/` | structural and schema validators; Go tests for config merging and `aa init` |
+| integration | `tests/integration/`: godog executes `features/cli/*.feature` (`@cli`) against the built binary | 26 scenarios: 17 pass, 1 pending (a second target does not exist yet), 8 undefined (`aa update`, `aa plugin`, not yet implemented) |
+| e2e | `tests/e2e/`: Pester installs the packed npm tarballs into a temporary prefix and runs `aa setup` and `aa init`; also checks the health baseline names every requirement | 5 tests |
 
-R-17 (a feature-file executor) is unmet for this repository; the choice of executor is plan
-task E1.
+R-17 (a feature-file executor) is met for the `@cli` subset by godog (decision record 0005).
+`@health` scenarios are verified through the health baseline below; `@agent` scenarios are
+contracts and are reviewed, not executed.
 
 ## Health baseline, 2026-09-22
 
@@ -102,7 +103,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-32 | met | `docs/decisions/` holds 0001 to 0003, contiguous, dated, four sections, no edits after acceptance |
 | R-35 | met | `build.ps1 -Lint` passed on 8 scripts and failed on a seeded alias violation |
 | R-12 | unmet (recommended) | no linter beyond the structural validators for YAML, Gherkin, Markdown; recorded above |
-| R-17 | unmet (recommended) | no feature-file executor; plan task E1 |
+| R-17 | met for the `@cli` subset | godog runs `features/cli/*.feature` in the integration tier (decision record 0005); `@agent` scenarios have no executor by design |
 | R-13 | unmet (recommended) | PowerShell has a skill in the user's scope; YAML, Gherkin, and Markdown have none dedicated |
 | R-14, R-15 | present | Claude Code supports commands and hooks; guidance G-01, G-14, G-33, G-40 are enforceable here once hooks are installed (plan task D4) |
 | R-23, R-27 | not applicable | no tickets are reachable to sample |
