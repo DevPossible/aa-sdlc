@@ -24,4 +24,4 @@ hands_off_to:
     when: an infrastructure control needs a security requirement clarified
 steps: [setup-infrastructure, setup-pipeline, observability, validate-production]
 tenets: [T-01, T-07]
-opinions: [O-06, O-11, O-16]
+opinions: [O-06, O-11, O-16, O-18, O-21, O-24, O-25]

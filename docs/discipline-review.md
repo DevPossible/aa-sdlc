@@ -182,13 +182,14 @@ Add a new opinion to the framework and put every piece of plumbing in place for 
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - Check the opinion against the tenets before writing it. An opinion that names a tool violates T-01; an opinion that assumes a team size violates T-13. Rewrite until it does not.
 - Ids are permanent. Take the next O-nn; never reuse or renumber, even if an earlier opinion was withdrawn.
-- Trace forward, all of it. List what the opinion implies for requirements, guidance, disciplines, steps, and the health command, and make each change in the same commit. An opinion nothing depends on is a slogan.
+- Trace forward, all of it. List what the opinion implies for requirements, guidance, disciplines, steps, and the health command, and stage each change in the same change set for the user to commit (O-17). An opinion nothing depends on is a slogan.
 - Say what it rejects with the same care as what it holds. The rejected alternatives are what make the opinion reviewable.
 - Finish by running the unit tier and regenerating docs/discipline-review.md. Report what changed, file by file.
 
-*Requires: R-04, R-05, R-16 | Tenets: T-01, T-08, T-11, T-12, T-13*
+*Requires: R-04, R-05, R-16, R-31 | Tenets: T-01, T-08, T-11, T-12, T-13*
 
 ### `/aa-fw-new-tenet`
 
@@ -219,13 +220,14 @@ Add a new tenet to the framework: the principle itself, the scenarios that show 
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-fw-new-opinion or docs/guidance.md and stop.
 - Tenets are few. Before adding one, check whether an existing tenet already covers it; if so, strengthen that tenet's text instead.
 - Write the feature file before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything.
 - Read every opinion and every guidance item against the new tenet and fix what conflicts. A tenet that existing content contradicts is not yet true.
 - Ids are permanent. Take the next T-nn; never renumber.
 
-*Requires: R-04, R-05, R-16 | Tenets: T-08, T-12*
+*Requires: R-04, R-05, R-16, R-31 | Tenets: T-08, T-12*
 
 ### `/aa-fw-new-discipline`
 
@@ -256,13 +258,14 @@ Add a new discipline with everything it needs to be real: its definition with bo
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - A discipline is a kind of work, not a headcount (T-13). If the proposal is really a role in one organisation's chart, it is a process pack, not a core discipline; say so and redirect to /aa-fw-extend.
 - Check the boundaries both ways. Every 'owns' in the new discipline must be a 'does not own' or an absence in the disciplines that used to cover it; update them in the same change.
 - Pick the code before anything else and check it is unused. Two characters if a natural one exists, three if readability wins; never a code that reads as a common word or command.
 - Create each step with the full step plumbing, not a stub. A discipline with an empty steps list cannot be reviewed.
 - Ids are permanent; the review plan gets a new row at the right SDLC position, not at the end.
 
-*Requires: R-04, R-05, R-16 | Tenets: T-08, T-13*
+*Requires: R-04, R-05, R-16, R-31 | Tenets: T-08, T-13*
 
 ### `/aa-fw-new-process`
 
@@ -289,12 +292,13 @@ Add a new process: an ordered set of existing or new steps toward a goal, with i
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - A process is described, not enforced (T-03). Never add a step that exists only to check that an earlier step ran; the exit condition says what done looks like, and every step still runs alone.
 - Reuse steps before inventing them. If a needed step exists in another process or discipline, list it; a process is an ordering, not an owner.
 - Write the exit condition as something /aa-fw-health or a person could check, not as a feeling.
 - If the process only makes sense for one organisation, it is a process pack; redirect to /aa-fw-extend.
 
-*Requires: R-04, R-05, R-16 | Tenets: T-03, T-08*
+*Requires: R-04, R-05, R-16, R-31 | Tenets: T-03, T-08*
 
 ### `/aa-fw-new-step`
 
@@ -327,13 +331,14 @@ Add a new step to an existing discipline with all of its plumbing: the step defi
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - Name the step by the work, in the imperative, unique across all disciplines: implement, not development-work; fix-bug, not bugfix. The id is the last segment of the command and the skill folder name, so it cannot change later.
 - Guidance names categories, never tools (T-01). If the step needs a tool category, declare the requirement and cite it; if it needs a specific tool, the step belongs in a plugin.
 - Promote guidance to an id only when a second step shares it; otherwise keep it inline on the step. Do not create G-nn ids speculatively.
 - Check every anchor: a step with anchor required must read the ticket first (G-22) and update it last (G-12); write both into the skill body.
 - Run the validator before regenerating the review; a step the validator rejects is not added.
 
-*Requires: R-04, R-05, R-16 | Tenets: T-01, T-08, T-11, T-12*
+*Requires: R-04, R-05, R-16, R-31 | Tenets: T-01, T-08, T-11, T-12*
 
 ## 1. Product Management
 
@@ -361,7 +366,7 @@ Decides what to build and why, and in what order. Owns the outcome the software 
 - **Business Analysis** when an initiative has an approved outcome and needs its requirements discovered
 - **Refinement** when priorities are set and epics must become a well-formed backlog
 
-*Tenets: T-04, T-13 | Opinions: O-03, O-15*
+*Tenets: T-04, T-13 | Opinions: O-03, O-15, O-18*
 
 ### Commands
 
@@ -396,11 +401,12 @@ Write down what an initiative is meant to achieve and how we will know. Produces
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
 - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
 - Say what is out of scope in the same place, so refinement does not have to guess.
 
-*Requires: R-02, R-22, R-29 | Tenets: T-04, T-07 | Opinions: O-15*
+*Requires: R-02, R-22, R-29, R-32 | Tenets: T-04, T-07 | Opinions: O-15, O-18*
 
 ### `/aa-pd-prioritise`
 
@@ -426,11 +432,12 @@ Order epics and stories by value against the outcome, risk, and dependency, and 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Rank by outcome contribution first, then risk reduction, then cost. When two items tie, prefer the one that retires an unknown.
-- Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why.
+- Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why, and a demotion of committed work is a decision record (O-18).
 - Ask before demoting. If an item someone is working on drops out of the iteration, that is a conversation, not a rank change.
 
-*Requires: R-02, R-23 | Tenets: T-04, T-06*
+*Requires: R-02, R-23, R-32 | Tenets: T-04, T-06 | Opinions: O-18*
 
 ### `/aa-pd-iterate`
 
@@ -457,11 +464,12 @@ Turn what users, support, and production are saying into decisions: what to enha
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
 - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
 - Close the loop. Where feedback came from a ticket, comment on it with the decision.
 
-*Requires: R-02, R-03, R-04, R-22 | Tenets: T-04, T-07 | Methodology: phase 6 step 6.3*
+*Requires: R-02, R-03, R-04, R-22, R-32 | Tenets: T-04, T-07 | Opinions: O-18 | Methodology: phase 6 step 6.3*
 
 ## 2. Business Analysis
 
@@ -728,7 +736,7 @@ Decides how the system will be shaped and records why. Produces the architecture
 - **Refinement** when technical constraints are known and the backlog can be shaped
 - **Implementation Planning** when a ticket needs a plan within the agreed architecture
 
-*Tenets: T-01, T-04 | Opinions: O-04*
+*Tenets: T-01, T-04 | Opinions: O-04, O-18, O-20*
 
 ### Commands
 
@@ -753,6 +761,7 @@ Decide the shape of the system for an epic or initiative: components, boundaries
 - **System architecture** in the documents folder, linked from the knowledge base page and the epic
   - Shows components, their responsibilities, and every integration boundary
   - Every scenario can be traced to the components that satisfy it
+  - Every component, boundary, and extension point names the scenario that requires it or the decision record that justifies it (O-20)
 - **Technology stack document** in the knowledge base
   - Every technology choice has a decision record
   - Constraints imposed on Development and Operations are explicit
@@ -766,11 +775,13 @@ Decide the shape of the system for an epic or initiative: components, boundaries
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
 - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-10).
 - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.
 
-*Requires: R-02, R-03, R-06 | Tenets: T-01, T-04 | Methodology: phase 1 step 1.4*
+*Requires: R-02, R-03, R-06, R-32, R-34 | Tenets: T-01, T-04 | Opinions: O-04, O-18, O-20 | Methodology: phase 1 step 1.4*
 
 ### `/aa-ta-decide`
 
@@ -785,7 +796,7 @@ Record one significant technical decision: the context, the options, the choice,
 
 - **Decision record** in the knowledge base, or the documents folder as a numbered record, linked from the ticket
   - States context, options considered, the decision, and consequences
-  - Is numbered, dated, and immutable once accepted; a reversal is a new record
+  - Is numbered next in the repository sequence, dated, and immutable once accepted; a reversal is a new record that supersedes it and links back (O-18)
 
 **Guidance**
 
@@ -794,11 +805,13 @@ Record one significant technical decision: the context, the options, the choice,
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
 - Record the losing options with the same care as the winner; the next person will ask about them first.
 - Write it when it happens. A decision reconstructed a month later is a story, not a record.
 
-*Requires: R-02, R-03 | Tenets: T-04*
+*Requires: R-02, R-03, R-06, R-32, R-34 | Tenets: T-04 | Opinions: O-04, O-18, O-20*
 
 ### `/aa-ta-spike`
 
@@ -825,11 +838,12 @@ Resolve a technical unknown with a time-boxed investigation that produces an ans
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Write the question before the code. A spike without a question becomes a prototype without a purpose.
 - Stop at the time box. Report what you have; an unanswered question with evidence is more useful than a late answer.
 - Never let spike code become the implementation by accident. If it is good enough to keep, that is a decision to record and a ticket to implement properly.
 
-*Requires: R-02, R-04, R-05 | Tenets: T-07*
+*Requires: R-02, R-04, R-05, R-32 | Tenets: T-07 | Opinions: O-18*
 
 ## 5. Security
 
@@ -857,7 +871,7 @@ Finds what could go wrong before an attacker does. Threat models the architectur
 - **Development** when a security defect is found and needs a fix
 - **Operations** when an infrastructure or pipeline control is required
 
-*Tenets: T-07, T-11*
+*Tenets: T-07, T-11 | Opinions: O-18, O-22*
 
 ### Commands
 
@@ -895,11 +909,12 @@ Work through what could go wrong with the architecture from an attacker's view, 
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Follow the data. Start from what is valuable and trace how it moves; threats appear at every boundary it crosses.
 - Accept explicitly. An accepted risk with a named owner and a reason is a decision; an unmentioned risk is a surprise.
 - Make mitigations testable. "Validate input" is not a requirement; "Given a payload over the size limit, then the request is rejected with a logged event" is.
 
-*Requires: R-02, R-03, R-16, R-22 | Tenets: T-07, T-11, T-12*
+*Requires: R-02, R-03, R-16, R-22, R-32 | Tenets: T-07, T-11, T-12 | Opinions: O-18*
 
 ### `/aa-sec-security-test`
 
@@ -959,11 +974,12 @@ Keep the system safe after release: patch dependencies, rotate and remove secret
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
-- Patch in small, tested steps. A dependency update is a change like any other: branch, test, review, merge (G-08).
+- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
+- Patch in small, tested steps. A dependency update is a change like any other: branch, test, review, merge (G-08). Make it with the package manager so the lock file and transitive graph move together; never edit a version by hand (O-22).
 - Never commit, log, or paste a secret, including in the report of having found one. Reference where it was, not what it was.
 - Treat "no findings" as a finding to verify. Confirm the scanner ran against the current code before reporting clean.
 
-*Requires: R-01, R-02, R-05, R-11, R-30 | Tenets: T-07 | Opinions: O-16 | Methodology: phase 6 step 6.4*
+*Requires: R-01, R-02, R-05, R-11, R-30, R-36 | Tenets: T-07 | Opinions: O-16, O-22 | Methodology: phase 6 step 6.4*
 
 ## 6. Refinement
 
@@ -1096,7 +1112,7 @@ Keeps the work flowing and visible. Plans iterations against capacity, reports s
 - **Implementation Planning** when an iteration is planned and tickets are assigned
 - **Product Management** when a retrospective or status report changes priorities or the roadmap
 
-*Tenets: T-04, T-07, T-13 | Opinions: O-03*
+*Tenets: T-04, T-07, T-13 | Opinions: O-03, O-18*
 
 ### Commands
 
@@ -1195,11 +1211,12 @@ Look at what actually happened in an iteration, release, or quarter, using the r
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Measure first, then ask. Present the numbers before opinions so the discussion is about causes, not impressions.
 - Three changes, not thirty. An improvement backlog nobody works is a complaint log.
 - Check the last retrospective's changes first. If they were not done, that is the first finding.
 
-*Requires: R-02, R-03, R-04 | Tenets: T-07, T-13 | Methodology: phase 6 step meta*
+*Requires: R-02, R-03, R-04, R-32 | Tenets: T-07, T-13 | Opinions: O-18 | Methodology: phase 6 step meta*
 
 ## 8. Implementation Planning
 
@@ -1226,7 +1243,7 @@ Plans how one ticket will be built before anyone builds it. Reads the scenarios,
 - **Development** when the plan is written and confirmed
 - **Technical Analysis** when planning reveals a decision or unknown bigger than the ticket
 
-*Tenets: T-06, T-07 | Opinions: O-10, O-13*
+*Tenets: T-06, T-07 | Opinions: O-10, O-13, O-20*
 
 ### Commands
 
@@ -1267,14 +1284,16 @@ Before building a ticket, write down how: which files and components change, in 
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
+- **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
 - Check the ticket against the repository first. If the feature files or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
 - Plan the tests with the steps. A step with no test is a step you cannot know is done.
+- Plan the smallest change that makes the scenarios pass. A step that adds an option, a generalisation, or a feature no scenario needs comes out of the plan (O-20).
 - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.
 - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
 - Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
 
-*Requires: R-02, R-05, R-16, R-23, R-27 | Tenets: T-06, T-07 | Opinions: O-10, O-13*
+*Requires: R-02, R-05, R-16, R-23, R-27, R-34 | Tenets: T-06, T-07 | Opinions: O-10, O-13, O-20*
 
 ### `/aa-ip-breakdown-tasks`
 
@@ -1330,7 +1349,7 @@ Builds the software and proves it meets the requirement. Every change ships with
 - **Release Management** when merged work is ready to be included in a release
 - **Documentation** when a change affects user or developer documentation
 
-*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12, O-13, O-14, O-16*
+*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25*
 
 ### Commands
 
@@ -1360,15 +1379,17 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 - **Working root scripts** in the repository root
   - initialize, build, test, and pack each run to completion on a fresh clone (O-06)
   - test accepts a tier parameter and each tier has a home (O-07)
+  - build accepts a lint switch that runs the formatter check and every configured linter; languages with no known linter are recorded in the development environment configuration (O-21)
   - The e2e tier starts the system and its dependencies in containers from definitions in the repository, where the stack allows (O-12)
 - **Development environment configuration** in the documents folder
   - Anything not automated by initialize is written down as a step with a reason
   - Names where every secret comes from and how a fresh clone obtains it; no secret value is committed (O-16)
+  - Environment-specific settings are in one environment template per environment; functional settings are in the application configuration once; no key is in both (O-25)
 
 **Guidance**
 
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
@@ -1377,13 +1398,17 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
+- **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - Prove it on a clean clone. Clone to a temporary folder and run initialize, build, test, and pack there before calling it done.
 - Automate before documenting. A manual step in the documentation is a bug in initialize until it is proven to be impossible to automate.
 - Do not choose tools the project has not chosen. Use what the stack document, plugins, and existing config name; where nothing does, ask.
 - Whatever the pipeline will run, make it a script here first. A step that only works on the pipeline runner is a defect (O-11).
 - The fresh clone is the test. If it needs a file from your machine, a page from the wiki, or a value from your head, commit the template and document the source (O-16).
 
-*Requires: R-05, R-10, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-30 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16 | Methodology: phase 2 step 2.1*
+*Requires: R-05, R-09, R-10, R-11, R-12, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-30, R-31, R-35, R-36, R-39 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16, O-17, O-21, O-22, O-25 | Methodology: phase 2 step 2.1*
 
 ### `/aa-dev-implement`
 
@@ -1399,7 +1424,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 **Artifacts**
 
 - **Application code** in source folder, on a branch named per the ticket convention
-  - Builds with the root build script
+  - Builds with the root build script, and passes it with the lint switch (O-21)
   - Every scenario for the ticket has a passing unit test, integration test, and happy-path end-to-end test, as the change warrants each tier
   - Follows the plan, or the deviation is recorded on the ticket with the reason
 - **Tests that prove the requirement** in unit tests with the project; integration and happy-path end-to-end tests under tests/
@@ -1415,7 +1440,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
 - **G-08** One concern per commit, one ticket per branch. Before any multi-step change, write the plan and get it confirmed.
 - **G-09** Reference the anchor ticket in the branch name and every commit message.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-17** After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation.
 - **G-20** When implementing a ticket, write the automated tests that prove it: unit and integration tests for every happy path, the general permutations and cases, and the obvious negative cases, plus a happy-path end-to-end test for each scenario. The ticket is not done until they exist and pass.
@@ -1426,14 +1451,25 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
 - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- **G-39** Make each commit one understandable change: one concern, one ticket, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+- **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
+- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
+- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
+- **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
-- Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real, each a Conventional Commit that names its type and its ticket (O-14).
+- Control what varies. Inject or freeze time, seed randomness, own the test data, and fake or containerise external dependencies; a test with a sleep or a live call in it is not finished (O-23).
+- Stop at every green. Stage the change, write a Conventional Commit message that names its type and its ticket (O-14), present the staged diff and the message, and wait; commit only if the user asked for that commit (O-17).
 - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
-- Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
+- Do not widen the change. Adjacent problems become tickets, not fixes on this branch; every hunk on the branch names the ticket, scenario, or decision it serves (O-19).
+- Change a dependency with the package manager, never by editing a version in a file. If the tool refuses, the refusal goes on the ticket; it is not bypassed (O-22).
 - System.Collections.Hashtable
+- Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
 
-*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26, R-27, R-28, R-30 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-12, R-21, R-22, R-26, R-27, R-28, R-30, R-31, R-33, R-34, R-35, R-36, R-37, R-39 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1447,7 +1483,7 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 **Artifacts**
 
 - **Reproducing test** in the test tier where the defect is observable
-  - Fails before the fix and passes after; committed with the fix
+  - Fails before the fix and passes after; staged with the fix for the user to commit (O-17)
 - **Fix** in source folder, on a branch named per the ticket convention
   - Addresses the cause, not the symptom; the ticket says what the cause was
   - No existing test was weakened or skipped to make it pass
@@ -1461,7 +1497,7 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
 - **G-08** One concern per commit, one ticket per branch. Before any multi-step change, write the plan and get it confirmed.
 - **G-09** Reference the anchor ticket in the branch name and every commit message.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-17** After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation.
@@ -1470,11 +1506,17 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
 - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
+- **G-39** Make each commit one understandable change: one concern, one ticket, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
+- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - No reproduction, no fix. If it cannot be reproduced, the ticket gets what was tried and goes back for more information.
 - Find the cause before touching code. Form a hypothesis, test it, and record the result on the ticket; three hypotheses without evidence means stop and reassess (G-17).
 - If the defect violates no scenario, one is missing. Add it to the feature file with the fix so the requirement is now stated.
 
-*Requires: R-01, R-02, R-04, R-05, R-11, R-16, R-22, R-24, R-27, R-28 | Tenets: T-07, T-12 | Opinions: O-13, O-14*
+*Requires: R-01, R-02, R-04, R-05, R-09, R-11, R-12, R-16, R-22, R-24, R-27, R-28, R-31, R-33, R-35, R-36, R-37 | Tenets: T-07, T-12 | Opinions: O-13, O-14, O-17, O-19, O-21, O-22, O-23*
 
 ### `/aa-dev-review`
 
@@ -1491,6 +1533,10 @@ Review a merge request against its ticket, its scenarios, its plan, and the proj
 - **Review findings** in the merge request, as comments, with a summary on the ticket
   - Each finding names the file and line, says what is wrong and why, and is marked blocking or not
   - The review states whether every scenario has a test and whether the plan was followed
+  - Every hunk in the diff traces to a scenario of the ticket or a stated reason; one that does not is a finding (O-19)
+  - A manifest changed without its lock file, or a lock file edited by hand, is a blocking finding (O-22)
+  - A test that depends on order, real time, unseeded randomness, shared state, or a live dependency, or a retry added to a test, is a blocking finding (O-23)
+  - A setting in the wrong place, an endpoint in the application configuration or a timeout in an environment file, is a finding (O-25)
   - The review says what it did not check
 
 **Guidance**
@@ -1503,13 +1549,20 @@ Review a merge request against its ticket, its scenarios, its plan, and the proj
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
+- **G-39** Make each commit one understandable change: one concern, one ticket, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+- **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
+- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
+- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
+- **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
 - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
-- Blocking findings are about correctness, security, and the requirement. Style is a non-blocking comment, or a formatter's job (G-01).
+- Blocking findings are about correctness, security, and the requirement. Style is the formatter's and linter's job, never a review comment (O-21); if a style issue reached review, the finding is that the tools did not run.
 - Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).
 - Report faithfully: "approved" means every scenario has a passing test that you saw run.
 
-*Requires: R-01, R-02, R-10, R-11, R-28 | Tenets: T-07 | Opinions: O-14*
+*Requires: R-01, R-02, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39 | Tenets: T-07 | Opinions: O-14, O-17, O-19, O-20, O-21, O-22, O-23, O-25*
 
 ### `/aa-dev-finish-branch`
 
@@ -1523,10 +1576,10 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 **Artifacts**
 
 - **Merge request** in source control, linked from and to the ticket
-  - Title and description reference the ticket and summarise the change and its tests
-  - Changed files are formatted; unrelated files are untouched (G-01)
+  - Title and description reference the ticket and summarise the change and its tests; every commit on the branch references the ticket (O-19)
+  - Changed files are formatted; unrelated files are untouched (G-01); the root build passes with the lint switch (O-21)
   - Full test suite passes on the branch as it will be merged
-  - Every commit on the branch is a Conventional Commit with a type from the project config (O-14)
+  - Every commit on the branch is a Conventional Commit with a type from the project config (O-14), one cohesive change each, made by the user (O-17)
 - **Ticket transition** in the ticket system
   - The ticket moves to the state the project uses for "in review" or "done", with the merge request linked
 
@@ -1537,7 +1590,7 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
 - **G-08** One concern per commit, one ticket per branch. Before any multi-step change, write the plan and get it confirmed.
 - **G-09** Reference the anchor ticket in the branch name and every commit message.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-14** Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user.
@@ -1547,12 +1600,17 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
+- **G-39** Make each commit one understandable change: one concern, one ticket, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
 - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
 - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
 - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
+- Never commit the remaining changes yourself. Stage them, present them, and report that the branch waits on the user's commit (O-17).
 
-*Requires: R-01, R-02, R-05, R-08, R-09, R-11, R-22, R-24, R-28 | Tenets: T-06, T-07 | Opinions: O-14*
+*Requires: R-01, R-02, R-05, R-08, R-09, R-11, R-12, R-22, R-24, R-28, R-31, R-33, R-35 | Tenets: T-06, T-07 | Opinions: O-14, O-17, O-19, O-21*
 
 ### `/aa-dev-optimize`
 
@@ -1576,15 +1634,16 @@ Improve the performance of existing code against a measured baseline: profile, c
 - **G-05** Reproduce a bug with a failing test or a captured observation before changing any code to fix it.
 - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
 - **G-08** One concern per commit, one ticket per branch. Before any multi-step change, write the plan and get it confirmed.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - No baseline, no optimisation. Measure first, with a tool, and record the number.
 - Change one thing per measurement. Two changes measured together teach nothing.
 - A faster wrong answer is a defect. Every optimisation runs the full suite before it is kept.
 
-*Requires: R-01, R-02, R-04, R-05, R-11 | Tenets: T-07 | Methodology: phase 6 step 6.2*
+*Requires: R-01, R-02, R-04, R-05, R-11, R-33 | Tenets: T-07 | Opinions: O-19 | Methodology: phase 6 step 6.2*
 
 ## 10. Testing
 
@@ -1615,7 +1674,7 @@ Makes the test suite as comprehensive as is reasonable. Starts from the scenario
 - **Development** when a defect is found
 - **Release Management** when the suite passes and coverage is judged sufficient for a release
 
-*Tenets: T-07, T-12 | Opinions: O-01, O-07, O-08, O-12*
+*Tenets: T-07, T-12 | Opinions: O-01, O-07, O-08, O-12, O-23*
 
 ### Commands
 
@@ -1652,10 +1711,11 @@ For an epic or release, decide what will be tested at which tier, what will be a
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - Push tests down. Prove it at the lowest tier that can observe it; end-to-end tests are for what only end-to-end can see.
 - Name the risks the requirement does not mention. Concurrency, data volume, partial failure, and permissions rarely appear in scenarios and usually appear in incidents.
 
-*Requires: R-02, R-03, R-16 | Tenets: T-07*
+*Requires: R-02, R-03, R-16, R-37 | Tenets: T-07 | Opinions: O-23*
 
 ### `/aa-qa-generate-tests`
 
@@ -1686,11 +1746,13 @@ Start from the scenarios and the tests Development wrote, then apply general tes
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - Read Development's tests first and say what they cover. Your job starts where theirs stops.
 - Test the seams. The boundaries between components, between tiers, and between the system and its dependencies are where the requirement was vaguest.
+- Every test you add runs alone and in any order with the same result. Control time, randomness, state, and dependencies; never lean on another test having run first (O-23).
 - A pending scenario is a real scenario with a tag saying it awaits an answer. Do not leave gaps as comments in test code.
 
-*Requires: R-02, R-11, R-16, R-21 | Tenets: T-07, T-12 | Opinions: O-08 | Methodology: phase 3 step 3.1*
+*Requires: R-02, R-11, R-16, R-21, R-37 | Tenets: T-07, T-12 | Opinions: O-08, O-23 | Methodology: phase 3 step 3.1*
 
 ### `/aa-qa-e2e-tests`
 
@@ -1714,18 +1776,19 @@ Automate the scenarios that can only be proven through the whole system as the u
 
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
 - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
+- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - Drive the system the way a user does, through its real entry points; do not reach into internals to make a test pass.
 - Own the test data. Every end-to-end test creates what it needs and cleans up; a test that depends on leftover state will lie eventually.
 - Own the environment too. Start it from the repository's container definitions and tear it down after; a test that needs a shared environment is marked and the reason recorded (O-12).
-- A flaky test is a defect in the test or the system. Quarantine it with a ticket; never wrap it in a retry to hide it (G-06).
+- A flaky test is a defect in the test or the system. Quarantine it with a ticket the same day; never wrap it in a retry to hide it (G-06, O-23).
 
-*Requires: R-02, R-11, R-16, R-21, R-25, R-26 | Tenets: T-07 | Opinions: O-07, O-12 | Methodology: phase 3 step 3.2*
+*Requires: R-02, R-11, R-16, R-21, R-25, R-26, R-37 | Tenets: T-07 | Opinions: O-07, O-12, O-23 | Methodology: phase 3 step 3.2*
 
 ### `/aa-qa-performance-test`
 
@@ -1754,11 +1817,12 @@ Establish how the system behaves under expected and peak load against stated tar
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
+- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - No target, no test. If the requirement has no number, get one from the ticket owner before running anything; "fast" is not a target.
 - Measure with a tool and report the distribution, not the average. The slowest 5 percent is what users complain about.
 - Record the environment with the result. A number without the machine, data volume, and load profile cannot be compared to anything later.
 
-*Requires: R-02, R-03, R-04, R-11, R-25 | Tenets: T-07 | Methodology: phase 3 step 3.3*
+*Requires: R-02, R-03, R-04, R-11, R-25, R-37 | Tenets: T-07 | Opinions: O-23 | Methodology: phase 3 step 3.3*
 
 ### `/aa-qa-explore`
 
@@ -1842,7 +1906,7 @@ Write or update the user-facing and developer-facing documentation for a ticket,
 **Guidance**
 
 - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
@@ -1876,7 +1940,7 @@ Audit the documentation and knowledge base for drift from the feature files and 
 
 - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
 - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
@@ -1917,7 +1981,7 @@ Gets built, tested software into production deliberately and gets it back out if
 - **Support** when a release causes an incident
 - **Product Management** when release notes and outcomes feed the roadmap
 
-*Tenets: T-06, T-07 | Opinions: O-02, O-06, O-14*
+*Tenets: T-06, T-07 | Opinions: O-02, O-06, O-14, O-24*
 
 ### Commands
 
@@ -1940,7 +2004,7 @@ Assemble a release: decide the version, generate release notes from the tickets 
 **Artifacts**
 
 - **Version and release notes** in source control as a tag and notes file; the ticket system as the release; the knowledge base
-  - Version follows the project's scheme and the bump is derived from the commit types since the last tag (O-14)
+  - Version follows the project's scheme and the bump is derived from the commit types since the last tag (O-14); the release names the artifact identity that was tested (O-24)
   - Every included ticket appears in the notes; nothing appears that is not included
   - Written for the audience the project names: users, operators, or both
 - **Change record and go/no-go checklist** in the release ticket
@@ -1951,7 +2015,7 @@ Assemble a release: decide the version, generate release notes from the tickets 
 
 - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
@@ -1959,11 +2023,12 @@ Assemble a release: decide the version, generate release notes from the tickets 
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-34** Derive the release from the history: the version bump from the commit types since the last tag (breaking change, feature, fix) and the release notes by grouping commits by type and ticket, then edit the notes for the reader. A commit that does not parse is a finding on the release ticket, not something to work around.
+- **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - Generate the notes from the record, then edit for the reader. Group commits by type and ticket (O-14); tickets and commits say what changed, a person says what it means.
 - Never mark a checklist item done on someone's word. Link the test run, the approval, the scan.
 - A release with an unexplained change in it is not ready. Every commit since the last tag traces to a ticket or gets one.
 
-*Requires: R-01, R-02, R-03, R-04, R-05, R-11, R-20, R-28 | Tenets: T-06, T-07 | Opinions: O-14*
+*Requires: R-01, R-02, R-03, R-04, R-05, R-11, R-20, R-28, R-33, R-38 | Tenets: T-06, T-07 | Opinions: O-14, O-19, O-24*
 
 ### `/aa-rel-release`
 
@@ -1978,7 +2043,7 @@ Deploy a prepared release to production using the pipeline Operations provides, 
 **Artifacts**
 
 - **Production deployment record** in the release ticket and the knowledge base
-  - Records what was deployed, when, by whom, with which pipeline run
+  - Records what was deployed, by its immutable artifact identity, when, by whom, with which pipeline run (O-24)
 - **Deployment verification report** in the release ticket
   - Every verification check has a result; any failure triggers rollback or an incident, recorded
 
@@ -1991,12 +2056,13 @@ Deploy a prepared release to production using the pipeline Operations provides, 
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - Ask before you deploy, every time, unless the user granted this deployment in advance. Production is the irreversible step (G-13).
 - Use the pipeline, not your hands. A deployment done outside the pipeline is unrecorded and unrepeatable.
 - Verify before you announce. The release is not done when the pipeline is green; it is done when the checks pass in production.
 - If verification fails, the default is rollback, not investigation in production.
 
-*Requires: R-01, R-02, R-20 | Tenets: T-06, T-07 | Methodology: phase 4 step 4.3*
+*Requires: R-01, R-02, R-20, R-38 | Tenets: T-06, T-07 | Opinions: O-24 | Methodology: phase 4 step 4.3*
 
 ### `/aa-rel-rollback`
 
@@ -2023,11 +2089,12 @@ Return production to the previous known-good release using the pipeline, verify 
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - Roll back first, understand later. The goal is to restore service; the cause is a ticket.
-- Confirm the rollback target is actually known-good, not just previous. Check its verification record.
+- Confirm the rollback target is actually known-good, not just previous. Check its verification record, and roll back to that artifact identity; never rebuild the previous tag (O-24).
 - Data changes may not roll back with code. Say so explicitly and involve Operations before proceeding.
 
-*Requires: R-01, R-02, R-20 | Tenets: T-06, T-07*
+*Requires: R-01, R-02, R-20, R-38 | Tenets: T-06, T-07 | Opinions: O-24*
 
 ## 13. Operations
 
@@ -2056,7 +2123,7 @@ Provides and runs the environments the software lives in. Infrastructure as code
 - **Development** when validation or observability reveals a defect
 - **Security** when an infrastructure control needs a security requirement clarified
 
-*Tenets: T-01, T-07 | Opinions: O-06, O-11, O-16*
+*Tenets: T-01, T-07 | Opinions: O-06, O-11, O-16, O-18, O-21, O-24, O-25*
 
 ### Commands
 
@@ -2081,7 +2148,7 @@ Define the environments the system runs in as code, with runbooks for the operat
 
 - **Infrastructure code** in the source folder, as its own project, on a branch linked to the ticket
   - Every environment is reproducible from the code with no manual steps beyond the runbook
-  - A configuration template exists for every environment, with every key named and no secret values (O-16)
+  - A configuration template exists for every environment, with every key named and no secret values (O-16), holding only the settings that differ between environments (O-25)
   - Security controls from the threat model are implemented or ticketed
 - **Deployment runbooks** in the documents folder
   - Every manual operation has a runbook with preconditions, steps, verification, and rollback
@@ -2090,7 +2157,7 @@ Define the environments the system runs in as code, with runbooks for the operat
 
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
 - **G-08** One concern per commit, one ticket per branch. Before any multi-step change, write the plan and get it confirmed.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
@@ -2098,11 +2165,14 @@ Define the environments the system runs in as code, with runbooks for the operat
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - Everything as code, reviewed and tested like code. An environment changed by hand is an environment nobody can rebuild (O-16).
 - Least privilege by default. Every credential, role, and network path is the narrowest that works, and widening one is a decision record.
 - Ask before creating anything that costs money or is hard to delete.
 
-*Requires: R-01, R-02, R-05, R-06, R-30 | Tenets: T-01, T-06, T-07 | Opinions: O-16 | Methodology: phase 4 step 4.1*
+*Requires: R-01, R-02, R-05, R-06, R-30, R-31, R-32, R-39 | Tenets: T-01, T-06, T-07 | Opinions: O-16, O-17, O-18, O-25 | Methodology: phase 4 step 4.1*
 
 ### `/aa-ops-setup-pipeline`
 
@@ -2119,7 +2189,8 @@ Build the pipeline that takes a merged change to production: build, every test t
 - **Deployment pipeline configuration** in the repository, in the location the pipeline tool expects
   - Calls the root scripts rather than duplicating their logic (O-06)
   - Runs every test tier and fails on any failure; no skipped stages without a recorded reason
-  - Deploys to each environment with the same artifact
+  - Runs the root build with the lint switch as its lint stage (O-21)
+  - Deploys to each environment the same artifact, built once and identified immutably; no deploy stage builds (O-24)
   - Every stage calls a script or command in the repository that runs locally with the same arguments (O-11)
 - **Deployment strategy documentation** in the documents folder
   - States the strategy (for example staged, canary, blue-green) and how rollback works for it
@@ -2129,7 +2200,7 @@ Build the pipeline that takes a merged change to production: build, every test t
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
 - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
 - **G-08** One concern per commit, one ticket per branch. Before any multi-step change, write the plan and get it confirmed.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-14** Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
@@ -2138,11 +2209,15 @@ Build the pipeline that takes a merged change to production: build, every test t
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+- **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
+- **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift (O-11).
-- One artifact, promoted. Build once, deploy the same artifact everywhere; never rebuild for production.
+- One artifact, promoted. Build once, give it an immutable identity, deploy that identity everywhere; never rebuild for a later environment (O-24).
 - A pipeline that can be bypassed is not a pipeline. Protect the branches it deploys from.
 
-*Requires: R-01, R-02, R-05, R-10, R-11, R-20, R-24, R-30 | Tenets: T-07, T-09 | Opinions: O-06, O-11, O-16 | Methodology: phase 4 step 4.2*
+*Requires: R-01, R-02, R-05, R-10, R-11, R-20, R-24, R-30, R-31, R-35, R-38, R-39 | Tenets: T-07, T-09 | Opinions: O-06, O-11, O-16, O-17, O-21, O-24, O-25 | Methodology: phase 4 step 4.2*
 
 ### `/aa-ops-observability`
 
@@ -2166,7 +2241,7 @@ Make the running system visible: the dashboards, alerts, logs, and traces that s
 
 - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
+- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
@@ -2193,6 +2268,7 @@ After a release, confirm from production evidence that the system is doing what 
 
 - **Production validation results** in the release ticket
   - Every check has a result with evidence
+  - The identity of the running artifact matches the one the release named (O-24)
 - **Production metrics report** in the knowledge base
   - Compares key metrics before and after, computed with a tool, with any regression ticketed
 
@@ -2204,10 +2280,11 @@ After a release, confirm from production evidence that the system is doing what 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - Compare, do not glance. Compute before-and-after for each metric over a stated window; a dashboard that "looks fine" is not evidence.
 - Validation is read-only. Never change production to make a check pass; a failing check is an incident or a rollback.
 
-*Requires: R-02, R-03, R-04 | Tenets: T-07, T-10 | Methodology: phase 5 step 5.3*
+*Requires: R-02, R-03, R-04, R-38 | Tenets: T-07, T-10 | Opinions: O-24 | Methodology: phase 5 step 5.3*
 
 ## 14. Support
 
@@ -2237,7 +2314,7 @@ Is the front door for what goes wrong in production. Triages incoming incidents 
 - **Release Management** when mitigation is a rollback
 - **Product Management** when a request is a feature, not a defect
 
-*Tenets: T-04, T-07, T-13 | Opinions: O-03, O-04*
+*Tenets: T-04, T-07, T-13 | Opinions: O-03, O-04, O-18, O-19*
 
 ### Commands
 
@@ -2309,11 +2386,12 @@ Coordinate an active incident: keep a timeline, contain the impact, pull in Oper
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - Contain first, diagnose second. Rollback, feature flag, or scale before root cause.
 - Write the timeline as you go. A timeline reconstructed afterwards is fiction with timestamps.
 - Say what you know and what you do not, at a stated cadence. Silence during an incident is the worst status update.
 
-*Requires: R-02, R-03 | Tenets: T-06, T-07*
+*Requires: R-02, R-03, R-33 | Tenets: T-06, T-07 | Opinions: O-19*
 
 ### `/aa-sup-postmortem`
 
@@ -2342,9 +2420,10 @@ After an incident is closed, review what happened using the timeline and the evi
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Compute the times from the timeline with a tool; do not estimate them.
 - Ask "what made this reasonable at the time" for every decision in the timeline. Blame finds a person; this finds a cause.
 - Prefer one action that removes the cause over five that add checks around it.
 
-*Requires: R-02, R-03, R-04, R-22 | Tenets: T-07*
+*Requires: R-02, R-03, R-04, R-22, R-32 | Tenets: T-07 | Opinions: O-18*
 

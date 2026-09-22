@@ -4,8 +4,8 @@ description: Add a tenet to the AA-SDLC framework with its scenarios, citations 
 aa:
   discipline: framework
   step: new-tenet
-  requires: [R-04, R-05, R-16]
-  guidance: [G-03, G-04, G-15, G-24, G-25]
+  requires: [R-04, R-05, R-16, R-31]
+  guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 ---
 
 # /aa-fw-new-tenet
@@ -52,7 +52,9 @@ exist; otherwise stop and say so.
 8. **Log the decision** in the `docs/design.md` decision log, citing `T-nn`.
 9. **Verify.** Run `./test.ps1 -Tier unit` and fix every problem. Run
    `./scripts/Build-DisciplineReview.ps1`.
-10. **Commit** as `docs(tenets): T-nn <short statement>`. No attribution trailers.
+10. **Stage and present.** Stage every changed file as one change set and present the staged
+    summary with the message `docs(tenets): T-nn <short statement>`. Commit only if the user
+    asked for the commit in this invocation (O-17, G-40). No attribution trailers.
 
 ## Report
 

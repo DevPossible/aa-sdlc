@@ -28,12 +28,12 @@ artifacts:
     acceptance:
       - The decision log has a row citing the opinion id
       - The unit test tier passes and the discipline review regenerates
-guidance: [G-03, G-04, G-15, G-24, G-25]
+guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 guidance_inline:
   - "Check the opinion against the tenets before writing it. An opinion that names a tool violates T-01; an opinion that assumes a team size violates T-13. Rewrite until it does not."
   - "Ids are permanent. Take the next O-nn; never reuse or renumber, even if an earlier opinion was withdrawn."
-  - "Trace forward, all of it. List what the opinion implies for requirements, guidance, disciplines, steps, and the health command, and make each change in the same commit. An opinion nothing depends on is a slogan."
+  - "Trace forward, all of it. List what the opinion implies for requirements, guidance, disciplines, steps, and the health command, and stage each change in the same change set for the user to commit (O-17). An opinion nothing depends on is a slogan."
   - "Say what it rejects with the same care as what it holds. The rejected alternatives are what make the opinion reviewable."
   - "Finish by running the unit tier and regenerating docs/discipline-review.md. Report what changed, file by file."
-requires: [R-04, R-05, R-16]
+requires: [R-04, R-05, R-16, R-31]
 tenets: [T-01, T-08, T-11, T-12, T-13]

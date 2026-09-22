@@ -152,6 +152,7 @@ folders:                            # only needed when a repo does not use the c
   scripts: scripts
   source: src
   tests: tests
+  decisions: docs/decisions         # numbered, immutable decision records (O-18); a knowledge base location may be named instead
 organisation:
   repository: https://git.example.com/platform/aa-config   # set at user or enterprise scope
 ```

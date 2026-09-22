@@ -10,7 +10,7 @@ steps:
   - validate-production
   - uat
   - review-ux
-guidance: [G-15, G-22]
+guidance: [G-15, G-22, G-47]
 exit: >
   Production metrics match the baseline or regressions are ticketed; stakeholders have accepted
   the scenarios by name; usability findings are ticketed.

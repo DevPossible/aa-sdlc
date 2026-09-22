@@ -18,21 +18,24 @@ artifacts:
   - name: Application code
     location: source folder, on a branch named per the ticket convention
     acceptance:
-      - Builds with the root build script
+      - Builds with the root build script, and passes it with the lint switch (O-21)
       - Every scenario for the ticket has a passing unit test, integration test, and happy-path end-to-end test, as the change warrants each tier
       - Follows the plan, or the deviation is recorded on the ticket with the reason
   - name: Tests that prove the requirement
     location: unit tests with the project; integration and happy-path end-to-end tests under tests/
     acceptance:
       - Happy paths, general permutations, and obvious negative cases are covered (G-20)
-guidance: [G-01, G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20, G-22, G-25, G-27, G-30, G-32, G-33, G-37]
+guidance: [G-01, G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20, G-22, G-25, G-27, G-30, G-32, G-33, G-37, G-39, G-40, G-42, G-43, G-44, G-45, G-46, G-48]
 guidance_inline:
   - Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
   - Write the failing test for the scenario before the code that passes it. Then the code has one job.
-  - Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real, each a Conventional Commit that names its type and its ticket (O-14).
+  - Control what varies. Inject or freeze time, seed randomness, own the test data, and fake or containerise external dependencies; a test with a sleep or a live call in it is not finished (O-23).
+  - Stop at every green. Stage the change, write a Conventional Commit message that names its type and its ticket (O-14), present the staged diff and the message, and wait; commit only if the user asked for that commit (O-17).
   - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
-  - Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
+  - Do not widen the change. Adjacent problems become tickets, not fixes on this branch; every hunk on the branch names the ticket, scenario, or decision it serves (O-19).
+  - Change a dependency with the package manager, never by editing a version in a file. If the tool refuses, the refusal goes on the ticket; it is not bypassed (O-22).
   - Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16).
-requires: [R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26, R-27, R-28, R-30]
+  - Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
+requires: [R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-12, R-21, R-22, R-26, R-27, R-28, R-30, R-31, R-33, R-34, R-35, R-36, R-37, R-39]
 tenets: [T-04, T-07]
-opinions: [O-08, O-12, O-13, O-14, O-16]
+opinions: [O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25]

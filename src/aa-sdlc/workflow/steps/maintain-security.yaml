@@ -23,11 +23,11 @@ artifacts:
     location: the knowledge base
     acceptance:
       - Every control has current evidence or an open ticket
-guidance: [G-04, G-06, G-12, G-13, G-22, G-26, G-38]
+guidance: [G-04, G-06, G-12, G-13, G-22, G-26, G-38, G-45]
 guidance_inline:
-  - "Patch in small, tested steps. A dependency update is a change like any other: branch, test, review, merge (G-08)."
+  - "Patch in small, tested steps. A dependency update is a change like any other: branch, test, review, merge (G-08). Make it with the package manager so the lock file and transitive graph move together; never edit a version by hand (O-22)."
   - Never commit, log, or paste a secret, including in the report of having found one. Reference where it was, not what it was.
   - Treat "no findings" as a finding to verify. Confirm the scanner ran against the current code before reporting clean.
-requires: [R-01, R-02, R-05, R-11, R-30]
+requires: [R-01, R-02, R-05, R-11, R-30, R-36]
 tenets: [T-07]
-opinions: [O-16]
+opinions: [O-16, O-22]

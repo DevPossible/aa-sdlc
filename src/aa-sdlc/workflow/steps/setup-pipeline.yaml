@@ -20,17 +20,18 @@ artifacts:
     acceptance:
       - Calls the root scripts rather than duplicating their logic (O-06)
       - Runs every test tier and fails on any failure; no skipped stages without a recorded reason
-      - Deploys to each environment with the same artifact
+      - Runs the root build with the lint switch as its lint stage (O-21)
+      - Deploys to each environment the same artifact, built once and identified immutably; no deploy stage builds (O-24)
       - Every stage calls a script or command in the repository that runs locally with the same arguments (O-11)
   - name: Deployment strategy documentation
     location: the documents folder
     acceptance:
       - States the strategy (for example staged, canary, blue-green) and how rollback works for it
-guidance: [G-04, G-06, G-08, G-11, G-12, G-14, G-22, G-24, G-25, G-29, G-37, G-38]
+guidance: [G-04, G-06, G-08, G-11, G-12, G-14, G-22, G-24, G-25, G-29, G-37, G-38, G-40, G-44, G-47, G-48]
 guidance_inline:
   - The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift (O-11).
-  - One artifact, promoted. Build once, deploy the same artifact everywhere; never rebuild for production.
+  - One artifact, promoted. Build once, give it an immutable identity, deploy that identity everywhere; never rebuild for a later environment (O-24).
   - A pipeline that can be bypassed is not a pipeline. Protect the branches it deploys from.
-requires: [R-01, R-02, R-05, R-10, R-11, R-20, R-24, R-30]
+requires: [R-01, R-02, R-05, R-10, R-11, R-20, R-24, R-30, R-31, R-35, R-38, R-39]
 tenets: [T-07, T-09]
-opinions: [O-06, O-11, O-16]
+opinions: [O-06, O-11, O-16, O-17, O-21, O-24, O-25]

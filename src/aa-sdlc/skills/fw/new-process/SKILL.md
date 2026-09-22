@@ -4,8 +4,8 @@ description: Add a process to the AA-SDLC framework as an ordered set of existin
 aa:
   discipline: framework
   step: new-process
-  requires: [R-04, R-05, R-16]
-  guidance: [G-03, G-04, G-15, G-24, G-25]
+  requires: [R-04, R-05, R-16, R-31]
+  guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 ---
 
 # /aa-fw-new-process
@@ -47,7 +47,9 @@ otherwise stop and say so.
    Add a decision log row.
 9. **Verify.** Run `./test.ps1 -Tier unit` and fix every problem. Run
    `./scripts/Build-DisciplineReview.ps1`.
-10. **Commit** as `feat(workflow): add <name> process`. No attribution trailers.
+10. **Stage and present.** Stage every changed file as one change set and present the staged
+    summary with the message `feat(workflow): add <name> process`. Commit only if the user
+    asked for the commit in this invocation (O-17, G-40). No attribution trailers.
 
 ## Report
 

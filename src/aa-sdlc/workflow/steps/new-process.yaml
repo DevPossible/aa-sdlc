@@ -21,11 +21,11 @@ artifacts:
     acceptance:
       - The feature shows the process run end to end and shows any single step run alone (T-03)
       - The design names it if it is a core process; the decision log records it; the review regenerates; the unit tier passes
-guidance: [G-03, G-04, G-15, G-24, G-25]
+guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 guidance_inline:
   - "A process is described, not enforced (T-03). Never add a step that exists only to check that an earlier step ran; the exit condition says what done looks like, and every step still runs alone."
   - "Reuse steps before inventing them. If a needed step exists in another process or discipline, list it; a process is an ordering, not an owner."
   - "Write the exit condition as something /aa-fw-health or a person could check, not as a feeling."
   - "If the process only makes sense for one organisation, it is a process pack; redirect to /aa-fw-extend."
-requires: [R-04, R-05, R-16]
+requires: [R-04, R-05, R-16, R-31]
 tenets: [T-03, T-08]

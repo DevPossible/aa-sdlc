@@ -27,12 +27,12 @@ artifacts:
       - Every discipline or step the tenet governs cites it in its tenets list
       - No existing opinion or guidance contradicts it, or the contradiction is resolved in the same change
       - The decision log records it; the unit tier passes; the discipline review regenerates
-guidance: [G-03, G-04, G-15, G-24, G-25]
+guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 guidance_inline:
   - "A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-fw-new-opinion or docs/guidance.md and stop."
   - "Tenets are few. Before adding one, check whether an existing tenet already covers it; if so, strengthen that tenet's text instead."
   - "Write the feature file before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything."
   - "Read every opinion and every guidance item against the new tenet and fix what conflicts. A tenet that existing content contradicts is not yet true."
   - "Ids are permanent. Take the next T-nn; never renumber."
-requires: [R-04, R-05, R-16]
+requires: [R-04, R-05, R-16, R-31]
 tenets: [T-08, T-12]

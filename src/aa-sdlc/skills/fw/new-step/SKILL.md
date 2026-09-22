@@ -4,8 +4,8 @@ description: Add a step to an existing AA-SDLC discipline with all of its plumbi
 aa:
   discipline: framework
   step: new-step
-  requires: [R-04, R-05, R-16]
-  guidance: [G-03, G-04, G-15, G-24, G-25]
+  requires: [R-04, R-05, R-16, R-31]
+  guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 ---
 
 # /aa-fw-new-step
@@ -65,7 +65,9 @@ stop and say so.
 10. **Verify.** Run `./scripts/Test-WorkflowStructure.ps1` and fix every problem; a step the
     validator rejects is not added. Then run `./test.ps1 -Tier unit` and
     `./scripts/Build-DisciplineReview.ps1`.
-11. **Commit** as `feat(workflow): add <discipline> step <id>`. No attribution trailers.
+11. **Stage and present.** Stage every changed file as one change set and present the staged
+    summary with the message `feat(workflow): add <discipline> step <id>`. Commit only if the
+    user asked for the commit in this invocation (O-17, G-40). No attribution trailers.
 
 ## Report
 

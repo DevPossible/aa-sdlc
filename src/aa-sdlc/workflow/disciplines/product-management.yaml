@@ -22,4 +22,4 @@ hands_off_to:
     when: priorities are set and epics must become a well-formed backlog
 steps: [define-outcome, prioritise, iterate]
 tenets: [T-04, T-13]
-opinions: [O-03, O-15]
+opinions: [O-03, O-15, O-18]

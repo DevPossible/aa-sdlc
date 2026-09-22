@@ -4,15 +4,15 @@ description: Add an opinion to the AA-SDLC framework with all of its plumbing (e
 aa:
   discipline: framework
   step: new-opinion
-  requires: [R-04, R-05, R-16]
-  guidance: [G-03, G-04, G-15, G-24, G-25]
+  requires: [R-04, R-05, R-16, R-31]
+  guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 ---
 
 # /aa-fw-new-opinion
 
 Adds one opinion and everything that makes it real. An opinion nothing depends on is a slogan;
 this skill traces the stance forward into requirements, guidance, scenarios, and documents, and
-makes every change in one commit.
+stages every change as one change set for the user to commit.
 
 ## Precondition
 
@@ -69,7 +69,9 @@ Ask for anything missing before writing:
    `O-nn` and the ids it created.
 10. **Verify.** Run `./test.ps1 -Tier unit`; fix every problem it reports. Run
     `./scripts/Build-DisciplineReview.ps1`.
-11. **Commit** with a conventional message such as `docs(opinions): O-nn <short statement>`.
+11. **Stage and present.** Stage every changed file as one change set and present the staged
+    summary with a conventional message such as `docs(opinions): O-nn <short statement>`.
+    Commit only if the user asked for the commit in this invocation (O-17, G-40).
     No attribution trailers.
 
 ## Report

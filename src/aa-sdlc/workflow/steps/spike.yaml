@@ -16,10 +16,11 @@ artifacts:
       - Answers the stated question, or states why it could not and what would
       - Names what was tried, what was learned, and what to do next
       - Spike code is clearly marked as not for production and is not merged to the main branch
-guidance: [G-02, G-04, G-10, G-15, G-22, G-23, G-24]
+guidance: [G-02, G-04, G-10, G-15, G-22, G-23, G-24, G-41]
 guidance_inline:
   - Write the question before the code. A spike without a question becomes a prototype without a purpose.
   - Stop at the time box. Report what you have; an unanswered question with evidence is more useful than a late answer.
   - Never let spike code become the implementation by accident. If it is good enough to keep, that is a decision to record and a ticket to implement properly.
-requires: [R-02, R-04, R-05]
+requires: [R-02, R-04, R-05, R-32]
 tenets: [T-07]
+opinions: [O-18]

@@ -36,6 +36,21 @@ Feature: aa init bootstraps a repository
     Then the project config records a default pattern for referencing the anchor ticket
     And the pattern can be changed in the project config
 
+  @O-21 @R-35
+  Scenario: Add a lint stub to the build script
+    When I run "aa init"
+    Then the "build" script stub accepts a lint switch
+    And the stub names what it must do: run the formatter in check mode and each configured linter
+    And it says which languages were detected with no known linter, if any
+
+  @O-18 @R-32
+  Scenario: Create the decision record sequence
+    When I run "aa init"
+    Then the decision record folder exists at the location the project config names
+    And it holds a template with context, options, decision, and consequences
+    And record 0001 records the adoption of the framework, dated today
+    And the location can be changed in the project config to a knowledge base page
+
   @O-14 @R-28
   Scenario: Record the commit message format
     When I run "aa init"

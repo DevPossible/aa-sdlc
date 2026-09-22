@@ -17,10 +17,11 @@ artifacts:
       - Every item has a rank and a one-line reason on the ticket
       - Items blocked by a dependency are ranked after what blocks them
       - The top of the backlog is ready or in refinement, not raw ideas
-guidance: [G-02, G-12, G-22, G-24, G-28]
+guidance: [G-02, G-12, G-22, G-24, G-28, G-41]
 guidance_inline:
   - Rank by outcome contribution first, then risk reduction, then cost. When two items tie, prefer the one that retires an unknown.
-  - Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why.
+  - Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why, and a demotion of committed work is a decision record (O-18).
   - Ask before demoting. If an item someone is working on drops out of the iteration, that is a conversation, not a rank change.
-requires: [R-02, R-23]
+requires: [R-02, R-23, R-32]
 tenets: [T-04, T-06]
+opinions: [O-18]

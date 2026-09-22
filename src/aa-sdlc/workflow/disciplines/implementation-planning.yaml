@@ -21,4 +21,4 @@ hands_off_to:
     when: planning reveals a decision or unknown bigger than the ticket
 steps: [plan-implementation, breakdown-tasks]
 tenets: [T-06, T-07]
-opinions: [O-10, O-13]
+opinions: [O-10, O-13, O-20]

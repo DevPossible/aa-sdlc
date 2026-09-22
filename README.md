@@ -51,6 +51,34 @@ mind, are in [docs/opinions.md](docs/opinions.md).
 16. **Version everything needed to build and operate the software.** Configuration templates,
     migrations, automation, and operating documentation live in the repository. A fresh clone
     plus the documented secrets is enough to build, deploy, and run it.
+17. **Small, cohesive commits, made by the user.** Each commit is one understandable change.
+    The agent stages it, writes the message, and stops; it never commits unless the user asked
+    for that commit. Reviewing before the commit is where the human directs the work.
+18. **Decisions are decision records.** Technical, product, or process: one screen, numbered,
+    dated, with context, options, decision, and consequences. Immutable once accepted; a change
+    of mind is a new record that supersedes the old one.
+19. **Every change traces back to its purpose.** The commit names a ticket, the ticket links to
+    the scenarios it satisfies or the decision that explains it, and the chain runs both ways.
+    A change that cannot name its purpose is a ticket to create first or work not to do.
+20. **The simplest design that meets the scenarios.** No speculative features, no abstraction
+    with one implementation, no extension point nobody extends. Every component names the
+    scenario that requires it or the decision record that justifies it.
+21. **Conventions are enforced by tools, not by people.** Formatter and linter configuration
+    in the repository, formatting on changed files, linting in the root build and the pipeline.
+    A linter is recommended, not required; where none is known, health warns and moves on.
+22. **Dependencies change through the package manager, never by hand.** Add, update, and
+    remove with the tool so conflicts, warnings, transitive dependencies, and the lock file are
+    handled together. A version number is never edited in a file; a tool refusal is a finding.
+23. **Tests are deterministic and independent.** Time, randomness, shared state, and external
+    dependencies are controlled; any test runs alone or in any order with the same result. A
+    flaky test is a defect, quarantined with a ticket and never retried into green.
+24. **Build once; promote the same artifact.** One build per commit, an immutable identity,
+    and every environment deploys that identity. Configuration is supplied at deploy time,
+    never baked in; nothing is rebuilt for a later environment.
+25. **Environment settings and functional settings live apart.** Endpoints, connection strings,
+    and credentials go in an environment file, one per environment, supplied at deploy time.
+    Timeouts, limits, and behaviour go in the application configuration, committed once. No key
+    lives in both.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).

@@ -27,4 +27,4 @@ hands_off_to:
     when: the suite passes and coverage is judged sufficient for a release
 steps: [test-strategy, generate-tests, e2e-tests, performance-test, explore]
 tenets: [T-07, T-12]
-opinions: [O-01, O-07, O-08, O-12]
+opinions: [O-01, O-07, O-08, O-12, O-23]

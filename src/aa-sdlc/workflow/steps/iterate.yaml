@@ -23,10 +23,11 @@ artifacts:
     location: the ticket system and the knowledge base
     acceptance:
       - Every "enhance" or "fix" decision has a ticket; every "stop" has a closed ticket with the reason
-guidance: [G-02, G-10, G-12, G-22, G-26, G-27]
+guidance: [G-02, G-10, G-12, G-22, G-26, G-27, G-41]
 guidance_inline:
   - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
   - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
   - Close the loop. Where feedback came from a ticket, comment on it with the decision.
-requires: [R-02, R-03, R-04, R-22]
+requires: [R-02, R-03, R-04, R-22, R-32]
 tenets: [T-04, T-07]
+opinions: [O-18]

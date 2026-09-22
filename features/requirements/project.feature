@@ -268,6 +268,155 @@ Feature: Project requirements
     And the report names the file but never the value
     And the remedy is for "/aa-sec-maintain-security" to rotate the secret and replace it with a placeholder
 
+  @R-31 @required @O-17
+  Scenario: Commits are the user's, one change each
+    Given no commit on the default branch has an agent identity as author or committer
+    And no commit carries a trailer or body line attributing it to an agent
+    And a sample of recent commits each touch one concern and reference one ticket
+    When "/aa-fw-health" probes R-31
+    Then R-31 is reported as met
+
+  @R-31 @required @O-17
+  Scenario: A commit was made under an agent identity
+    Given a commit on the default branch has an agent as author or committer
+    When "/aa-fw-health" probes R-31
+    Then R-31 is reported as unmet
+    And the report lists the commit
+    And the remedy is for "aa setup" to configure the target to use the user's identity and never commit unasked
+
+  @R-31 @required @O-17
+  Scenario: A commit carries an agent attribution
+    Given a commit on the default branch has a trailer or body line naming an agent as author or generator
+    When "/aa-fw-health" probes R-31
+    Then R-31 is reported as unmet
+    And the report lists the commit
+    And the remedy names a commit-message hook where the target supports hooks
+
+  @R-31 @required @O-17
+  Scenario: A commit bundles several concerns
+    Given a recent commit touches two unrelated concerns or references two tickets
+    When "/aa-fw-health" probes R-31
+    Then R-31 is reported as unmet
+    And the report lists the commit and names guidance G-39
+
+  @R-32 @required @O-18
+  Scenario: Decision records form one numbered, immutable sequence
+    Given the decision record location the project config names exists
+    And it holds a contiguous numbered sequence of dated records
+    And a sample of records each state context, options, decision, and consequences
+    And history shows no content change to an accepted record other than a superseded-by link
+    When "/aa-fw-health" probes R-32
+    Then R-32 is reported as met
+
+  @R-32 @required @O-18
+  Scenario: No decision record location exists
+    Given neither the documents folder nor the project config provides a decision record location
+    When "/aa-fw-health" probes R-32
+    Then R-32 is reported as unmet
+    And the remedy is for "aa init" to create the folder with a template and record 0001
+
+  @R-32 @required @O-18
+  Scenario: A record is missing a section or a number
+    Given a decision record has no options section or no number in the sequence
+    When "/aa-fw-health" probes R-32
+    Then R-32 is reported as unmet
+    And the report names the record and what it lacks
+
+  @R-32 @required @O-18
+  Scenario: An accepted record was edited
+    Given history shows the content of an accepted decision record changed after acceptance
+    And the change is not a superseded-by link
+    When "/aa-fw-health" probes R-32
+    Then R-32 is reported as unmet
+    And the report names the record and the change
+    And the remedy is to restore the record and write a new one that supersedes it
+
+  @R-33 @required @O-19
+  Scenario: Every change traces to its purpose in both directions
+    Given a sample of recent commits each reference a ticket that resolves in the configured project
+    And each such ticket links to at least one scenario, decision record, or page
+    And each linked scenario carries the ticket tag
+    And each ticket links back to its commits or merge request
+    When "/aa-fw-health" probes R-33
+    Then R-33 is reported as met
+
+  @R-33 @required @O-19
+  Scenario: A commit references no ticket
+    Given a recent commit on the default branch references no ticket
+    When "/aa-fw-health" probes R-33
+    Then R-33 is reported as unmet
+    And the report lists the commit
+    And the remedy is for the user to create or name the ticket, and names a commit-message hook where the target supports hooks
+
+  @R-33 @required @O-19
+  Scenario: A ticket has no purpose behind it
+    Given a ticket referenced by recent commits links to no scenario, decision record, or page
+    When "/aa-fw-health" probes R-33
+    Then R-33 is reported as unmet
+    And the report lists the ticket
+    And the remedy is for the user to link the scenario it satisfies or write the decision record that explains it
+
+  @R-33 @required @O-19
+  Scenario: The chain is broken on the way back
+    Given a scenario is linked from a ticket but carries no ticket tag
+    When "/aa-fw-health" probes R-33
+    Then R-33 is reported as unmet
+    And the report names the scenario and cites guidance G-19
+
+  @R-34 @required @O-20
+  Scenario: Every component in the architecture is required by something
+    Given the system architecture document maps each component, boundary, and extension point to a scenario or a decision record
+    And no entry is unmapped
+    When "/aa-fw-health" probes R-34
+    Then R-34 is reported as met
+
+  @R-34 @required @O-20
+  Scenario: A component serves no scenario
+    Given the architecture names an extension point that maps to no scenario and no decision record
+    When "/aa-fw-health" probes R-34
+    Then R-34 is reported as unmet
+    And the report names the entry
+    And the remedy is for "/aa-ta-architect" to remove it or for "/aa-ta-decide" to record why it stays
+
+  @R-34 @required @O-20
+  Scenario: The architecture has not been written yet
+    Given "/aa-ta-architect" has not run and no architecture document exists
+    When "/aa-fw-health" probes R-34
+    Then R-34 is reported as not applicable
+
+  @R-39 @required @O-25
+  Scenario: Environment and functional settings are kept apart
+    Given an environment template exists for each named environment and they share one key set
+    And every environment key differs in value between at least two environments or is a credential placeholder
+    And the application configuration contains no endpoint, connection string, resource name, or credential key
+    And no key appears in both places
+    When "/aa-fw-health" probes R-39
+    Then R-39 is reported as met
+
+  @R-39 @required @O-25
+  Scenario: A functional setting is in an environment file
+    Given a timeout or limit appears in the environment templates with the same value in every environment
+    And no decision record explains it
+    When "/aa-fw-health" probes R-39
+    Then R-39 is reported as unmet
+    And the report names the key and says it belongs in the application configuration
+    And the remedy is for "/aa-dev-setup-environment" to move it
+
+  @R-39 @required @O-25
+  Scenario: An environment setting is in the application configuration
+    Given a connection string or endpoint appears in the committed application configuration
+    When "/aa-fw-health" probes R-39
+    Then R-39 is reported as unmet
+    And the report names the key and says it belongs in the environment file for each environment
+    And the remedy is to move it to the environment templates as a key with a placeholder
+
+  @R-39 @required @O-25
+  Scenario: A key lives in both places
+    Given the same key appears in the application configuration and in an environment template
+    When "/aa-fw-health" probes R-39
+    Then R-39 is reported as unmet
+    And the report names the key and asks which kind of setting it is
+
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure
     Given the documents, features, scripts, source, and tests folders exist at the root

@@ -4,8 +4,8 @@ description: Add a discipline to the AA-SDLC framework with bounded responsibili
 aa:
   discipline: framework
   step: new-discipline
-  requires: [R-04, R-05, R-16]
-  guidance: [G-03, G-04, G-15, G-24, G-25]
+  requires: [R-04, R-05, R-16, R-31]
+  guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 ---
 
 # /aa-fw-new-discipline
@@ -53,7 +53,9 @@ otherwise stop and say so.
 9. **Log the decision** in the `docs/design.md` decision log.
 10. **Verify.** Run `./test.ps1 -Tier unit` and fix every problem. Run
     `./scripts/Build-DisciplineReview.ps1`.
-11. **Commit** as `feat(workflow): add <name> discipline`. No attribution trailers.
+11. **Stage and present.** Stage every changed file as one change set and present the staged
+    summary with the message `feat(workflow): add <name> discipline`. Commit only if the user
+    asked for the commit in this invocation (O-17, G-40). No attribution trailers.
 
 ## Report
 

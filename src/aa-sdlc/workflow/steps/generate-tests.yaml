@@ -24,11 +24,12 @@ artifacts:
     location: the features folder and the anchor ticket
     acceptance:
       - Every behaviour found that the requirement did not specify is a question on the ticket and a pending scenario in the feature file
-guidance: [G-04, G-06, G-07, G-15, G-18, G-19, G-21, G-22, G-25]
+guidance: [G-04, G-06, G-07, G-15, G-18, G-19, G-21, G-22, G-25, G-46]
 guidance_inline:
   - Read Development's tests first and say what they cover. Your job starts where theirs stops.
   - Test the seams. The boundaries between components, between tiers, and between the system and its dependencies are where the requirement was vaguest.
+  - Every test you add runs alone and in any order with the same result. Control time, randomness, state, and dependencies; never lean on another test having run first (O-23).
   - A pending scenario is a real scenario with a tag saying it awaits an answer. Do not leave gaps as comments in test code.
-requires: [R-02, R-11, R-16, R-21]
+requires: [R-02, R-11, R-16, R-21, R-37]
 tenets: [T-07, T-12]
-opinions: [O-08]
+opinions: [O-08, O-23]

@@ -22,4 +22,4 @@ hands_off_to:
     when: a retrospective or status report changes priorities or the roadmap
 steps: [plan-iteration, status, retrospective]
 tenets: [T-04, T-07, T-13]
-opinions: [O-03]
+opinions: [O-03, O-18]

@@ -22,10 +22,11 @@ artifacts:
     acceptance:
       - Reports each target with the measured value, the method, and pass or fail
       - Every miss is a ticket with the measured gap
-guidance: [G-02, G-04, G-06, G-15, G-22, G-24, G-26, G-30]
+guidance: [G-02, G-04, G-06, G-15, G-22, G-24, G-26, G-30, G-46]
 guidance_inline:
   - No target, no test. If the requirement has no number, get one from the ticket owner before running anything; "fast" is not a target.
   - Measure with a tool and report the distribution, not the average. The slowest 5 percent is what users complain about.
   - Record the environment with the result. A number without the machine, data volume, and load profile cannot be compared to anything later.
-requires: [R-02, R-03, R-04, R-11, R-25]
+requires: [R-02, R-03, R-04, R-11, R-25, R-37]
 tenets: [T-07]
+opinions: [O-23]

@@ -12,7 +12,7 @@ steps:
   - architect
   - threat-model
   - plan-work
-guidance: [G-16, G-18, G-19, G-35]
+guidance: [G-16, G-18, G-19, G-35, G-41, G-43]
 exit: >
   Every requirement is a scenario in a feature file, linked to a ticket and a page; the
   architecture is recorded as decision records; the backlog is prioritised.

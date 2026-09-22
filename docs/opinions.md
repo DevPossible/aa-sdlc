@@ -315,6 +315,233 @@ operate the system but is not versioned with the version of the system it descri
 (a secret, a licence file) is represented by a template and a documented way to obtain it.
 *Requirements:* R-05, R-06, R-19, R-30. *Guidance:* G-11, G-37, G-38.
 
+**O-17 Small, cohesive commits, made by the user.**
+*The stance:* every commit is one understandable change: one concern, one ticket, a subject
+that says what and a body that says why, small enough to review in one sitting. And the agent
+never makes the commit unless the user asked for that commit. The agent does everything up to
+it: stages the change, writes the message, presents the staged diff and the message, and stops.
+A request to implement, fix, finish, or run a step is not a request to commit. Reviewing the
+change before it is committed is the primary point at which a person directs the work, and the
+framework does not let an agent take it away.
+*Why:* small cohesive commits are what make review possible, bisecting meaningful, and revert
+safe; a commit that needs a tour is three commits. The second half is about who is in charge.
+An agent that commits on its own turns the history into a record of what it did rather than
+what the user accepted, and moves the human's review from before the commit, where a change
+can be shaped, to after, where it can only be undone. The agent proposes; the human decides
+(T-06). Commits made under the user's identity, at the user's request, keep the history honest
+about who is accountable for it, which is also why no commit carries an agent attribution.
+*Rejected:* "commit at every green" performed by the agent; agents committing under their own
+identity or with attribution trailers; a standing permission to commit granted once and never
+revisited; squashing a day's work into one commit at the end; review after the fact as a
+substitute for review before the commit.
+*Would change our mind:* nothing foreseeable about who commits. On size, a repository whose
+tooling cannot bisect or revert would lose one benefit and keep the rest.
+*Requirements:* R-01, R-05, R-31. *Guidance:* G-08, G-39, G-40.
+
+**O-18 Decisions are decision records.**
+*The stance:* every significant decision, technical, product, or process, is recorded as a
+decision record: one screen, numbered next in one sequence per repository, dated, stating the
+context, the options considered, the decision, and its consequences. A record is immutable
+once accepted. A change of mind is a new record that supersedes the old one and links back to
+it; the old one is never edited. Records live in the knowledge repository (O-04) or the
+documents folder (R-06), whichever the project config names, and every record is linked from
+the ticket the decision arose on. The record is written when the decision is made, by whoever
+makes it, and the `decide` step exists so that a decision made mid-implementation is captured
+as readily as one made in an architecture session.
+*Why:* the knowledge repository holds why (O-04), and a decision record is the smallest unit
+of why that can be found, cited, and checked later. Numbering makes it citable; dating makes
+it placeable; immutability makes it trustworthy, because a record that can be edited after the
+fact tells you what someone now wishes had been decided. Recording the rejected options is
+what lets the next person, or the next agent, avoid re-litigating them, and it is what makes
+"we considered that" a fact rather than a memory. Extending the form to product and process
+decisions gives a reprioritisation, a scope cut, or a retrospective action the same standing
+as a technology choice, which is what they deserve.
+*Rejected:* decisions recorded only in ticket comments or chat; a single living architecture
+document edited in place as decisions change; decision records for architecture only, with
+product and process decisions left to memory; records long enough that nobody reads them;
+editing a record to match what was eventually done.
+*Would change our mind:* nothing foreseeable. The form is old, small, and has no serious
+competitor for the job.
+*Requirements:* R-02, R-03, R-06, R-32. *Guidance:* G-10, G-41.
+
+**O-19 Every change traces back to its purpose.**
+*The stance:* every change to the repository can be followed back to why it was made: the
+commit names a ticket, the ticket links to the scenarios it satisfies or to the decision record
+or page that explains it, and the scenario is tagged with the ticket. The chain runs in both
+directions, so from a line of code you can reach the requirement and from a requirement you
+can reach the code. A change that cannot name its purpose is either a ticket to create first or
+work not to do. "Documented explanation" is the third kind of purpose, for work that no
+scenario states and no ticket would naturally carry: a decision record (O-18) or a knowledge
+base page (O-04) that says why.
+*Why:* the framework already holds each link of this chain somewhere: the ticket in the
+branch and commit (G-09), the ticket tag on the scenario (G-19), the links in both directions
+(G-26), the feature to ticket to page relationship the tooling maintains (T-12), and every
+commit since the last tag tracing to a ticket before a release (`prepare-release`). This
+opinion says the chain is the point, not the links. Work that cannot say why it exists cannot
+be reviewed against anything, cannot be released with notes that mean something, cannot be
+reverted with confidence, and cannot be understood by the next person or agent to open the
+file. Agents in particular will improve, tidy, and refactor whatever they touch unless the
+question "what is this for" is asked of every hunk.
+*Rejected:* "while I was in there" changes with no ticket; tidy-up commits that reference
+nothing; tickets whose only content is a title; scenarios with no ticket tag; explanations that
+exist only in the merge request conversation; requiring a ticket for a one-line fix and then
+leaving the ticket empty, which satisfies the letter and none of the purpose.
+*Would change our mind:* nothing foreseeable. The cost is a reference in a footer and a link
+on a ticket, and the framework's tooling maintains most of it.
+*Requirements:* R-01, R-02, R-08, R-16, R-33. *Guidance:* G-09, G-19, G-26, G-42.
+
+**O-20 The simplest design that meets the scenarios.**
+*The stance:* the design of a system, a component, or a change is the simplest one that
+satisfies the scenarios that exist. Nothing is added for a scenario that does not exist yet:
+no speculative feature, no abstraction with one implementation, no extension point nobody
+extends, no configuration option nobody sets. Every component, boundary, and extension point in
+the architecture names the scenario that requires it or the decision record that justifies it
+(O-18). When a new scenario arrives, the design changes to meet it; that is what the feature
+files, the tests, and small commits (O-17) are for.
+*Why:* a design built for requirements that do not exist yet is built with the least
+information anyone will ever have about them, and it is paid for now, in code to read, test,
+and keep working, against a benefit that may never come. Abstractions chosen before the second
+case are usually wrong for it. Agents make this worse in a specific way: asked for one thing,
+they produce a general mechanism with the one thing as its first use, because that reads as
+thorough. The scenarios are the source of truth for what the software must do (O-01, T-12);
+a design that goes beyond them has no truth to be checked against (T-07), and a change that
+serves no scenario traces to nothing (O-19).
+*Rejected:* frameworks, plugin systems, and configuration surfaces built in advance of a
+second use; "we will need it later" as a design justification; abstraction for its own sake;
+designing to a roadmap rather than to the scenarios refined so far; the opposite error too,
+where "simple" means copying the same code a fourth time rather than naming the thing.
+*Would change our mind:* nothing foreseeable. A decision record can always justify an
+exception, which is precisely why the exception must be recorded.
+*Requirements:* R-16, R-34. *Guidance:* G-43.
+
+**O-21 Conventions are enforced by tools, not by people.**
+*The stance:* every project follows consistent coding conventions, and those conventions live
+as formatter and linter configuration committed to the repository, not in a document or a
+reviewer's head. Formatting is automated and runs on changed files before a change is
+presented (G-01). Linting is enforced: every language with a known linter has one configured,
+the root build runs it, the pipeline calls the same script (O-11), and a finding is fixed or
+suppressed with a reason beside it (G-06), never ignored. A formatter is required (R-09); a
+linter is recommended (R-12), because not every language has a usable one, and where none is
+known the project says so once in its development environment configuration and health warns
+rather than blocks (T-10). Style is never argued in review.
+*Why:* conventions that live in a document are followed by the people who read it and
+forgotten by everyone else, including every agent that arrives later. Conventions that live in
+tool configuration are followed by everyone, cost nothing to apply, and free review for what
+matters: correctness, security, and the requirement. Agents in particular produce plausible but
+inconsistent style, and left unchecked will reformat what they touch; a formatter on changed
+files makes both problems disappear. A linter catches the class of mistake that reads fine and
+is wrong, before a person has to. Enforcement where the target allows (T-09) makes the rule
+the same for humans and agents.
+*Rejected:* style guides as prose; style comments in code review; formatting the whole
+repository as a side effect of a change (G-01); a linter that runs only in the pipeline, where
+its findings arrive after the push (O-11); suppressing findings without a reason; blocking a
+project because its language has no linter.
+*Would change our mind:* nothing foreseeable. The formatter or linter for a given language is
+the project's or a tech-stack plugin's choice (T-01); the opinion is that one is configured and
+runs.
+*Requirements:* R-09, R-12, R-15, R-35. *Guidance:* G-01, G-06, G-44.
+
+**O-22 Dependencies change through the package manager, never by hand.**
+*The stance:* a dependency is added, updated, or removed only through the ecosystem's package
+manager, using its commands, so that it resolves conflicts, surfaces warnings, updates the
+transitive dependencies, and regenerates the lock file in one operation. A version in a
+manifest or a lock file is never edited by hand. If the tool refuses a change, the refusal is
+the finding: it goes on the ticket and is resolved, not bypassed by editing the file. The
+manifest and lock file changes are committed together, as their own commit (G-39), and the
+lock file is always committed (O-16).
+*Why:* a manifest states what the project asked for; a lock file records what the resolver
+concluded, for the whole transitive graph, under the constraints of every other dependency.
+Editing one by hand breaks that relationship silently: the two files disagree, the transitive
+graph is not re-resolved, conflicts and deprecation warnings that the tool would have raised
+are never seen, and the next clean install produces a different tree from the one that was
+tested. Agents do this readily, because editing a number in a file looks like the smallest
+possible change; it is the largest one, made blind. The package manager exists precisely to
+make this change correctly, and using it costs one command.
+*Rejected:* editing a version number in a manifest; editing or deleting a lock file to make a
+conflict go away; committing a manifest change without its lock file change; pinning a
+transitive dependency by hand instead of letting the resolver do it; bypassing a tool refusal
+by any means.
+*Would change our mind:* nothing foreseeable. An ecosystem with no package manager has no
+dependencies in this sense, and the opinion does not apply to it.
+*Requirements:* R-04, R-05, R-36. *Guidance:* G-06, G-39, G-45.
+
+**O-23 Tests are deterministic and independent.**
+*The stance:* every test, at every tier, produces the same result every time it runs, alone or
+with any other tests in any order. To make that true, a test controls the four things that
+make results vary: time is injected or frozen, randomness is seeded or injected, state is
+owned by the test that needs it and cleaned up after, and external dependencies are replaced
+by a container (O-12), a fake, or a recorded response. A test that fails intermittently is a
+defect in the test or the system; it is quarantined with a ticket the same day and is never
+retried into green (G-06). The root test script can run one test alone and can run a tier in
+a shuffled order, and both give the same answer as the full run.
+*Why:* a test suite is evidence (T-07) only while its results mean something. One flaky test
+teaches everyone to re-run the suite, and from then on a real failure looks like noise and a
+retry hides a real defect. Order dependence means a test proves nothing on its own and a
+failure cannot be reproduced by running it. Hidden time, randomness, shared state, and live
+dependencies are the four sources of variance in practice, and each has a known control. Agents
+write flaky tests readily, because a sleep or a live call is the shortest path to green, and
+they will happily add a retry when asked to fix one; naming the four controls and forbidding
+the retry is what keeps the suite honest.
+*Rejected:* retry-on-failure as a test setting; tests that pass only in a fixed order; a shared
+test database or environment that tests mutate and do not restore; sleeps as synchronisation;
+live calls to external services from unit or integration tests; skipping a flaky test without
+a ticket.
+*Would change our mind:* nothing foreseeable. Tests that must exercise genuine nondeterminism
+(property-based, chaos, soak) record their seed or their run and live where the strategy puts
+them, outside the tiers a change must pass.
+*Requirements:* R-11, R-21, R-25, R-37. *Guidance:* G-06, G-46.
+
+**O-24 Build once; promote the same artifact.**
+*The stance:* a release artifact is built once, from one commit, and given an immutable
+identity tied to that commit: a digest, or a version the pipeline will never reuse. That same
+artifact, under that same identity, is what every successive environment deploys, from the
+first test environment to production. Nothing is rebuilt for a later environment.
+Environment-specific configuration is supplied at deploy time from the committed templates
+(O-16), never baked into the artifact. The release records the identity (O-14, G-34), and
+validation in each environment confirms that what is running is that identity.
+*Why:* the point of testing an artifact in one environment is to learn something about the
+artifact that will run in the next. A rebuild breaks that inference: a different compiler
+invocation, a dependency resolved a minute later, a flag set differently, and the thing in
+production is not the thing that was tested, however reproducible the build claims to be. One
+identity through the whole path is also what makes rollback exact (return to the previous
+identity, not "rebuild the previous tag"), makes "what is running" a question with a checkable
+answer (T-07), and lets the pipeline call the root `pack` script once (O-06, O-11) instead of
+once per environment.
+*Rejected:* a build stage per environment; environment-specific builds that differ by flag,
+target, or embedded configuration; rebuilding "the same tag" for production; artifacts
+identified by a mutable label such as `latest`; promoting by rebuilding from the same commit
+and hoping the result is identical.
+*Would change our mind:* nothing foreseeable. A platform that forces a per-environment build
+step is a platform to configure around, and the exception is a decision record (O-18).
+*Requirements:* R-20, R-30, R-38. *Guidance:* G-47.
+
+**O-25 Environment settings and functional settings live apart.**
+*The stance:* configuration is split by what varies. Settings that differ between deployed
+environments, such as connection strings, service endpoints, resource names, and credentials,
+live in an environment file or the platform's equivalent: one per environment, with a
+committed template that names every key and holds no secret value (O-16, G-38), supplied to
+the artifact at deploy time (O-24). Settings that are the same in every environment, such as
+timeouts, limits, retry counts, and feature behaviour, live in the application configuration,
+committed once with the code. No key appears in both places. If a functional setting must
+differ for one environment, that is a decision record (O-18) and a deliberate override, not a
+second copy of the whole configuration.
+*Why:* the two kinds of setting change for different reasons, by different people, at
+different times. An endpoint changes when infrastructure changes; a timeout changes when the
+code's behaviour is tuned. Mixing them in one file per environment means every functional
+change must be made three or four times and is missed in one, environments drift apart in
+behaviour nobody intended, and the diff between environments, which should be a short list of
+endpoints and names, is buried in hundreds of identical lines. Keeping them apart makes the
+environment file the whole answer to "what is different about production", makes the
+functional configuration part of the tested artifact, and gives an agent one obvious place to
+put each new setting.
+*Rejected:* one complete configuration file per environment, copied and edited; functional
+settings in environment files; endpoints or credentials in the committed application
+configuration; overriding functional settings per environment without a record of why; a
+single flat settings store where the two kinds are told apart by naming convention alone.
+*Would change our mind:* nothing foreseeable. The file format and the platform mechanism are
+the project's choice (T-01); the separation is not.
+*Requirements:* R-30, R-39. *Guidance:* G-38, G-48.
+
 ---
 
 Opinions O-05, O-06, and O-07 describe the shape of every repository, O-08 describes who
@@ -322,12 +549,14 @@ proves what, O-09 ties each repository to its one ticket project, O-10 says when
 be sized, O-11 and O-12 keep the delivery path and the end-to-end tier runnable on any
 machine, O-13 keeps a refined ticket honest against a repository that has moved, O-14 makes
 the history readable by tooling, O-15 keeps the feature file ahead of the mock-up, and O-16
-makes the repository sufficient to build and operate the system. Together they are what
-`aa init` lays down and `/aa-fw-health` checks for.
+makes the repository sufficient to build and operate the system, O-17 keeps the commit in the
+user's hands, O-18 gives every decision a record, O-19 ties every change to its purpose, and
+O-20 keeps the design no larger than the scenarios, O-21 hands conventions to the tools, and
+O-22 hands dependency changes to the package manager, O-23 keeps every test deterministic and
+independent, O-24 promotes one built artifact through every environment, and O-25 keeps what
+varies by environment apart from what does not. Together they are what `aa init` lays down and
+`/aa-fw-health` checks for.
 
 ## Candidates
 
-- **Decisions are recorded as decision records.** Short, numbered, immutable once accepted, in
-  the knowledge repository or the documents folder. Widely held already; likely to be promoted.
-- **One ticket per branch, one concern per commit.** Currently guidance G-08; may be an opinion
-  since branching models are a real choice.
+None at present. Propose one with `/aa-fw-new-opinion`.

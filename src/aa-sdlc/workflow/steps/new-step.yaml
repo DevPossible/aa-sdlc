@@ -31,12 +31,12 @@ artifacts:
     acceptance:
       - New shared guidance has an id; new requirements have scenarios; the design's step map is updated if the step traces to the methodology
       - The review regenerates and the unit tier passes
-guidance: [G-03, G-04, G-15, G-24, G-25]
+guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
 guidance_inline:
   - "Name the step by the work, in the imperative, unique across all disciplines: implement, not development-work; fix-bug, not bugfix. The id is the last segment of the command and the skill folder name, so it cannot change later."
   - "Guidance names categories, never tools (T-01). If the step needs a tool category, declare the requirement and cite it; if it needs a specific tool, the step belongs in a plugin."
   - "Promote guidance to an id only when a second step shares it; otherwise keep it inline on the step. Do not create G-nn ids speculatively."
   - "Check every anchor: a step with anchor required must read the ticket first (G-22) and update it last (G-12); write both into the skill body."
   - "Run the validator before regenerating the review; a step the validator rejects is not added."
-requires: [R-04, R-05, R-16]
+requires: [R-04, R-05, R-16, R-31]
 tenets: [T-01, T-08, T-11, T-12]

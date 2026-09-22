@@ -20,15 +20,17 @@ artifacts:
     acceptance:
       - Shows components, their responsibilities, and every integration boundary
       - Every scenario can be traced to the components that satisfy it
+      - Every component, boundary, and extension point names the scenario that requires it or the decision record that justifies it (O-20)
   - name: Technology stack document
     location: the knowledge base
     acceptance:
       - Every technology choice has a decision record
       - Constraints imposed on Development and Operations are explicit
-guidance: [G-02, G-10, G-16, G-22, G-23, G-24, G-26]
+guidance: [G-02, G-10, G-16, G-22, G-23, G-24, G-26, G-41, G-43]
 guidance_inline:
   - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
   - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-10).
   - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.
-requires: [R-02, R-03, R-06]
+requires: [R-02, R-03, R-06, R-32, R-34]
 tenets: [T-01, T-04]
+opinions: [O-04, O-18, O-20]
