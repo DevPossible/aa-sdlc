@@ -57,19 +57,17 @@ requirements are registered in [requirements.md](requirements.md) and defined au
 as feature files under [`features/`](../features/).
 
 The framework is opinionated, and its **opinions** are stated up front in
-[opinions.md](opinions.md), in seven groups. The three systems (O-02, O-03, O-04, O-09):
-source control, a ticket system, and a knowledge repository hold the state, and each
-repository maps to one ticket project. The shape of a repository (O-05, O-06, O-07, O-16): one
-layout, four root scripts, three test tiers, everything needed to build and operate it
-versioned. Requirements (O-01, O-15, O-20): Gherkin is the source of truth, goals come before
-mock-ups, and the design is the simplest that meets the scenarios. Tickets (O-10, O-13): a size
-is grounded in implementation thinking and a waiting ticket is re-checked against the
-repository. Commits and history (O-14, O-17, O-19, O-22): Conventional Commits, small, made by
-the user, traceable, with dependencies changed through the package manager. The delivery path
-(O-11, O-12, O-24, O-25): every pipeline step runs locally, end-to-end tests run against
-containers, one artifact is promoted, and environment settings live apart from functional
-ones. Practice (O-08, O-18, O-21, O-23): Development proves and Testing goes beyond, decisions
-are records, conventions are enforced by tools, tests are deterministic.
+[opinions.md](opinions.md), in seven groups with the ids listed there and in the README. The
+three systems: source control, a ticket system, and a knowledge repository hold the state, one
+ticket project per repository. The shape of a repository: one layout, four root scripts, three
+test tiers, everything needed to build and operate it versioned. Requirements: Gherkin is the
+source of truth, goals before mock-ups, the simplest design that meets the scenarios. Tickets:
+a size is grounded in implementation thinking, a waiting ticket is re-checked against the
+repository. Commits and history: Conventional Commits, small, made by the user, traceable, with
+dependencies changed through the package manager. The delivery path: every pipeline step runs
+locally, end-to-end tests run against containers, one artifact is promoted, environment
+settings live apart from functional ones. Practice: Development proves and Testing goes
+beyond, decisions are records, conventions are enforced by tools, tests are deterministic.
 
 ## 3. Architecture
 
