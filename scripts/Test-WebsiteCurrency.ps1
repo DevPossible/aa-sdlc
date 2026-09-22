@@ -62,7 +62,7 @@ foreach ($page in $pages) {
     # Text only: strip tags so class names and attributes are not read as citations
     $text = [regex]::Replace($html, '<[^>]+>', ' ')
 
-    foreach ($m in [regex]::Matches($html, '\shref="([^"#:]*)(#[^"]*)?"')) {
+    foreach ($m in [regex]::Matches($html, '\s(?:href|src)="([^"#:]*)(#[^"]*)?"')) {
         $target = $m.Groups[1].Value
         $fragment = $m.Groups[2].Value.TrimStart('#')
         $targetPage = if ($target) { $target } else { $page.Name }
