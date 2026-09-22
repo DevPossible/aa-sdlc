@@ -64,3 +64,6 @@ node_modules/
 
 # AI agent working files
 /.aitemp/
+
+# Editor workspace files (personal)
+*.code-workspace
