@@ -25,6 +25,7 @@ dependency, a YAML library, from the Go module proxy on first build.
 |--------------------|-----------|--------|-----------|
 | PowerShell (`*.ps1`, `*.psd1`) | PSScriptAnalyzer `Invoke-Formatter`, settings in `PSScriptAnalyzerSettings.psd1` | PSScriptAnalyzer `Invoke-ScriptAnalyzer`, same settings | `./build.ps1 -Lint` |
 | Go (`src/aa-sdlc-cli/**`) | `gofmt` | `go vet` | `./build.ps1 -Lint` |
+| JavaScript (`src/aa-sdlc-cli/npm/aa-sdlc/bin/aa.js`, the one launcher file, decision record 0004) | none adopted for one file | none adopted; `node --check` at pack time | `./pack.ps1` |
 | Workflow YAML (`src/aa-sdlc/workflow/**`) | none known; hand-formatted, two-space indent, flow lists for ids | `scripts/Test-WorkflowStructure.ps1` (shape, ids, cross-references) | `./build.ps1`, `./test.ps1 -Tier unit` |
 | Gherkin (`features/**`) | none known | `scripts/Test-FeatureStructure.ps1` (one Feature, scenarios with Then and Given or When) | `./build.ps1`, `./test.ps1 -Tier unit` |
 | Markdown (`docs/**`, `README.md`, `SKILL.md`) | none known; 100-column wrap by convention | `scripts/Test-SkillStructure.ps1` for `SKILL.md` frontmatter; otherwise none | `./build.ps1`, `./test.ps1 -Tier unit` |

@@ -1,0 +1,27 @@
+{
+  "name": "aa-sdlc",
+  "version": "0.0.0",
+  "description": "The aa CLI for the AA-SDLC framework: bootstrap a machine and a repository, then work through your agent. A native Go binary per platform, delivered through npm.",
+  "license": "SEE LICENSE IN https://aasdlc.com",
+  "homepage": "https://aasdlc.com",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.devpossible.com/devpossible/opensource/aa-sdlc.git"
+  },
+  "bin": {
+    "aa": "bin/aa.js"
+  },
+  "files": [
+    "bin/aa.js",
+    "README.md"
+  ],
+  "optionalDependencies": {
+    "@aa-sdlc/cli-win32-x64": "0.0.0",
+    "@aa-sdlc/cli-win32-arm64": "0.0.0",
+    "@aa-sdlc/cli-darwin-x64": "0.0.0",
+    "@aa-sdlc/cli-darwin-arm64": "0.0.0",
+    "@aa-sdlc/cli-linux-x64": "0.0.0",
+    "@aa-sdlc/cli-linux-arm64": "0.0.0"
+  },
+  "keywords": ["aa-sdlc", "sdlc", "agent", "claude-code", "skills"]
+}
