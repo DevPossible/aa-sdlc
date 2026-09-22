@@ -130,8 +130,8 @@ list that is about to be restructured.
 
 | Phase | Task | Status |
 |-------|------|--------|
-| A | A1 to A6 | not started |
-| B | B1 to B4 | not started |
+| A | A1 to A6 | done 2026-09-22 (commits cee232d to 04fd5a5) |
+| B | B1 to B4 | done 2026-09-22 (0a9a6bf, 6aae2c5, bd4b2c2; B4 folded into B3's document) |
 | C | C1 to C5 | not started |
 | D | D1 to D5 | not started |
 | E | E1 to E3 | not started |

@@ -103,6 +103,12 @@ try {
     New-Item -ItemType Directory -Path $packageDir -Force | Out-Null
     Copy-Item -Path (Join-Path $SourceRoot '*') -Destination $packageDir -Recurse
 
+    # Requirement definitions ship with the package so /aa-fw-health can resolve ids (decision record 0003)
+    $requirementsDir = Join-Path $packageDir 'requirements'
+    New-Item -ItemType Directory -Path $requirementsDir -Force | Out-Null
+    Copy-Item -Path (Join-Path 'features' 'requirements' '*.feature') -Destination $requirementsDir
+    Copy-Item -Path (Join-Path 'docs' 'requirements.md') -Destination (Join-Path $requirementsDir 'registry.md')
+
     @{ BuildDate = (Get-Date -Format 'o'); GitCommit = (git rev-parse HEAD 2>$null) } |
         ConvertTo-Json | Set-Content (Join-Path $packageDir 'build-info.json')
 
