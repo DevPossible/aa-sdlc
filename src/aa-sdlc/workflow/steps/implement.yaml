@@ -18,10 +18,10 @@ artifacts:
     location: source folder, on a branch named per the ticket convention
     acceptance:
       - Builds with the root build script
-      - Every scenario for the ticket has a passing test at each tier the change touches
+      - Every scenario for the ticket has a passing unit test, integration test, and happy-path end-to-end test, as the change warrants each tier
       - Follows the plan, or the deviation is recorded on the ticket with the reason
   - name: Tests that prove the requirement
-    location: unit tests with the project; integration and e2e under tests/
+    location: unit tests with the project; integration and happy-path end-to-end tests under tests/
     acceptance:
       - Happy paths, general permutations, and obvious negative cases are covered (G-20)
 guidance: [G-01, G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20, G-22, G-25]

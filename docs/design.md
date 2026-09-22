@@ -76,7 +76,7 @@ Skills are grouped by discipline, the kind of work they perform. Current discipl
 | Technical Analysis | `technical-analysis` | `ta` | architecture, technology choices, decision records |
 | Refinement | `refinement` | `rf` | turning requirements into a well-formed, prioritised backlog of tickets |
 | Implementation Planning | `implementation-planning` | `ip` | planning how a single ticket will be built before building it |
-| Development | `development` | `dev` | building, reviewing, and merging code, and the automated tests that prove each requirement is met (O-08) |
+| Development | `development` | `dev` | building, reviewing, and merging code, and proving each requirement is met with unit, integration, and happy-path end-to-end tests (O-08) |
 | Testing | `testing` | `qa` | making the test suite as comprehensive as is reasonable: beyond the stated requirement, to find gaps in understanding and in user interaction (O-08) |
 | Security | `security` | `sec` | threat modelling, security testing, dependency and secret hygiene, compliance maintenance |
 | Documentation | `documentation` | `doc` | keeping the knowledge base and repo docs true |

@@ -1096,14 +1096,14 @@ Builds the software and proves it meets the requirement. Every change ships with
 **Owns**
 
 - Application code, schema, migrations, and integration code for a ticket
-- The automated tests that prove the ticket's scenarios at each tier the change touches (O-08, G-20)
+- Proving the requirement is met, with unit tests, integration tests, and happy-path end-to-end tests for every scenario the ticket delivers (O-08, G-20)
 - Code review and merge
 - Defect fixes, reproduced before fixed
 - Performance optimisation of existing code
 
 **Does not own**
 
-- Test coverage beyond the requirement, which belongs to Testing
+- Test coverage beyond the requirement (negative and edge-case end-to-end, boundaries, states, concurrency, exploratory), which belongs to Testing
 - Deciding what a ticket means, which belongs to Business Analysis and Refinement
 - Deploying to production, which belongs to Release Management
 
@@ -1174,9 +1174,9 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 
 - **Application code** in source folder, on a branch named per the ticket convention
   - Builds with the root build script
-  - Every scenario for the ticket has a passing test at each tier the change touches
+  - Every scenario for the ticket has a passing unit test, integration test, and happy-path end-to-end test, as the change warrants each tier
   - Follows the plan, or the deviation is recorded on the ticket with the reason
-- **Tests that prove the requirement** in unit tests with the project; integration and e2e under tests/
+- **Tests that prove the requirement** in unit tests with the project; integration and happy-path end-to-end tests under tests/
   - Happy paths, general permutations, and obvious negative cases are covered (G-20)
 
 **Guidance**
@@ -1192,7 +1192,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-11** Commit every artifact that belongs with the code. Nothing that matters is left only on a local disk or in a conversation.
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-17** After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation.
-- **G-20** When implementing a ticket, write the automated tests that prove it: every happy path, the general permutations and cases, and the obvious negative cases, at each tier the change touches. The ticket is not done until they exist and pass.
+- **G-20** When implementing a ticket, write the automated tests that prove it: unit and integration tests for every happy path, the general permutations and cases, and the obvious negative cases, plus a happy-path end-to-end test for each scenario. The ticket is not done until they exist and pass.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
@@ -1361,7 +1361,7 @@ Makes the test suite as comprehensive as is reasonable. Starts from the scenario
 
 **Does not own**
 
-- The tests that prove a ticket meets its requirement, which belong to Development
+- The unit, integration, and happy-path end-to-end tests that prove a ticket meets its requirement, which belong to Development
 - Fixing defects, which belongs to Development via tickets
 - Security testing, which belongs to Security
 - Production validation, which belongs to Operations

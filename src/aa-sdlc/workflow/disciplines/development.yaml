@@ -8,12 +8,12 @@ purpose: >
   ticket. Development owns "it works"; Testing owns "and here is what we did not think of".
 owns:
   - Application code, schema, migrations, and integration code for a ticket
-  - The automated tests that prove the ticket's scenarios at each tier the change touches (O-08, G-20)
+  - Proving the requirement is met, with unit tests, integration tests, and happy-path end-to-end tests for every scenario the ticket delivers (O-08, G-20)
   - Code review and merge
   - Defect fixes, reproduced before fixed
   - Performance optimisation of existing code
 does_not_own:
-  - Test coverage beyond the requirement, which belongs to Testing
+  - Test coverage beyond the requirement (negative and edge-case end-to-end, boundaries, states, concurrency, exploratory), which belongs to Testing
   - Deciding what a ticket means, which belongs to Business Analysis and Refinement
   - Deploying to production, which belongs to Release Management
 hands_off_to:

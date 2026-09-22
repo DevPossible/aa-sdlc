@@ -106,8 +106,9 @@ prove that class of change.
 
 **O-08 Development proves the requirement; Testing goes beyond it.**
 *The stance:* the Development discipline is responsible for the automated tests that show a
-requirement is met: every happy path, the general permutations and cases, and the obvious
-negative tests, across unit, integration, and end-to-end tiers as the change warrants. A ticket
+requirement is met: unit tests and integration tests covering every happy path, the general
+permutations and cases, and the obvious negative tests, plus a happy-path end-to-end test for
+each scenario. A ticket
 is not done until those exist and pass; they are part of meeting the requirement, not a separate
 task. The Testing discipline is responsible for making the suite as comprehensive as is
 reasonable: starting from the feature files, then applying general testing strategies to find

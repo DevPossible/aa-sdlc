@@ -11,10 +11,10 @@ Feature: Development proves the requirement; Testing goes beyond it
   @G-20
   Scenario: Implementing a ticket includes the tests that prove it
     When "/aa-dev-implement" runs for the ticket
-    Then automated tests exist for every happy path in the ticket's scenarios
-    And automated tests exist for the general permutations and cases
-    And automated tests exist for the obvious negative cases
-    And they exist at each tier the change touches
+    Then unit and integration tests exist for every happy path in the ticket's scenarios
+    And unit and integration tests exist for the general permutations and cases
+    And unit and integration tests exist for the obvious negative cases
+    And a happy-path end-to-end test exists for each scenario
 
   @G-20
   Scenario: A ticket is not done without its tests

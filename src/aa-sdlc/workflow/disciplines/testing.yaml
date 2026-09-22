@@ -14,7 +14,7 @@ owns:
   - Performance and load testing and the baseline it establishes
   - Exploratory testing and the defects and gaps it raises
 does_not_own:
-  - The tests that prove a ticket meets its requirement, which belong to Development
+  - The unit, integration, and happy-path end-to-end tests that prove a ticket meets its requirement, which belong to Development
   - Fixing defects, which belongs to Development via tickets
   - Security testing, which belongs to Security
   - Production validation, which belongs to Operations
