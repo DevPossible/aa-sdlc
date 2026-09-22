@@ -497,11 +497,11 @@ row it supersedes; the superseded row gains only a "Superseded by" note.
 - **Public hosting and licence.** Likely private GitLab mirrored to GitHub, matching existing
   mirror setup. Licence not chosen.
 - **Exact step and command names.** The names in section 4 are working names.
-- **Skills for every step except the five framework authoring commands.** 52 steps have
-  workflow YAML; 5 have a SKILL.md. `health`, `init`, `extend`, and all 44 discipline steps
-  have no skill yet, and the 44 discipline steps have no feature file. Planned, with the
-  health skill, the CLI, executable feature files, and the framing and consolidation debt from
-  the 2026-09-21 review, in [plan-framework-gaps.md](plan-framework-gaps.md).
+- **Skills for every step.** Closed 2026-09-22: all 52 steps have a skill scaffolded from
+  their workflow data by `scripts/New-SkillScaffold.ps1` and completed by hand, a command
+  wrapper, and a feature file; see [plan-framework-gaps.md](plan-framework-gaps.md). The
+  skills have not yet been exercised against a real project; expect the procedures to change
+  as they are.
 - **Review of the generated discipline definitions.** `docs/discipline-review.md` is a first
   draft awaiting the user's adjustments (see `plan-discipline-review.md`).
 - **Schema files** for workflow data and `aa.config.yaml`, to be written alongside the CLI

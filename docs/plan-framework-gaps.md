@@ -1,6 +1,6 @@
 # Plan: Close the Framework Gaps
 
-**Status:** drafted, awaiting review. Started 2026-09-21.
+**Status:** complete. Started 2026-09-21, finished 2026-09-22; see Outcome at the end.
 
 The framework review of 2026-09-21 found that the specification is coherent and validated but
 that nothing executes it yet, and that the specification has outgrown the framing written for
@@ -136,4 +136,13 @@ list that is about to be restructured.
 | C | C1 to C5 | done 2026-09-22 (c0e190b, d055c3d, 8e3e0f8; baseline in development-environment.md); B5 raised by the baseline |
 | D | D1 to D5 | done 2026-09-22 (0466675, 5e5ad39, 8088b9b, bc03373, 06cb646; launcher fix in the following commit) |
 | E | E1 to E3 | done 2026-09-22 (4187ece, b80f518, d1490af); `aa update` and `aa plugin` scenarios remain undefined until those verbs exist |
-| F | F1 to F4 | not started |
+| F | F1 to F4 | done 2026-09-22: F1 (8db3521), F2 and F3 (a6e72ad to 1f615aa), F4 (38 commits ending 13c564d); 52 skills, 52 commands, a feature file for every step |
+
+## Outcome
+
+All six phases are complete as of 2026-09-22. What remains open is listed in the development
+environment document's health baseline (connector authorisation for R-02, R-03, R-22; the
+formatter decision B5; the historical R-28 and R-31 findings) and in the CLI usage text (`aa
+update` and `aa plugin` are not implemented; their scenarios are undefined in the integration
+tier). The `@agent` scenarios, now 648 in total, are contracts reviewed by people; no harness
+executes them.
