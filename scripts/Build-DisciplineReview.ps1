@@ -160,5 +160,5 @@ foreach ($d in ($disciplines.Values | Sort-Object order)) {
     }
 }
 
-Set-Content -Path $OutputPath -Value $sb.ToString() -Encoding utf8 -NoNewline
+Set-Content -Path $OutputPath -Value ($sb.ToString() -replace "`r`n", "`n") -Encoding utf8 -NoNewline
 Write-Host "Wrote $OutputPath" -ForegroundColor Green
