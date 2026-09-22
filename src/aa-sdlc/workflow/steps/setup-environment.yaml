@@ -39,6 +39,6 @@ guidance_inline:
   - Do not choose tools the project has not chosen. Use what the stack document, plugins, and existing config name; where nothing does, ask.
   - Whatever the pipeline will run, make it a script here first. A step that only works on the pipeline runner is a defect (O-11).
   - The fresh clone is the test. If it needs a file from your machine, a page from the wiki, or a value from your head, commit the template and document the source (O-16).
-requires: [R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-39]
+requires: [R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-39, R-13]
 tenets: [T-01, T-07]
 opinions: [O-05, O-06, O-07, O-11, O-12, O-16, O-17, O-21, O-22, O-25]

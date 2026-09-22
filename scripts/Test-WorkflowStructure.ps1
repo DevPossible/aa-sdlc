@@ -166,4 +166,13 @@ foreach ($id in $processes.Keys) {
     }
 }
 
+# Every defined guidance and requirement id is cited by at least one step, process, or set, unless superseded
+$cited = [System.Collections.Generic.HashSet[string]]::new()
+foreach ($item in @($steps.Values) + @($processes.Values) + @($sets.Values)) {
+    foreach ($x in @($item.guidance | Where-Object { $_ })) { [void]$cited.Add($x) }
+    foreach ($x in @($item.requires | Where-Object { $_ })) { [void]$cited.Add($x) }
+}
+foreach ($g in $guidanceIds) { if ($g -notin $supersededGuidance -and -not $cited.Contains($g)) { $problems.Add("guidance ${g}: defined in docs/guidance.md but cited by no step, process, or set") } }
+foreach ($r in $requirementIds) { if (-not $cited.Contains($r)) { $problems.Add("requirement ${r}: defined in docs/requirements.md but cited by no step, process, or set") } }
+
 return $problems

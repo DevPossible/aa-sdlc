@@ -30,5 +30,5 @@ guidance_inline:
   - Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature file.
   - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
   - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
-requires: [R-16]
+requires: [R-16, R-17]
 tenets: [T-06, T-07, T-12]

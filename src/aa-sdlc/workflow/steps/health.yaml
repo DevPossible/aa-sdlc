@@ -25,5 +25,5 @@ guidance_inline:
   - Report not-applicable as its own status. A requirement that cannot apply here (hooks on a target with no hooks) is not a failure and must not look like one.
   - Change nothing. If a probe would need to create, write, or install anything to succeed, report it as unmet and name /aa-fw-init as the remedy.
   - Group the report by kind (environment, project, tooling, coverage) and lead with required-and-unmet.
-requires: [R-07]
+requires: [R-07, R-14, R-15]
 tenets: [T-10, T-11, T-13]

@@ -37,6 +37,6 @@ guidance_inline:
   - Change a dependency with the package manager, never by editing a version in a file. If the tool refuses, the refusal goes on the ticket; it is not bypassed (O-22).
   - Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16).
   - Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
-requires: [R-26, R-27, R-34, R-39]
+requires: [R-26, R-27, R-34, R-39, R-13]
 tenets: [T-04, T-07]
 opinions: [O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25]

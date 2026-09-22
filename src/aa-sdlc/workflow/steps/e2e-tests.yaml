@@ -31,6 +31,6 @@ guidance_inline:
   - Own the test data. Every end-to-end test creates what it needs and cleans up; a test that depends on leftover state will lie eventually.
   - Own the environment too. Start it from the repository's container definitions and tear it down after; a test that needs a shared environment is marked and the reason recorded (O-12).
   - A flaky test is a defect in the test or the system. Quarantine it with a ticket the same day; never wrap it in a retry to hide it (G-06, O-23).
-requires: [R-16, R-25, R-26]
+requires: [R-16, R-25, R-26, R-17]
 opinions: [O-07, O-12, O-23]
 tenets: [T-07]

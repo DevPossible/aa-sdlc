@@ -95,7 +95,7 @@ Aggregate every requirement declared by the installed skills, plugins, and proce
 - Change nothing. If a probe would need to create, write, or install anything to succeed, report it as unmet and name /aa-fw-init as the remedy.
 - Group the report by kind (environment, project, tooling, coverage) and lead with required-and-unmet.
 
-*Requires: R-04, R-07 | Tenets: T-10, T-11, T-13*
+*Requires: R-04, R-07, R-14, R-15 | Tenets: T-10, T-11, T-13*
 
 ### `/aa-fw-init`
 
@@ -128,7 +128,7 @@ Run health, then work through the unmet requirements that need judgement, fixing
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
 - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
 
-*Requires: R-04, R-07 | Tenets: T-06, T-11*
+*Requires: R-04, R-07, R-14, R-15 | Tenets: T-06, T-11*
 
 ### `/aa-fw-extend`
 
@@ -700,7 +700,7 @@ Confirm with the people who asked for it that what was built is what they meant.
 - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
 - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
 
-*Requires: R-04, R-02, R-07, R-22, R-16 | Tenets: T-06, T-07, T-12 | Methodology: phase 5 step 5.2*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-17 | Tenets: T-06, T-07, T-12 | Methodology: phase 5 step 5.2*
 
 ## 3. UX Design
 
@@ -1664,7 +1664,7 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 - Whatever the pipeline will run, make it a script here first. A step that only works on the pipeline runner is a defect (O-11).
 - The fresh clone is the test. If it needs a file from your machine, a page from the wiki, or a value from your head, commit the template and document the source (O-16).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-39 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16, O-17, O-21, O-22, O-25 | Methodology: phase 2 step 2.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-39, R-13 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16, O-17, O-21, O-22, O-25 | Methodology: phase 2 step 2.1*
 
 ### `/aa-dev-implement`
 
@@ -1732,7 +1732,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - System.Collections.Hashtable
 - Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-26, R-27, R-34, R-39 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-26, R-27, R-34, R-39, R-13 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -2077,7 +2077,7 @@ Start from the scenarios and the tests Development wrote, then apply general tes
 - Every test you add runs alone and in any order with the same result. Control time, randomness, state, and dependencies; never lean on another test having run first (O-23).
 - A pending scenario is a real scenario with a tag saying it awaits an answer. Do not leave gaps as comments in test code.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-16 | Tenets: T-07, T-12 | Opinions: O-08, O-23 | Methodology: phase 3 step 3.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-16, R-17 | Tenets: T-07, T-12 | Opinions: O-08, O-23 | Methodology: phase 3 step 3.1*
 
 ### `/aa-qa-e2e-tests`
 
@@ -2127,7 +2127,7 @@ Automate the scenarios that can only be proven through the whole system as the u
 - Own the environment too. Start it from the repository's container definitions and tear it down after; a test that needs a shared environment is marked and the reason recorded (O-12).
 - A flaky test is a defect in the test or the system. Quarantine it with a ticket the same day; never wrap it in a retry to hide it (G-06, O-23).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-16, R-25, R-26 | Tenets: T-07 | Opinions: O-07, O-12, O-23 | Methodology: phase 3 step 3.2*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-16, R-25, R-26, R-17 | Tenets: T-07 | Opinions: O-07, O-12, O-23 | Methodology: phase 3 step 3.2*
 
 ### `/aa-qa-performance-test`
 

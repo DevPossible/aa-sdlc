@@ -31,6 +31,6 @@ guidance_inline:
   - Test the seams. The boundaries between components, between tiers, and between the system and its dependencies are where the requirement was vaguest.
   - Every test you add runs alone and in any order with the same result. Control time, randomness, state, and dependencies; never lean on another test having run first (O-23).
   - A pending scenario is a real scenario with a tag saying it awaits an answer. Do not leave gaps as comments in test code.
-requires: [R-16]
+requires: [R-16, R-17]
 tenets: [T-07, T-12]
 opinions: [O-08, O-23]
