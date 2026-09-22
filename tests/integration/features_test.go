@@ -27,7 +27,8 @@ type world struct {
 	out     string
 	errOut  string
 	exit    int
-	config  string // the last project config written, for later steps
+	config  string // the project config as it was before a step, for later steps
+	plugin  string // a fixture plugin folder created for the scenario
 }
 
 func TestFeatures(t *testing.T) {
@@ -333,6 +334,133 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	sc.Step(`^it names the targets it supports$`, func() error { return w.outputContains("supported: Claude Code") })
 	sc.Step(`^it still writes the user config$`, func() error { return w.exists(w.home, ".aa/aa.config.yaml") })
 	sc.Step(`^it tells the user to run "aa init" in a repository$`, func() error { return w.outputContains("run aa init") })
+
+	// --- update ---
+	sc.Step(`^a newer aa-sdlc package is installed globally$`, func() error { return nil }) // the binary under test is the package version
+	sc.Step(`^I run "aa update"$`, func() error { w.snapshotConfig(); return w.run(w.project, "", "update") })
+	sc.Step(`^"aa update" completes$`, func() error { w.snapshotConfig(); return w.run(w.project, "", "update") })
+	sc.Step(`^the skills and commands at user scope match the package version$`, func() error {
+		return w.exists(w.home, ".claude/commands/aa-fw-health.md")
+	})
+	sc.Step(`^the user config records the new version$`, func() error {
+		b, err := os.ReadFile(filepath.Join(w.home, ".aa", "aa.config.yaml"))
+		if err != nil {
+			return err
+		}
+		if !strings.Contains(string(b), "version:") {
+			return errors.New("user config has no install version")
+		}
+		return nil
+	})
+	sc.Step(`^the project-scope skills and commands match the package version$`, func() error {
+		return w.exists(w.project, ".claude/commands/aa-fw-health.md")
+	})
+	sc.Step(`^project config, documents, and feature files are left as they are$`, func() error {
+		after, err := os.ReadFile(filepath.Join(w.project, "aa.config.yaml"))
+		if err != nil {
+			return err
+		}
+		if string(after) != w.config {
+			return errors.New("aa update changed the project config")
+		}
+		return nil
+	})
+	sc.Step(`^it lists the skills and commands that were added, changed, or removed$`, func() error {
+		for _, word := range []string{"added", "changed", "removed"} {
+			if err := w.outputContains(word); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+
+	// --- plugin ---
+	sc.Step(`^I run "aa plugin add <plugin>"$`, func() error {
+		if w.plugin == "" {
+			w.plugin = w.writeFixturePlugin("fixture", "notes")
+		}
+		return w.run(w.project, "", "plugin", "add", w.plugin)
+	})
+	sc.Step(`^I run "aa plugin add <plugin> --scope user"$`, func() error {
+		w.plugin = w.writeFixturePlugin("fixture", "notes")
+		return w.run(w.project, "", "plugin", "add", w.plugin, "--scope", "user")
+	})
+	sc.Step(`^the plugin's skills and commands are installed at project scope$`, func() error {
+		return w.exists(w.project, ".claude/skills/aa-fixture-notes/SKILL.md")
+	})
+	sc.Step(`^the project config records the plugin$`, func() error { return w.configContains("- fixture") })
+	sc.Step(`^the plugin's skills and commands are installed at user scope$`, func() error {
+		return w.exists(w.home, ".claude/skills/aa-fixture-notes/SKILL.md")
+	})
+	sc.Step(`^the user config records the plugin$`, func() error {
+		b, err := os.ReadFile(filepath.Join(w.home, ".aa", "aa.config.yaml"))
+		if err != nil {
+			return err
+		}
+		if !strings.Contains(string(b), "- fixture") {
+			return fmt.Errorf("user config does not record the plugin:\n%s", b)
+		}
+		return nil
+	})
+	sc.Step(`^a plugin is installed at a scope$`, func() error {
+		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+			return err
+		}
+		w.plugin = w.writeFixturePlugin("fixture", "notes")
+		return w.run(w.project, "", "plugin", "add", w.plugin)
+	})
+	sc.Step(`^I run "aa plugin remove <plugin>"$`, func() error { return w.run(w.project, "", "plugin", "remove", "fixture") })
+	sc.Step(`^its skills and commands are removed from that scope$`, func() error {
+		if _, err := os.Stat(filepath.Join(w.project, ".claude", "skills", "aa-fixture-notes")); err == nil {
+			return errors.New("plugin skill still installed")
+		}
+		return nil
+	})
+	sc.Step(`^core skills are untouched$`, func() error { return w.exists(w.project, ".claude/skills/aa-fw-health/SKILL.md") })
+	sc.Step(`^I run "aa plugin list"$`, func() error { return w.run(w.project, "", "plugin", "list") })
+	sc.Step(`^it lists installed plugins by scope$`, func() error {
+		if err := w.outputContains("Installed"); err != nil {
+			return err
+		}
+		return w.outputContains("scope")
+	})
+	sc.Step(`^it lists the plugins available from the organisation config repository, if one is set$`, func() error {
+		return w.outputContains("Available")
+	})
+	sc.Step(`^a plugin that redefines a core skill$`, func() error {
+		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+			return err
+		}
+		w.plugin = w.writeFixturePlugin("bad", "implement")
+		return nil
+	})
+	sc.Step(`^the plugin is refused$`, func() error {
+		if w.exit == 0 {
+			return fmt.Errorf("expected a non-zero exit, got 0:\n%s", w.out)
+		}
+		return w.errContains("refused")
+	})
+	sc.Step(`^the reason names the core skill it tried to change$`, func() error { return w.errContains(`"implement"`) })
+}
+
+// snapshotConfig remembers the project config so a later step can prove it was left alone.
+func (w *world) snapshotConfig() {
+	b, _ := os.ReadFile(filepath.Join(w.project, "aa.config.yaml"))
+	w.config = string(b)
+}
+
+// writeFixturePlugin creates a plugin folder under the scenario's home and returns its path.
+func (w *world) writeFixturePlugin(name string, skills ...string) string {
+	dir := filepath.Join(w.home, "plugins", name)
+	_ = os.MkdirAll(dir, 0o755)
+	manifest := "name: " + name + "\nversion: 0.1.0\nkind: tech-stack\nadds:\n  skills: [" + strings.Join(skills, ", ") + "]\n"
+	_ = os.WriteFile(filepath.Join(dir, "plugin.yaml"), []byte(manifest), 0o644)
+	for _, s := range skills {
+		d := filepath.Join(dir, "skills", s)
+		_ = os.MkdirAll(d, 0o755)
+		_ = os.WriteFile(filepath.Join(d, "SKILL.md"), []byte("---\nname: "+s+"\ndescription: \""+name+" "+s+"\"\n---\n# "+s+"\n"), 0o644)
+	}
+	return dir
 }
 
 // run executes aa with the scenario's AA_HOME, feeding stdin, from dir.
