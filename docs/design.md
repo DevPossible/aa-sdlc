@@ -57,25 +57,19 @@ requirements are registered in [requirements.md](requirements.md) and defined au
 as feature files under [`features/`](../features/).
 
 The framework is opinionated, and its **opinions** are stated up front in
-[opinions.md](opinions.md): requirements are Gherkin; every project uses source control, a
-ticket manager, and a knowledge repository; every repository shares one folder structure and
-has root scripts for initialize, build, test, and pack; every repository has unit, integration,
-and end-to-end tests; Development proves the requirement while Testing goes beyond it; every
-repository maps to exactly one ticket project; every size is grounded in recorded
-implementation thinking; every pipeline step runs locally, exactly; end-to-end tests run
-against containers started from definitions in the repository; a refined ticket is checked
-against the repository before work starts on it; commit messages are Conventional Commits; a
-requirement starts with written goals, with the mock-up generated from them afterwards;
-everything needed to build and operate the software is versioned in the repository; commits
-are small, cohesive, and made by the user, never by the agent unasked; every significant
-decision is a numbered, immutable decision record; every change traces back to the ticket,
-scenario, or decision that is its purpose; the design is the simplest one that meets the
-scenarios, with nothing speculative; coding conventions are enforced by formatter and linter
-configuration in the repository, not by people; dependencies change only through the package
-manager, never by editing a manifest or lock file; every test is deterministic and independent,
-with time, randomness, state, and external dependencies under its control; a release artifact
-is built once and promoted unchanged through every environment; and settings that vary by
-environment live apart from functional settings that do not.
+[opinions.md](opinions.md), in seven groups. The three systems (O-02, O-03, O-04, O-09):
+source control, a ticket system, and a knowledge repository hold the state, and each
+repository maps to one ticket project. The shape of a repository (O-05, O-06, O-07, O-16): one
+layout, four root scripts, three test tiers, everything needed to build and operate it
+versioned. Requirements (O-01, O-15, O-20): Gherkin is the source of truth, goals come before
+mock-ups, and the design is the simplest that meets the scenarios. Tickets (O-10, O-13): a size
+is grounded in implementation thinking and a waiting ticket is re-checked against the
+repository. Commits and history (O-14, O-17, O-19, O-22): Conventional Commits, small, made by
+the user, traceable, with dependencies changed through the package manager. The delivery path
+(O-11, O-12, O-24, O-25): every pipeline step runs locally, end-to-end tests run against
+containers, one artifact is promoted, and environment settings live apart from functional
+ones. Practice (O-08, O-18, O-21, O-23): Development proves and Testing goes beyond, decisions
+are records, conventions are enforced by tools, tests are deterministic.
 
 ## 3. Architecture
 

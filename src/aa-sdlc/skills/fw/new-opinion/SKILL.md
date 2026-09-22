@@ -37,8 +37,10 @@ Ask for anything missing before writing:
    user until it does not. If it is really guidance or a tenet, say so and stop.
 2. **Take the next id.** Read `docs/opinions.md`, find the highest `O-nn`, use the next
    number. Never reuse or renumber.
-3. **Write the entry** in `docs/opinions.md`, before the summary section that begins
-   "Opinions O-05, O-06", in this exact shape:
+3. **Write the entry** in `docs/opinions.md`, at the end of the group it belongs to (the three
+   systems, the shape of a repository, requirements, tickets, commits and history, the delivery
+   path, practice). If none fits, propose a new group to the user and give it a lead sentence.
+   The entry has this exact shape:
 
    ```
    **O-nn <Short statement>.**
@@ -49,9 +51,9 @@ Ask for anything missing before writing:
    *Requirements:* R-.. *Guidance:* G-..
    ```
 
-   Then update that summary paragraph so it names the new opinion.
-4. **List it up front.** Add a numbered line to the opinions list in `README.md` and extend
-   the opinions sentence in `docs/design.md` section 2.
+   Then extend the group's lead sentence so it covers the new opinion in a few words.
+4. **List it up front.** Add the new id and its few words to the group's line in the
+   `README.md` opinions list and to the group's sentence in `docs/design.md` section 2.
 5. **Create implied requirements.** For each capability the stance assumes, add a row to the
    right table in `docs/requirements.md` with the next `R-nn`, then add a met scenario and an
    unmet scenario to the matching file under `features/requirements/`, tagged `@R-nn`, the

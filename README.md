@@ -11,74 +11,25 @@ this repository with Claude Code (open it in this folder); nothing else is insta
 ## We are opinionated, and here are the opinions
 
 Read these before anything else. If you disagree, the framework is probably not for you, and we
-would rather you know now. Full statements, with what each rejects and what would change our
-mind, are in [docs/opinions.md](docs/opinions.md).
+would rather you know now. The opinions are grouped by what they govern; each line below is a
+group's short form. Full statements, with what each rejects and what would change our mind, are
+in [docs/opinions.md](docs/opinions.md).
 
-1. **Requirements are written in Gherkin**, kept in the repository, and are the source of truth
-   for what the software must do. The tooling keeps them linked to tickets and wiki pages.
-2. **All good development uses source control.** Work that is not committed did not happen.
-3. **All good projects use a ticket manager.** Every unit of work anchors on a ticket, and the
-   ticket system is the state store.
-4. **All projects need a knowledge repository.** Tickets say what happened; the wiki says why.
-5. **All repositories share one folder structure**, whatever they contain.
-6. **Every repository has root scripts** for initialize, build, test, and pack, with general
-   parameters for filtering and switches.
-7. **Every repository has unit, integration, and end-to-end tests**, each selectable by tier.
-8. **Development proves the requirement; Testing goes beyond it.** Developers write the tests
-   that show a ticket is met. Testers make the suite as comprehensive as is reasonable and turn
-   every gap they find into a scenario.
-9. **One repository, one ticket project.** Many repositories may share a ticket project; a
-   single repository never manages tickets across two.
-10. **A size is grounded in implementation thinking.** A ticket carries no size until it also
-    carries written thought about how it will be built, at a depth that matches the stakes.
-    A number without that is a guess, labelled as one and never recorded as the size.
-11. **Every pipeline step runs locally, exactly.** The pipeline calls scripts that live in the
-    repository; a step that exists only in the pipeline is a defect, because a failure there
-    can only be debugged by pushing and waiting.
-12. **End-to-end tests run against containers**, started from definitions in the repository,
-    wherever the stack allows. The same definitions serve the developer's machine and the
-    pipeline.
-13. **A refined ticket is checked against the repository before work starts.** A ticket
-    records the revision it was refined against; whoever picks it up first checks what has
-    changed in the feature files and code it touches, and sends any conflict back to
-    refinement rather than building on it.
-14. **Commit messages are Conventional Commits.** Type, optional scope, imperative subject, a
-    body that says why, and a footer with the ticket. The history becomes data: release notes
-    and version bumps come from it.
-15. **A requirement starts with written goals; the mock-up comes after.** A screenshot that
-    arrives first is evidence, not a requirement. The outcome and scenarios are written and
-    refined, and the mock-up is generated from them.
-16. **Version everything needed to build and operate the software.** Configuration templates,
-    migrations, automation, and operating documentation live in the repository. A fresh clone
-    plus the documented secrets is enough to build, deploy, and run it.
-17. **Small, cohesive commits, made by the user.** Each commit is one understandable change.
-    The agent stages it, writes the message, and stops; it never commits unless the user asked
-    for that commit. Reviewing before the commit is where the human directs the work.
-18. **Decisions are decision records.** Technical, product, or process: one screen, numbered,
-    dated, with context, options, decision, and consequences. Immutable once accepted; a change
-    of mind is a new record that supersedes the old one.
-19. **Every change traces back to its purpose.** The commit names a ticket, the ticket links to
-    the scenarios it satisfies or the decision that explains it, and the chain runs both ways.
-    A change that cannot name its purpose is a ticket to create first or work not to do.
-20. **The simplest design that meets the scenarios.** No speculative features, no abstraction
-    with one implementation, no extension point nobody extends. Every component names the
-    scenario that requires it or the decision record that justifies it.
-21. **Conventions are enforced by tools, not by people.** Formatter and linter configuration
-    in the repository, formatting on changed files, linting in the root build and the pipeline.
-    A linter is recommended, not required; where none is known, health warns and moves on.
-22. **Dependencies change through the package manager, never by hand.** Add, update, and
-    remove with the tool so conflicts, warnings, transitive dependencies, and the lock file are
-    handled together. A version number is never edited in a file; a tool refusal is a finding.
-23. **Tests are deterministic and independent.** Time, randomness, shared state, and external
-    dependencies are controlled; any test runs alone or in any order with the same result. A
-    flaky test is a defect, quarantined with a ticket and never retried into green.
-24. **Build once; promote the same artifact.** One build per commit, an immutable identity,
-    and every environment deploys that identity. Configuration is supplied at deploy time,
-    never baked in; nothing is rebuilt for a later environment.
-25. **Environment settings and functional settings live apart.** Endpoints, connection strings,
-    and credentials go in an environment file, one per environment, supplied at deploy time.
-    Timeouts, limits, and behaviour go in the application configuration, committed once. No key
-    lives in both.
+- **The three systems** (O-02, O-03, O-04, O-09): source control, a ticket system, and a
+  knowledge repository hold the state; the framework owns none; one repository, one ticket project.
+- **The shape of a repository** (O-05, O-06, O-07, O-16): one folder layout, four root scripts,
+  three test tiers, and everything needed to build and operate the software, versioned.
+- **Requirements** (O-01, O-15, O-20): Gherkin in the repository is the source of truth; goals
+  before mock-ups; the simplest design that meets the scenarios.
+- **Tickets** (O-10, O-13): a size is grounded in implementation thinking; a waiting ticket is
+  checked against the repository before work starts.
+- **Commits and history** (O-14, O-17, O-19, O-22): Conventional Commits, small and cohesive,
+  made by the user, traceable to their purpose; dependencies change through the package manager.
+- **The delivery path** (O-11, O-12, O-24, O-25): every pipeline step runs locally; end-to-end
+  tests run against containers; build once and promote; environment settings live apart from
+  functional settings.
+- **Practice** (O-08, O-18, O-21, O-23): Development proves the requirement and Testing goes
+  beyond it; decisions are records; conventions are enforced by tools; tests are deterministic.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).
