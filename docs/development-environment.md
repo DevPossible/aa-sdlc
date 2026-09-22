@@ -58,7 +58,9 @@ runs nothing in an environment. Therefore:
 |--------|-------------|-------------------------|-------------|
 | Jira project AA | `aa.config.yaml` `conventions.ticket` | Atlassian connector present in the session; devpossible site not granted to it | R-02 and R-22 report unmet until the site is granted; steps produce local artifacts meanwhile |
 | Confluence space AS | `aa.config.yaml` `conventions.knowledge` | same connector, same state | R-03 reports unmet until granted; decisions are in `docs/decisions/` regardless |
-| GitLab remote | `git remote` | git CLI | R-01 and R-05 met |
+| GitLab remote | `git remote` | git CLI | R-01 and R-05 met; the pipeline runs here and nowhere else |
+| GitHub mirror `DevPossible/aa-sdlc` | GitLab push mirror, protected branches only | none needed; GitLab pushes | private until the licence is chosen; never push to it directly |
+| Azure DevOps `OpenSource/aa-sdlc` | GitLab push mirror, every branch | none needed; GitLab pushes | backup only; no pipeline definition may exist there |
 
 ## Test tiers (O-07)
 
