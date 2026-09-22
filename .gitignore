@@ -68,6 +68,9 @@ node_modules/
 # Go CLI: content package copied in at build time and embedded; compiled outputs
 /src/aa-sdlc-cli/internal/content/data/
 /src/aa-sdlc-cli/bin/
+# the npm launcher lives in a bin/ folder that the .NET rule above would otherwise ignore
+!/src/aa-sdlc-cli/npm/aa-sdlc/bin/
+!/src/aa-sdlc-cli/npm/aa-sdlc/bin/aa.js
 
 # Editor workspace files (personal)
 *.code-workspace
