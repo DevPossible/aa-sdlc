@@ -171,6 +171,30 @@ Feature: Project requirements
     And the report says the ticket may be building against a repository that has moved
     And the remedy is for the user to run the check now and record it
 
+  @R-28 @required @O-14
+  Scenario: Commits follow the configured Conventional Commits format
+    Given the merged config has a commit pattern and a list of allowed types
+    And a sample of recent commits on the default branch parse against them
+    When "/aa-fw-health" probes R-28
+    Then R-28 is reported as met
+
+  @R-28 @required @O-14
+  Scenario: The config names no commit format
+    Given the merged config has no commit pattern or no list of types
+    When "/aa-fw-health" probes R-28
+    Then R-28 is reported as unmet
+    And the remedy is for "aa init" to write the default pattern and types
+
+  @R-28 @required @O-14
+  Scenario: Commits on the default branch do not conform
+    Given the merged config names the commit format
+    And recent commits on the default branch do not parse against it
+    When "/aa-fw-health" probes R-28
+    Then R-28 is reported as unmet
+    And the report lists the non-conforming commits
+    And the report says prepare-release cannot derive notes or a version from them
+    And the remedy names a commit-message hook where the target supports hooks
+
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure
     Given the documents, features, scripts, source, and tests folders exist at the root

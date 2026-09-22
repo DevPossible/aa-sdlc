@@ -143,7 +143,9 @@ conventions:
   branch:
     pattern: "{type}/{id}-{slug}"
   commit:
-    pattern: "{type}({scope}): {subject}\n\n{id}"
+    pattern: "{type}({scope}): {subject}\n\n{id}"   # Conventional Commits (O-14); type comes from the list below
+    types: [feat, fix, docs, style, refactor, perf, test, build, ci, chore]
+    scopes: []                      # optional allow-list; empty means any scope
 folders:                            # only needed when a repo does not use the conventional names
   documents: docs
   features: features

@@ -42,6 +42,9 @@ mind, are in [docs/opinions.md](docs/opinions.md).
     records the revision it was refined against; whoever picks it up first checks what has
     changed in the feature files and code it touches, and sends any conflict back to
     refinement rather than building on it.
+14. **Commit messages are Conventional Commits.** Type, optional scope, imperative subject, a
+    body that says why, and a footer with the ticket. The history becomes data: release notes
+    and version bumps come from it.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).

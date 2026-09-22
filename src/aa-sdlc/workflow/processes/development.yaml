@@ -11,7 +11,7 @@ steps:
   - implement
   - review
   - finish-branch
-guidance: [G-08, G-09, G-20, G-22, G-32]
+guidance: [G-08, G-09, G-20, G-22, G-32, G-33]
 exit: >
   Every committed ticket is merged on a branch that references it, with passing tests at each
   tier the change touched, and the ticket is transitioned.

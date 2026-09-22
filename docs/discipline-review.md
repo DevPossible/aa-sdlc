@@ -1319,7 +1319,7 @@ Builds the software and proves it meets the requirement. Every change ships with
 - **Release Management** when merged work is ready to be included in a release
 - **Documentation** when a change affects user or developer documentation
 
-*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12, O-13*
+*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12, O-13, O-14*
 
 ### Commands
 
@@ -1409,13 +1409,14 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
+- **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
 - Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
-- Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real.
+- Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real, each a Conventional Commit that names its type and its ticket (O-14).
 - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
 - Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
 
-*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26, R-27 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26, R-27, R-28 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1451,11 +1452,12 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
+- **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
 - No reproduction, no fix. If it cannot be reproduced, the ticket gets what was tried and goes back for more information.
 - Find the cause before touching code. Form a hypothesis, test it, and record the result on the ticket; three hypotheses without evidence means stop and reassess (G-17).
 - If the defect violates no scenario, one is missing. Add it to the feature file with the fix so the requirement is now stated.
 
-*Requires: R-01, R-02, R-04, R-05, R-11, R-16, R-22, R-24, R-27 | Tenets: T-07, T-12 | Opinions: O-13*
+*Requires: R-01, R-02, R-04, R-05, R-11, R-16, R-22, R-24, R-27, R-28 | Tenets: T-07, T-12 | Opinions: O-13, O-14*
 
 ### `/aa-dev-review`
 
@@ -1483,12 +1485,14 @@ Review a merge request against its ticket, its scenarios, its plan, and the proj
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
 - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
 - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
 - Blocking findings are about correctness, security, and the requirement. Style is a non-blocking comment, or a formatter's job (G-01).
+- Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).
 - Report faithfully: "approved" means every scenario has a passing test that you saw run.
 
-*Requires: R-01, R-02, R-10, R-11 | Tenets: T-07*
+*Requires: R-01, R-02, R-10, R-11, R-28 | Tenets: T-07 | Opinions: O-14*
 
 ### `/aa-dev-finish-branch`
 
@@ -1505,6 +1509,7 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
   - Title and description reference the ticket and summarise the change and its tests
   - Changed files are formatted; unrelated files are untouched (G-01)
   - Full test suite passes on the branch as it will be merged
+  - Every commit on the branch is a Conventional Commit with a type from the project config (O-14)
 - **Ticket transition** in the ticket system
   - The ticket moves to the state the project uses for "in review" or "done", with the merge request linked
 
@@ -1524,12 +1529,13 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
+- **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
 - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
 - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
 - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
 
-*Requires: R-01, R-02, R-05, R-08, R-09, R-11, R-22, R-24 | Tenets: T-06, T-07*
+*Requires: R-01, R-02, R-05, R-08, R-09, R-11, R-22, R-24, R-28 | Tenets: T-06, T-07 | Opinions: O-14*
 
 ### `/aa-dev-optimize`
 
@@ -1892,7 +1898,7 @@ Gets built, tested software into production deliberately and gets it back out if
 - **Support** when a release causes an incident
 - **Product Management** when release notes and outcomes feed the roadmap
 
-*Tenets: T-06, T-07 | Opinions: O-02, O-06*
+*Tenets: T-06, T-07 | Opinions: O-02, O-06, O-14*
 
 ### Commands
 
@@ -1915,7 +1921,7 @@ Assemble a release: decide the version, generate release notes from the tickets 
 **Artifacts**
 
 - **Version and release notes** in source control as a tag and notes file; the ticket system as the release; the knowledge base
-  - Version follows the project's scheme and is justified by the changes
+  - Version follows the project's scheme and the bump is derived from the commit types since the last tag (O-14)
   - Every included ticket appears in the notes; nothing appears that is not included
   - Written for the audience the project names: users, operators, or both
 - **Change record and go/no-go checklist** in the release ticket
@@ -1933,11 +1939,12 @@ Assemble a release: decide the version, generate release notes from the tickets 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- Generate the notes from the record, then edit for the reader. Tickets and commits say what changed; a person says what it means.
+- **G-34** Derive the release from the history: the version bump from the commit types since the last tag (breaking change, feature, fix) and the release notes by grouping commits by type and ticket, then edit the notes for the reader. A commit that does not parse is a finding on the release ticket, not something to work around.
+- Generate the notes from the record, then edit for the reader. Group commits by type and ticket (O-14); tickets and commits say what changed, a person says what it means.
 - Never mark a checklist item done on someone's word. Link the test run, the approval, the scan.
 - A release with an unexplained change in it is not ready. Every commit since the last tag traces to a ticket or gets one.
 
-*Requires: R-01, R-02, R-03, R-04, R-05, R-11, R-20 | Tenets: T-06, T-07*
+*Requires: R-01, R-02, R-03, R-04, R-05, R-11, R-20, R-28 | Tenets: T-06, T-07 | Opinions: O-14*
 
 ### `/aa-rel-release`
 

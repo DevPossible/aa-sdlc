@@ -15,7 +15,7 @@ artifacts:
   - name: Version and release notes
     location: source control as a tag and notes file; the ticket system as the release; the knowledge base
     acceptance:
-      - Version follows the project's scheme and is justified by the changes
+      - Version follows the project's scheme and the bump is derived from the commit types since the last tag (O-14)
       - Every included ticket appears in the notes; nothing appears that is not included
       - "Written for the audience the project names: users, operators, or both"
   - name: Change record and go/no-go checklist
@@ -23,10 +23,11 @@ artifacts:
     acceptance:
       - Every checklist item has evidence linked or is marked not applicable with a reason
       - The decision and who made it are recorded
-guidance: [G-02, G-04, G-11, G-12, G-13, G-15, G-22, G-24, G-26]
+guidance: [G-02, G-04, G-11, G-12, G-13, G-15, G-22, G-24, G-26, G-34]
 guidance_inline:
-  - Generate the notes from the record, then edit for the reader. Tickets and commits say what changed; a person says what it means.
+  - Generate the notes from the record, then edit for the reader. Group commits by type and ticket (O-14); tickets and commits say what changed, a person says what it means.
   - Never mark a checklist item done on someone's word. Link the test run, the approval, the scan.
   - A release with an unexplained change in it is not ready. Every commit since the last tag traces to a ticket or gets one.
-requires: [R-01, R-02, R-03, R-04, R-05, R-11, R-20]
+requires: [R-01, R-02, R-03, R-04, R-05, R-11, R-20, R-28]
 tenets: [T-06, T-07]
+opinions: [O-14]

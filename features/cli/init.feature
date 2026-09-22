@@ -36,6 +36,13 @@ Feature: aa init bootstraps a repository
     Then the project config records a default pattern for referencing the anchor ticket
     And the pattern can be changed in the project config
 
+  @O-14 @R-28
+  Scenario: Record the commit message format
+    When I run "aa init"
+    Then the project config records the Conventional Commits pattern
+    And it records the default list of commit types
+    And the types and scopes can be changed in the project config
+
   @O-09 @R-22
   Scenario: Record the one ticket project
     When I run "aa init"

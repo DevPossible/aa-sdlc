@@ -24,4 +24,4 @@ hands_off_to:
     when: release notes and outcomes feed the roadmap
 steps: [prepare-release, release, rollback]
 tenets: [T-06, T-07]
-opinions: [O-02, O-06]
+opinions: [O-02, O-06, O-14]
