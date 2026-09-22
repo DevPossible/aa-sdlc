@@ -158,8 +158,12 @@ plugins:                            # added to the merged list, never removed by
 conventions:
   ticket:
     project: "ABC"                  # the ONE ticket system project or group this repo maps to (O-09)
+    url: https://tickets.example.com/projects/ABC   # where it lives; the agent finds a connector for it (T-05)
     pattern: "[A-Z]+-\\d+"          # how a ticket id looks; used in tags, branches, commits
     tag: "@{id}"                    # how a scenario is tagged with its ticket
+  knowledge:
+    space: "ABC"                    # the knowledge repository for this project (O-04)
+    url: https://wiki.example.com/spaces/ABC
   branch:
     pattern: "{type}/{id}-{slug}"
   commit:

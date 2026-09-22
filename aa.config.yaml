@@ -1,0 +1,29 @@
+# aa.config.yaml (project scope) for the aa-sdlc repository itself. See docs/formats.md section 2
+# and docs/decisions/0001 and 0002.
+version: 1
+scope: project
+targets:
+  - claude-code
+plugins: []
+conventions:
+  ticket:
+    project: "AA"                     # the ONE ticket system project this repo maps to (O-09)
+    url: https://devpossible.atlassian.net/jira/software/projects/AA
+    pattern: "AA-\\d+"                # how a ticket id looks; used in tags, branches, commits
+    tag: "@{id}"                      # how a scenario is tagged with its ticket
+  knowledge:
+    space: "AS"                       # the knowledge repository for this project (O-04)
+    url: https://devpossible.atlassian.net/wiki/spaces/AS
+  branch:
+    pattern: "{type}/{id}-{slug}"
+  commit:
+    pattern: "{type}({scope}): {subject}\n\n{id}"   # Conventional Commits (O-14)
+    types: [feat, fix, docs, style, refactor, perf, test, build, ci, chore]
+    scopes: []                        # any scope
+folders:
+  documents: docs
+  features: features
+  scripts: scripts
+  source: src
+  tests: tests
+  decisions: docs/decisions           # numbered, immutable decision records (O-18)
