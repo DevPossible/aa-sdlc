@@ -59,3 +59,19 @@ Feature: Environment requirements
     Then R-04 is reported as unmet
     And the report names guidance G-02 as depending on it
     And the remedy is for the user to enable a code execution tool
+
+  @R-25 @recommended @O-12
+  Scenario: A container runtime is available
+    Given the agent has a container runtime available from the shell
+    And it can start and stop a container
+    When "/aa-fw-health" probes R-25
+    Then R-25 is reported as met
+
+  @R-25 @recommended @O-12
+  Scenario: No container runtime is available
+    Given the agent has no container runtime available
+    When "/aa-fw-health" probes R-25
+    Then R-25 is reported as unmet
+    And the report names e2e-tests and setup-environment as depending on it
+    And the report says the e2e tier will run against whatever the test script can reach until one is available
+    And the remedy is for the user to install a container runtime

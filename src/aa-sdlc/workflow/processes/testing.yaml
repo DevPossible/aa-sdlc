@@ -11,7 +11,7 @@ steps:
   - performance-test
   - security-test
   - explore
-guidance: [G-21, G-22]
+guidance: [G-21, G-22, G-30]
 exit: >
   Every scenario has a test at the tier the strategy assigned; gaps found are scenarios and
   questions; security and performance results are recorded with tickets for every miss.

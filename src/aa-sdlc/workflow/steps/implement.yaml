@@ -24,12 +24,12 @@ artifacts:
     location: unit tests with the project; integration and happy-path end-to-end tests under tests/
     acceptance:
       - Happy paths, general permutations, and obvious negative cases are covered (G-20)
-guidance: [G-01, G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20, G-22, G-25, G-27]
+guidance: [G-01, G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20, G-22, G-25, G-27, G-30]
 guidance_inline:
   - Write the failing test for the scenario before the code that passes it. Then the code has one job.
   - Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real.
   - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
   - Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
-requires: [R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22]
+requires: [R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26]
 tenets: [T-04, T-07]
-opinions: [O-08]
+opinions: [O-08, O-12]

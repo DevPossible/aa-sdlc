@@ -1312,7 +1312,7 @@ Builds the software and proves it meets the requirement. Every change ships with
 - **Release Management** when merged work is ready to be included in a release
 - **Documentation** when a change affects user or developer documentation
 
-*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08*
+*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12*
 
 ### Commands
 
@@ -1342,6 +1342,7 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 - **Working root scripts** in the repository root
   - initialize, build, test, and pack each run to completion on a fresh clone (O-06)
   - test accepts a tier parameter and each tier has a home (O-07)
+  - The e2e tier starts the system and its dependencies in containers from definitions in the repository, where the stack allows (O-12)
 - **Development environment configuration** in the documents folder
   - Anything not automated by initialize is written down as a step with a reason
 
@@ -1353,11 +1354,14 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
+- **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - Prove it on a clean clone. Clone to a temporary folder and run initialize, build, test, and pack there before calling it done.
 - Automate before documenting. A manual step in the documentation is a bug in initialize until it is proven to be impossible to automate.
 - Do not choose tools the project has not chosen. Use what the stack document, plugins, and existing config name; where nothing does, ask.
+- Whatever the pipeline will run, make it a script here first. A step that only works on the pipeline runner is a defect (O-11).
 
-*Requires: R-05, R-10, R-11, R-18, R-19, R-20, R-21 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07 | Methodology: phase 2 step 2.1*
+*Requires: R-05, R-10, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12 | Methodology: phase 2 step 2.1*
 
 ### `/aa-dev-implement`
 
@@ -1395,12 +1399,13 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
 - Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real.
 - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
 - Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
 
-*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22 | Tenets: T-04, T-07 | Opinions: O-08 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26 | Tenets: T-04, T-07 | Opinions: O-08, O-12 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1434,11 +1439,12 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 - **G-17** After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - No reproduction, no fix. If it cannot be reproduced, the ticket gets what was tried and goes back for more information.
 - Find the cause before touching code. Form a hypothesis, test it, and record the result on the ticket; three hypotheses without evidence means stop and reassess (G-17).
 - If the defect violates no scenario, one is missing. Add it to the feature file with the fix so the requirement is now stated.
 
-*Requires: R-01, R-02, R-04, R-05, R-11, R-16, R-22 | Tenets: T-07, T-12*
+*Requires: R-01, R-02, R-04, R-05, R-11, R-16, R-22, R-24 | Tenets: T-07, T-12*
 
 ### `/aa-dev-review`
 
@@ -1506,12 +1512,13 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
 - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
 - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
 
-*Requires: R-01, R-02, R-05, R-08, R-09, R-11, R-22 | Tenets: T-06, T-07*
+*Requires: R-01, R-02, R-05, R-08, R-09, R-11, R-22, R-24 | Tenets: T-06, T-07*
 
 ### `/aa-dev-optimize`
 
@@ -1574,7 +1581,7 @@ Makes the test suite as comprehensive as is reasonable. Starts from the scenario
 - **Development** when a defect is found
 - **Release Management** when the suite passes and coverage is judged sufficient for a release
 
-*Tenets: T-07, T-12 | Opinions: O-01, O-07, O-08*
+*Tenets: T-07, T-12 | Opinions: O-01, O-07, O-08, O-12*
 
 ### Commands
 
@@ -1658,7 +1665,7 @@ Automate the scenarios that can only be proven through the whole system as the u
 **Inputs**
 
 - The scenarios assigned to the end-to-end tier by the strategy
-- The deployed or locally running system and its test environment
+- The system and its dependencies, started in containers from the repository's definitions where the stack allows (O-12)
 - The project's end-to-end and visual testing tool categories
 
 **Artifacts**
@@ -1678,11 +1685,13 @@ Automate the scenarios that can only be proven through the whole system as the u
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - Drive the system the way a user does, through its real entry points; do not reach into internals to make a test pass.
 - Own the test data. Every end-to-end test creates what it needs and cleans up; a test that depends on leftover state will lie eventually.
+- Own the environment too. Start it from the repository's container definitions and tear it down after; a test that needs a shared environment is marked and the reason recorded (O-12).
 - A flaky test is a defect in the test or the system. Quarantine it with a ticket; never wrap it in a retry to hide it (G-06).
 
-*Requires: R-02, R-11, R-16, R-21 | Tenets: T-07 | Methodology: phase 3 step 3.2*
+*Requires: R-02, R-11, R-16, R-21, R-25, R-26 | Tenets: T-07 | Opinions: O-07, O-12 | Methodology: phase 3 step 3.2*
 
 ### `/aa-qa-performance-test`
 
@@ -1710,11 +1719,12 @@ Establish how the system behaves under expected and peak load against stated tar
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - No target, no test. If the requirement has no number, get one from the ticket owner before running anything; "fast" is not a target.
 - Measure with a tool and report the distribution, not the average. The slowest 5 percent is what users complain about.
 - Record the environment with the result. A number without the machine, data volume, and load profile cannot be compared to anything later.
 
-*Requires: R-02, R-03, R-04, R-11 | Tenets: T-07 | Methodology: phase 3 step 3.3*
+*Requires: R-02, R-03, R-04, R-11, R-25 | Tenets: T-07 | Methodology: phase 3 step 3.3*
 
 ### `/aa-qa-explore`
 
@@ -2009,7 +2019,7 @@ Provides and runs the environments the software lives in. Infrastructure as code
 - **Development** when validation or observability reveals a defect
 - **Security** when an infrastructure control needs a security requirement clarified
 
-*Tenets: T-01, T-07 | Opinions: O-06*
+*Tenets: T-01, T-07 | Opinions: O-06, O-11*
 
 ### Commands
 
@@ -2070,6 +2080,7 @@ Build the pipeline that takes a merged change to production: build, every test t
   - Calls the root scripts rather than duplicating their logic (O-06)
   - Runs every test tier and fails on any failure; no skipped stages without a recorded reason
   - Deploys to each environment with the same artifact
+  - Every stage calls a script or command in the repository that runs locally with the same arguments (O-11)
 - **Deployment strategy documentation** in the documents folder
   - States the strategy (for example staged, canary, blue-green) and how rollback works for it
 
@@ -2084,11 +2095,12 @@ Build the pipeline that takes a merged change to production: build, every test t
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift.
+- **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
+- The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift (O-11).
 - One artifact, promoted. Build once, deploy the same artifact everywhere; never rebuild for production.
 - A pipeline that can be bypassed is not a pipeline. Protect the branches it deploys from.
 
-*Requires: R-01, R-02, R-05, R-10, R-11, R-20 | Tenets: T-07, T-09 | Opinions: O-06 | Methodology: phase 4 step 4.2*
+*Requires: R-01, R-02, R-05, R-10, R-11, R-20, R-24 | Tenets: T-07, T-09 | Opinions: O-06, O-11 | Methodology: phase 4 step 4.2*
 
 ### `/aa-ops-observability`
 

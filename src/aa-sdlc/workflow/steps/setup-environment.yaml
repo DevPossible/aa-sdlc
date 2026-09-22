@@ -23,15 +23,17 @@ artifacts:
     acceptance:
       - initialize, build, test, and pack each run to completion on a fresh clone (O-06)
       - test accepts a tier parameter and each tier has a home (O-07)
+      - The e2e tier starts the system and its dependencies in containers from definitions in the repository, where the stack allows (O-12)
   - name: Development environment configuration
     location: the documents folder
     acceptance:
       - Anything not automated by initialize is written down as a step with a reason
-guidance: [G-04, G-11, G-15, G-22, G-24, G-25]
+guidance: [G-04, G-11, G-15, G-22, G-24, G-25, G-29, G-30]
 guidance_inline:
   - Prove it on a clean clone. Clone to a temporary folder and run initialize, build, test, and pack there before calling it done.
   - Automate before documenting. A manual step in the documentation is a bug in initialize until it is proven to be impossible to automate.
   - Do not choose tools the project has not chosen. Use what the stack document, plugins, and existing config name; where nothing does, ask.
-requires: [R-05, R-10, R-11, R-18, R-19, R-20, R-21]
+  - Whatever the pipeline will run, make it a script here first. A step that only works on the pipeline runner is a defect (O-11).
+requires: [R-05, R-10, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26]
 tenets: [T-01, T-07]
-opinions: [O-05, O-06, O-07]
+opinions: [O-05, O-06, O-07, O-11, O-12]

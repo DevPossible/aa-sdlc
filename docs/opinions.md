@@ -181,11 +181,54 @@ over a sustained period. Rough, labelled ranges for early prioritisation remain 
 precisely because they are not recorded as sizes.
 *Requirements:* R-02, R-23. *Guidance:* G-28.
 
+**O-11 Every pipeline step runs locally, exactly.**
+*The stance:* every step the delivery pipeline performs can be reproduced exactly, on the
+machine of whoever needs it, from the command line or a local tool, with the same script, the
+same arguments, and the same inputs. The pipeline configuration calls scripts and commands that
+live in the repository; it never holds logic of its own. A step that exists only in the
+pipeline is a defect.
+*Why:* when a pipeline step fails, whoever must fix it needs to run that step, see the same
+failure, change something, and run it again. If the step lives only in the pipeline, the only
+way to try a fix is to push and wait, and the only people who can look inside are those with
+access to the pipeline system. That turns every pipeline failure into a queue and a dependency
+on someone else, which the framework does not accept (T-13). Steps that run locally are also
+steps an agent can run, observe, and quote (T-07), which is what makes "prove it before you
+say it is done" possible for the delivery path and not just for the code.
+*Rejected:* logic written in pipeline configuration; steps that depend on state, secrets, or
+tools present only on the pipeline runner without a local equivalent; "it only fails in the
+pipeline" accepted as a category of problem; debugging by pushing commits.
+*Would change our mind:* nothing foreseeable. A step that genuinely cannot run locally (a
+signing key held in hardware, a production-only gate) is recorded as such, with a local
+stand-in that exercises everything up to the point of difference.
+*Requirements:* R-10, R-11, R-20, R-24. *Guidance:* G-29.
+
+**O-12 End-to-end tests run against containers.**
+*The stance:* the end-to-end tier starts the system and its dependencies in containers, from
+definitions committed to the repository, wherever the stack allows. The same definitions serve
+the developer's machine and the pipeline, so the e2e tier is one command everywhere (O-06) and
+the environment it runs in is part of the repository, not something that must be arranged.
+*Why:* end-to-end tests are only as trustworthy as the environment they run in. A shared test
+environment is owned by someone else, changed by someone else, and busy when you need it; a
+test that passes there and fails locally, or the reverse, proves nothing. Containers make the
+environment a build artifact: reproducible from a clean clone, disposable after the run, and
+identical in the pipeline (O-11). They also make the happy-path end-to-end tests Development
+owes for every scenario (O-08) something a developer can run before pushing rather than after.
+*Rejected:* a shared, long-lived test environment as the default target for the e2e tier;
+mocking every dependency in end-to-end tests, which makes them integration tests with a longer
+name; end-to-end tests that can only run in the pipeline; environments assembled by hand from a
+wiki page.
+*Would change our mind:* a dependency that cannot be containerised or faithfully stood in for
+is recorded as such and reached in a shared environment, and the tests that need it are marked.
+That is the exception the stance already allows; a stack where it is the rule would be a reason
+to revisit.
+*Requirements:* R-11, R-21, R-25, R-26. *Guidance:* G-30.
+
 ---
 
 Opinions O-05, O-06, and O-07 describe the shape of every repository, O-08 describes who
-proves what, O-09 ties each repository to its one ticket project, and O-10 says when a ticket
-may be sized. Together they are what `aa init` lays down and `/aa-fw-health` checks for.
+proves what, O-09 ties each repository to its one ticket project, O-10 says when a ticket may
+be sized, and O-11 and O-12 keep the delivery path and the end-to-end tier runnable on any
+machine. Together they are what `aa init` lays down and `/aa-fw-health` checks for.
 
 ## Candidates
 

@@ -121,6 +121,31 @@ Feature: Project requirements
     And the report says the size is not linked to its basis
     And the remedy is for the user to cite the reasoning from the size, or re-size from it
 
+  @R-26 @recommended @O-12
+  Scenario: The local end-to-end environment is defined as code
+    Given a container definition or composition for the system and its dependencies exists in the repository
+    And "test" with the e2e tier starts it
+    And the development environment configuration names any dependency reached outside it
+    When "/aa-fw-health" probes R-26
+    Then R-26 is reported as met
+
+  @R-26 @recommended @O-12
+  Scenario: No local end-to-end environment is defined
+    Given no container definition for the system and its dependencies exists in the repository
+    When "/aa-fw-health" probes R-26
+    Then R-26 is reported as unmet
+    And the report says the e2e tier depends on an environment the repository does not describe
+    And the remedy is for "/aa-dev-setup-environment" to write one
+
+  @R-26 @recommended @O-12
+  Scenario: A dependency is reached outside the containers without being recorded
+    Given the e2e tier reaches a dependency that is not in the container definitions
+    And the development environment configuration does not name it
+    When "/aa-fw-health" probes R-26
+    Then R-26 is reported as unmet
+    And the report names the dependency
+    And the remedy is for the user to containerise it or record it as reached in a shared environment
+
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure
     Given the documents, features, scripts, source, and tests folders exist at the root

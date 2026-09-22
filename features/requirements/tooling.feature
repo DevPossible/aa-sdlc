@@ -106,6 +106,32 @@ Feature: Tooling requirements
     And the report says a tier may be nearly empty but may not be absent
     And the remedy is for "aa init" to create its home
 
+  @R-24 @required @O-11
+  Scenario: Every pipeline step calls a script in the repository
+    Given a pipeline configuration exists in the repository
+    And every stage in it calls a root script or a command committed to the repository
+    And no stage contains logic of its own beyond the call
+    And each called script runs on a clean clone
+    When "/aa-fw-health" probes R-24
+    Then R-24 is reported as met
+
+  @R-24 @required @O-11
+  Scenario: A pipeline step holds logic of its own
+    Given a stage in the pipeline configuration contains logic that exists nowhere else in the repository
+    When "/aa-fw-health" probes R-24
+    Then R-24 is reported as unmet
+    And the report names the stage
+    And the report says a failure in that stage can only be debugged by pushing and waiting
+    And the remedy is for the user to move the logic into a script and call it from the stage
+
+  @R-24 @required @O-11
+  Scenario: A pipeline step calls a script that does not run locally
+    Given a stage calls a script that depends on a tool or state present only on the pipeline runner
+    When "/aa-fw-health" probes R-24
+    Then R-24 is reported as unmet
+    And the report names the script and what it depends on
+    And the remedy is for the user to supply a local equivalent or record the step as pipeline-only with a local stand-in
+
   @R-12 @recommended
   Scenario: Every language has a linter
     Given for each language detected in the project a linter configuration exists and runs

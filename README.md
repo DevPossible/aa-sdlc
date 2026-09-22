@@ -32,6 +32,12 @@ mind, are in [docs/opinions.md](docs/opinions.md).
 10. **A size is grounded in implementation thinking.** A ticket carries no size until it also
     carries written thought about how it will be built, at a depth that matches the stakes.
     A number without that is a guess, labelled as one and never recorded as the size.
+11. **Every pipeline step runs locally, exactly.** The pipeline calls scripts that live in the
+    repository; a step that exists only in the pipeline is a defect, because a failure there
+    can only be debugged by pushing and waiting.
+12. **End-to-end tests run against containers**, started from definitions in the repository,
+    wherever the stack allows. The same definitions serve the developer's machine and the
+    pipeline.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).
