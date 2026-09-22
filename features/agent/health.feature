@@ -52,3 +52,23 @@ Feature: /aa-fw-health reports every declared requirement
     When I run "/aa-fw-health"
     Then it reports the install and the environment
     And project requirements are reported as not applicable
+
+  @O-01 @T-12
+  Scenario: Probes come from the requirement feature files
+    Given the package carries the requirement feature files under requirements/
+    When "/aa-fw-health" resolves a declared id
+    Then the scenario tag gives the level and the feature file gives the kind
+    And the Given steps of the met scenario are what it performs as the probe
+    And the remedy lines of the unmet scenarios are what it reports as the remedy
+    And an id with no scenario is reported as undefined, never guessed
+
+  Scenario: A recorded exception is not applicable, not unmet
+    Given the development environment configuration records that a requirement does not apply and why
+    When "/aa-fw-health" probes that requirement
+    Then it is reported as not applicable with that reason
+    And it does not appear under required and unmet
+
+  Scenario: Every row says how it was probed
+    When "/aa-fw-health" reports
+    Then each requirement row names the command run, the ticket read, or the file opened
+    And a requirement whose probe could not complete is unmet with the reason, never skipped
