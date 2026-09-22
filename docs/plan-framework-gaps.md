@@ -62,6 +62,7 @@ this repository first.
 | B2 Project config | Run the `/aa-fw-init` conversation for this repository by hand, as the skill in C5 will do it: ask the user which ticket project this repository maps to (O-09, R-22) and where its knowledge base is (O-04, R-03). When the user names a system and pastes a URL, look for a skill, MCP server, or CLI for that system already in the agent's scope (T-05), use it to confirm the project exists, and record the mapping. If the connector is absent or unauthorised, say so, record the mapping anyway, and expect health to report R-02 or R-03 unmet until it is authorised. Then write `aa.config.yaml` at the root per `formats.md`, including commit types (O-14) and the decisions folder (O-18). | `aa.config.yaml`, `docs/development-environment.md` | Config parses; R-07 met; R-22 met or recorded as degraded with the reason; the connector found or not found is recorded | S |
 | B3 Lint switch | Add `-Lint` to `build.ps1`: run the PowerShell formatter in check mode and the PowerShell static analyser on `*.ps1`, and treat the three structural validators as the linters for YAML, feature, and markdown content. `initialize.ps1` installs the analyser. Write `docs/development-environment.md` recording which languages have a linter and that Gherkin and Markdown rely on the structural validators (R-12 warning expected). | `build.ps1`, `initialize.ps1`, `docs/development-environment.md` | `./build.ps1 -Lint` runs and exits non-zero on a seeded violation; R-35 met | M |
 | B4 Environment settings | Record in `docs/development-environment.md` that this repository deploys nothing and has no environment files, so R-30's template check and R-39 are not applicable. | `docs/development-environment.md` | Health (Phase C) reports R-30 partially met and R-39 not applicable with that reason | S |
+| B5 **decide** formatters for YAML, Gherkin, and Markdown | The health baseline (C4) found R-09 unmet for the three non-PowerShell formats. Choose a formatter for each that has one in the project's scope, or record in the development environment configuration that none is adopted and why, so health reports the exception rather than an unexplained gap. Wire any chosen formatter into `build.ps1 -Lint`. | `docs/decisions/000n-*.md`, `build.ps1`, `docs/development-environment.md` | R-09 reports met or a recorded exception for every format in the repository | S |
 
 ## Phase C: the health skill
 
@@ -132,7 +133,7 @@ list that is about to be restructured.
 |-------|------|--------|
 | A | A1 to A6 | done 2026-09-22 (commits cee232d to 04fd5a5) |
 | B | B1 to B4 | done 2026-09-22 (0a9a6bf, 6aae2c5, bd4b2c2; B4 folded into B3's document) |
-| C | C1 to C5 | not started |
+| C | C1 to C5 | done 2026-09-22 (c0e190b, d055c3d, 8e3e0f8; baseline in development-environment.md); B5 raised by the baseline |
 | D | D1 to D5 | not started |
 | E | E1 to E3 | not started |
 | F | F1 to F4 | not started |
