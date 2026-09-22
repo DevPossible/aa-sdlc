@@ -47,8 +47,8 @@ See [guidance.md](guidance.md) for the backlog of guidance not yet attached.
 A capability or condition that a step, process, or piece of guidance depends on in order to be
 performed. Requirements name categories, not tools: "a formatter that can run on a list of
 files", "the project is under source control", "every major technology in the stack has a skill
-in scope". They are declared where they arise, aggregated and checked by `/aa-health`, and where
-possible fixed by `/aa-init`. See [requirements.md](requirements.md).
+in scope". They are declared where they arise, aggregated and checked by `/aa-fw-health`, and where
+possible fixed by `/aa-fw-init`. See [requirements.md](requirements.md).
 
 ## Delivery terms
 
@@ -59,8 +59,14 @@ ship unchanged to every target.
 
 **Command**
 The user-facing entry point that invokes a skill. Thin, target-neutral in source, rendered per
-target by the installer. Named `/aa-<step>` on every target, so the step `health` is invoked as
-`/aa-health`.
+target by the installer. Named `/aa-<code>-<step>` on every target, where `<code>` is the
+discipline's short code: `/aa-dev-implement`, `/aa-qa-generate-tests`. The framework's own
+commands use the code `fw`: `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`.
+
+**Discipline code**
+A two or three character code for each discipline, used as the middle segment of its commands:
+`ba`, `pd`, `ux`, `ta`, `rf`, `ip`, `dev`, `qa`, `sec`, `doc`, `rel`, `ops`, `sup`, `pm`, and
+`fw` for the framework itself.
 
 **Artifact**
 A named deliverable a step produces, with acceptance criteria defined in the workflow. Same
@@ -84,7 +90,7 @@ framework.
 **Extension**
 Anything added outside core: a plugin (either kind), a project skill, a target adapter, added
 guidance, or an added requirement. Every extension declares its requirements and carries its
-own feature files. `/aa-extend` is the framework skill that helps the user create, validate,
+own feature files. `/aa-fw-extend` is the framework skill that helps the user create, validate,
 install, and share one.
 
 **Target**
@@ -95,13 +101,13 @@ others). Only commands, hooks, and subagent definitions differ per target.
 Where an install lands and whose configuration applies: project, user, team, or enterprise.
 
 **Health**
-The `/aa-health` agent command. Aggregates every declared requirement, probes each one, and reports
+The `/aa-fw-health` agent command. Aggregates every declared requirement, probes each one, and reports
 which are met, unmet, or not applicable, and what depends on each. It never blocks and never
 changes anything.
 
 **Init**
 Bootstrapping a repository, in two parts. `aa init` on the CLI lays down what needs no agent:
-the project config, the documents folder, project-scope skills and commands. `/aa-init` inside
+the project config, the documents folder, project-scope skills and commands. `/aa-fw-init` inside
 the agent runs health, then fixes the unmet requirements that need judgement, with the user's
 consent, and reports the rest.
 
@@ -111,8 +117,9 @@ and commands for each at user scope, and writes the user config. The main CLI ve
 
 **CLI verb and agent command**
 `aa <verb>` runs on the developer's machine without an agent and only bootstraps and maintains
-the install. `/aa-<step>` runs inside the agent and does the work. Health is an agent command
-only; there is no `aa health`.
+the install. `/aa-<code>-<step>` runs inside the agent and does a discipline's work, with
+`fw` as the code for the framework's own commands. Health is an agent command only; there is
+no `aa health`.
 
 ## How the terms fit together
 

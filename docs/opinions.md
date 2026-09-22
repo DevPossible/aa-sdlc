@@ -138,7 +138,7 @@ O-01 they define what the framework treats as the truth for each kind of informa
 The tooling keeps the links between them current (T-12). No one of them holds another's truth.
 
 Opinions O-05, O-06, and O-07 describe the shape of every repository, and O-08 describes who
-proves what. Together they are what `aa init` lays down and `/aa-health` checks for.
+proves what. Together they are what `aa init` lays down and `/aa-fw-health` checks for.
 
 ## Candidates
 

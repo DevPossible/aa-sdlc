@@ -42,9 +42,10 @@ or, without changing directory: `aa init -path c:\dev\myproject`
 
 The `aa` CLI bootstraps and maintains the install: `setup` for the machine, `init` for a
 repository, plus `update` and `plugin`. The work itself happens inside your agent through
-`/aa-<step>` commands such as `/aa-health`, `/aa-init`, and `/aa-implement`. When the framework
-needs to know about your stack, your process, or your agent, `/aa-extend` walks you through
-building the extension.
+`/aa-<code>-<step>` commands, where the code is the discipline: `/aa-dev-implement`,
+`/aa-qa-generate-tests`, `/aa-rel-release`. The framework's own code is `fw`: `/aa-fw-health`,
+`/aa-fw-init`, and `/aa-fw-extend`, which walks you through building an extension when the
+framework needs to know about your stack, your process, or your agent.
 
 ## What it will be
 
@@ -56,7 +57,7 @@ building the extension.
   OpenClaw and others. Only commands and hooks are adapted per target.
 - Plugins for tech-stack packs and extra processes. Deployable at project, user, team, or
   enterprise scope.
-- `/aa-health` checks the install, the environment, and the current project, and reports what
+- `/aa-fw-health` checks the install, the environment, and the current project, and reports what
   is missing without blocking anything.
 
 ## Layout

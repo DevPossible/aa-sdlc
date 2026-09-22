@@ -44,9 +44,9 @@ Feature: aa init bootstraps a repository
 
   Scenario: Hand off to the agent
     When "aa init" completes
-    Then it tells the user to run "/aa-health" and "/aa-init" in their agent
+    Then it tells the user to run "/aa-fw-health" and "/aa-fw-init" in their agent
 
   Scenario: Health is not a CLI verb
     When I run "aa health"
     Then the CLI explains that health is an agent command
-    And it names "/aa-health"
+    And it names "/aa-fw-health"

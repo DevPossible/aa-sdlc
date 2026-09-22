@@ -1,7 +1,7 @@
 id: implement
 name: Implement a ticket
 discipline: development
-command: /aa-implement
+command: /aa-dev-implement
 summary: >
   Build what the anchor ticket asks for, with the tests that prove it, on a branch that
   references the ticket.

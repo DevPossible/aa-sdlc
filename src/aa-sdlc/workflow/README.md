@@ -10,4 +10,5 @@ steps/<step>.yaml          one per step: discipline, command, artifacts with acc
 ```
 
 Format is specified in `docs/formats.md`. A step file's `id` equals its skill folder name and
-its command suffix, and its `requires` must match the skill's `aa.requires`.
+the last segment of its command (`/aa-<code>-<id>`, code from the discipline), and its
+`requires` must match the skill's `aa.requires`.

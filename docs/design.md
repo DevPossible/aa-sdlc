@@ -18,7 +18,7 @@ not depend on the skills. The website pivots to lead with the SDK and keep the m
 backing reference.
 
 **Naming.** The brand is **AA-SDLC**, the npm package and repository are `aa-sdlc`, the CLI is
-`aa`, and every in-agent command is `/aa-<step>`. The website domain stays aasdlc.com.
+`aa`, and every in-agent command is `/aa-<code>-<step>`. The website domain stays aasdlc.com.
 
 **Delivery.** The SDK ships as an npm package. Installing it globally provides the `aa` CLI,
 which drives all framework tooling: installing skills and commands into a target, updating,
@@ -35,7 +35,7 @@ aa init                           # once per repository
 aa init -path c:\dev\myproject
 ```
 
-Health is deliberately not a CLI verb. It belongs to the agent alone, as `/aa-health`.
+Health is deliberately not a CLI verb. It belongs to the agent alone, as `/aa-fw-health`.
 
 Reference projects the SDK is deliberately similar to:
 
@@ -68,28 +68,35 @@ and end-to-end tests; and Development proves the requirement while Testing goes 
 
 Skills are grouped by discipline, the kind of work they perform. Current disciplines:
 
-| Discipline | id | Kind of work |
-|------------|----|--------------|
-| Business Analysis | `business-analysis` | discovering, capturing, and validating what the business needs; user acceptance |
-| Product Management | `product-management` | roadmap, prioritisation, feedback analysis, deciding what to build next |
-| UX Design | `ux-design` | user research, mockups, prototypes, interaction review |
-| Technical Analysis | `technical-analysis` | architecture, technology choices, decision records |
-| Refinement | `refinement` | turning requirements into a well-formed, prioritised backlog of tickets |
-| Implementation Planning | `implementation-planning` | planning how a single ticket will be built before building it |
-| Development | `development` | building, reviewing, and merging code, and the automated tests that prove each requirement is met (O-08) |
-| Testing | `testing` | making the test suite as comprehensive as is reasonable: beyond the stated requirement, to find gaps in understanding and in user interaction (O-08) |
-| Security | `security` | threat modelling, security testing, dependency and secret hygiene, compliance maintenance |
-| Documentation | `documentation` | keeping the knowledge base and repo docs true |
-| Release Management | `release-management` | versioning, release notes, change coordination, go/no-go, deployment to production, rollback |
-| Operations | `operations` | infrastructure, pipelines, observability, production validation |
-| Support | `support` | incident triage, incident response, user-facing follow-up |
-| Project Management | `project-management` | coordination, retrospectives, and the framework's own health, init, and extend |
+| Discipline | id | code | Kind of work |
+|------------|----|------|--------------|
+| Business Analysis | `business-analysis` | `ba` | discovering, capturing, and validating what the business needs; user acceptance |
+| Product Management | `product-management` | `pd` | roadmap, prioritisation, feedback analysis, deciding what to build next |
+| UX Design | `ux-design` | `ux` | user research, mockups, prototypes, interaction review |
+| Technical Analysis | `technical-analysis` | `ta` | architecture, technology choices, decision records |
+| Refinement | `refinement` | `rf` | turning requirements into a well-formed, prioritised backlog of tickets |
+| Implementation Planning | `implementation-planning` | `ip` | planning how a single ticket will be built before building it |
+| Development | `development` | `dev` | building, reviewing, and merging code, and the automated tests that prove each requirement is met (O-08) |
+| Testing | `testing` | `qa` | making the test suite as comprehensive as is reasonable: beyond the stated requirement, to find gaps in understanding and in user interaction (O-08) |
+| Security | `security` | `sec` | threat modelling, security testing, dependency and secret hygiene, compliance maintenance |
+| Documentation | `documentation` | `doc` | keeping the knowledge base and repo docs true |
+| Release Management | `release-management` | `rel` | versioning, release notes, change coordination, go/no-go, deployment to production, rollback |
+| Operations | `operations` | `ops` | infrastructure, pipelines, observability, production validation |
+| Support | `support` | `sup` | incident triage, incident response, user-facing follow-up |
+| Project Management | `project-management` | `pm` | coordination and retrospectives |
+
+Every discipline has a short code, two characters where a natural one exists and three where
+readability wins (`dev`, `sec`, `doc`, `rel`, `ops`, `sup`). The code is the middle segment of
+every command in that discipline: `/aa-qa-generate-tests`, `/aa-dev-implement`,
+`/aa-rel-release`. The framework itself has the code `fw`, so its own commands are
+`/aa-fw-health`, `/aa-fw-init`, and `/aa-fw-extend`: the rule has no exceptions. Plugins reuse
+the code of the discipline they extend.
 
 Fourteen is deliberately more than a small team has people for. A discipline is a kind of
 work, not a headcount (T-13): a solo developer on a personal project and a fifteen-person team
 with distinct roles run the same steps and produce the same artifacts, and differ only in who
 performs which discipline. What matters is that every common kind of work has a named home, so
-its steps and guidance have somewhere to live and `/aa-health` has something to report coverage
+its steps and guidance have somewhere to live and `/aa-fw-health` has something to report coverage
 against.
 
 ### 3.2 Processes and steps
@@ -134,7 +141,7 @@ a remedy. Skills list their requirements in `SKILL.md` frontmatter; plugins add 
 name tools.
 
 The framework's requirements are themselves feature files (T-12): `features/requirements/`
-holds one scenario pair per requirement describing how `/aa-health` detects it as met or unmet
+holds one scenario pair per requirement describing how `/aa-fw-health` detects it as met or unmet
 and what the remedy is, and `features/cli/` and `features/agent/` describe each verb and
 command. The registry tables index those files and defer to them.
 
@@ -158,12 +165,12 @@ work state and the knowledge base for decisions; feature files are the truth for
 
 ### 3.6 Health and init
 
-`/aa-health` aggregates every requirement declared by the installed skills, plugins, and
+`/aa-fw-health` aggregates every requirement declared by the installed skills, plugins, and
 processes, probes each one, and reports which are met, unmet, or not applicable, and what
 depends on each. It also reports the install itself: scope, version, target, skills and
 commands present, update available. It never blocks and never changes anything (T-10).
 
-`/aa-init` bootstraps a project. It runs health, then fixes the unmet requirements it can fix
+`/aa-fw-init` bootstraps a project. It runs health, then fixes the unmet requirements it can fix
 (initialise the repository, create the documents folder, write the project config, set default
 conventions) with the user's consent, lists the ones it cannot (a missing formatter, an
 uncovered technology) with the available remedies, and re-runs health. It is the first thing
@@ -176,8 +183,8 @@ only be performed by the agent, so a CLI health verb would give a partial answer
 name as the real one. The CLI therefore has no `health` verb.
 
 Init exists in both places with distinct jobs. `aa init` on the CLI lays down what needs no
-agent: the project config, the documents folder, project-scope skills and commands. `/aa-init`
-inside the agent runs `/aa-health`, then works through the unmet requirements that need
+agent: the project config, the documents folder, project-scope skills and commands. `/aa-fw-init`
+inside the agent runs `/aa-fw-health`, then works through the unmet requirements that need
 judgement, such as a language with no formatter or a technology with no skill in scope.
 
 ## 4. Methodology to step map
@@ -220,9 +227,11 @@ methodology left implicit are added.
 | 6 Maintenance | 6.4 Security & Compliance Maintenance | Security | `maintain-security` | Security Patch Log, Compliance Audit Reports |
 | 6 Maintenance | 6.5 Documentation Maintenance | Documentation | `maintain-docs` | Up-to-Date Documentation, Documentation Health Report |
 | Meta | Workflow Retrospective | Project Management | `retrospective` | Workflow Health Report, Process Improvement Backlog |
-| Cross-cutting | n/a | Project Management | `health` | Health report |
-| Cross-cutting | n/a | Project Management | `init` | Bootstrapped project: repository, documents folder, project config, conventions; health report |
-| Cross-cutting | n/a | Project Management | `extend` | A valid, installable extension (tech-stack pack, process pack, project skill, target adapter, guidance, or requirement) with its manifest, declared requirements, and feature files |
+| Framework | n/a | Framework (`fw`) | `health` | Health report |
+| Framework | n/a | Framework (`fw`) | `init` | Bootstrapped project: repository, documents folder, project config, conventions; health report |
+| Framework | n/a | Framework (`fw`) | `extend` | A valid, installable extension (tech-stack pack, process pack, project skill, target adapter, guidance, or requirement) with its manifest, declared requirements, and feature files |
+
+The command for any discipline step is `/aa-<code>-<step>` using the code from section 3.1.
 
 Notes on the merges and additions:
 
@@ -240,15 +249,19 @@ Notes on the merges and additions:
 
 ## 5. Commands
 
-- One command per step. Agent commands are named `/aa-<step>` on every target, so the step
-  `health` is `/aa-health` and `implement` is `/aa-implement`.
+- One command per step. Agent commands are named `/aa-<code>-<step>` on every target, where
+  `<code>` is the short code of the step's discipline: `implement` in Development is
+  `/aa-dev-implement`, `generate-tests` in Testing is `/aa-qa-generate-tests`. Typing `/aa-qa-`
+  lists everything Testing can do.
+- The framework's own commands use the code `fw`: `/aa-fw-health`, `/aa-fw-init`,
+  `/aa-fw-extend`. Typing `/aa-fw-` lists everything the framework does for itself.
 - Every command accepts a ticket ID as its anchor. If none is given, the command asks for one or,
   when no ticket system is in scope, proceeds with a local artifact and says so.
 - Commands are thin: they name the skill to load and the arguments. Behaviour lives in the skill.
 - Commands are defined once, target-neutrally, in `src/aa-sdlc/commands/` and rendered per target
   by the installer.
 - The `aa` CLI and the `/aa-` commands are kept distinct. `aa <verb>` runs on the developer's
-  machine without an agent and only bootstraps and maintains the install; `/aa-<step>` runs
+  machine without an agent and only bootstraps and maintains the install; `/aa-<code>-<step>` runs
   inside the agent and does the work. CLI verbs avoid agent command names, with `init` the one
   deliberate overlap (see 3.6).
 
@@ -286,7 +299,7 @@ together. The CLI then places skills and rendered commands into the chosen targe
 | Verb | Does |
 |------|------|
 | `aa setup` | bootstrap the machine: detect the agent targets installed, install skills and commands for each at user scope, write the user config, and connect a team or enterprise config repository if one is given. The main verb. |
-| `aa init [-path <dir>]` | bootstrap a repository: write the project config, create the documents folder, install project-scope skills and commands, then point the user at `/aa-init` and `/aa-health` in their agent |
+| `aa init [-path <dir>]` | bootstrap a repository: write the project config, create the documents folder, install project-scope skills and commands, then point the user at `/aa-fw-init` and `/aa-fw-health` in their agent |
 | `aa update` | update everything `setup` and `init` installed to the package version |
 | `aa plugin add / remove / list` | manage plugins at a scope |
 
@@ -307,7 +320,7 @@ Plugins add skills, commands, and workflow steps without changing core. Two kind
 
 Plugins never wrap the ticket system, wiki, or source control (T-05).
 
-### 8.1 Extensions and `/aa-extend`
+### 8.1 Extensions and `/aa-fw-extend`
 
 "Extension" is the umbrella for everything added outside core: the two plugin kinds above, a
 project skill (specific to one repository, project scope only), a target adapter (support for an
@@ -315,7 +328,7 @@ agent the framework does not yet know), added guidance, and an added requirement
 declares its requirements in its own numbered range and carries its own feature files (T-11,
 T-12).
 
-`/aa-extend` is the framework skill that helps the user create one. It asks what the extension
+`/aa-fw-extend` is the framework skill that helps the user create one. It asks what the extension
 is for, picks the kind, scaffolds it, validates it against the tenets (an extension cannot change
 core; core-level guidance cannot name a tool), and installs it at the chosen scope only when
 validation passes. It can also share a valid extension through the organisation config repository
@@ -386,7 +399,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 1 | 2026-09-21 | Pivot AA-SDLC to skills-first SDK with the methodology as backing reference | The skills are the concrete, adoptable form of the methodology |
 | 2 | 2026-09-21 | Ticket system is the state store; the SDK owns no process state | Enterprises already have ticket, wiki, and SCM systems and will not adopt a fourth state store; ticket-anchored state lets any step run at any time |
 | 3 | 2026-09-21 | No wrapper skills for ticket, wiki, or source control | An MCP server or CLI already gives the agent the tools; a wrapper only restates them and must be maintained |
-| 4 | 2026-09-21 | `/aa-health` is the only place expectations are enumerated; it reports and never blocks | Keeps steps simple and degradation graceful |
+| 4 | 2026-09-21 | `/aa-fw-health` is the only place expectations are enumerated; it reports and never blocks | Keeps steps simple and degradation graceful |
 | 5 | 2026-09-21 | `SKILL.md` is the portable unit; per-target adapters only for commands, hooks, subagents | Most targets read the Agent Skills format, so the core needs no per-target generation |
 | 6 | 2026-09-21 | Skills organised by what the agent does, not by tier or team | Backend/frontend split is a tech-stack concern, which belongs in plugins |
 | 7 | 2026-09-21 | Standard devpossible repo layout with the SDK content under `src/aa-sdlc/` | House convention: every project is a `src/` subfolder with root PowerShell scripts |
@@ -394,28 +407,29 @@ produces the npm tarball; publishing to npm is a release step.
 | 9 | 2026-09-21 | Tenets are framework-level principles only; step-level practices are guidance | The first draft of tenets was too low-level; guidance attaches where it applies, tenets govern everything |
 | 10 | 2026-09-21 | Drop the separate "discipline skills" behaviour layer in favour of guidance on steps | Behaviour belongs with the step it applies to, not in a parallel layer; "discipline" now means a grouping of skills |
 | 11 | 2026-09-21 | Skills grouped by discipline in the source tree, flattened on install | Source stays navigable by kind of work; targets expect flat skill folders |
-| 12 | 2026-09-21 | Command prefix is `aa-` on every target (`/aa-health`, `/aa-implement`) | Short, unambiguous, and identical everywhere; avoids depending on target namespace support |
+| 12 | 2026-09-21 | Command prefix is `aa-` on every target (`/aa-fw-health`, `/aa-dev-implement`) | Short, unambiguous, and identical everywhere; avoids depending on target namespace support |
 | 13 | 2026-09-21 | Requirements are a first-class concept: declared where they arise, registered by ID, checked by health | Category-level guidance creates gaps the agent would otherwise hit mid-step; the framework owns the check (T-11) |
-| 14 | 2026-09-21 | `/aa-health` reports only; `/aa-init` bootstraps | Keeps health side-effect free (T-10) while making bootstrapping a core job of the framework |
-| 15 | 2026-09-21 | Rebrand to AA-SDLC; package and repo `aa-sdlc`; CLI `aa`; commands `/aa-<step>` | One short stem names the brand, the package, the CLI, and every command consistently |
+| 14 | 2026-09-21 | `/aa-fw-health` reports only; `/aa-fw-init` bootstraps | Keeps health side-effect free (T-10) while making bootstrapping a core job of the framework |
+| 15 | 2026-09-21 | Rebrand to AA-SDLC; package and repo `aa-sdlc`; CLI `aa`; commands `/aa-<code>-<step>` | One short stem names the brand, the package, the CLI, and every command consistently |
 | 16 | 2026-09-21 | Primary delivery is npm: `npm install -g aa-sdlc` provides `aa`, which drives all framework tooling | Cross-platform reach, matches the reference projects, and versions the CLI with the content it installs |
 | 17 | 2026-09-21 | CLI verbs are `setup` (machine, the main verb), `init` (repository), `update`, `plugin`; no `install` verb | Two bootstrap levels cover every install; fewer verbs to learn |
-| 18 | 2026-09-21 | No `health` CLI verb; health is agent-only as `/aa-health` | A CLI health would collide with the agent command and could only give a partial answer, since the key probes need the agent |
-| 19 | 2026-09-21 | Agent commands are written and invoked as `/aa-<step>` | Makes agent commands visibly distinct from `aa <verb>` CLI usage |
+| 18 | 2026-09-21 | No `health` CLI verb; health is agent-only as `/aa-fw-health` | A CLI health would collide with the agent command and could only give a partial answer, since the key probes need the agent |
+| 19 | 2026-09-21 | Agent commands are written and invoked as `/aa-<code>-<step>` | Makes agent commands visibly distinct from `aa <verb>` CLI usage |
 | 20 | 2026-09-21 | Requirements are Gherkin feature files in the repository and are the source of truth for them; the tooling maintains the feature-ticket-page link (T-12, O-01) | Structured natural language serves stakeholders, agents, and tests with one artifact; the repository gives it history and review |
-| 21 | 2026-09-21 | The framework dogfoods T-12: its own requirements live in `features/` and the registry tables index them | If the rule is good enough for consumers it is good enough for the framework; it also makes `/aa-health` a spec-driven command |
+| 21 | 2026-09-21 | The framework dogfoods T-12: its own requirements live in `features/` and the registry tables index them | If the rule is good enough for consumers it is good enough for the framework; it also makes `/aa-fw-health` a spec-driven command |
 | 22 | 2026-09-21 | Opinions are a first-class, up-front document: Gherkin requirements, source control, a ticket manager, a knowledge repository | Being opinionated only works if the opinions are stated before adoption, with what they reject and what would change them |
 | 23 | 2026-09-21 | One folder structure for every repository regardless of content (O-05) | Agents, people, and tooling find things without reading; stack layout lives inside each project's subfolder |
 | 24 | 2026-09-21 | Root scripts `initialize`, `build`, `test`, `pack` in every repository, with general filter and switch parameters (O-06) | One contract between a repository and everything that runs it; makes R-10 and R-11 true everywhere |
 | 25 | 2026-09-21 | Every repository has unit, integration, and end-to-end tiers, selectable from the root test script (O-07) | Each tier catches a class of defect the others cannot |
 | 26 | 2026-09-21 | Development writes the tests that prove the requirement; Testing extends the suite beyond it and turns gaps into scenarios (O-08) | Gives each discipline a job the other cannot do and keeps "done" honest |
-| 27 | 2026-09-21 | `/aa-extend` is a core framework skill that scaffolds, validates, installs, and shares extensions | T-02 makes extensibility a requirement of every core skill; a skill that makes extensions easy is how the framework keeps that promise |
+| 27 | 2026-09-21 | `/aa-fw-extend` is a core framework skill that scaffolds, validates, installs, and shares extensions | T-02 makes extensibility a requirement of every core skill; a skill that makes extensions easy is how the framework keeps that promise |
 | 28 | 2026-09-21 | This repository adopts O-05, O-06, O-07 for itself: `initialize`, `build`, `test -Tier`, `pack`, and `tests/integration`, `tests/e2e`; the prior devpossible house convention is expected to convert to this model | The framework is forging the new path; the house convention follows it rather than the reverse |
 | 29 | 2026-09-21 | Workflow data is YAML: `workflow/processes/<process>.yaml` and `workflow/steps/<step>.yaml` (see formats.md) | Human-editable with comments, read by both the CLI and the site generator |
 | 30 | 2026-09-21 | The config file is `aa.config.yaml`, one per scope, merged enterprise to project, validated against a published schema | Hand-edited more than tool-edited, so comments matter; schema validation catches mistakes before merge |
-| 31 | 2026-09-21 | Skills declare `aa.requires: [R-nn]` in frontmatter; definitions live once in feature files; plugins use namespaced ids and a `plugin.yaml` manifest | No duplication, cheap to declare, and `/aa-health` resolves ids against the installed set |
+| 31 | 2026-09-21 | Skills declare `aa.requires: [R-nn]` in frontmatter; definitions live once in feature files; plugins use namespaced ids and a `plugin.yaml` manifest | No duplication, cheap to declare, and `/aa-fw-health` resolves ids against the installed set |
 | 32 | 2026-09-21 | Fourteen disciplines: add Product Management, UX Design, Security, Release Management, and Support; confirm Operations; move triage to Support, release to Release Management, prototype to UX Design, security steps to Security, iterate to Product Management | Common roles must have a named home; a discipline is a kind of work, not a headcount |
 | 33 | 2026-09-21 | Tenet T-13: one person or fifteen, the same framework; the website leads with it | The framework must never assume a team size, a hand-off, or a large-organisation role; a solo developer and a full team are both first-class audiences |
+| 34 | 2026-09-21 | Every discipline has a 2 or 3 character code; discipline commands are `/aa-<code>-<step>`; framework commands use the code `fw` (`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`) | Commands group by discipline in the agent's command list, and the rule has no exceptions |
 
 ## 12. Open questions
 
@@ -430,7 +444,7 @@ produces the npm tarball; publishing to npm is a release step.
   `respond-incident` have a row in the map and no workflow YAML or feature file yet.
 - **Schema files** for workflow data and `aa.config.yaml`, to be written alongside the CLI
   (formats are decided in [formats.md](formats.md)).
-- **Stack detection for R-13.** How `/aa-health` identifies the major technologies in a project
+- **Stack detection for R-13.** How `/aa-fw-health` identifies the major technologies in a project
   and matches them to skills in scope, without naming tools in core.
 - **Methodology updates** to add the implicit backlog-refinement, implementation-planning,
   review, and merge steps.

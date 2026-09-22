@@ -25,7 +25,7 @@ Feature: One person or fifteen, the same framework
     And the step does not depend on memory of an earlier session
 
   Scenario: Health reports coverage, not headcount
-    When "/aa-health" reports on a project
+    When "/aa-fw-health" reports on a project
     Then it reports which disciplines have steps, skills, and requirements in scope
     And it never reports how many people work on the project
     And it never marks a discipline unmet because no one is assigned to it

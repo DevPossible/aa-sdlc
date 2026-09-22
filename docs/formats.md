@@ -21,10 +21,10 @@ workflow/
 
 ```yaml
 # workflow/steps/implement.yaml
-id: implement                      # equals the skill folder name and the command suffix
+id: implement                      # equals the skill folder name and the command's last segment
 name: Implement a ticket
-discipline: development            # one of the discipline ids
-command: /aa-implement
+discipline: development            # one of the discipline ids; its code supplies the middle segment
+command: /aa-dev-implement         # /aa-<code>-<id>; derivable, stated for readability
 summary: >
   Build what the anchor ticket asks for, with the tests that prove it, on a branch that
   references the ticket.
@@ -160,7 +160,7 @@ aa:
 `aa.requires` and the step's `requires` in workflow data should match; the build validator
 checks that they do. The requirement definitions (kind, level, detect, remedy) live once, as
 scenarios in `features/requirements/`, tagged `@R-nn`, `@required|@recommended|@informational`,
-and by kind. `/aa-health` reads IDs from installed skills and resolves them against those
+and by kind. `/aa-fw-health` reads IDs from installed skills and resolves them against those
 scenarios.
 
 ### Plugin manifest
@@ -190,12 +190,12 @@ requires: [R-dotnet-01, R-dotnet-02] # defined in plugins/dotnet/features/requir
 - Plugin IDs are namespaced: `R-<plugin>-nn`, `G-<plugin>-nn`.
 - A plugin's requirement definitions are feature files in its own `features/requirements/`,
   same shape as core's.
-- A plugin cannot list a core id under `adds`; `/aa-extend` and the build validator refuse it.
+- A plugin cannot list a core id under `adds`; `/aa-fw-extend` and the build validator refuse it.
 
 ## What this settles and what it does not
 
 Settled: file formats, locations, id scheme, merge rules, where each kind of text lives once.
 
 Not settled: the JSON schema files themselves for workflow and config (to be written with the
-CLI); how `/aa-health` performs a plain-language `detect` on targets with no script support;
-the folder-mapping UX in `/aa-init` for existing repositories.
+CLI); how `/aa-fw-health` performs a plain-language `detect` on targets with no script support;
+the folder-mapping UX in `/aa-fw-init` for existing repositories.
