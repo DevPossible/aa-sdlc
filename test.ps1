@@ -81,6 +81,22 @@ try {
     }
 
     if ($Tier -in 'all', 'integration') {
+        # The @cli feature files run with godog against the built binary (decision record 0005)
+        $exe = if ($IsWindows) { 'aa.exe' } else { 'aa' }
+        $bin = Join-Path $PSScriptRoot '.build' 'aa-sdlc-cli' $exe
+        if (-not (Test-Path $bin)) { & (Join-Path $PSScriptRoot 'build.ps1') | Out-Null }
+        Push-Location (Join-Path 'tests' 'integration')
+        try {
+            $env:AA_BIN = $bin
+            $goArgs = @('test', './...', '-count=1')
+            if ($Filter) { $goArgs += @('-run', $Filter) }
+            & go @goArgs
+            if ($LASTEXITCODE -ne 0) { throw '[integration] feature tests failed.' }
+            Write-Host '[integration] feature tests passed.' -ForegroundColor Green
+        } finally {
+            Remove-Item Env:AA_BIN -ErrorAction SilentlyContinue
+            Pop-Location
+        }
         Invoke-PesterTier -Name 'integration' -Paths @((Join-Path 'tests' 'integration'))
     }
 

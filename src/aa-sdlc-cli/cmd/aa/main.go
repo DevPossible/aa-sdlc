@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"aasdlc.com/aa/internal/initcmd"
 	"aasdlc.com/aa/internal/setupcmd"
@@ -45,6 +46,14 @@ func run(args []string) int {
 		fmt.Fprint(os.Stderr, usage)
 		return 2
 	}
+	// AA_HOME relocates the user home for target detection and the user config. It exists for
+	// tests and isolated installs; unset, the real home is used (decision record 0005).
+	home := os.Getenv("AA_HOME")
+	userConfig := ""
+	if home != "" {
+		userConfig = filepath.Join(home, ".aa", "aa.config.yaml")
+	}
+
 	switch args[0] {
 	case "setup":
 		fs := flag.NewFlagSet("setup", flag.ContinueOnError)
@@ -53,7 +62,7 @@ func run(args []string) int {
 		if err := fs.Parse(args[1:]); err != nil {
 			return 2
 		}
-		if err := setupcmd.Run(setupcmd.Options{OrgRepository: *org, Team: *team}, os.Stdout); err != nil {
+		if err := setupcmd.Run(setupcmd.Options{OrgRepository: *org, Team: *team, Home: home, UserConfigPath: userConfig}, os.Stdout); err != nil {
 			fmt.Fprintln(os.Stderr, "aa setup:", err)
 			return 1
 		}
@@ -68,10 +77,13 @@ func run(args []string) int {
 		fs.StringVar(&o.KnowledgeURL, "knowledge-url", "", "URL of the knowledge base space")
 		fs.StringVar(&o.Shell, "shell", "pwsh", "shell for the root script stubs: pwsh or sh")
 		fs.BoolVar(&o.Yes, "yes", false, "consent to every proposal without asking")
+		interactive := fs.Bool("interactive", false, "allow prompts even when stdin is not a terminal (used by tests)")
 		if err := fs.Parse(args[1:]); err != nil {
 			return 2
 		}
-		o.Interactive = stdinIsTerminal()
+		o.Interactive = stdinIsTerminal() || *interactive
+		o.Home = home
+		o.UserConfigPath = userConfig
 		if err := initcmd.Run(o, os.Stdin, os.Stdout); err != nil {
 			fmt.Fprintln(os.Stderr, "aa init:", err)
 			return 1

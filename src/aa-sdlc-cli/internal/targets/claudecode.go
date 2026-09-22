@@ -27,10 +27,13 @@ var Supported = []Target{ClaudeCode}
 
 // Detect returns the supported targets present on this machine or in this repository.
 // Claude Code is present when the user has a ~/.claude folder, the repository has a .claude
-// folder, or the claude command is on the PATH.
+// folder, or the claude command is on the PATH. When AA_HOME relocates the home (decision
+// record 0005), detection is confined to that home and the repository, so a test or an
+// isolated install is not influenced by what the machine happens to have on its PATH.
 func Detect(home, repo string) []Target {
 	var found []Target
-	if isDir(filepath.Join(home, ".claude")) || (repo != "" && isDir(filepath.Join(repo, ".claude"))) || onPath("claude") {
+	isolated := os.Getenv("AA_HOME") != ""
+	if isDir(filepath.Join(home, ".claude")) || (repo != "" && isDir(filepath.Join(repo, ".claude"))) || (!isolated && onPath("claude")) {
 		found = append(found, ClaudeCode)
 	}
 	return found
