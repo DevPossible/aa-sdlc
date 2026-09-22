@@ -9,8 +9,9 @@ Disciplines and codes: `business-analysis` (ba), `product-management` (pd), `ux-
 `technical-analysis` (ta), `refinement` (rf), `implementation-planning` (ip), `development`
 (dev), `testing` (qa), `security` (sec), `documentation` (doc), `release-management` (rel),
 `operations` (ops), `support` (sup), `project-management` (pm). A step's command is
-`/aa-<code>-<step>`; the framework skills `health`, `init`, and `extend` live under `fw/` and
-are `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`.
+`/aa-<code>-<step>`; the framework skills live under `fw/`: `health`, `init`, `extend`, and the
+authoring commands `new-opinion`, `new-tenet`, `new-discipline`, `new-process`, `new-step`,
+which run only in the aa-sdlc repository.
 
 Guidance for a step lives inside its skill. The `aa-sdlc` meta skill that routes between steps
 lives at the top level of this folder. See `docs/vocabulary.md` and `docs/design.md`.

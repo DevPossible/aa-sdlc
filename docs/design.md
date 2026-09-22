@@ -89,7 +89,7 @@ Every discipline has a short code, two characters where a natural one exists and
 readability wins (`dev`, `sec`, `doc`, `rel`, `ops`, `sup`). The code is the middle segment of
 every command in that discipline: `/aa-qa-generate-tests`, `/aa-dev-implement`,
 `/aa-rel-release`. The framework itself has the code `fw`, so its own commands are
-`/aa-fw-health`, `/aa-fw-init`, and `/aa-fw-extend`: the rule has no exceptions. Plugins reuse
+`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`, and the authoring commands `/aa-fw-new-*`: the rule has no exceptions. Plugins reuse
 the code of the discipline they extend.
 
 Fourteen is deliberately more than a small team has people for. A discipline is a kind of
@@ -229,6 +229,7 @@ methodology left implicit are added.
 | Meta | Workflow Retrospective | Project Management | `retrospective` | Workflow Health Report, Process Improvement Backlog |
 | Framework | n/a | Framework (`fw`) | `health` | Health report |
 | Framework | n/a | Framework (`fw`) | `init` | Bootstrapped project: repository, documents folder, project config, conventions; health report |
+| Framework | n/a | Framework (`fw`) | `new-opinion`, `new-tenet`, `new-discipline`, `new-process`, `new-step` | The item added with all of its plumbing: definition, commands, skill scaffold, scenarios, implied requirements and guidance, documents, decision log, regenerated review (aa-sdlc repository only) |
 | Framework | n/a | Framework (`fw`) | `extend` | A valid, installable extension (tech-stack pack, process pack, project skill, target adapter, guidance, or requirement) with its manifest, declared requirements, and feature files |
 
 The command for any discipline step is `/aa-<code>-<step>` using the code from section 3.1.
@@ -448,6 +449,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 33 | 2026-09-21 | Tenet T-13: one person or fifteen, the same framework; the website leads with it | The framework must never assume a team size, a hand-off, or a large-organisation role; a solo developer and a full team are both first-class audiences |
 | 34 | 2026-09-21 | Every discipline has a 2 or 3 character code; discipline commands are `/aa-<code>-<step>`; framework commands use the code `fw` (`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`) | Commands group by discipline in the agent's command list, and the rule has no exceptions |
 | 35 | 2026-09-21 | All fifteen disciplines defined as workflow data (`disciplines/<id>.yaml`) with bounded responsibilities, 47 steps with artifacts and guidance, six processes; `docs/discipline-review.md` is generated from them and validated in the unit tier | The workflow data is the source of truth; a generated review document keeps it readable without letting it drift |
+| 36 | 2026-09-21 | Framework authoring commands `/aa-fw-new-opinion`, `-tenet`, `-discipline`, `-process`, `-step`, each responsible for all the plumbing of the item it adds | Adding to the framework by hand misses pieces; a command that owns the whole checklist keeps the framework consistent with itself |
 
 ## 12. Open questions
 

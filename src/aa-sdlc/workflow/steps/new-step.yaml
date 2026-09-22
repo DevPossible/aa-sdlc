@@ -1,0 +1,42 @@
+id: new-step
+name: Add a step
+discipline: framework
+command: /aa-fw-new-step
+summary: >
+  Add a new step to an existing discipline with all of its plumbing: the step definition,
+  the command, the skill scaffold, the scenarios, its guidance and requirements, its place in
+  any process, and the documents that list it. Runs only in the aa-sdlc repository.
+anchor: none
+inputs:
+  - The discipline it belongs to and the unit of work it performs
+  - The artifacts it produces and the acceptance criteria for each
+  - The guidance it needs and the requirements that guidance implies
+artifacts:
+  - name: Step definition
+    location: src/aa-sdlc/workflow/steps/<step>.yaml
+    acceptance:
+      - Has id, name, discipline, command equal to /aa-<code>-<id>, summary, anchor, inputs, artifacts with acceptance, guidance, requires, tenets
+      - Listed in its discipline's steps and in any process it belongs to
+  - name: Skill scaffold
+    location: src/aa-sdlc/skills/<discipline>/<step>/SKILL.md
+    acceptance:
+      - Frontmatter name equals the step id, description is present, and aa.requires equals the step's requires
+      - Body cites the step's guidance by id and states the artifacts and their locations
+  - name: Scenarios
+    location: features/<discipline>/<step>.feature
+    acceptance:
+      - Tagged with the discipline and step; shows the command run with an anchor, without one where anchor is optional, and reporting a failure faithfully
+  - name: Documents and review
+    location: docs/guidance.md for promoted guidance; docs/requirements.md and features/requirements/ for new requirements; docs/design.md; docs/discipline-review.md
+    acceptance:
+      - New shared guidance has an id; new requirements have scenarios; the design's step map is updated if the step traces to the methodology
+      - The review regenerates and the unit tier passes
+guidance: [G-03, G-04, G-15, G-24, G-25]
+guidance_inline:
+  - "Name the step by the work, in the imperative, unique across all disciplines: implement, not development-work; fix-bug, not bugfix. The id is the last segment of the command and the skill folder name, so it cannot change later."
+  - "Guidance names categories, never tools (T-01). If the step needs a tool category, declare the requirement and cite it; if it needs a specific tool, the step belongs in a plugin."
+  - "Promote guidance to an id only when a second step shares it; otherwise keep it inline on the step. Do not create G-nn ids speculatively."
+  - "Check every anchor: a step with anchor required must read the ticket first (G-22) and update it last (G-12); write both into the skill body."
+  - "Run the validator before regenerating the review; a step the validator rejects is not added."
+requires: [R-04, R-05, R-16]
+tenets: [T-01, T-08, T-11, T-12]

@@ -11,6 +11,7 @@ owns:
   - Bringing a repository up to the framework's requirements with the user's consent
   - Scaffolding, validating, installing, and sharing extensions (T-02)
   - Routing the agent to the right discipline and step for the task at hand
+  - "Authoring the framework itself: adding opinions, tenets, disciplines, processes, and steps with all of their plumbing (in the aa-sdlc repository only)"
 does_not_own:
   - Any project artifact; it produces reports, config, folders, and extensions only
   - Machine-level installation, which belongs to the aa CLI (aa setup, aa init)
@@ -20,5 +21,5 @@ hands_off_to:
     when: a project is bootstrapped and real work begins with discovery
   - discipline: development
     when: init has created stub root scripts that a developer must fill in
-steps: [health, init, extend]
+steps: [health, init, extend, new-opinion, new-tenet, new-discipline, new-process, new-step]
 tenets: [T-02, T-10, T-11]

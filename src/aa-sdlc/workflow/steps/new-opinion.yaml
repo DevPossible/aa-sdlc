@@ -1,0 +1,39 @@
+id: new-opinion
+name: Add an opinion
+discipline: framework
+command: /aa-fw-new-opinion
+summary: >
+  Add a new opinion to the framework and put every piece of plumbing in place for it: the
+  opinion entry, the requirements and guidance it implies, the scenarios that make it
+  checkable, the documents that list it, and the decision that records it. Runs only in the
+  aa-sdlc repository.
+anchor: none
+inputs:
+  - The stance, in one sentence, and why the framework holds it
+  - The alternatives it rejects and what would change the framework's mind
+  - Any requirement or guidance the stance implies
+artifacts:
+  - name: Opinion entry
+    location: docs/opinions.md, with the next O-nn id
+    acceptance:
+      - Has stance, why, rejected, would-change-our-mind, and the requirements it cites
+      - Listed in the README's up-front opinions list and in the design's opinions sentence
+  - name: Implied requirements and guidance
+    location: docs/requirements.md, features/requirements/, docs/guidance.md
+    acceptance:
+      - Every capability the opinion assumes is a requirement with met and unmet scenarios
+      - Every practice the opinion demands is guidance attached to the steps it applies to
+  - name: Decision and scenarios
+    location: docs/design.md decision log; features/framework/ where the opinion changes framework behaviour
+    acceptance:
+      - The decision log has a row citing the opinion id
+      - The unit test tier passes and the discipline review regenerates
+guidance: [G-03, G-04, G-15, G-24, G-25]
+guidance_inline:
+  - "Check the opinion against the tenets before writing it. An opinion that names a tool violates T-01; an opinion that assumes a team size violates T-13. Rewrite until it does not."
+  - "Ids are permanent. Take the next O-nn; never reuse or renumber, even if an earlier opinion was withdrawn."
+  - "Trace forward, all of it. List what the opinion implies for requirements, guidance, disciplines, steps, and the health command, and make each change in the same commit. An opinion nothing depends on is a slogan."
+  - "Say what it rejects with the same care as what it holds. The rejected alternatives are what make the opinion reviewable."
+  - "Finish by running the unit tier and regenerating docs/discipline-review.md. Report what changed, file by file."
+requires: [R-04, R-05, R-16]
+tenets: [T-01, T-08, T-11, T-12, T-13]

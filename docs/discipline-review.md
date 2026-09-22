@@ -6,7 +6,7 @@ Every discipline in SDLC order: its role and bounded responsibilities, its comma
 
 ## Contents
 
-- 0. [Framework](#0-framework) (`fw`): 3 commands
+- 0. [Framework](#0-framework) (`fw`): 8 commands
 - 1. [Product Management](#1-product-management) (`pd`): 3 commands
 - 2. [Business Analysis](#2-business-analysis) (`ba`): 3 commands
 - 3. [UX Design](#3-ux-design) (`ux`): 2 commands
@@ -24,7 +24,7 @@ Every discipline in SDLC order: its role and bounded responsibilities, its comma
 
 ## 0. Framework
 
-**Code:** `fw` | **Id:** `framework` | **Commands:** `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`
+**Code:** `fw` | **Id:** `framework` | **Commands:** `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`, `/aa-fw-new-opinion`, `/aa-fw-new-tenet`, `/aa-fw-new-discipline`, `/aa-fw-new-process`, `/aa-fw-new-step`
 
 ### Role
 
@@ -36,6 +36,7 @@ The framework's own work: bootstrapping a project, checking that the environment
 - Bringing a repository up to the framework's requirements with the user's consent
 - Scaffolding, validating, installing, and sharing extensions (T-02)
 - Routing the agent to the right discipline and step for the task at hand
+- Authoring the framework itself: adding opinions, tenets, disciplines, processes, and steps with all of their plumbing (in the aa-sdlc repository only)
 
 **Does not own**
 
@@ -57,6 +58,11 @@ The framework's own work: bootstrapping a project, checking that the environment
 | `/aa-fw-health` | Report health | none | Health report |
 | `/aa-fw-init` | Bootstrap a project | none | Bootstrapped project |
 | `/aa-fw-extend` | Create an extension | optional | Extension |
+| `/aa-fw-new-opinion` | Add an opinion | none | Opinion entry |
+| `/aa-fw-new-tenet` | Add a tenet | none | Tenet entry |
+| `/aa-fw-new-discipline` | Add a discipline | none | Discipline definition |
+| `/aa-fw-new-process` | Add a process | none | Process definition |
+| `/aa-fw-new-step` | Add a step | none | Step definition |
 
 ### `/aa-fw-health`
 
@@ -146,6 +152,188 @@ Walk the user from a need the framework does not cover to a valid, installable e
 - Prefer adding to an existing pack over creating a second pack for the same technology or process.
 
 *Requires: R-04, R-05 | Tenets: T-01, T-02, T-11, T-12*
+
+### `/aa-fw-new-opinion`
+
+Add a new opinion to the framework and put every piece of plumbing in place for it: the opinion entry, the requirements and guidance it implies, the scenarios that make it checkable, the documents that list it, and the decision that records it. Runs only in the aa-sdlc repository.
+
+**Inputs**
+
+- The stance, in one sentence, and why the framework holds it
+- The alternatives it rejects and what would change the framework's mind
+- Any requirement or guidance the stance implies
+
+**Artifacts**
+
+- **Opinion entry** in docs/opinions.md, with the next O-nn id
+  - Has stance, why, rejected, would-change-our-mind, and the requirements it cites
+  - Listed in the README's up-front opinions list and in the design's opinions sentence
+- **Implied requirements and guidance** in docs/requirements.md, features/requirements/, docs/guidance.md
+  - Every capability the opinion assumes is a requirement with met and unmet scenarios
+  - Every practice the opinion demands is guidance attached to the steps it applies to
+- **Decision and scenarios** in docs/design.md decision log; features/framework/ where the opinion changes framework behaviour
+  - The decision log has a row citing the opinion id
+  - The unit test tier passes and the discipline review regenerates
+
+**Guidance**
+
+- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- Check the opinion against the tenets before writing it. An opinion that names a tool violates T-01; an opinion that assumes a team size violates T-13. Rewrite until it does not.
+- Ids are permanent. Take the next O-nn; never reuse or renumber, even if an earlier opinion was withdrawn.
+- Trace forward, all of it. List what the opinion implies for requirements, guidance, disciplines, steps, and the health command, and make each change in the same commit. An opinion nothing depends on is a slogan.
+- Say what it rejects with the same care as what it holds. The rejected alternatives are what make the opinion reviewable.
+- Finish by running the unit tier and regenerating docs/discipline-review.md. Report what changed, file by file.
+
+*Requires: R-04, R-05, R-16 | Tenets: T-01, T-08, T-11, T-12, T-13*
+
+### `/aa-fw-new-tenet`
+
+Add a new tenet to the framework: the principle itself, the scenarios that show it in action, the citations from every discipline and step it governs, and a consistency pass over the opinions and guidance that must now agree with it. Runs only in the aa-sdlc repository.
+
+**Inputs**
+
+- The principle, in one sentence, and the reasoning behind it
+- What existing content it governs or contradicts
+
+**Artifacts**
+
+- **Tenet entry** in docs/tenets.md, with the next T-nn id
+  - A one-line statement in bold followed by a short paragraph of reasoning
+  - The introductory sentence that groups tenets by purpose is updated to include it
+  - The design's tenet range and any list of tenets elsewhere are updated
+- **Scenarios** in features/framework/<tenet-slug>.feature
+  - Tagged with the tenet id; shows the principle applied in at least three concrete situations
+- **Citations and consistency** in workflow disciplines and steps; docs/opinions.md; docs/guidance.md
+  - Every discipline or step the tenet governs cites it in its tenets list
+  - No existing opinion or guidance contradicts it, or the contradiction is resolved in the same change
+  - The decision log records it; the unit tier passes; the discipline review regenerates
+
+**Guidance**
+
+- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-fw-new-opinion or docs/guidance.md and stop.
+- Tenets are few. Before adding one, check whether an existing tenet already covers it; if so, strengthen that tenet's text instead.
+- Write the feature file before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything.
+- Read every opinion and every guidance item against the new tenet and fix what conflicts. A tenet that existing content contradicts is not yet true.
+- Ids are permanent. Take the next T-nn; never renumber.
+
+*Requires: R-04, R-05, R-16 | Tenets: T-08, T-12*
+
+### `/aa-fw-new-discipline`
+
+Add a new discipline with everything it needs to be real: its definition with bounded responsibilities and a unique code, at least one step with its command, skill scaffold, and scenarios, its place in the design and vocabulary, and a regenerated discipline review. Runs only in the aa-sdlc repository.
+
+**Inputs**
+
+- The kind of work the discipline owns, and what it does not own
+- A proposed 2 or 3 character code and its position in SDLC order
+- The steps it starts with
+
+**Artifacts**
+
+- **Discipline definition** in src/aa-sdlc/workflow/disciplines/<id>.yaml
+  - Has purpose, owns, does_not_own, hands_off_to, steps, tenets, and a code no other discipline uses
+  - Every neighbouring discipline whose boundary changed has its own does_not_own or hands_off_to updated
+- **Steps, skills, and scenarios** in workflow/steps/, src/aa-sdlc/skills/<id>/, features/<id>/
+  - At least one step, each created as /aa-fw-new-step would create it
+  - A skills subfolder with a README naming the discipline and its code
+- **Documents and review** in docs/design.md 3.1 table and decision log; docs/vocabulary.md; docs/plan-discipline-review.md; docs/discipline-review.md
+  - Listed in the disciplines table with id, code, and kind of work, and in the vocabulary's discipline list
+  - Has a row in the review plan; the review document regenerates; the unit tier passes
+
+**Guidance**
+
+- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- A discipline is a kind of work, not a headcount (T-13). If the proposal is really a role in one organisation's chart, it is a process pack, not a core discipline; say so and redirect to /aa-fw-extend.
+- Check the boundaries both ways. Every 'owns' in the new discipline must be a 'does not own' or an absence in the disciplines that used to cover it; update them in the same change.
+- Pick the code before anything else and check it is unused. Two characters if a natural one exists, three if readability wins; never a code that reads as a common word or command.
+- Create each step with the full step plumbing, not a stub. A discipline with an empty steps list cannot be reviewed.
+- Ids are permanent; the review plan gets a new row at the right SDLC position, not at the end.
+
+*Requires: R-04, R-05, R-16 | Tenets: T-08, T-13*
+
+### `/aa-fw-new-process`
+
+Add a new process: an ordered set of existing or new steps toward a goal, with its process-level guidance and exit condition, its scenarios, and its place in the design. Runs only in the aa-sdlc repository.
+
+**Inputs**
+
+- The goal the process serves and where it starts and ends
+- The steps in order, from any disciplines; any step that does not yet exist
+
+**Artifacts**
+
+- **Process definition** in src/aa-sdlc/workflow/processes/<id>.yaml
+  - Has id, name, summary, ordered steps that all exist, process guidance ids, and an exit condition
+  - Steps that did not exist were created with /aa-fw-new-step first
+- **Scenarios and documents** in features/framework/<process>.feature; docs/design.md 3.2 and decision log; docs/discipline-review.md
+  - The feature shows the process run end to end and shows any single step run alone (T-03)
+  - The design names it if it is a core process; the decision log records it; the review regenerates; the unit tier passes
+
+**Guidance**
+
+- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- A process is described, not enforced (T-03). Never add a step that exists only to check that an earlier step ran; the exit condition says what done looks like, and every step still runs alone.
+- Reuse steps before inventing them. If a needed step exists in another process or discipline, list it; a process is an ordering, not an owner.
+- Write the exit condition as something /aa-fw-health or a person could check, not as a feeling.
+- If the process only makes sense for one organisation, it is a process pack; redirect to /aa-fw-extend.
+
+*Requires: R-04, R-05, R-16 | Tenets: T-03, T-08*
+
+### `/aa-fw-new-step`
+
+Add a new step to an existing discipline with all of its plumbing: the step definition, the command, the skill scaffold, the scenarios, its guidance and requirements, its place in any process, and the documents that list it. Runs only in the aa-sdlc repository.
+
+**Inputs**
+
+- The discipline it belongs to and the unit of work it performs
+- The artifacts it produces and the acceptance criteria for each
+- The guidance it needs and the requirements that guidance implies
+
+**Artifacts**
+
+- **Step definition** in src/aa-sdlc/workflow/steps/<step>.yaml
+  - Has id, name, discipline, command equal to /aa-<code>-<id>, summary, anchor, inputs, artifacts with acceptance, guidance, requires, tenets
+  - Listed in its discipline's steps and in any process it belongs to
+- **Skill scaffold** in src/aa-sdlc/skills/<discipline>/<step>/SKILL.md
+  - Frontmatter name equals the step id, description is present, and aa.requires equals the step's requires
+  - Body cites the step's guidance by id and states the artifacts and their locations
+- **Scenarios** in features/<discipline>/<step>.feature
+  - Tagged with the discipline and step; shows the command run with an anchor, without one where anchor is optional, and reporting a failure faithfully
+- **Documents and review** in docs/guidance.md for promoted guidance; docs/requirements.md and features/requirements/ for new requirements; docs/design.md; docs/discipline-review.md
+  - New shared guidance has an id; new requirements have scenarios; the design's step map is updated if the step traces to the methodology
+  - The review regenerates and the unit tier passes
+
+**Guidance**
+
+- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- Name the step by the work, in the imperative, unique across all disciplines: implement, not development-work; fix-bug, not bugfix. The id is the last segment of the command and the skill folder name, so it cannot change later.
+- Guidance names categories, never tools (T-01). If the step needs a tool category, declare the requirement and cite it; if it needs a specific tool, the step belongs in a plugin.
+- Promote guidance to an id only when a second step shares it; otherwise keep it inline on the step. Do not create G-nn ids speculatively.
+- Check every anchor: a step with anchor required must read the ticket first (G-22) and update it last (G-12); write both into the skill body.
+- Run the validator before regenerating the review; a step the validator rejects is not added.
+
+*Requires: R-04, R-05, R-16 | Tenets: T-01, T-08, T-11, T-12*
 
 ## 1. Product Management
 

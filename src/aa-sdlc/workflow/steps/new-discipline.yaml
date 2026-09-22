@@ -1,0 +1,39 @@
+id: new-discipline
+name: Add a discipline
+discipline: framework
+command: /aa-fw-new-discipline
+summary: >
+  Add a new discipline with everything it needs to be real: its definition with bounded
+  responsibilities and a unique code, at least one step with its command, skill scaffold, and
+  scenarios, its place in the design and vocabulary, and a regenerated discipline review. Runs
+  only in the aa-sdlc repository.
+anchor: none
+inputs:
+  - The kind of work the discipline owns, and what it does not own
+  - A proposed 2 or 3 character code and its position in SDLC order
+  - The steps it starts with
+artifacts:
+  - name: Discipline definition
+    location: src/aa-sdlc/workflow/disciplines/<id>.yaml
+    acceptance:
+      - Has purpose, owns, does_not_own, hands_off_to, steps, tenets, and a code no other discipline uses
+      - Every neighbouring discipline whose boundary changed has its own does_not_own or hands_off_to updated
+  - name: Steps, skills, and scenarios
+    location: workflow/steps/, src/aa-sdlc/skills/<id>/, features/<id>/
+    acceptance:
+      - At least one step, each created as /aa-fw-new-step would create it
+      - A skills subfolder with a README naming the discipline and its code
+  - name: Documents and review
+    location: docs/design.md 3.1 table and decision log; docs/vocabulary.md; docs/plan-discipline-review.md; docs/discipline-review.md
+    acceptance:
+      - Listed in the disciplines table with id, code, and kind of work, and in the vocabulary's discipline list
+      - Has a row in the review plan; the review document regenerates; the unit tier passes
+guidance: [G-03, G-04, G-15, G-24, G-25]
+guidance_inline:
+  - "A discipline is a kind of work, not a headcount (T-13). If the proposal is really a role in one organisation's chart, it is a process pack, not a core discipline; say so and redirect to /aa-fw-extend."
+  - "Check the boundaries both ways. Every 'owns' in the new discipline must be a 'does not own' or an absence in the disciplines that used to cover it; update them in the same change."
+  - "Pick the code before anything else and check it is unused. Two characters if a natural one exists, three if readability wins; never a code that reads as a common word or command."
+  - "Create each step with the full step plumbing, not a stub. A discipline with an empty steps list cannot be reviewed."
+  - "Ids are permanent; the review plan gets a new row at the right SDLC position, not at the end."
+requires: [R-04, R-05, R-16]
+tenets: [T-08, T-13]

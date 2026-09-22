@@ -1,0 +1,31 @@
+id: new-process
+name: Add a process
+discipline: framework
+command: /aa-fw-new-process
+summary: >
+  Add a new process: an ordered set of existing or new steps toward a goal, with its
+  process-level guidance and exit condition, its scenarios, and its place in the design.
+  Runs only in the aa-sdlc repository.
+anchor: none
+inputs:
+  - The goal the process serves and where it starts and ends
+  - The steps in order, from any disciplines; any step that does not yet exist
+artifacts:
+  - name: Process definition
+    location: src/aa-sdlc/workflow/processes/<id>.yaml
+    acceptance:
+      - Has id, name, summary, ordered steps that all exist, process guidance ids, and an exit condition
+      - Steps that did not exist were created with /aa-fw-new-step first
+  - name: Scenarios and documents
+    location: features/framework/<process>.feature; docs/design.md 3.2 and decision log; docs/discipline-review.md
+    acceptance:
+      - The feature shows the process run end to end and shows any single step run alone (T-03)
+      - The design names it if it is a core process; the decision log records it; the review regenerates; the unit tier passes
+guidance: [G-03, G-04, G-15, G-24, G-25]
+guidance_inline:
+  - "A process is described, not enforced (T-03). Never add a step that exists only to check that an earlier step ran; the exit condition says what done looks like, and every step still runs alone."
+  - "Reuse steps before inventing them. If a needed step exists in another process or discipline, list it; a process is an ordering, not an owner."
+  - "Write the exit condition as something /aa-fw-health or a person could check, not as a feeling."
+  - "If the process only makes sense for one organisation, it is a process pack; redirect to /aa-fw-extend."
+requires: [R-04, R-05, R-16]
+tenets: [T-03, T-08]
