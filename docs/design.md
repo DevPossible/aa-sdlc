@@ -86,9 +86,11 @@ Skills are grouped by discipline, the kind of work they perform. Current discipl
 | Project Management | `project-management` | coordination, retrospectives, and the framework's own health, init, and extend |
 
 Fourteen is deliberately more than a small team has people for. A discipline is a kind of
-work, not a headcount: one person, or one agent session, may work in several. What matters is
-that every common kind of work has a named home, so its steps and guidance have somewhere to
-live and `/aa-health` has something to report coverage against.
+work, not a headcount (T-13): a solo developer on a personal project and a fifteen-person team
+with distinct roles run the same steps and produce the same artifacts, and differ only in who
+performs which discipline. What matters is that every common kind of work has a named home, so
+its steps and guidance have somewhere to live and `/aa-health` has something to report coverage
+against.
 
 ### 3.2 Processes and steps
 
@@ -367,7 +369,10 @@ produces the npm tarball; publishing to npm is a release step.
 - The current landing page becomes a **Business Case** page. Content is kept and retitled.
 - A new landing page is the **SDK project page**: what it is, the install one-liner, supported
   targets, the phase-to-skill map, the plugin model, and links to the methodology, business case,
-  and repo.
+  and repo. One message it must carry: the same framework serves a solo developer and a
+  fifteen-person team (T-13). Fourteen disciplines are kinds of work, not people, and the site
+  should show the solo path and the team path side by side so neither audience thinks it is
+  for the other.
 - The workflow page becomes **Methodology**. Each step gets a callout naming its skill and
   command, linking to the repo.
 - Navigation becomes Home, Methodology, Business Case, Repo.
@@ -410,6 +415,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 30 | 2026-09-21 | The config file is `aa.config.yaml`, one per scope, merged enterprise to project, validated against a published schema | Hand-edited more than tool-edited, so comments matter; schema validation catches mistakes before merge |
 | 31 | 2026-09-21 | Skills declare `aa.requires: [R-nn]` in frontmatter; definitions live once in feature files; plugins use namespaced ids and a `plugin.yaml` manifest | No duplication, cheap to declare, and `/aa-health` resolves ids against the installed set |
 | 32 | 2026-09-21 | Fourteen disciplines: add Product Management, UX Design, Security, Release Management, and Support; confirm Operations; move triage to Support, release to Release Management, prototype to UX Design, security steps to Security, iterate to Product Management | Common roles must have a named home; a discipline is a kind of work, not a headcount |
+| 33 | 2026-09-21 | Tenet T-13: one person or fifteen, the same framework; the website leads with it | The framework must never assume a team size, a hand-off, or a large-organisation role; a solo developer and a full team are both first-class audiences |
 
 ## 12. Open questions
 

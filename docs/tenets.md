@@ -9,7 +9,7 @@ and the [vocabulary](vocabulary.md).
 
 Each tenet has a stable ID so design decisions, skills, and reviews can cite it. Ten govern the
 shape of the content (T-01 to T-10); T-11 and T-12 govern how the framework keeps that content
-honest. The concrete stances the framework takes where alternatives exist are **opinions**, kept
+honest; T-13 governs who the framework is for. The concrete stances the framework takes where alternatives exist are **opinions**, kept
 in [opinions.md](opinions.md).
 
 ---
@@ -80,6 +80,15 @@ to a feature file propagates outward, and a change made only in a ticket or a pa
 as a conflict, never silently absorbed. The ticket system remains the truth for work state and
 the knowledge base for decisions; the feature files are the truth for what the software must
 do.
+
+**T-13 One person or fifteen: the same framework.**
+A discipline is a kind of work, not a headcount. A solo developer on a personal project and a
+fifteen-person team with distinct roles run the same steps, produce the same artifacts, and
+follow the same guidance. They differ only in who performs which discipline, and the framework
+never asks. Every step is written so that the person running it may be the one who ran the
+previous step or someone who has never seen the project. Nothing in the framework assumes a
+particular team size, a hand-off between people, or a role that exists only in large
+organisations.
 
 ---
 
