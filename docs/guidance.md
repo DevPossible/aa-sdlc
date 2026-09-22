@@ -1,6 +1,6 @@
-# Guidance Backlog
+# Guidance Registry
 
-**Status:** working draft. Last updated 2026-09-21.
+**Status:** working draft. Last updated 2026-09-22.
 
 Guidance is a detail on a step or process that indicates how best to perform it (see the
 [vocabulary](vocabulary.md)). Guidance is specific and actionable, written against tool
@@ -9,9 +9,12 @@ each reliably get wrong (T-06). Anything a piece of guidance depends on is decla
 requirement (T-11) and listed in its `Requires` column by ID from
 [requirements.md](requirements.md).
 
-This file is the backlog of guidance not yet attached to a step or process. As skills are
-written, guidance moves out of here and into the skill (for a step) or the process definition
-(for a process). Each item keeps its ID so it can be traced.
+This file is the registry of shared guidance. Each item has a stable ID and is cited from the
+steps and processes that apply it, either directly in the step's `guidance:` list or through a
+guidance set in `src/aa-sdlc/workflow/guidance-sets/`. The `Attaches to` column is descriptive;
+the workflow data is the source of truth for where an item applies, and the unit tier fails if
+an item is defined here and cited nowhere. An item that is folded into another is marked
+*Superseded by* and keeps its row; ids are never reused.
 
 | ID | Guidance | Attaches to | Requires |
 |----|----------|-------------|----------|

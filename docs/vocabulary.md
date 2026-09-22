@@ -82,6 +82,43 @@ under `features/` in this repository.
 The ticket a step reads from and writes to. The ticket system is the state store; the SDK owns
 no process state.
 
+**Guidance set**
+A named list of guidance and requirement ids that many steps share, defined once in
+`src/aa-sdlc/workflow/guidance-sets/` and cited by name from a step's `guidance_sets`. A step
+lists only the ids its sets do not supply. The sets are `every-step`, `anchored-step`,
+`repository-write`, `code-change`, `test-writing`, and `framework-authoring`.
+
+**Decision record**
+One screen recording a significant decision, technical, product, or process: its context, the
+options considered, the decision, and its consequences. Numbered next in one sequence per
+repository, dated, immutable once accepted, and superseded by a new record rather than edited
+(O-18). Lives in the knowledge repository or the documents folder, whichever the project config
+names.
+
+**Definition of ready**
+The condition a ticket meets before work starts on it: scenarios linked and complete,
+acceptance criteria checkable, size recorded with the implementation thinking that grounds it
+(O-10), dependencies clear, questions answered or owned, and the repository revision it was
+checked against recorded (O-13).
+
+**Currency check**
+The comparison a step makes when it picks up a ticket: the repository at the revision the
+ticket was refined and planned against, against the repository now, filtered to the feature
+files the ticket links and the files its plan names. Its result is recorded on the ticket; a
+conflict goes back to refinement (O-13).
+
+**Environment file**
+The place, per deployed environment, for the settings that differ between environments:
+endpoints, connection strings, resource names, credentials. A committed template names every
+key with placeholders for secrets; the values are supplied at deploy time. Functional settings
+that are the same everywhere do not go here (O-25). The file format or platform mechanism is
+the project's choice.
+
+**Artifact identity**
+The immutable identifier of a built release artifact, a digest or a version the pipeline never
+reuses, tied to the commit it was built from. Every environment deploys the same identity, the
+release records it, and validation confirms it is what is running (O-24).
+
 **Plugin**
 An optional pack that adds skills, steps, processes, or guidance without changing core. Two
 kinds: tech-stack packs and process packs. Plugins supply specifics; core supplies the
