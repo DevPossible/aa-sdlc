@@ -23,7 +23,7 @@ the framework has not made, the task is to write the decision record (O-18) firs
 | 9 | Decision log row 39 was edited in place, against O-18 | A |
 | 10 | The framework repository does not meet its own opinions (R-07, R-32, R-35, R-39) | B |
 
-Out of scope here: the website (design section 10) and the commit hygiene of past sessions.
+Out of scope here: the website (design section 10, now planned in [plan-website-pivot.md](plan-website-pivot.md)) and the commit hygiene of past sessions.
 Both are noted in the review and can be planned separately.
 
 ## Working agreements while executing this plan
@@ -134,6 +134,6 @@ list that is about to be restructured.
 | A | A1 to A6 | done 2026-09-22 (commits cee232d to 04fd5a5) |
 | B | B1 to B4 | done 2026-09-22 (0a9a6bf, 6aae2c5, bd4b2c2; B4 folded into B3's document) |
 | C | C1 to C5 | done 2026-09-22 (c0e190b, d055c3d, 8e3e0f8; baseline in development-environment.md); B5 raised by the baseline |
-| D | D1 to D5 | not started |
+| D | D1 to D5 | D1 done (0466675), D2 done (5e5ad39), D3 and D4 done 2026-09-22 (Go module, `aa init`, `aa setup`); D5 pack and npm packages not started |
 | E | E1 to E3 | not started |
 | F | F1 to F4 | not started |

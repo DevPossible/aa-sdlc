@@ -14,15 +14,17 @@ reads it to tell a recorded exception from an unexplained gap.
 | Pester | the test tiers | PowerShell module, current user |
 | powershell-yaml | the structural validators and the review generator | PowerShell module, current user |
 | PSScriptAnalyzer | `./build.ps1 -Lint`: formatter check and static analysis of every `*.ps1` | PowerShell module, current user |
+| Go toolchain (1.26 or later) | building and testing the `aa` CLI in `src/aa-sdlc-cli/` (decision record 0004) | winget `GoLang.Go` |
 
-The Go toolchain for the `aa` CLI will be added here when the CLI project lands (decision
-record 0004, plan task D3). Nothing else is required. There is no seed data.
+Nothing else is required. There is no seed data. `go mod tidy` fetches the module's one
+dependency, a YAML library, from the Go module proxy on first build.
 
 ## Conventions enforced by tools (O-21)
 
 | Language or format | Formatter | Linter | Runs from |
 |--------------------|-----------|--------|-----------|
 | PowerShell (`*.ps1`, `*.psd1`) | PSScriptAnalyzer `Invoke-Formatter`, settings in `PSScriptAnalyzerSettings.psd1` | PSScriptAnalyzer `Invoke-ScriptAnalyzer`, same settings | `./build.ps1 -Lint` |
+| Go (`src/aa-sdlc-cli/**`) | `gofmt` | `go vet` | `./build.ps1 -Lint` |
 | Workflow YAML (`src/aa-sdlc/workflow/**`) | none known; hand-formatted, two-space indent, flow lists for ids | `scripts/Test-WorkflowStructure.ps1` (shape, ids, cross-references) | `./build.ps1`, `./test.ps1 -Tier unit` |
 | Gherkin (`features/**`) | none known | `scripts/Test-FeatureStructure.ps1` (one Feature, scenarios with Then and Given or When) | `./build.ps1`, `./test.ps1 -Tier unit` |
 | Markdown (`docs/**`, `README.md`, `SKILL.md`) | none known; 100-column wrap by convention | `scripts/Test-SkillStructure.ps1` for `SKILL.md` frontmatter; otherwise none | `./build.ps1`, `./test.ps1 -Tier unit` |
