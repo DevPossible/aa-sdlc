@@ -18,11 +18,12 @@ artifacts:
       - Acceptance criteria are the scenarios, not a restatement of them
       - Size is recorded with the implementation thinking that grounds it, and cites it
       - Records the repository revision the scenarios were checked against (O-13)
-guidance: [G-02, G-03, G-12, G-16, G-18, G-22, G-24, G-27, G-28, G-31]
+guidance_sets: [every-step, anchored-step]
+guidance: [G-16, G-18, G-28, G-31]
 guidance_inline:
   - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
   - Size from the thinking, not the title. Before putting a number on it, write on the ticket what changes, what is unknown, and what could go wrong, at a depth that matches the stakes; a sentence for a small change, a full plan-implementation for a large one (O-10).
   - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
-requires: [R-02, R-16, R-22, R-23, R-27]
+requires: [R-16, R-23, R-27]
 tenets: [T-04, T-07]
 opinions: [O-10, O-13]

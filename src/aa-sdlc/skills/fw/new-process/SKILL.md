@@ -4,8 +4,7 @@ description: Add a process to the AA-SDLC framework as an ordered set of existin
 aa:
   discipline: framework
   step: new-process
-  requires: [R-04, R-05, R-16, R-31]
-  guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
+  guidance_sets: [every-step, framework-authoring]
 ---
 
 # /aa-fw-new-process

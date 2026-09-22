@@ -1,0 +1,5 @@
+id: every-step
+purpose: >
+  What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+guidance: [G-02, G-03, G-06, G-15, G-24]
+requires: [R-04]

@@ -15,9 +15,9 @@ artifacts:
       - Each task maps to one or more plan steps and names its test
       - Order and dependencies are explicit
       - The sum of the tasks is the whole plan; nothing is left implicit
-guidance: [G-08, G-12, G-22, G-24]
+guidance_sets: [every-step, anchored-step]
+guidance: [G-08]
 guidance_inline:
   - A task is done when its test passes and its change is committed, not when its code exists.
   - Keep tasks at a size where the first commit is an hour away, not a day.
-requires: [R-02]
 tenets: [T-07]

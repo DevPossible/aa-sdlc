@@ -38,6 +38,7 @@ function Read-YamlFolder {
 
 $disciplines = Read-YamlFolder (Join-Path $WorkflowRoot 'disciplines')
 $steps = Read-YamlFolder (Join-Path $WorkflowRoot 'steps')
+$sets = Read-YamlFolder (Join-Path $WorkflowRoot 'guidance-sets')
 
 # Guidance text by id, from the table in docs/guidance.md
 $guidanceText = @{}
@@ -123,14 +124,31 @@ foreach ($d in ($disciplines.Values | Sort-Object order)) {
         [void]$sb.AppendLine()
         [void]$sb.AppendLine('**Guidance**')
         [void]$sb.AppendLine()
-        foreach ($g in @($s.guidance)) {
+        $seen = [System.Collections.Generic.List[string]]::new()
+        $allRequires = [System.Collections.Generic.List[string]]::new()
+        foreach ($setId in @($s.guidance_sets | Where-Object { $_ })) {
+            if (-not $sets.ContainsKey($setId)) { continue }
+            $set = $sets[$setId]
+            [void]$sb.AppendLine("- *From the ``$setId`` set:* $($set.purpose.Trim())")
+            foreach ($g in @($set.guidance)) {
+                if ($g -in $seen) { continue }
+                $seen.Add($g)
+                $text = if ($guidanceText.ContainsKey($g)) { $guidanceText[$g] } else { '(undefined)' }
+                [void]$sb.AppendLine("  - **$g** $text")
+            }
+            foreach ($r in @($set.requires)) { if ($r -notin $allRequires) { $allRequires.Add($r) } }
+        }
+        foreach ($g in @($s.guidance | Where-Object { $_ })) {
+            if ($g -in $seen) { continue }
+            $seen.Add($g)
             $text = if ($guidanceText.ContainsKey($g)) { $guidanceText[$g] } else { '(undefined)' }
             [void]$sb.AppendLine("- **$g** $text")
         }
-        foreach ($g in @($s.guidance_inline)) { [void]$sb.AppendLine("- $g") }
+        foreach ($g in @($s.guidance_inline | Where-Object { $_ })) { [void]$sb.AppendLine("- $g") }
         [void]$sb.AppendLine()
+        foreach ($r in @($s.requires | Where-Object { $_ })) { if ($r -notin $allRequires) { $allRequires.Add($r) } }
         $meta = @()
-        if ($s.requires) { $meta += "Requires: " + (@($s.requires) -join ', ') }
+        if ($allRequires.Count) { $meta += "Requires: " + ($allRequires -join ', ') }
         if ($s.tenets) { $meta += "Tenets: " + (@($s.tenets) -join ', ') }
         if ($s.opinions) { $meta += "Opinions: " + (@($s.opinions) -join ', ') }
         if ($s.methodology) {

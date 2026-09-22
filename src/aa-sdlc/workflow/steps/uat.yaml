@@ -24,10 +24,11 @@ artifacts:
     acceptance:
       - Each scenario is marked accepted or not, by whom, with the gap described where not
       - Every gap is a new ticket or a scenario change, never a note that fades
-guidance: [G-06, G-12, G-15, G-18, G-22, G-26]
+guidance_sets: [every-step, anchored-step]
+guidance: [G-18]
 guidance_inline:
   - Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature file.
   - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
   - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
-requires: [R-02, R-16]
+requires: [R-16]
 tenets: [T-06, T-07, T-12]

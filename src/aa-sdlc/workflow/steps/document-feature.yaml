@@ -16,11 +16,12 @@ artifacts:
       - A user can do what the scenarios describe by following the user documentation
       - A developer can find where the feature lives and how it is tested from the developer documentation
       - Linked from the ticket and the feature's knowledge base page
-guidance: [G-03, G-11, G-12, G-22, G-24, G-25, G-26, G-37]
+guidance_sets: [every-step, anchored-step, repository-write]
+guidance: [G-37]
 guidance_inline:
   - Write from the scenarios, verify against the software. The scenarios say what should happen; run the feature to confirm the documentation is describing what does.
   - Document the unhappy path. Users read documentation when something went wrong.
   - Never duplicate a scenario in prose. Link to it, or embed it; two copies drift.
-requires: [R-02, R-03, R-06, R-16, R-30]
+requires: [R-03, R-06, R-16, R-30]
 tenets: [T-12, T-13]
 opinions: [O-16]

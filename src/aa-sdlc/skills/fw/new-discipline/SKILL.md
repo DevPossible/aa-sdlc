@@ -4,8 +4,7 @@ description: Add a discipline to the AA-SDLC framework with bounded responsibili
 aa:
   discipline: framework
   step: new-discipline
-  requires: [R-04, R-05, R-16, R-31]
-  guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
+  guidance_sets: [every-step, framework-authoring]
 ---
 
 # /aa-fw-new-discipline

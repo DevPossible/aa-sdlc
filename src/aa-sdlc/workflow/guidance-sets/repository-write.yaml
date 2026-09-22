@@ -1,0 +1,5 @@
+id: repository-write
+purpose: >
+  What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+guidance: [G-11, G-33, G-39, G-40, G-42]
+requires: [R-01, R-05, R-28, R-31, R-33]

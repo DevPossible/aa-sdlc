@@ -28,12 +28,11 @@ artifacts:
     acceptance:
       - Listed in the disciplines table with id, code, and kind of work, and in the vocabulary's discipline list
       - Has a row in the review plan; the review document regenerates; the unit tier passes
-guidance: [G-03, G-04, G-15, G-24, G-25, G-40]
+guidance_sets: [every-step, framework-authoring]
 guidance_inline:
   - "A discipline is a kind of work, not a headcount (T-13). If the proposal is really a role in one organisation's chart, it is a process pack, not a core discipline; say so and redirect to /aa-fw-extend."
   - "Check the boundaries both ways. Every 'owns' in the new discipline must be a 'does not own' or an absence in the disciplines that used to cover it; update them in the same change."
   - "Pick the code before anything else and check it is unused. Two characters if a natural one exists, three if readability wins; never a code that reads as a common word or command."
   - "Create each step with the full step plumbing, not a stub. A discipline with an empty steps list cannot be reviewed."
   - "Ids are permanent; the review plan gets a new row at the right SDLC position, not at the end."
-requires: [R-04, R-05, R-16, R-31]
 tenets: [T-08, T-13]

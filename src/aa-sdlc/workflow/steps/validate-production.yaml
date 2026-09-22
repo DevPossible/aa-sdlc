@@ -23,10 +23,11 @@ artifacts:
     location: the knowledge base
     acceptance:
       - Compares key metrics before and after, computed with a tool, with any regression ticketed
-guidance: [G-02, G-04, G-15, G-22, G-24, G-26, G-47]
+guidance_sets: [every-step, anchored-step]
+guidance: [G-04, G-47]
 guidance_inline:
   - Compare, do not glance. Compute before-and-after for each metric over a stated window; a dashboard that "looks fine" is not evidence.
   - Validation is read-only. Never change production to make a check pass; a failing check is an incident or a rollback.
-requires: [R-02, R-03, R-04, R-38]
+requires: [R-03, R-38]
 tenets: [T-07, T-10]
 opinions: [O-24]

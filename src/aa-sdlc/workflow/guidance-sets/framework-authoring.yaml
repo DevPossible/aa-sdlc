@@ -1,0 +1,5 @@
+id: framework-authoring
+purpose: >
+  What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+guidance: [G-04, G-25, G-40]
+requires: [R-05, R-16, R-31]

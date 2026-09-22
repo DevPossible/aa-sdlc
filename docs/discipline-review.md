@@ -83,10 +83,13 @@ Aggregate every requirement declared by the installed skills, plugins, and proce
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - Probe by doing, not by looking. To check the ticket system, read a ticket; to check source control, read the remote; to check the build, run the build script. A configuration file that exists proves nothing.
 - Report not-applicable as its own status. A requirement that cannot apply here (hooks on a target with no hooks) is not a failure and must not look like one.
 - Change nothing. If a probe would need to create, write, or install anything to succeed, report it as unmet and name /aa-fw-init as the remedy.
@@ -113,10 +116,13 @@ Run health, then work through the unmet requirements that need judgement, fixing
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - Propose, then act. State each fix as a one-line proposal with what it creates or changes, and perform it only after the user agrees. Batch trivial fixes (folders, stubs) into one proposal.
 - Never choose a tool for the project. When a language has no formatter or a technology has no skill, name the gap and list what is available in the project's scope or as plugins; the user chooses (T-01).
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
@@ -143,15 +149,24 @@ Walk the user from a need the framework does not cover to a valid, installable e
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Fit the kind to the need before scaffolding. A stack-specific practice is a tech-stack pack; an organisational gate is a process pack; something only this repository needs is a project skill; a new agent is a target adapter. Explain the choice in one sentence.
 - Write the feature file first. The extension's behaviour is captured as scenarios before any skill text is written, so the skill has something to be checked against.
 - Refuse politely and specifically. When an extension would change core, name the exact core item and offer the nearest allowed alternative.
 - Prefer adding to an existing pack over creating a second pack for the same technology or process.
 
-*Requires: R-04, R-05 | Tenets: T-01, T-02, T-11, T-12*
+*Requires: R-04, R-02, R-07, R-22, R-05 | Tenets: T-01, T-02, T-11, T-12*
 
 ### `/aa-fw-new-opinion`
 
@@ -177,12 +192,16 @@ Add a new opinion to the framework and put every piece of plumbing in place for 
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `framework-authoring` set:* What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - Check the opinion against the tenets before writing it. An opinion that names a tool violates T-01; an opinion that assumes a team size violates T-13. Rewrite until it does not.
 - Ids are permanent. Take the next O-nn; never reuse or renumber, even if an earlier opinion was withdrawn.
 - Trace forward, all of it. List what the opinion implies for requirements, guidance, disciplines, steps, and the health command, and stage each change in the same change set for the user to commit (O-17). An opinion nothing depends on is a slogan.
@@ -215,12 +234,16 @@ Add a new tenet to the framework: the principle itself, the scenarios that show 
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `framework-authoring` set:* What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-fw-new-opinion or docs/guidance.md and stop.
 - Tenets are few. Before adding one, check whether an existing tenet already covers it; if so, strengthen that tenet's text instead.
 - Write the feature file before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything.
@@ -253,12 +276,16 @@ Add a new discipline with everything it needs to be real: its definition with bo
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `framework-authoring` set:* What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - A discipline is a kind of work, not a headcount (T-13). If the proposal is really a role in one organisation's chart, it is a process pack, not a core discipline; say so and redirect to /aa-fw-extend.
 - Check the boundaries both ways. Every 'owns' in the new discipline must be a 'does not own' or an absence in the disciplines that used to cover it; update them in the same change.
 - Pick the code before anything else and check it is unused. Two characters if a natural one exists, three if readability wins; never a code that reads as a common word or command.
@@ -287,12 +314,16 @@ Add a new process: an ordered set of existing or new steps toward a goal, with i
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `framework-authoring` set:* What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - A process is described, not enforced (T-03). Never add a step that exists only to check that an earlier step ran; the exit condition says what done looks like, and every step still runs alone.
 - Reuse steps before inventing them. If a needed step exists in another process or discipline, list it; a process is an ordering, not an owner.
 - Write the exit condition as something /aa-fw-health or a person could check, not as a feeling.
@@ -326,12 +357,16 @@ Add a new step to an existing discipline with all of its plumbing: the step defi
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `framework-authoring` set:* What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - Name the step by the work, in the imperative, unique across all disciplines: implement, not development-work; fix-bug, not bugfix. The id is the last segment of the command and the skill folder name, so it cannot change later.
 - Guidance names categories, never tools (T-01). If the step needs a tool category, declare the requirement and cite it; if it needs a specific tool, the step belongs in a plugin.
 - Promote guidance to an id only when a second step shares it; otherwise keep it inline on the step. Do not create G-nn ids speculatively.
@@ -394,19 +429,26 @@ Write down what an initiative is meant to achieve and how we will know. Produces
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
 - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
 - Say what is out of scope in the same place, so refinement does not have to guess.
 
-*Requires: R-02, R-22, R-29, R-32 | Tenets: T-04, T-07 | Opinions: O-15, O-18*
+*Requires: R-04, R-02, R-07, R-22, R-29, R-32 | Tenets: T-04, T-07 | Opinions: O-15, O-18*
 
 ### `/aa-pd-prioritise`
 
@@ -427,17 +469,25 @@ Order epics and stories by value against the outcome, risk, and dependency, and 
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Rank by outcome contribution first, then risk reduction, then cost. When two items tie, prefer the one that retires an unknown.
 - Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why, and a demotion of committed work is a decision record (O-18).
 - Ask before demoting. If an item someone is working on drops out of the iteration, that is a conversation, not a rank change.
 
-*Requires: R-02, R-23, R-32 | Tenets: T-04, T-06 | Opinions: O-18*
+*Requires: R-04, R-02, R-07, R-22, R-23, R-32 | Tenets: T-04, T-06 | Opinions: O-18*
 
 ### `/aa-pd-iterate`
 
@@ -458,17 +508,24 @@ Turn what users, support, and production are saying into decisions: what to enha
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
 - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
 - Close the loop. Where feedback came from a ticket, comment on it with the decision.
 
-*Requires: R-02, R-03, R-04, R-22, R-32 | Tenets: T-04, T-07 | Opinions: O-18 | Methodology: phase 6 step 6.3*
+*Requires: R-04, R-02, R-07, R-22, R-03, R-32 | Tenets: T-04, T-07 | Opinions: O-18 | Methodology: phase 6 step 6.3*
 
 ## 2. Business Analysis
 
@@ -528,20 +585,34 @@ Capture what stakeholders need, as they say it and as they mean it. Produces the
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a draft scenario can be wrong in a way everyone can see.
 - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.
 - Record what was not said. Silence on error cases, permissions, and edge conditions is a question, not an assumption.
 - A picture is a witness, not a specification. When the request arrives as a screenshot or mock-up, write the goals and scenarios it implies, log what it does not show as questions, and let the mock-up be regenerated from the confirmed scenarios later (O-15).
 
-*Requires: R-02, R-16, R-29 | Tenets: T-04, T-06, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-16, R-29 | Tenets: T-04, T-06, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.1*
 
 ### `/aa-ba-refine-requirements`
 
@@ -564,19 +635,33 @@ Close the gaps. Turn draft scenarios into complete, unambiguous, testable ones; 
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
 - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.
 - Trace every change. When a scenario changes, the ticket's acceptance criteria and the page follow (T-12); never edit the ticket first.
 
-*Requires: R-02, R-03, R-16, R-29 | Tenets: T-07, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.2*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-16, R-29 | Tenets: T-07, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.2*
 
 ### `/aa-ba-uat`
 
@@ -598,17 +683,24 @@ Confirm with the people who asked for it that what was built is what they meant.
 
 **Guidance**
 
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature file.
 - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
 - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
 
-*Requires: R-02, R-16 | Tenets: T-06, T-07, T-12 | Methodology: phase 5 step 5.2*
+*Requires: R-04, R-02, R-07, R-22, R-16 | Tenets: T-06, T-07, T-12 | Methodology: phase 5 step 5.2*
 
 ## 3. UX Design
 
@@ -665,12 +757,26 @@ Make the requirement visible before it is built. Produces mockups and, where the
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-36** Generate every mock-up from confirmed scenarios and name on it the scenarios it renders. Behaviour a mock-up shows that no scenario states is a question on the ticket, not a requirement; change the scenario first, then the mock-up (T-12).
 - Prototype the flow, not the pixels. The question a prototype answers is "is this the right interaction", and polish hides that question.
@@ -678,7 +784,7 @@ Make the requirement visible before it is built. Produces mockups and, where the
 - Show the unhappy path. A mockup that only shows success leaves the error states to be invented at implementation time.
 - Feed changes back through the feature file. If the prototype review changes what the user needs, change the scenario, then the prototype (T-12).
 
-*Requires: R-02, R-16, R-29 | Tenets: T-06, T-12 | Opinions: O-15 | Methodology: phase 1 step 1.3*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-16, R-29 | Tenets: T-06, T-12 | Opinions: O-15 | Methodology: phase 1 step 1.3*
 
 ### `/aa-ux-review-ux`
 
@@ -697,16 +803,23 @@ Use the built software the way a user would and record where the interaction fai
 
 **Guidance**
 
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-36** Generate every mock-up from confirmed scenarios and name on it the scenarios it renders. Behaviour a mock-up shows that no scenario states is a question on the ticket, not a requirement; change the scenario first, then the mock-up (T-12).
 - Follow the scenario literally first, then wander. The literal pass finds what was missed; the wander finds what was never imagined.
 - Distinguish defect from design. "It does not do what the scenario says" goes to Development; "the scenario was wrong" goes to Business Analysis as a requirement change.
 
-*Requires: R-02, R-16, R-29 | Tenets: T-07 | Opinions: O-15 | Methodology: phase 5*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-29 | Tenets: T-07 | Opinions: O-15 | Methodology: phase 5*
 
 ## 4. Technical Analysis
 
@@ -767,19 +880,33 @@ Decide the shape of the system for an epic or initiative: components, boundaries
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
 - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-41).
 - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.
 
-*Requires: R-02, R-03, R-06, R-32, R-34 | Tenets: T-01, T-04 | Opinions: O-04, O-18, O-20 | Methodology: phase 1 step 1.4*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-32, R-34 | Tenets: T-01, T-04 | Opinions: O-04, O-18, O-20 | Methodology: phase 1 step 1.4*
 
 ### `/aa-ta-decide`
 
@@ -798,17 +925,32 @@ Record one significant technical decision: the context, the options, the choice,
 
 **Guidance**
 
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
 - Record the losing options with the same care as the winner; the next person will ask about them first.
 - Write it when it happens. A decision reconstructed a month later is a story, not a record.
 
-*Requires: R-02, R-03, R-06, R-32, R-34 | Tenets: T-04 | Opinions: O-04, O-18, O-20*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-32, R-34 | Tenets: T-04 | Opinions: O-04, O-18, O-20*
 
 ### `/aa-ta-spike`
 
@@ -828,18 +970,32 @@ Resolve a technical unknown with a time-boxed investigation that produces an ans
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Write the question before the code. A spike without a question becomes a prototype without a purpose.
 - Stop at the time box. Report what you have; an unanswered question with evidence is more useful than a late answer.
 - Never let spike code become the implementation by accident. If it is good enough to keep, that is a decision to record and a ticket to implement properly.
 
-*Requires: R-02, R-04, R-05, R-32 | Tenets: T-07 | Opinions: O-18*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-32 | Tenets: T-07 | Opinions: O-18*
 
 ## 5. Security
 
@@ -897,20 +1053,33 @@ Work through what could go wrong with the architecture from an attacker's view, 
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Follow the data. Start from what is valuable and trace how it moves; threats appear at every boundary it crosses.
 - Accept explicitly. An accepted risk with a named owner and a reason is a decision; an unmentioned risk is a surprise.
 - Make mitigations testable. "Validate input" is not a requirement; "Given a payload over the size limit, then the request is rejected with a logged event" is.
 
-*Requires: R-02, R-03, R-16, R-22, R-32 | Tenets: T-07, T-11, T-12 | Opinions: O-18*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-16, R-32 | Tenets: T-07, T-11, T-12 | Opinions: O-18*
 
 ### `/aa-sec-security-test`
 
@@ -932,17 +1101,25 @@ Test the built system for the weaknesses the threat model and common weakness cl
 
 **Guidance**
 
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - Test against the model first, the checklist second. The threat model says what matters here; the checklist says what matters everywhere.
 - Never test a production system without written permission on the ticket. Prefer a production-like environment.
 - Report findings without drama and without softening. Severity comes from impact and likelihood, not from how it will be received.
 
-*Requires: R-02, R-04, R-11 | Tenets: T-06, T-07 | Methodology: phase 3 step 3.4*
+*Requires: R-04, R-02, R-07, R-22, R-11 | Tenets: T-06, T-07 | Methodology: phase 3 step 3.4*
 
 ### `/aa-sec-maintain-security`
 
@@ -963,20 +1140,38 @@ Keep the system safe after release: patch dependencies, rotate and remove secret
 
 **Guidance**
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
-- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
-- **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
 - Patch in small, tested steps. A dependency update is a change like any other: branch, test, review, merge (G-08). Make it with the package manager so the lock file and transitive graph move together; never edit a version by hand (O-22).
 - Never commit, log, or paste a secret, including in the report of having found one. Reference where it was, not what it was.
 - Treat "no findings" as a finding to verify. Confirm the scanner ran against the current code before reporting clean.
 
-*Requires: R-01, R-02, R-05, R-11, R-30, R-36 | Tenets: T-07 | Opinions: O-16, O-22 | Methodology: phase 6 step 6.4*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11 | Tenets: T-07 | Opinions: O-16, O-22 | Methodology: phase 6 step 6.4*
 
 ## 6. Refinement
 
@@ -1032,20 +1227,26 @@ Turn an epic and its feature files into stories and tasks in the ticket system, 
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - Split by scenario, not by layer. A story that delivers one scenario end to end can be tested; a "backend story" and a "frontend story" cannot until both are done.
 - Keep the epic's outcome on every story. A story that cannot say which outcome it serves is either mis-filed or unnecessary.
 - Do not invent requirements while splitting. A gap found here goes back to Business Analysis as a question, not forward as a guess.
 
-*Requires: R-02, R-16, R-22, R-23 | Tenets: T-04, T-08, T-12*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-23 | Tenets: T-04, T-08, T-12*
 
 ### `/aa-rf-refine-ticket`
 
@@ -1067,21 +1268,27 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
 - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
 - Size from the thinking, not the title. Before putting a number on it, write on the ticket what changes, what is unknown, and what could go wrong, at a depth that matches the stakes; a sentence for a small change, a full plan-implementation for a large one (O-10).
 - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
 
-*Requires: R-02, R-16, R-22, R-23, R-27 | Tenets: T-04, T-07 | Opinions: O-10, O-13*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-23, R-27 | Tenets: T-04, T-07 | Opinions: O-10, O-13*
 
 ## 7. Project Management
 
@@ -1138,17 +1345,25 @@ Commit a set of ready tickets to an iteration against known capacity, in priorit
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - Fill in priority order and stop at capacity. Do not pull a lower item over a higher one because it is smaller unless the higher one is blocked.
 - Capacity is computed, not felt. Use the team's actual completed size from recent iterations, calculated with a tool (G-02).
 - Commitment is a proposal until the people doing the work agree; present it and ask.
 
-*Requires: R-02, R-04, R-23 | Tenets: T-06, T-07, T-13*
+*Requires: R-04, R-02, R-07, R-22, R-23 | Tenets: T-06, T-07, T-13*
 
 ### `/aa-pm-status`
 
@@ -1169,17 +1384,24 @@ Produce a status report for an iteration, epic, or release from the ticket syste
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - Count with a tool and quote the count. "Most tickets are done" is not status; "14 of 19 committed tickets are done, 3 in review, 2 blocked" is.
 - Report the blocked item before the finished ones. The reader can act on a blocker; they cannot act on praise.
 - Say what you could not see. If a system was unreachable, the report says so rather than silently omitting it.
 
-*Requires: R-01, R-02, R-04 | Tenets: T-04, T-07*
+*Requires: R-04, R-02, R-07, R-22, R-01 | Tenets: T-04, T-07*
 
 ### `/aa-pm-retrospective`
 
@@ -1201,18 +1423,24 @@ Look at what actually happened in an iteration, release, or quarter, using the r
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Measure first, then ask. Present the numbers before opinions so the discussion is about causes, not impressions.
 - Three changes, not thirty. An improvement backlog nobody works is a complaint log.
 - Check the last retrospective's changes first. If they were not done, that is the first finding.
 
-*Requires: R-02, R-03, R-04, R-32 | Tenets: T-07, T-13 | Opinions: O-18 | Methodology: phase 6 step meta*
+*Requires: R-04, R-02, R-07, R-22, R-03, R-32 | Tenets: T-07, T-13 | Opinions: O-18 | Methodology: phase 6 step meta*
 
 ## 8. Implementation Planning
 
@@ -1270,13 +1498,21 @@ Before building a ticket, write down how: which files and components change, in 
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
@@ -1289,7 +1525,7 @@ Before building a ticket, write down how: which files and components change, in 
 - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
 - Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
 
-*Requires: R-02, R-05, R-16, R-23, R-27, R-34 | Tenets: T-06, T-07 | Opinions: O-10, O-13, O-20*
+*Requires: R-04, R-02, R-07, R-22, R-05, R-16, R-23, R-27, R-34 | Tenets: T-06, T-07 | Opinions: O-10, O-13, O-20*
 
 ### `/aa-ip-breakdown-tasks`
 
@@ -1308,14 +1544,23 @@ When a confirmed plan is too large to build as one change, split it into tasks o
 
 **Guidance**
 
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - A task is done when its test passes and its change is committed, not when its code exists.
 - Keep tasks at a size where the first commit is an hour away, not a day.
 
-*Requires: R-02 | Tenets: T-07*
+*Requires: R-04, R-02, R-07, R-22 | Tenets: T-07*
 
 ## 9. Development
 
@@ -1384,19 +1629,34 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 
 **Guidance**
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
-- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
-- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
-- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - Prove it on a clean clone. Clone to a temporary folder and run initialize, build, test, and pack there before calling it done.
 - Automate before documenting. A manual step in the documentation is a bug in initialize until it is proven to be impossible to automate.
@@ -1404,7 +1664,7 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 - Whatever the pipeline will run, make it a script here first. A step that only works on the pipeline runner is a defect (O-11).
 - The fresh clone is the test. If it needs a file from your machine, a page from the wiki, or a value from your head, commit the template and document the source (O-16).
 
-*Requires: R-05, R-09, R-10, R-11, R-12, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-30, R-31, R-35, R-36, R-39 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16, O-17, O-21, O-22, O-25 | Methodology: phase 2 step 2.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-39 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16, O-17, O-21, O-22, O-25 | Methodology: phase 2 step 2.1*
 
 ### `/aa-dev-implement`
 
@@ -1428,32 +1688,39 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 
 **Guidance**
 
-- **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
+- *From the `test-writing` set:* What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
+  - **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - **G-05** Reproduce a bug with a failing test or a captured observation before changing any code to fix it.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
-- **G-09** Reference the anchor ticket in the branch name and every commit message.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-17** After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation.
 - **G-20** When implementing a ticket, write the automated tests that prove it: unit and integration tests for every happy path, the general permutations and cases, and the obvious negative cases, plus a happy-path end-to-end test for each scenario. The ticket is not done until they exist and pass.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
-- **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
-- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
-- **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
-- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
-- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
-- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
-- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
@@ -1465,7 +1732,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - System.Collections.Hashtable
 - Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
 
-*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-12, R-21, R-22, R-26, R-27, R-28, R-30, R-31, R-33, R-34, R-35, R-36, R-37, R-39 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-26, R-27, R-34, R-39 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1486,33 +1753,42 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
+- *From the `test-writing` set:* What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
+  - **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - **G-05** Reproduce a bug with a failing test or a captured observation before changing any code to fix it.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
-- **G-09** Reference the anchor ticket in the branch name and every commit message.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-17** After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
-- **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
-- **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
-- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
-- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
-- **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
-- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - No reproduction, no fix. If it cannot be reproduced, the ticket gets what was tried and goes back for more information.
 - Find the cause before touching code. Form a hypothesis, test it, and record the result on the ticket; three hypotheses without evidence means stop and reassess (G-17).
 - If the defect violates no scenario, one is missing. Add it to the feature file with the fix so the requirement is now stated.
 
-*Requires: R-01, R-02, R-04, R-05, R-09, R-11, R-12, R-16, R-22, R-24, R-27, R-28, R-31, R-33, R-35, R-36, R-37 | Tenets: T-07, T-12 | Opinions: O-13, O-14, O-17, O-19, O-21, O-22, O-23*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-16, R-24, R-27 | Tenets: T-07, T-12 | Opinions: O-13, O-14, O-17, O-19, O-21, O-22, O-23*
 
 ### `/aa-dev-review`
 
@@ -1537,13 +1813,19 @@ Review a merge request against its ticket, its scenarios, its plan, and the proj
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
 - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
 - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
@@ -1558,7 +1840,7 @@ Review a merge request against its ticket, its scenarios, its plan, and the proj
 - Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).
 - Report faithfully: "approved" means every scenario has a passing test that you saw run.
 
-*Requires: R-01, R-02, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39 | Tenets: T-07 | Opinions: O-14, O-17, O-19, O-20, O-21, O-22, O-23, O-25*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39 | Tenets: T-07 | Opinions: O-14, O-17, O-19, O-20, O-21, O-22, O-23, O-25*
 
 ### `/aa-dev-finish-branch`
 
@@ -1581,32 +1863,41 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 
 **Guidance**
 
-- **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
-- **G-09** Reference the anchor ticket in the branch name and every commit message.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-14** Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
-- **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
-- **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
-- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
-- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
 - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
 - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
 - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
 - Never commit the remaining changes yourself. Stage them, present them, and report that the branch waits on the user's commit (O-17).
 
-*Requires: R-01, R-02, R-05, R-08, R-09, R-11, R-12, R-22, R-24, R-28, R-31, R-33, R-35 | Tenets: T-06, T-07 | Opinions: O-14, O-17, O-19, O-21*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-24 | Tenets: T-06, T-07 | Opinions: O-14, O-17, O-19, O-21*
 
 ### `/aa-dev-optimize`
 
@@ -1625,22 +1916,37 @@ Improve the performance of existing code against a measured baseline: profile, c
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-05** Reproduce a bug with a failing test or a captured observation before changing any code to fix it.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
-- **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
 - No baseline, no optimisation. Measure first, with a tool, and record the number.
 - Change one thing per measurement. Two changes measured together teach nothing.
 - A faster wrong answer is a defect. Every optimisation runs the full suite before it is kept.
 
-*Requires: R-01, R-02, R-04, R-05, R-11, R-33 | Tenets: T-07 | Opinions: O-19 | Methodology: phase 6 step 6.2*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11 | Tenets: T-07 | Opinions: O-19 | Methodology: phase 6 step 6.2*
 
 ## 10. Testing
 
@@ -1702,17 +2008,24 @@ For an epic or release, decide what will be tested at which tier, what will be a
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - Push tests down. Prove it at the lowest tier that can observe it; end-to-end tests are for what only end-to-end can see.
 - Name the risks the requirement does not mention. Concurrency, data volume, partial failure, and permissions rarely appear in scenarios and usually appear in incidents.
 
-*Requires: R-02, R-03, R-16, R-37 | Tenets: T-07 | Opinions: O-23*
+*Requires: R-04, R-02, R-07, R-22, R-03, R-16 | Tenets: T-07 | Opinions: O-23*
 
 ### `/aa-qa-generate-tests`
 
@@ -1734,22 +2047,37 @@ Start from the scenarios and the tests Development wrote, then apply general tes
 
 **Guidance**
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+- *From the `test-writing` set:* What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - **G-07** Write business-facing behaviour as Gherkin scenarios in the features folder before the change, and technical behaviour as executable tests alongside it.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - Read Development's tests first and say what they cover. Your job starts where theirs stops.
 - Test the seams. The boundaries between components, between tiers, and between the system and its dependencies are where the requirement was vaguest.
 - Every test you add runs alone and in any order with the same result. Control time, randomness, state, and dependencies; never lean on another test having run first (O-23).
 - A pending scenario is a real scenario with a tag saying it awaits an answer. Do not leave gaps as comments in test code.
 
-*Requires: R-02, R-11, R-16, R-21, R-37 | Tenets: T-07, T-12 | Opinions: O-08, O-23 | Methodology: phase 3 step 3.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-16 | Tenets: T-07, T-12 | Opinions: O-08, O-23 | Methodology: phase 3 step 3.1*
 
 ### `/aa-qa-e2e-tests`
 
@@ -1771,21 +2099,35 @@ Automate the scenarios that can only be proven through the whole system as the u
 
 **Guidance**
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+- *From the `test-writing` set:* What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
-- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - Drive the system the way a user does, through its real entry points; do not reach into internals to make a test pass.
 - Own the test data. Every end-to-end test creates what it needs and cleans up; a test that depends on leftover state will lie eventually.
 - Own the environment too. Start it from the repository's container definitions and tear it down after; a test that needs a shared environment is marked and the reason recorded (O-12).
 - A flaky test is a defect in the test or the system. Quarantine it with a ticket the same day; never wrap it in a retry to hide it (G-06, O-23).
 
-*Requires: R-02, R-11, R-16, R-21, R-25, R-26, R-37 | Tenets: T-07 | Opinions: O-07, O-12, O-23 | Methodology: phase 3 step 3.2*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-16, R-25, R-26 | Tenets: T-07 | Opinions: O-07, O-12, O-23 | Methodology: phase 3 step 3.2*
 
 ### `/aa-qa-performance-test`
 
@@ -1806,20 +2148,33 @@ Establish how the system behaves under expected and peak load against stated tar
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+- *From the `test-writing` set:* What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
-- **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - No target, no test. If the requirement has no number, get one from the ticket owner before running anything; "fast" is not a target.
 - Measure with a tool and report the distribution, not the average. The slowest 5 percent is what users complain about.
 - Record the environment with the result. A number without the machine, data volume, and load profile cannot be compared to anything later.
 
-*Requires: R-02, R-03, R-04, R-11, R-25, R-37 | Tenets: T-07 | Opinions: O-23 | Methodology: phase 3 step 3.3*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-03, R-25 | Tenets: T-07 | Opinions: O-23 | Methodology: phase 3 step 3.3*
 
 ### `/aa-qa-explore`
 
@@ -1838,17 +2193,25 @@ A time-boxed session using the system with a charter and a testing lens (boundar
 
 **Guidance**
 
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - Follow the charter until the time box, then follow the most interesting surprise. Both halves matter.
 - Interrupt things. Cancel midway, lose the connection, double-submit, go back; the scenarios almost never say what should happen.
 
-*Requires: R-02, R-16 | Tenets: T-07*
+*Requires: R-04, R-02, R-07, R-22, R-16 | Tenets: T-07*
 
 ## 11. Documentation
 
@@ -1902,19 +2265,30 @@ Write or update the user-facing and developer-facing documentation for a ticket,
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - Write from the scenarios, verify against the software. The scenarios say what should happen; run the feature to confirm the documentation is describing what does.
 - Document the unhappy path. Users read documentation when something went wrong.
 - Never duplicate a scenario in prose. Link to it, or embed it; two copies drift.
 
-*Requires: R-02, R-03, R-06, R-16, R-30 | Tenets: T-12, T-13 | Opinions: O-16*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-16, R-30 | Tenets: T-12, T-13 | Opinions: O-16*
 
 ### `/aa-doc-maintain-docs`
 
@@ -1935,21 +2309,31 @@ Audit the documentation and knowledge base for drift from the feature files and 
 
 **Guidance**
 
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `repository-write` set:* What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - Start from the feature files and walk outward. They are the truth; every page and document is checked against them, never the reverse.
 - Delete confidently. Documentation for something that no longer exists is worse than none; remove it and say so in the report.
 - A contradiction between a page and a scenario is a conflict to surface, not a page to quietly fix (T-12).
 
-*Requires: R-02, R-03, R-06, R-16, R-30 | Tenets: T-12 | Opinions: O-16 | Methodology: phase 6 step 6.5*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-16, R-30 | Tenets: T-12 | Opinions: O-16 | Methodology: phase 6 step 6.5*
 
 ## 12. Release Management
 
@@ -2010,22 +2394,28 @@ Assemble a release: decide the version, generate release notes from the tickets 
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
 - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-34** Derive the release from the history: the version bump from the commit types since the last tag (breaking change, feature, fix) and the release notes by grouping commits by type and ticket, then edit the notes for the reader. A commit that does not parse is a finding on the release ticket, not something to work around.
 - **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - Generate the notes from the record, then edit for the reader. Group commits by type and ticket (O-14); tickets and commits say what changed, a person says what it means.
 - Never mark a checklist item done on someone's word. Link the test run, the approval, the scan.
 - A release with an unexplained change in it is not ready. Every commit since the last tag traces to a ticket or gets one.
 
-*Requires: R-01, R-02, R-03, R-04, R-05, R-11, R-20, R-28, R-33, R-38 | Tenets: T-06, T-07 | Opinions: O-14, O-19, O-24*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-03, R-05, R-11, R-20, R-28, R-33, R-38 | Tenets: T-06, T-07 | Opinions: O-14, O-19, O-24*
 
 ### `/aa-rel-release`
 
@@ -2046,20 +2436,28 @@ Deploy a prepared release to production using the pipeline Operations provides, 
 
 **Guidance**
 
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-14** Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - Ask before you deploy, every time, unless the user granted this deployment in advance. Production is the irreversible step (G-13).
 - Use the pipeline, not your hands. A deployment done outside the pipeline is unrecorded and unrepeatable.
 - Verify before you announce. The release is not done when the pipeline is green; it is done when the checks pass in production.
 - If verification fails, the default is rollback, not investigation in production.
 
-*Requires: R-01, R-02, R-20, R-38 | Tenets: T-06, T-07 | Opinions: O-24 | Methodology: phase 4 step 4.3*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-20, R-38 | Tenets: T-06, T-07 | Opinions: O-24 | Methodology: phase 4 step 4.3*
 
 ### `/aa-rel-rollback`
 
@@ -2080,18 +2478,26 @@ Return production to the previous known-good release using the pipeline, verify 
 
 **Guidance**
 
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - Roll back first, understand later. The goal is to restore service; the cause is a ticket.
 - Confirm the rollback target is actually known-good, not just previous. Check its verification record, and roll back to that artifact identity; never rebuild the previous tag (O-24).
 - Data changes may not roll back with code. Say so explicitly and involve Operations before proceeding.
 
-*Requires: R-01, R-02, R-20, R-38 | Tenets: T-06, T-07 | Opinions: O-24*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-20, R-38 | Tenets: T-06, T-07 | Opinions: O-24*
 
 ## 13. Operations
 
@@ -2152,25 +2558,40 @@ Define the environments the system runs in as code, with runbooks for the operat
 
 **Guidance**
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
-- **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
 - Everything as code, reviewed and tested like code. An environment changed by hand is an environment nobody can rebuild (O-16).
 - Least privilege by default. Every credential, role, and network path is the narrowest that works, and widening one is a decision record.
 - Ask before creating anything that costs money or is hard to delete.
 
-*Requires: R-01, R-02, R-05, R-06, R-30, R-31, R-32, R-39 | Tenets: T-01, T-06, T-07 | Opinions: O-16, O-17, O-18, O-25 | Methodology: phase 4 step 4.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-06, R-32, R-39 | Tenets: T-01, T-06, T-07 | Opinions: O-16, O-17, O-18, O-25 | Methodology: phase 4 step 4.1*
 
 ### `/aa-ops-setup-pipeline`
 
@@ -2195,28 +2616,41 @@ Build the pipeline that takes a merged change to production: build, every test t
 
 **Guidance**
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
-- **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-14** Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
-- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
-- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
-- **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
 - **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
-- **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
 - The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift (O-11).
 - One artifact, promoted. Build once, give it an immutable identity, deploy that identity everywhere; never rebuild for a later environment (O-24).
 - A pipeline that can be bypassed is not a pipeline. Protect the branches it deploys from.
 
-*Requires: R-01, R-02, R-05, R-10, R-11, R-20, R-24, R-30, R-31, R-35, R-38, R-39 | Tenets: T-07, T-09 | Opinions: O-06, O-11, O-16, O-17, O-21, O-24, O-25 | Methodology: phase 4 step 4.2*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-20, R-24, R-38, R-39 | Tenets: T-07, T-09 | Opinions: O-06, O-11, O-16, O-17, O-21, O-24, O-25 | Methodology: phase 4 step 4.2*
 
 ### `/aa-ops-observability`
 
@@ -2238,20 +2672,36 @@ Make the running system visible: the dashboards, alerts, logs, and traces that s
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `code-change` set:* What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+  - **G-01** Always format the code for the changed files before committing, but do not format files that were not changed.
+  - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+  - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+  - **G-09** Reference the anchor ticket in the branch name and every commit message.
+  - **G-11** Every artifact that belongs with the code goes into the same change set as the code, staged for the commit the user makes (G-40). Nothing that matters is left only on a local disk or in a conversation.
+  - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-39); if you cannot name the type, split the commit.
+  - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+  - **G-39** Make each commit one understandable change: one concern per commit, one ticket per branch, a subject that says what and a body that says why, small enough to review in one sitting. If the subject needs "and" or the diff needs a tour, split it.
+  - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+  - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
+  - **G-44** Let the tools decide style: conventions live as formatter and linter configuration in the repository, the formatter runs on changed files and the linter runs from the root build before a change is presented, and every finding is fixed or suppressed with a reason beside it. Never argue style in review; where a language has no known linter, record that once in the development environment configuration and expect the health warning.
+  - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - Alert on what users feel, not on what machines do. Latency and error rate at the edge before CPU in the middle.
 - Every alert has a runbook or it is noise. Write the runbook before enabling the alert.
 - Observability is a requirement on the code. If a scenario cannot be observed in production, raise a ticket for the signal.
 
-*Requires: R-01, R-02, R-03, R-05, R-30 | Tenets: T-07 | Opinions: O-16 | Methodology: phase 5 step 5.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-03 | Tenets: T-07 | Opinions: O-16 | Methodology: phase 5 step 5.1*
 
 ### `/aa-ops-validate-production`
 
@@ -2273,17 +2723,24 @@ After a release, confirm from production evidence that the system is doing what 
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
 - Compare, do not glance. Compute before-and-after for each metric over a stated window; a dashboard that "looks fine" is not evidence.
 - Validation is read-only. Never change production to make a check pass; a failing check is an incident or a rollback.
 
-*Requires: R-02, R-03, R-04, R-38 | Tenets: T-07, T-10 | Opinions: O-24 | Methodology: phase 5 step 5.3*
+*Requires: R-04, R-02, R-07, R-22, R-03, R-38 | Tenets: T-07, T-10 | Opinions: O-24 | Methodology: phase 5 step 5.3*
 
 ## 14. Support
 
@@ -2342,19 +2799,24 @@ Take an incoming incident, defect report, or request and turn it into a ticket w
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Severity is impact, priority is order. Do not let a loud reporter set either.
 - Ask for what is missing once, precisely. A ticket that cannot be reproduced from its content goes back with the exact questions.
 - Check for duplicates before creating. Search by symptom, not by the reporter's title.
 
-*Requires: R-02, R-22 | Tenets: T-04, T-13 | Methodology: phase 6 step 6.1*
+*Requires: R-04, R-02, R-07, R-22 | Tenets: T-04, T-13 | Methodology: phase 6 step 6.1*
 
 ### `/aa-sup-respond-incident`
 
@@ -2377,20 +2839,26 @@ Coordinate an active incident: keep a timeline, contain the impact, pull in Oper
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - Contain first, diagnose second. Rollback, feature flag, or scale before root cause.
 - Write the timeline as you go. A timeline reconstructed afterwards is fiction with timestamps.
 - Say what you know and what you do not, at a stated cadence. Silence during an incident is the worst status update.
 
-*Requires: R-02, R-03, R-33 | Tenets: T-06, T-07 | Opinions: O-19*
+*Requires: R-04, R-02, R-07, R-22, R-03, R-33 | Tenets: T-06, T-07 | Opinions: O-19*
 
 ### `/aa-sup-postmortem`
 
@@ -2411,17 +2879,22 @@ After an incident is closed, review what happened using the timeline and the evi
 
 **Guidance**
 
-- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
-- **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
-- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
-- **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
-- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
-- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Compute the times from the timeline with a tool; do not estimate them.
 - Ask "what made this reasonable at the time" for every decision in the timeline. Blame finds a person; this finds a cause.
 - Prefer one action that removes the cause over five that add checks around it.
 
-*Requires: R-02, R-03, R-04, R-22, R-32 | Tenets: T-07 | Opinions: O-18*
+*Requires: R-04, R-02, R-07, R-22, R-03, R-32 | Tenets: T-07 | Opinions: O-18*
 

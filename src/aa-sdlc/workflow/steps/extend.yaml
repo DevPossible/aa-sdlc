@@ -18,11 +18,11 @@ artifacts:
       - Has a manifest, declared requirements in its own id range, and feature files
       - "Passes validation: changes nothing in core, and core-level guidance names no tool"
       - Installed at the chosen scope, or added to the organisation config repository
-guidance: [G-03, G-15, G-24]
+guidance_sets: [every-step, anchored-step]
 guidance_inline:
   - Fit the kind to the need before scaffolding. A stack-specific practice is a tech-stack pack; an organisational gate is a process pack; something only this repository needs is a project skill; a new agent is a target adapter. Explain the choice in one sentence.
   - Write the feature file first. The extension's behaviour is captured as scenarios before any skill text is written, so the skill has something to be checked against.
   - Refuse politely and specifically. When an extension would change core, name the exact core item and offer the nearest allowed alternative.
   - Prefer adding to an existing pack over creating a second pack for the same technology or process.
-requires: [R-04, R-05]
+requires: [R-05]
 tenets: [T-01, T-02, T-11, T-12]

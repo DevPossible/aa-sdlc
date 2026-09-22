@@ -1,0 +1,5 @@
+id: anchored-step
+purpose: >
+  What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+guidance: [G-12, G-22, G-25, G-26, G-27]
+requires: [R-02, R-07, R-22]

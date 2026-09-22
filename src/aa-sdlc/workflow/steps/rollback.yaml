@@ -17,11 +17,12 @@ artifacts:
       - Records what was reverted to, when, by whom, and the trigger
       - Verification after rollback is recorded
       - A ticket exists for the cause
-guidance: [G-04, G-12, G-13, G-15, G-22, G-26, G-47]
+guidance_sets: [every-step, anchored-step]
+guidance: [G-04, G-13, G-47]
 guidance_inline:
   - Roll back first, understand later. The goal is to restore service; the cause is a ticket.
   - Confirm the rollback target is actually known-good, not just previous. Check its verification record, and roll back to that artifact identity; never rebuild the previous tag (O-24).
   - Data changes may not roll back with code. Say so explicitly and involve Operations before proceeding.
-requires: [R-01, R-02, R-20, R-38]
+requires: [R-01, R-20, R-38]
 tenets: [T-06, T-07]
 opinions: [O-24]

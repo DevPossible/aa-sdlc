@@ -23,11 +23,11 @@ artifacts:
     acceptance:
       - Every alert has a runbook, an owner, and a threshold with a reason
       - No alert fires that nobody acts on
-guidance: [G-02, G-04, G-11, G-12, G-22, G-24, G-25, G-26, G-37]
+guidance_sets: [every-step, anchored-step, code-change]
 guidance_inline:
   - Alert on what users feel, not on what machines do. Latency and error rate at the edge before CPU in the middle.
   - Every alert has a runbook or it is noise. Write the runbook before enabling the alert.
   - Observability is a requirement on the code. If a scenario cannot be observed in production, raise a ticket for the signal.
-requires: [R-01, R-02, R-03, R-05, R-30]
+requires: [R-03]
 opinions: [O-16]
 tenets: [T-07]

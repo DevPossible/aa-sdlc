@@ -81,11 +81,31 @@ tenets: [T-04, T-07]
 Field rules:
 
 - `id`, `name`, `discipline`, `command`, `summary`, `anchor`, `artifacts` are required.
-- `guidance` and `requires` are lists of IDs only. The text lives once, in `docs/guidance.md`
-  and `features/requirements/`. A step may add step-specific guidance inline as
+- `guidance_sets` names the guidance sets the step belongs to (below). `guidance` and
+  `requires` then list only the ids the sets do not already supply; the validator rejects an
+  id that a set already provides. The text lives once, in `docs/guidance.md` and
+  `features/requirements/`. A step may add step-specific guidance inline as
   `guidance_inline: [ "..." ]` until it is promoted to an ID.
 - `artifacts[].acceptance` is the acceptance criteria from the methodology, reworded to be
   checkable. Feature files hold the behaviour; this holds the deliverable.
+
+### Guidance set
+
+```yaml
+# workflow/guidance-sets/repository-write.yaml
+id: repository-write               # equals the file name; cited from steps as guidance_sets: [...]
+purpose: >
+  One sentence on what kind of step this set belongs to and what it makes the step do.
+guidance: [G-11, G-33, G-39, G-40, G-42]
+requires: [R-01, R-05, R-28, R-31, R-33]
+```
+
+A guidance set is a named list of guidance and requirement ids that many steps share, so a
+step cites the set once instead of a dozen ids. Sets are flat; one set does not include
+another. The current sets are `every-step`, `anchored-step`, `repository-write`,
+`code-change`, `test-writing`, and `framework-authoring`. The review generator expands each
+set under the step that cites it, and a skill's frontmatter declares the same `guidance_sets`
+as its step.
 
 ### Process
 
@@ -184,13 +204,14 @@ description: Build what the anchor ticket asks for, with the tests that prove it
 aa:
   discipline: development
   step: implement                  # the workflow step this skill delivers
-  requires: [R-01, R-02, R-04, R-05, R-10, R-11, R-21]
-  guidance: [G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20]
+  guidance_sets: [every-step, anchored-step, code-change, test-writing]
+  requires: [R-26, R-27, R-34, R-39]            # only what the sets do not supply
+  guidance: [G-05, G-17, G-20, G-30, G-32, G-43, G-48]
 ---
 ```
 
-`aa.requires` and the step's `requires` in workflow data should match; the build validator
-checks that they do. The requirement definitions (kind, level, detect, remedy) live once, as
+`aa.guidance_sets`, `aa.guidance`, and `aa.requires` must equal the step's fields in the
+workflow data; the build validator checks that they do. The requirement definitions (kind, level, detect, remedy) live once, as
 scenarios in `features/requirements/`, tagged `@R-nn`, `@required|@recommended|@informational`,
 and by kind. `/aa-fw-health` reads IDs from installed skills and resolves them against those
 scenarios.

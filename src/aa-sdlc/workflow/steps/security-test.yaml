@@ -23,10 +23,11 @@ artifacts:
     location: the knowledge base
     acceptance:
       - Maps each control the organisation requires to the evidence that it is met, or the ticket that will meet it
-guidance: [G-04, G-06, G-13, G-15, G-22, G-26]
+guidance_sets: [every-step, anchored-step]
+guidance: [G-04, G-13]
 guidance_inline:
   - Test against the model first, the checklist second. The threat model says what matters here; the checklist says what matters everywhere.
   - Never test a production system without written permission on the ticket. Prefer a production-like environment.
   - Report findings without drama and without softening. Severity comes from impact and likelihood, not from how it will be received.
-requires: [R-02, R-04, R-11]
+requires: [R-11]
 tenets: [T-06, T-07]

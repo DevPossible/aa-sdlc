@@ -23,11 +23,12 @@ artifacts:
     location: the knowledge base
     acceptance:
       - Lists what was checked, what was fixed, and what is ticketed for someone else
-guidance: [G-03, G-06, G-11, G-12, G-15, G-18, G-22, G-24, G-26, G-37]
+guidance_sets: [every-step, anchored-step, repository-write]
+guidance: [G-18, G-37]
 guidance_inline:
   - Start from the feature files and walk outward. They are the truth; every page and document is checked against them, never the reverse.
   - Delete confidently. Documentation for something that no longer exists is worse than none; remove it and say so in the report.
   - A contradiction between a page and a scenario is a conflict to surface, not a page to quietly fix (T-12).
-requires: [R-02, R-03, R-06, R-16, R-30]
+requires: [R-03, R-06, R-16, R-30]
 tenets: [T-12]
 opinions: [O-16]

@@ -17,11 +17,12 @@ artifacts:
       - Every fixable unmet requirement was proposed and, if agreed, fixed
       - Every unfixable unmet requirement is listed with its remedy
       - A second health report shows what changed and what remains
-guidance: [G-03, G-13, G-15, G-24]
+guidance_sets: [every-step]
+guidance: [G-13]
 guidance_inline:
   - Propose, then act. State each fix as a one-line proposal with what it creates or changes, and perform it only after the user agrees. Batch trivial fixes (folders, stubs) into one proposal.
   - Never choose a tool for the project. When a language has no formatter or a technology has no skill, name the gap and list what is available in the project's scope or as plugins; the user chooses (T-01).
   - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
   - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
-requires: [R-04, R-07]
+requires: [R-07]
 tenets: [T-06, T-11]

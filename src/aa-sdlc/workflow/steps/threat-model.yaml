@@ -21,11 +21,12 @@ artifacts:
     location: the features folder as scenarios, and the backlog as tickets
     acceptance:
       - Every mitigation is a scenario a test can verify and a ticket someone can build
-guidance: [G-02, G-16, G-18, G-19, G-22, G-24, G-26, G-27, G-41]
+guidance_sets: [every-step, anchored-step, repository-write]
+guidance: [G-16, G-18, G-19, G-41]
 guidance_inline:
   - Follow the data. Start from what is valuable and trace how it moves; threats appear at every boundary it crosses.
   - Accept explicitly. An accepted risk with a named owner and a reason is a decision; an unmentioned risk is a surprise.
   - Make mitigations testable. "Validate input" is not a requirement; "Given a payload over the size limit, then the request is rejected with a logged event" is.
-requires: [R-02, R-03, R-16, R-22, R-32]
+requires: [R-03, R-16, R-32]
 tenets: [T-07, T-11, T-12]
 opinions: [O-18]

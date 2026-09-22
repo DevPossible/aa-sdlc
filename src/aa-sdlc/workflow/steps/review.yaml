@@ -21,13 +21,14 @@ artifacts:
       - A test that depends on order, real time, unseeded randomness, shared state, or a live dependency, or a retry added to a test, is a blocking finding (O-23)
       - A setting in the wrong place, an endpoint in the application configuration or a timeout in an environment file, is a finding (O-25)
       - The review says what it did not check
-guidance: [G-02, G-03, G-04, G-06, G-15, G-22, G-24, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48]
+guidance_sets: [every-step, anchored-step]
+guidance: [G-04, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48]
 guidance_inline:
   - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
   - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
   - Blocking findings are about correctness, security, and the requirement. Style is the formatter's and linter's job, never a review comment (O-21); if a style issue reached review, the finding is that the tools did not run.
   - Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).
   - "Report faithfully: \"approved\" means every scenario has a passing test that you saw run."
-requires: [R-01, R-02, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39]
+requires: [R-01, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39]
 opinions: [O-14, O-17, O-19, O-20, O-21, O-22, O-23, O-25]
 tenets: [T-07]

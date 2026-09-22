@@ -24,12 +24,13 @@ artifacts:
     location: the anchor epic, as open questions
     acceptance:
       - Every unanswered question has context and an owner
-guidance: [G-03, G-16, G-18, G-19, G-22, G-24, G-26, G-35]
+guidance_sets: [every-step, anchored-step, repository-write]
+guidance: [G-16, G-18, G-19, G-35]
 guidance_inline:
   - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a draft scenario can be wrong in a way everyone can see.
   - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.
   - Record what was not said. Silence on error cases, permissions, and edge conditions is a question, not an assumption.
   - A picture is a witness, not a specification. When the request arrives as a screenshot or mock-up, write the goals and scenarios it implies, log what it does not show as questions, and let the mock-up be regenerated from the confirmed scenarios later (O-15).
-requires: [R-02, R-16, R-29]
+requires: [R-16, R-29]
 tenets: [T-04, T-06, T-12]
 opinions: [O-01, O-15]

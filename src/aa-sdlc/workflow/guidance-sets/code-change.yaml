@@ -1,0 +1,5 @@
+id: code-change
+purpose: >
+  What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+guidance: [G-01, G-04, G-08, G-09, G-11, G-33, G-37, G-39, G-40, G-42, G-44, G-45]
+requires: [R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36]

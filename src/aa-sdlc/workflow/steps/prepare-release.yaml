@@ -23,11 +23,12 @@ artifacts:
     acceptance:
       - Every checklist item has evidence linked or is marked not applicable with a reason
       - The decision and who made it are recorded
-guidance: [G-02, G-04, G-11, G-12, G-13, G-15, G-22, G-24, G-26, G-34, G-47]
+guidance_sets: [every-step, anchored-step]
+guidance: [G-04, G-11, G-13, G-34, G-47]
 guidance_inline:
   - Generate the notes from the record, then edit for the reader. Group commits by type and ticket (O-14); tickets and commits say what changed, a person says what it means.
   - Never mark a checklist item done on someone's word. Link the test run, the approval, the scan.
   - A release with an unexplained change in it is not ready. Every commit since the last tag traces to a ticket or gets one.
-requires: [R-01, R-02, R-03, R-04, R-05, R-11, R-20, R-28, R-33, R-38]
+requires: [R-01, R-03, R-05, R-11, R-20, R-28, R-33, R-38]
 tenets: [T-06, T-07]
 opinions: [O-14, O-19, O-24]
