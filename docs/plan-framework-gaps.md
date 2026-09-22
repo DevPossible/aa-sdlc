@@ -142,7 +142,8 @@ list that is about to be restructured.
 
 All six phases are complete as of 2026-09-22. What remains open is listed in the development
 environment document's health baseline (connector authorisation for R-02, R-03, R-22; the
-formatter decision B5; the historical R-28 and R-31 findings) and in the CLI usage text (`aa
-update` and `aa plugin` are not implemented; their scenarios are undefined in the integration
-tier). The `@agent` scenarios, now 648 in total, are contracts reviewed by people; no harness
-executes them.
+historical R-28 and R-31 findings). Later on 2026-09-22: B5 was decided (record 0006, a
+text-convention check stands in for a formatter), `aa update` and `aa plugin` were implemented
+with their scenarios passing, `aa init` writes a commit-message hook, and a GitLab pipeline
+calling only the root scripts was added. The `@agent` scenarios, now 648 in total, are
+contracts reviewed by people; no harness executes them.

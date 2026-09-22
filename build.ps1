@@ -81,11 +81,28 @@ function Invoke-Lint {
             ForEach-Object { [pscustomobject]@{ File = $_.ScriptPath; Line = $_.Line; Rule = $_.RuleName; Message = $_.Message } }
     }
 
+    # Text conventions for YAML, Gherkin, Markdown, and JSON stand in for a formatter (decision record 0006)
+    $textFiles = Get-ChildItem -Path $PSScriptRoot -Recurse -Include '*.yaml', '*.feature', '*.md', '*.json' -File |
+        Where-Object { $_.FullName -notmatch '[\\/](\.build|\.dist|\.tools|\.aitemp|node_modules|\.git)[\\/]' -and $_.FullName -notmatch '[\\/]internal[\\/]content[\\/]data[\\/]' }
+    foreach ($file in $textFiles) {
+        $raw = Get-Content -Path $file.FullName -Raw
+        if ($null -eq $raw -or $raw.Length -eq 0) { continue }
+        if ($raw.Contains("`r")) { $findings += [pscustomobject]@{ File = $file.FullName; Line = 0; Rule = 'LineEndings'; Message = 'CRLF found; files are LF (.gitattributes).' } }
+        if (-not $raw.EndsWith("`n")) { $findings += [pscustomobject]@{ File = $file.FullName; Line = 0; Rule = 'FinalNewline'; Message = 'File does not end with a newline.' } }
+        $n = 0
+        foreach ($line in ($raw -split "`n")) {
+            $n++
+            if ($line.Contains("`t")) { $findings += [pscustomobject]@{ File = $file.FullName; Line = $n; Rule = 'Tabs'; Message = 'Tab character; use spaces.' } }
+            if ($line -match '[ \t]+$') { $findings += [pscustomobject]@{ File = $file.FullName; Line = $n; Rule = 'TrailingWhitespace'; Message = 'Trailing whitespace.' } }
+            if ($file.Extension -eq '.yaml' -and $line -match '^( +)\S' -and ($Matches[1].Length % 2) -ne 0) { $findings += [pscustomobject]@{ File = $file.FullName; Line = $n; Rule = 'YamlIndent'; Message = 'Indentation is not a multiple of two spaces.' } }
+        }
+    }
+
     if ($findings.Count -gt 0) {
         $findings | ForEach-Object { Write-Host "  $($_.File):$($_.Line) [$($_.Rule)] $($_.Message)" -ForegroundColor Red }
-        throw "Lint failed with $($findings.Count) finding(s) across $($scripts.Count) script(s)."
+        throw "Lint failed with $($findings.Count) finding(s) across $($scripts.Count) script(s) and $($textFiles.Count) text file(s)."
     }
-    Write-Host "[lint] $($scripts.Count) script(s) formatted and clean." -ForegroundColor Green
+    Write-Host "[lint] $($scripts.Count) script(s) formatted and clean; $($textFiles.Count) text file(s) conform." -ForegroundColor Green
 }
 #endregion
 

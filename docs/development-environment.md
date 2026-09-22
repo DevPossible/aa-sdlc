@@ -26,12 +26,13 @@ dependency, a YAML library, from the Go module proxy on first build.
 | PowerShell (`*.ps1`, `*.psd1`) | PSScriptAnalyzer `Invoke-Formatter`, settings in `PSScriptAnalyzerSettings.psd1` | PSScriptAnalyzer `Invoke-ScriptAnalyzer`, same settings | `./build.ps1 -Lint` |
 | Go (`src/aa-sdlc-cli/**`) | `gofmt` | `go vet` | `./build.ps1 -Lint` |
 | JavaScript (`src/aa-sdlc-cli/npm/aa-sdlc/bin/aa.js`, the one launcher file, decision record 0004) | none adopted for one file | none adopted; `node --check` at pack time | `./pack.ps1` |
-| Workflow YAML (`src/aa-sdlc/workflow/**`) | none known; hand-formatted, two-space indent, flow lists for ids | `scripts/Test-WorkflowStructure.ps1` (shape, ids, cross-references) | `./build.ps1`, `./test.ps1 -Tier unit` |
-| Gherkin (`features/**`) | none known | `scripts/Test-FeatureStructure.ps1` (one Feature, scenarios with Then and Given or When) | `./build.ps1`, `./test.ps1 -Tier unit` |
-| Markdown (`docs/**`, `README.md`, `SKILL.md`) | none known; 100-column wrap by convention | `scripts/Test-SkillStructure.ps1` for `SKILL.md` frontmatter; otherwise none | `./build.ps1`, `./test.ps1 -Tier unit` |
+| Workflow YAML (`src/aa-sdlc/workflow/**`) | text-convention check in `build.ps1 -Lint`: LF, no tabs, no trailing whitespace, final newline, two-space indent (decision record 0006) | `scripts/Test-WorkflowStructure.ps1` (shape, ids, cross-references) | `./build.ps1`, `./test.ps1 -Tier unit` |
+| Gherkin (`features/**`) | text-convention check in `build.ps1 -Lint` (decision record 0006) | `scripts/Test-FeatureStructure.ps1` (one Feature, scenarios with Then and Given or When) | `./build.ps1`, `./test.ps1 -Tier unit` |
+| Markdown (`docs/**`, `README.md`, `SKILL.md`) | text-convention check in `build.ps1 -Lint` (decision record 0006); 100-column wrap by convention | `scripts/Test-SkillStructure.ps1` for `SKILL.md` frontmatter; otherwise none | `./build.ps1`, `./test.ps1 -Tier unit` |
 
 Per R-12, health warns that YAML, Gherkin, and Markdown have no linter beyond the structural
-validators. That warning is expected and recorded here; it does not block.
+validators. That warning is expected and recorded here; it does not block. `.gitattributes`
+fixes LF line endings for every text file so the convention check does not fight the checkout.
 
 ## Secrets (G-38)
 
@@ -64,7 +65,7 @@ runs nothing in an environment. Therefore:
 | Tier | Home | Today |
 |------|------|-------|
 | unit | `scripts/Test-*.ps1` via `./test.ps1 -Tier unit`, plus the Go tests in `src/aa-sdlc-cli/` | structural and schema validators; Go tests for config merging and `aa init` |
-| integration | `tests/integration/`: godog executes `features/cli/*.feature` (`@cli`) against the built binary | 26 scenarios: 17 pass, 1 pending (a second target does not exist yet), 8 undefined (`aa update`, `aa plugin`, not yet implemented) |
+| integration | `tests/integration/`: godog executes `features/cli/*.feature` (`@cli`) against the built binary | 26 scenarios: 25 pass, 1 pending (a second target does not exist yet) |
 | e2e | `tests/e2e/`: Pester installs the packed npm tarballs into a temporary prefix and runs `aa setup` and `aa init`; also checks the health baseline names every requirement | 5 tests |
 
 R-17 (a feature-file executor) is met for the `@cli` subset by godog (decision record 0005).
@@ -87,12 +88,12 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-28 | unmet | 14 of the last 15 commits parse against the configured pattern; fea5773 does not | accepted: history is not rewritten; every commit since conforms |
 | R-31 | unmet | 17 commits before 2026-09-22 carry an agent attribution trailer; fea5773 bundles nine concerns | accepted: history is not rewritten; the rule has held since O-17 |
 | R-33 | unmet | no commit on the default branch references a ticket | first ticket-anchored work after the connector is authorised |
-| R-09 | unmet for YAML, Gherkin, Markdown | PowerShell has a formatter; the other three have none configured | plan task B5: choose or decline formatters for those formats |
 
 ### Everything else
 
 | Id | Status | How probed |
 |----|--------|------------|
+| R-09 | met | PowerShell and Go by their formatters; YAML, Gherkin, Markdown, and JSON by the text-convention check in `build.ps1 -Lint` (decision record 0006) |
 | R-01 | met | `git ls-remote` read main on the GitLab remote |
 | R-03 | unmet (recommended) | same connector state as R-02; Confluence space AS recorded |
 | R-04 | met | PowerShell 7.6.6 shell |
@@ -107,7 +108,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-13 | unmet (recommended) | PowerShell has a skill in the user's scope; YAML, Gherkin, and Markdown have none dedicated |
 | R-14, R-15 | present | Claude Code supports commands and hooks; guidance G-01, G-14, G-33, G-40 are enforceable here once hooks are installed (plan task D4) |
 | R-23, R-27 | not applicable | no tickets are reachable to sample |
-| R-24, R-38 | not applicable | no delivery pipeline exists yet; `pack.ps1` builds the artifact once |
+| R-24, R-38 | defined, first run pending | `.gitlab-ci.yml` calls only the root scripts (`build.ps1 -Lint`, `test.ps1`, `pack.ps1`) and `pack.ps1` builds the artifact once; the pipeline has not yet run on the remote, so its result is not evidence |
 | R-26, R-39 | not applicable | recorded above: no deployed system, no environments |
 | R-29 | not applicable | no user interface |
 | R-30 | met where applicable | root scripts and this document; no environments to template, no migrations, no manual operations |
