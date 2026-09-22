@@ -62,8 +62,9 @@ ticket manager, and a knowledge repository; every repository shares one folder s
 has root scripts for initialize, build, test, and pack; every repository has unit, integration,
 and end-to-end tests; Development proves the requirement while Testing goes beyond it; every
 repository maps to exactly one ticket project; every size is grounded in recorded
-implementation thinking; every pipeline step runs locally, exactly; and end-to-end tests run
-against containers started from definitions in the repository.
+implementation thinking; every pipeline step runs locally, exactly; end-to-end tests run
+against containers started from definitions in the repository; and a refined ticket is checked
+against the repository before work starts on it.
 
 ## 3. Architecture
 
@@ -458,6 +459,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 39 | 2026-09-21 | Opinion O-10: a size is grounded in implementation thinking recorded on the ticket, at a depth that matches the stakes; this is a condition on the ticket's content, not an ordering of steps (R-23, G-28) | You cannot size what you have not thought about building; a number from a title measures how the work sounds. Stating it as ticket content rather than a workflow keeps T-03 intact and lets a sentence suffice for a small change |
 | 40 | 2026-09-21 | Opinion O-11: every pipeline step is reproducible exactly and locally from a script or command in the repository; a step that exists only in the pipeline is a defect (R-24, G-29) | A failure that can only be reproduced by pushing and waiting turns every pipeline failure into a queue and a dependency on whoever holds pipeline access, which T-13 does not allow; local steps are also steps an agent can run and quote (T-07) |
 | 41 | 2026-09-21 | Opinion O-12: the end-to-end tier runs against the system and its dependencies in containers, from definitions committed to the repository, wherever the stack allows (R-25, R-26, G-30) | A shared test environment is owned and changed by someone else; containers make the e2e environment a reproducible, disposable build artifact that is identical on a developer machine and in the pipeline |
+| 42 | 2026-09-21 | Opinion O-13: a ticket records the repository revision it was refined and planned against, and the step that picks it up first checks what changed in the feature files and code it touches, sending any conflict back to refinement (R-27, G-31, G-32) | Refinement has a shelf life; a plan executed faithfully against a repository that has moved fails mid-change or in review. Recording the revision makes the check a cheap, filtered diff, and it is T-12 applied over time |
 
 ## 12. Open questions
 

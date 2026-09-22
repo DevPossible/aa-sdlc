@@ -25,4 +25,4 @@ hands_off_to:
     when: a change affects user or developer documentation
 steps: [setup-environment, implement, fix-bug, review, finish-branch, optimize]
 tenets: [T-04, T-05, T-07]
-opinions: [O-02, O-06, O-07, O-08, O-11, O-12]
+opinions: [O-02, O-06, O-07, O-08, O-11, O-12, O-13]

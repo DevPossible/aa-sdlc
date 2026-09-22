@@ -223,12 +223,38 @@ That is the exception the stance already allows; a stack where it is the rule wo
 to revisit.
 *Requirements:* R-11, R-21, R-25, R-26. *Guidance:* G-30.
 
+**O-13 A refined ticket is checked against the repository before work starts.**
+*The stance:* refinement has a shelf life. A ticket records the repository revision its
+scenarios and its plan were checked against, and no work starts on it until someone has
+compared that revision with the repository as it is now: what changed in the feature files
+the ticket links, and in the code the plan names, and whether the requirement and the plan
+still hold. The result is recorded on the ticket. A conflict goes back to refinement as a
+question; it is never absorbed silently, and work never starts on it without saying so. The
+framework does not gate on this (T-03); the step that picks the ticket up performs the check
+as its first act, the way it reads the ticket first (G-22).
+*Why:* a ticket is refined against the repository of that day. Between then and the day it is
+picked up, other tickets merge, feature files change, and the code the plan named may no
+longer exist. The scenarios and the plan on the ticket do not know this; they read exactly as
+they did. An agent or a person who starts from them builds against a repository that is gone,
+and discovers it either mid-change or in review. Agents are especially exposed: they take the
+plan on the ticket as true and execute it faithfully. Recording the revision makes the check
+mechanical and cheap; a diff between two points, filtered to what the ticket touches. It is
+T-12 applied over time: a change that reaches the ticket only by the repository moving is
+surfaced as a conflict, not silently absorbed.
+*Rejected:* treating "ready" as a permanent state; starting from the plan without reading the
+repository it was written against; discovering drift in code review; re-refining every ticket
+before every iteration regardless of whether anything it touches changed.
+*Would change our mind:* nothing foreseeable. A repository where nothing merges between
+refinement and start passes the check trivially and pays nothing for it.
+*Requirements:* R-01, R-02, R-05, R-16, R-27. *Guidance:* G-31, G-32.
+
 ---
 
 Opinions O-05, O-06, and O-07 describe the shape of every repository, O-08 describes who
 proves what, O-09 ties each repository to its one ticket project, O-10 says when a ticket may
-be sized, and O-11 and O-12 keep the delivery path and the end-to-end tier runnable on any
-machine. Together they are what `aa init` lays down and `/aa-fw-health` checks for.
+be sized, O-11 and O-12 keep the delivery path and the end-to-end tier runnable on any
+machine, and O-13 keeps a refined ticket honest against a repository that has moved. Together
+they are what `aa init` lays down and `/aa-fw-health` checks for.
 
 ## Candidates
 

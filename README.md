@@ -38,6 +38,10 @@ mind, are in [docs/opinions.md](docs/opinions.md).
 12. **End-to-end tests run against containers**, started from definitions in the repository,
     wherever the stack allows. The same definitions serve the developer's machine and the
     pipeline.
+13. **A refined ticket is checked against the repository before work starts.** A ticket
+    records the revision it was refined against; whoever picks it up first checks what has
+    changed in the feature files and code it touches, and sends any conflict back to
+    refinement rather than building on it.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).

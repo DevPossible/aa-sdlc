@@ -11,6 +11,7 @@ inputs:
   - The ready ticket, its scenarios, and the implementation thinking its size was based on
   - The architecture, decision records, and technical constraints
   - The current code, read, not remembered
+  - What changed in the linked feature files and the code since the ticket was refined (O-13)
 artifacts:
   - name: Implementation plan
     location: the anchor ticket
@@ -19,13 +20,15 @@ artifacts:
       - Names the risks and unknowns, and how each will be resolved or accepted
       - Says which tiers of test the change touches (O-07)
       - Confirmed by the user or the ticket owner before implement runs
-guidance: [G-02, G-03, G-08, G-16, G-22, G-23, G-24, G-28]
+      - Records the repository revision it was written against (O-13)
+guidance: [G-02, G-03, G-08, G-16, G-22, G-23, G-24, G-28, G-31, G-32]
 guidance_inline:
   - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
+  - Check the ticket against the repository first. If the feature files or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
   - Plan the tests with the steps. A step with no test is a step you cannot know is done.
   - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.
   - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
   - Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
-requires: [R-02, R-05, R-16, R-23]
+requires: [R-02, R-05, R-16, R-23, R-27]
 tenets: [T-06, T-07]
-opinions: [O-10]
+opinions: [O-10, O-13]

@@ -23,4 +23,4 @@ hands_off_to:
     when: refinement finds a requirement gap that needs discovery, not splitting
 steps: [plan-work, refine-ticket]
 tenets: [T-04, T-08]
-opinions: [O-03, O-10]
+opinions: [O-03, O-10, O-13]

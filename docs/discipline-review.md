@@ -980,7 +980,7 @@ Turns requirements and priorities into a backlog of tickets that are ready to pl
 - **Implementation Planning** when a ready ticket is picked up for build
 - **Business Analysis** when refinement finds a requirement gap that needs discovery, not splitting
 
-*Tenets: T-04, T-08 | Opinions: O-03, O-10*
+*Tenets: T-04, T-08 | Opinions: O-03, O-10, O-13*
 
 ### Commands
 
@@ -1039,6 +1039,7 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
   - Meets every item of the definition of ready, or says which item it does not and why it proceeds anyway
   - Acceptance criteria are the scenarios, not a restatement of them
   - Size is recorded with the implementation thinking that grounds it, and cites it
+  - Records the repository revision the scenarios were checked against (O-13)
 
 **Guidance**
 
@@ -1051,11 +1052,12 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
 - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
 - Size from the thinking, not the title. Before putting a number on it, write on the ticket what changes, what is unknown, and what could go wrong, at a depth that matches the stakes; a sentence for a small change, a full plan-implementation for a large one (O-10).
 - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
 
-*Requires: R-02, R-16, R-22, R-23 | Tenets: T-04, T-07 | Opinions: O-10*
+*Requires: R-02, R-16, R-22, R-23, R-27 | Tenets: T-04, T-07 | Opinions: O-10, O-13*
 
 ## 7. Project Management
 
@@ -1213,7 +1215,7 @@ Plans how one ticket will be built before anyone builds it. Reads the scenarios,
 - **Development** when the plan is written and confirmed
 - **Technical Analysis** when planning reveals a decision or unknown bigger than the ticket
 
-*Tenets: T-06, T-07 | Opinions: O-10*
+*Tenets: T-06, T-07 | Opinions: O-10, O-13*
 
 ### Commands
 
@@ -1231,6 +1233,7 @@ Before building a ticket, write down how: which files and components change, in 
 - The ready ticket, its scenarios, and the implementation thinking its size was based on
 - The architecture, decision records, and technical constraints
 - The current code, read, not remembered
+- What changed in the linked feature files and the code since the ticket was refined (O-13)
 
 **Artifacts**
 
@@ -1239,6 +1242,7 @@ Before building a ticket, write down how: which files and components change, in 
   - Names the risks and unknowns, and how each will be resolved or accepted
   - Says which tiers of test the change touches (O-07)
   - Confirmed by the user or the ticket owner before implement runs
+  - Records the repository revision it was written against (O-13)
 
 **Guidance**
 
@@ -1250,13 +1254,16 @@ Before building a ticket, write down how: which files and components change, in 
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
+- **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
 - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
+- Check the ticket against the repository first. If the feature files or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
 - Plan the tests with the steps. A step with no test is a step you cannot know is done.
 - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.
 - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
 - Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
 
-*Requires: R-02, R-05, R-16, R-23 | Tenets: T-06, T-07 | Opinions: O-10*
+*Requires: R-02, R-05, R-16, R-23, R-27 | Tenets: T-06, T-07 | Opinions: O-10, O-13*
 
 ### `/aa-ip-breakdown-tasks`
 
@@ -1312,7 +1319,7 @@ Builds the software and proves it meets the requirement. Every change ships with
 - **Release Management** when merged work is ready to be included in a release
 - **Documentation** when a change affects user or developer documentation
 
-*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12*
+*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12, O-13*
 
 ### Commands
 
@@ -1372,6 +1379,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - The anchor ticket and its scenarios in the feature files
 - The confirmed implementation plan and tasks
 - The current code, read before it is changed
+- What changed in the linked feature files and the files the plan names since the ticket was planned (O-13)
 
 **Artifacts**
 
@@ -1400,12 +1408,14 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
+- **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
+- Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
 - Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real.
 - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
 - Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
 
-*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26 | Tenets: T-04, T-07 | Opinions: O-08, O-12 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26, R-27 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1440,11 +1450,12 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
+- **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
 - No reproduction, no fix. If it cannot be reproduced, the ticket gets what was tried and goes back for more information.
 - Find the cause before touching code. Form a hypothesis, test it, and record the result on the ticket; three hypotheses without evidence means stop and reassess (G-17).
 - If the defect violates no scenario, one is missing. Add it to the feature file with the fix so the requirement is now stated.
 
-*Requires: R-01, R-02, R-04, R-05, R-11, R-16, R-22, R-24 | Tenets: T-07, T-12*
+*Requires: R-01, R-02, R-04, R-05, R-11, R-16, R-22, R-24, R-27 | Tenets: T-07, T-12 | Opinions: O-13*
 
 ### `/aa-dev-review`
 

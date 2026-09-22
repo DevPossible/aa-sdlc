@@ -146,6 +146,31 @@ Feature: Project requirements
     And the report names the dependency
     And the remedy is for the user to containerise it or record it as reached in a shared environment
 
+  @R-27 @required @O-13
+  Scenario: Refined tickets record their revision and started tickets record their check
+    Given a sample of ready tickets in the configured project each record a repository revision
+    And a sample of in-progress tickets each record a currency check made at or after work started
+    And each check names what changed and whether the scenarios and plan still hold
+    When "/aa-fw-health" probes R-27
+    Then R-27 is reported as met
+
+  @R-27 @required @O-13
+  Scenario: A ready ticket records no revision
+    Given a ready ticket in the configured project records no repository revision
+    When "/aa-fw-health" probes R-27
+    Then R-27 is reported as unmet
+    And the report lists the ticket
+    And the remedy is for "/aa-rf-refine-ticket" or "/aa-ip-plan-implementation" to record the revision the next time it runs
+
+  @R-27 @required @O-13
+  Scenario: Work started on a ticket with no currency check
+    Given an in-progress ticket in the configured project records a revision
+    But it records no check of that revision against the head at the time work started
+    When "/aa-fw-health" probes R-27
+    Then R-27 is reported as unmet
+    And the report says the ticket may be building against a repository that has moved
+    And the remedy is for the user to run the check now and record it
+
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure
     Given the documents, features, scripts, source, and tests folders exist at the root
