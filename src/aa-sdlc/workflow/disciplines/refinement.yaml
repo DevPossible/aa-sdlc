@@ -1,0 +1,26 @@
+id: refinement
+code: rf
+name: Refinement
+order: 6
+purpose: >
+  Turns requirements and priorities into a backlog of tickets that are ready to plan and build.
+  Every ticket that leaves Refinement has scenarios, acceptance criteria, and a size, and is
+  small enough to finish in one iteration.
+owns:
+  - Breaking epics into stories and tasks in the ticket system
+  - "Making a single ticket ready: scenarios linked, acceptance criteria checkable, size agreed"
+  - The definition of ready, and holding tickets to it
+does_not_own:
+  - Priority order, which belongs to Product Management
+  - Writing new requirements, which belongs to Business Analysis; Refinement links, splits, and clarifies
+  - Committing tickets to an iteration, which belongs to Project Management
+hands_off_to:
+  - discipline: project-management
+    when: tickets are ready and an iteration can be planned
+  - discipline: implementation-planning
+    when: a ready ticket is picked up for build
+  - discipline: business-analysis
+    when: refinement finds a requirement gap that needs discovery, not splitting
+steps: [plan-work, refine-ticket]
+tenets: [T-04, T-08]
+opinions: [O-03]

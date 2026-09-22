@@ -1,0 +1,27 @@
+id: operations
+code: ops
+name: Operations
+order: 13
+purpose: >
+  Provides and runs the environments the software lives in. Infrastructure as code, the
+  pipeline that delivers to it, the observability that shows what it is doing, and the
+  validation that production behaves as the release claimed.
+owns:
+  - Infrastructure as code and deployment runbooks
+  - The delivery pipeline and deployment strategy
+  - Monitoring, dashboards, alerting, and the observability requirements on the code
+  - Production validation after a release
+does_not_own:
+  - The decision to deploy, which belongs to Release Management
+  - Incident triage and response, which belong to Support; Operations acts on their requests
+  - Application code changes, which belong to Development
+hands_off_to:
+  - discipline: support
+    when: monitoring detects an incident
+  - discipline: development
+    when: validation or observability reveals a defect
+  - discipline: security
+    when: an infrastructure control needs a security requirement clarified
+steps: [setup-infrastructure, setup-pipeline, observability, validate-production]
+tenets: [T-01, T-07]
+opinions: [O-06]

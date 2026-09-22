@@ -1,0 +1,27 @@
+id: business-analysis
+code: ba
+name: Business Analysis
+order: 2
+purpose: >
+  Turns a business need into requirements the whole team can read and a test can execute.
+  Discovers what stakeholders actually need, closes the gaps, writes it as Gherkin scenarios,
+  and later confirms with those stakeholders that what was built is what they meant.
+owns:
+  - Discovery with stakeholders and the initial requirements it produces
+  - Gap analysis, the question log, and getting questions answered
+  - Requirements as scenarios in feature files, linked to tickets and pages (T-12, O-01)
+  - User acceptance testing against those scenarios
+does_not_own:
+  - Deciding whether the need is worth pursuing, which belongs to Product Management
+  - How the requirement will be built, which belongs to Technical Analysis and Development
+  - Test coverage beyond the stated requirement, which belongs to Testing
+hands_off_to:
+  - discipline: ux-design
+    when: requirements involve user interaction and need mockups to be understood
+  - discipline: technical-analysis
+    when: requirements are stable enough to architect against
+  - discipline: refinement
+    when: scenarios exist and must become tickets
+steps: [discover, refine-requirements, uat]
+tenets: [T-04, T-07, T-12]
+opinions: [O-01]

@@ -1,0 +1,24 @@
+id: documentation
+code: doc
+name: Documentation
+order: 11
+purpose: >
+  Keeps what is written true. Documents each feature for the people who will use and maintain
+  it, keeps the knowledge base aligned with the feature files and the code, and periodically
+  audits the whole for drift.
+owns:
+  - User-facing and developer-facing documentation for a feature
+  - The knowledge base pages that back feature files, and their alignment (T-12)
+  - Documentation health audits and the tickets they raise
+does_not_own:
+  - Decision records, which belong to Technical Analysis
+  - Requirements, which belong to Business Analysis; Documentation explains, never defines
+  - Release notes, which belong to Release Management
+hands_off_to:
+  - discipline: business-analysis
+    when: documenting reveals a requirement that is unclear or contradicted
+  - discipline: development
+    when: documentation reveals a defect
+steps: [document-feature, maintain-docs]
+tenets: [T-04, T-12, T-13]
+opinions: [O-04]

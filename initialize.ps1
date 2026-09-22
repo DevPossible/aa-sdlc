@@ -20,7 +20,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-function Ensure-WingetPackage {
+function Install-WingetPackageIfMissing {
     param([string]$PackageId, [string]$Command, [string]$Display)
     if (Get-Command $Command -ErrorAction SilentlyContinue) {
         Write-Host "  $Display present: $((& $Command --version 2>$null | Select-Object -First 1))" -ForegroundColor Green
@@ -36,7 +36,7 @@ function Ensure-WingetPackage {
                 [System.Environment]::GetEnvironmentVariable('Path', 'User')
 }
 
-function Ensure-PSModule {
+function Install-PSModuleIfMissing {
     param([string]$Name)
     if (Get-Module -ListAvailable -Name $Name) {
         Write-Host "  $Name present" -ForegroundColor Green
@@ -53,8 +53,9 @@ function Ensure-PSModule {
 Push-Location $PSScriptRoot
 try {
     Write-Host 'Tools' -ForegroundColor Cyan
-    Ensure-WingetPackage -PackageId 'OpenJS.NodeJS.LTS' -Command 'node' -Display 'Node LTS'
-    Ensure-PSModule -Name 'Pester'
+    Install-WingetPackageIfMissing -PackageId 'OpenJS.NodeJS.LTS' -Command 'node' -Display 'Node LTS'
+    Install-PSModuleIfMissing -Name 'Pester'
+    Install-PSModuleIfMissing -Name 'powershell-yaml'
 
     Write-Host 'Folders' -ForegroundColor Cyan
     foreach ($dir in '.aitemp', (Join-Path 'tests' 'integration'), (Join-Path 'tests' 'e2e')) {

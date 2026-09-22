@@ -1,0 +1,28 @@
+id: development
+code: dev
+name: Development
+order: 9
+purpose: >
+  Builds the software and proves it meets the requirement. Every change ships with the tests
+  that show its scenarios pass, is reviewed, and is merged on a branch that references its
+  ticket. Development owns "it works"; Testing owns "and here is what we did not think of".
+owns:
+  - Application code, schema, migrations, and integration code for a ticket
+  - The automated tests that prove the ticket's scenarios at each tier the change touches (O-08, G-20)
+  - Code review and merge
+  - Defect fixes, reproduced before fixed
+  - Performance optimisation of existing code
+does_not_own:
+  - Test coverage beyond the requirement, which belongs to Testing
+  - Deciding what a ticket means, which belongs to Business Analysis and Refinement
+  - Deploying to production, which belongs to Release Management
+hands_off_to:
+  - discipline: testing
+    when: a ticket's tests pass and the suite should be extended beyond the requirement
+  - discipline: release-management
+    when: merged work is ready to be included in a release
+  - discipline: documentation
+    when: a change affects user or developer documentation
+steps: [setup-environment, implement, fix-bug, review, finish-branch, optimize]
+tenets: [T-04, T-05, T-07]
+opinions: [O-02, O-06, O-07, O-08]

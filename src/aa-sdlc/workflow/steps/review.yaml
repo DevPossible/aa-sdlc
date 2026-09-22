@@ -1,0 +1,27 @@
+id: review
+name: Review code
+discipline: development
+command: /aa-dev-review
+summary: >
+  Review a merge request against its ticket, its scenarios, its plan, and the project's
+  conventions, and record findings on the merge request where the author will see them.
+anchor: required
+inputs:
+  - The merge request and its diff
+  - The ticket, scenarios, and implementation plan
+  - The build and test results for the branch
+artifacts:
+  - name: Review findings
+    location: the merge request, as comments, with a summary on the ticket
+    acceptance:
+      - Each finding names the file and line, says what is wrong and why, and is marked blocking or not
+      - The review states whether every scenario has a test and whether the plan was followed
+      - The review says what it did not check
+guidance: [G-02, G-03, G-04, G-06, G-15, G-22, G-24]
+guidance_inline:
+  - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
+  - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
+  - Blocking findings are about correctness, security, and the requirement. Style is a non-blocking comment, or a formatter's job (G-01).
+  - "Report faithfully: \"approved\" means every scenario has a passing test that you saw run."
+requires: [R-01, R-02, R-10, R-11]
+tenets: [T-07]

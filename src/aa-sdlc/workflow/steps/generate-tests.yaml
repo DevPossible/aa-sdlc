@@ -1,0 +1,34 @@
+id: generate-tests
+name: Extend the test suite
+discipline: testing
+command: /aa-qa-generate-tests
+summary: >
+  Start from the scenarios and the tests Development wrote, then apply general testing
+  strategies to find and test what the requirement did not say. Every gap becomes a question
+  on the ticket and a scenario in the feature file.
+anchor: required
+inputs:
+  - The ticket's scenarios and the tests already written for them
+  - The test strategy for the epic
+  - The built code, read for branches and states the scenarios do not mention
+methodology:
+  phase: 3
+  steps: ["3.1"]
+artifacts:
+  - name: Extended test suite
+    location: unit tests with the project; integration and e2e under tests/
+    acceptance:
+      - Adds tests for boundaries, state transitions, error and recovery paths, concurrency, and realistic interaction sequences where relevant
+      - Does not duplicate Development's tests
+  - name: Gaps as scenarios and questions
+    location: the features folder and the anchor ticket
+    acceptance:
+      - Every behaviour found that the requirement did not specify is a question on the ticket and a pending scenario in the feature file
+guidance: [G-04, G-06, G-07, G-15, G-18, G-19, G-21, G-22, G-25]
+guidance_inline:
+  - Read Development's tests first and say what they cover. Your job starts where theirs stops.
+  - Test the seams. The boundaries between components, between tiers, and between the system and its dependencies are where the requirement was vaguest.
+  - A pending scenario is a real scenario with a tag saying it awaits an answer. Do not leave gaps as comments in test code.
+requires: [R-02, R-11, R-16, R-21]
+tenets: [T-07, T-12]
+opinions: [O-08]

@@ -1,0 +1,33 @@
+id: e2e-tests
+name: Build end-to-end tests
+discipline: testing
+command: /aa-qa-e2e-tests
+summary: >
+  Automate the scenarios that can only be proven through the whole system as the user sees it,
+  and where a user interface exists, the visual regression suite that catches what functional
+  tests cannot.
+anchor: required
+inputs:
+  - The scenarios assigned to the end-to-end tier by the strategy
+  - The deployed or locally running system and its test environment
+  - The project's end-to-end and visual testing tool categories
+methodology:
+  phase: 3
+  steps: ["3.2"]
+artifacts:
+  - name: End-to-end test suite
+    location: tests/e2e
+    acceptance:
+      - Runs from the root test script with the e2e tier
+      - Each test maps to a scenario by tag; flaky tests are quarantined with a ticket, not retried into green
+  - name: Visual regression suite
+    location: tests/e2e
+    acceptance:
+      - Baselines are versioned and reviewed when they change
+guidance: [G-04, G-06, G-11, G-15, G-21, G-22, G-25]
+guidance_inline:
+  - Drive the system the way a user does, through its real entry points; do not reach into internals to make a test pass.
+  - Own the test data. Every end-to-end test creates what it needs and cleans up; a test that depends on leftover state will lie eventually.
+  - A flaky test is a defect in the test or the system. Quarantine it with a ticket; never wrap it in a retry to hide it (G-06).
+requires: [R-02, R-11, R-16, R-21]
+tenets: [T-07]

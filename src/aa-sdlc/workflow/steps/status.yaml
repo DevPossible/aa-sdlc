@@ -1,0 +1,26 @@
+id: status
+name: Report status
+discipline: project-management
+command: /aa-pm-status
+summary: >
+  Produce a status report for an iteration, epic, or release from the ticket system and
+  source control, not from memory or opinion: done, in progress, blocked, at risk, and why.
+anchor: optional
+inputs:
+  - The ticket system state for the scope requested
+  - "Source control activity: branches, merge requests, and their state"
+  - The previous status report, for what changed
+artifacts:
+  - name: Status report
+    location: returned to the user; posted to the knowledge base or the iteration ticket if asked
+    acceptance:
+      - Every claim traces to a ticket or a merge request
+      - Blocked and at-risk items name the blocker and who owns unblocking it
+      - Says what changed since the last report
+guidance: [G-02, G-04, G-15, G-22, G-24, G-26]
+guidance_inline:
+  - Count with a tool and quote the count. "Most tickets are done" is not status; "14 of 19 committed tickets are done, 3 in review, 2 blocked" is.
+  - Report the blocked item before the finished ones. The reader can act on a blocker; they cannot act on praise.
+  - Say what you could not see. If a system was unreachable, the report says so rather than silently omitting it.
+requires: [R-01, R-02, R-04]
+tenets: [T-04, T-07]

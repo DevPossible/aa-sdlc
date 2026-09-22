@@ -13,9 +13,37 @@ the website's methodology page is generated from it.
 
 ```
 workflow/
-  processes/<process>.yaml     one per process (the six methodology phases, plus smaller ones)
-  steps/<step>.yaml            one per step, named exactly as the step and its skill folder
+  disciplines/<discipline>.yaml   one per discipline: role, bounded responsibilities, steps
+  processes/<process>.yaml        one per process (the six methodology phases, plus smaller ones)
+  steps/<step>.yaml               one per step, named exactly as the step and its skill folder
 ```
+
+### Discipline
+
+```yaml
+# workflow/disciplines/development.yaml
+id: development                    # equals the file name and the skills subfolder
+code: dev                          # 2 or 3 characters; middle segment of every command
+name: Development
+order: 9                           # position in SDLC order, used by the review generator
+purpose: >
+  Two or three sentences on what the discipline is for and where it stops.
+owns:                              # bounded responsibilities
+  - ...
+does_not_own:                      # explicit boundaries, naming who does own it
+  - ...
+hands_off_to:
+  - discipline: testing
+    when: ...
+steps: [setup-environment, implement, fix-bug, review, finish-branch, optimize]
+tenets: [T-04, T-05, T-07]
+opinions: [O-02, O-06, O-07, O-08]
+```
+
+`id`, `code`, `name`, `order`, `purpose`, `owns`, `does_not_own`, `steps` are required. Codes
+are unique. Every step listed must exist and name this discipline. `guidance_inline` on a step
+holds step-specific guidance until it is shared by a second step, at which point it is promoted
+to a `G-nn` id in `docs/guidance.md`.
 
 ### Step
 

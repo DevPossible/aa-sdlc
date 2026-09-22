@@ -1,0 +1,33 @@
+id: retrospective
+name: Run a retrospective
+discipline: project-management
+command: /aa-pm-retrospective
+summary: >
+  Look at what actually happened in an iteration, release, or quarter, using the record rather
+  than recollection, and turn it into a small number of concrete improvements with owners and
+  tickets.
+anchor: optional
+inputs:
+  - "Ticket system history: cycle times, carry-over, blockers, reopened tickets"
+  - Incident and post-mortem records for the period
+  - Input from the people involved, where the user provides it
+methodology:
+  phase: 6
+  steps: ["meta"]
+artifacts:
+  - name: Workflow health report
+    location: the knowledge base
+    acceptance:
+      - States what the data shows before what people felt, and distinguishes the two
+      - Names the top three things to keep and the top three to change
+  - name: Process improvement backlog
+    location: the ticket system
+    acceptance:
+      - Every "change" is a ticket with an owner and a way to tell whether it worked
+guidance: [G-02, G-10, G-12, G-15, G-22, G-24, G-26]
+guidance_inline:
+  - Measure first, then ask. Present the numbers before opinions so the discussion is about causes, not impressions.
+  - Three changes, not thirty. An improvement backlog nobody works is a complaint log.
+  - Check the last retrospective's changes first. If they were not done, that is the first finding.
+requires: [R-02, R-03, R-04]
+tenets: [T-07, T-13]

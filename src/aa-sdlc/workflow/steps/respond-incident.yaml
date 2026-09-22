@@ -1,0 +1,31 @@
+id: respond-incident
+name: Respond to an incident
+discipline: support
+command: /aa-sup-respond-incident
+summary: >
+  Coordinate an active incident: keep a timeline, contain the impact, pull in Operations,
+  Development, or Release Management as needed, communicate status, and close the incident when
+  service is restored.
+anchor: required
+inputs:
+  - The incident ticket with severity and current impact
+  - Dashboards and alerts from observability
+  - Runbooks and the rollback option
+artifacts:
+  - name: Incident timeline
+    location: the incident ticket
+    acceptance:
+      - Every action and observation is timestamped as it happens
+      - Communications sent are recorded with their audience
+  - name: Mitigation
+    location: the incident ticket, with links to any rollback or change
+    acceptance:
+      - Service is restored, verified with evidence, and the ticket says how
+      - A post-incident review is scheduled
+guidance: [G-02, G-04, G-12, G-13, G-15, G-22, G-24, G-26]
+guidance_inline:
+  - Contain first, diagnose second. Rollback, feature flag, or scale before root cause.
+  - Write the timeline as you go. A timeline reconstructed afterwards is fiction with timestamps.
+  - Say what you know and what you do not, at a stated cadence. Silence during an incident is the worst status update.
+requires: [R-02, R-03]
+tenets: [T-06, T-07]

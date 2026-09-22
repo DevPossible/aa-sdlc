@@ -1,0 +1,25 @@
+id: document-feature
+name: Document a feature
+discipline: documentation
+command: /aa-doc-document-feature
+summary: >
+  Write or update the user-facing and developer-facing documentation for a ticket, from its
+  scenarios and its implementation, in the places the project keeps each kind.
+anchor: required
+inputs:
+  - The ticket, its scenarios, and the merged change
+  - The project's documentation locations from the config or knowledge base
+artifacts:
+  - name: Feature documentation
+    location: the documents folder for developer docs; the knowledge base or the project's user documentation location for user docs
+    acceptance:
+      - A user can do what the scenarios describe by following the user documentation
+      - A developer can find where the feature lives and how it is tested from the developer documentation
+      - Linked from the ticket and the feature's knowledge base page
+guidance: [G-03, G-11, G-12, G-22, G-24, G-25, G-26]
+guidance_inline:
+  - Write from the scenarios, verify against the software. The scenarios say what should happen; run the feature to confirm the documentation is describing what does.
+  - Document the unhappy path. Users read documentation when something went wrong.
+  - Never duplicate a scenario in prose. Link to it, or embed it; two copies drift.
+requires: [R-02, R-03, R-06, R-16]
+tenets: [T-12, T-13]

@@ -1,0 +1,32 @@
+id: observability
+name: Set up observability
+discipline: operations
+command: /aa-ops-observability
+summary: >
+  Make the running system visible: the dashboards, alerts, logs, and traces that show whether
+  the scenarios are being met in production, and the requirements on the code to emit them.
+anchor: required
+inputs:
+  - The scenarios, for what "working" means
+  - The architecture, for where signals come from
+  - The project's observability tooling category
+methodology:
+  phase: 5
+  steps: ["5.1"]
+artifacts:
+  - name: Monitoring dashboards
+    location: the observability tool, linked from the knowledge base
+    acceptance:
+      - Show the outcome metrics from define-outcome and the health of each component
+  - name: Alert configuration
+    location: as code in the repository where the tool allows; otherwise documented
+    acceptance:
+      - Every alert has a runbook, an owner, and a threshold with a reason
+      - No alert fires that nobody acts on
+guidance: [G-02, G-04, G-11, G-12, G-22, G-24, G-25, G-26]
+guidance_inline:
+  - Alert on what users feel, not on what machines do. Latency and error rate at the edge before CPU in the middle.
+  - Every alert has a runbook or it is noise. Write the runbook before enabling the alert.
+  - Observability is a requirement on the code. If a scenario cannot be observed in production, raise a ticket for the signal.
+requires: [R-01, R-02, R-03, R-05]
+tenets: [T-07]

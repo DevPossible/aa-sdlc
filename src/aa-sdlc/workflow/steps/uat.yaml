@@ -1,0 +1,33 @@
+id: uat
+name: User acceptance testing
+discipline: business-analysis
+command: /aa-ba-uat
+summary: >
+  Confirm with the people who asked for it that what was built is what they meant. Walks
+  stakeholders through the scenarios against the built software and records acceptance or the
+  gap.
+anchor: required
+inputs:
+  - The feature files for the ticket or release
+  - A deployed environment the stakeholder can use
+  - The tests Development and Testing wrote, as evidence
+methodology:
+  phase: 5
+  steps: ["5.2"]
+artifacts:
+  - name: UAT test cases
+    location: the features folder, as the scenarios themselves, plus a walkthrough order on the ticket
+    acceptance:
+      - Every scenario for the ticket is covered by the walkthrough
+  - name: UAT results report
+    location: the anchor ticket, linked from the knowledge base page
+    acceptance:
+      - Each scenario is marked accepted or not, by whom, with the gap described where not
+      - Every gap is a new ticket or a scenario change, never a note that fades
+guidance: [G-06, G-12, G-15, G-18, G-22, G-26]
+guidance_inline:
+  - Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature file.
+  - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
+  - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
+requires: [R-02, R-16]
+tenets: [T-06, T-07, T-12]

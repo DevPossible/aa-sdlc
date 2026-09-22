@@ -1,0 +1,23 @@
+id: implementation-planning
+code: ip
+name: Implementation Planning
+order: 8
+purpose: >
+  Plans how one ticket will be built before anyone builds it. Reads the scenarios, the
+  architecture, and the code that exists, and writes a plan the ticket carries: what changes,
+  where, in what order, with what tests, and what could go wrong.
+owns:
+  - The implementation plan on the anchor ticket
+  - Breaking a plan into tasks when the ticket is too large to plan as one change
+  - Identifying risks, unknowns, and dependencies before build starts
+does_not_own:
+  - Architecture decisions, which belong to Technical Analysis; a plan works within them
+  - Writing code, which belongs to Development
+  - Sizing for prioritisation, which belongs to Refinement; a plan may revise it
+hands_off_to:
+  - discipline: development
+    when: the plan is written and confirmed
+  - discipline: technical-analysis
+    when: planning reveals a decision or unknown bigger than the ticket
+steps: [plan-implementation, breakdown-tasks]
+tenets: [T-06, T-07]

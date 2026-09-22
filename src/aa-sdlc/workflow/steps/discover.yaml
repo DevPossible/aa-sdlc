@@ -1,0 +1,32 @@
+id: discover
+name: Run discovery
+discipline: business-analysis
+command: /aa-ba-discover
+summary: >
+  Capture what stakeholders need, as they say it and as they mean it. Produces the initial
+  requirements as draft scenarios and a question log of everything not yet answered.
+anchor: required
+inputs:
+  - The anchor epic and its outcome
+  - "Stakeholder input: a conversation, a transcript, a document, or a session with the user"
+  - Existing system documentation and feature files
+methodology:
+  phase: 1
+  steps: ["1.1"]
+artifacts:
+  - name: Initial requirements
+    location: the features folder, as draft scenarios tagged with the epic
+    acceptance:
+      - Every stated need is a scenario or an explicit non-requirement
+      - Business objectives and scope boundaries appear in the feature description
+  - name: Question log
+    location: the anchor epic, as open questions
+    acceptance:
+      - Every unanswered question has context and an owner
+guidance: [G-03, G-16, G-18, G-19, G-22, G-24, G-26]
+guidance_inline:
+  - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a draft scenario can be wrong in a way everyone can see.
+  - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.
+  - Record what was not said. Silence on error cases, permissions, and edge conditions is a question, not an assumption.
+requires: [R-02, R-16]
+tenets: [T-04, T-06, T-12]

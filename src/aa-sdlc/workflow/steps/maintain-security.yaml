@@ -1,0 +1,32 @@
+id: maintain-security
+name: Maintain security and compliance
+discipline: security
+command: /aa-sec-maintain-security
+summary: >
+  Keep the system safe after release: patch dependencies, rotate and remove secrets, review
+  access, and keep the compliance evidence current. Recurring; each run anchors on a
+  maintenance ticket.
+anchor: required
+inputs:
+  - Dependency and vulnerability reports from the project's tooling
+  - The compliance report and the controls it must evidence
+  - Secrets and access inventories where the project keeps them
+methodology:
+  phase: 6
+  steps: ["6.4"]
+artifacts:
+  - name: Security patch log
+    location: the knowledge base, with each patch as a ticket
+    acceptance:
+      - Every known vulnerability above the agreed threshold is patched, accepted with a reason, or ticketed with a date
+  - name: Compliance audit evidence
+    location: the knowledge base
+    acceptance:
+      - Every control has current evidence or an open ticket
+guidance: [G-04, G-06, G-12, G-13, G-22, G-26]
+guidance_inline:
+  - "Patch in small, tested steps. A dependency update is a change like any other: branch, test, review, merge (G-08)."
+  - Never commit, log, or paste a secret, including in the report of having found one. Reference where it was, not what it was.
+  - Treat "no findings" as a finding to verify. Confirm the scanner ran against the current code before reporting clean.
+requires: [R-01, R-02, R-05, R-11]
+tenets: [T-07]

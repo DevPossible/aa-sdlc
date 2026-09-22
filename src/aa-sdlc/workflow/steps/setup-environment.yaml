@@ -1,0 +1,37 @@
+id: setup-environment
+name: Set up the development environment
+discipline: development
+command: /aa-dev-setup-environment
+summary: >
+  Make a fresh clone buildable and testable: fill in the root scripts, configure the tools the
+  stack needs, and record anything a new developer must do by hand.
+anchor: required
+inputs:
+  - The technology stack document and constraints
+  - The stub root scripts from aa init, or the existing scripts
+  - Tech-stack plugins in scope
+methodology:
+  phase: 2
+  steps: ["2.1"]
+artifacts:
+  - name: Repository structure
+    location: the repository root
+    acceptance:
+      - Follows the conventional structure or maps to it in the project config (O-05)
+  - name: Working root scripts
+    location: the repository root
+    acceptance:
+      - initialize, build, test, and pack each run to completion on a fresh clone (O-06)
+      - test accepts a tier parameter and each tier has a home (O-07)
+  - name: Development environment configuration
+    location: the documents folder
+    acceptance:
+      - Anything not automated by initialize is written down as a step with a reason
+guidance: [G-04, G-11, G-15, G-22, G-24, G-25]
+guidance_inline:
+  - Prove it on a clean clone. Clone to a temporary folder and run initialize, build, test, and pack there before calling it done.
+  - Automate before documenting. A manual step in the documentation is a bug in initialize until it is proven to be impossible to automate.
+  - Do not choose tools the project has not chosen. Use what the stack document, plugins, and existing config name; where nothing does, ask.
+requires: [R-05, R-10, R-11, R-18, R-19, R-20, R-21]
+tenets: [T-01, T-07]
+opinions: [O-05, O-06, O-07]

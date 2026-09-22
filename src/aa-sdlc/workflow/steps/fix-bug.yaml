@@ -1,0 +1,28 @@
+id: fix-bug
+name: Fix a defect
+discipline: development
+command: /aa-dev-fix-bug
+summary: >
+  Reproduce a reported defect with a failing test, find the cause, fix the cause, and prove it
+  with the test now passing, on a branch that references the ticket.
+anchor: required
+inputs:
+  - "The defect ticket: symptoms, environment, steps to reproduce, severity"
+  - The scenario the defect violates, if one exists
+artifacts:
+  - name: Reproducing test
+    location: the test tier where the defect is observable
+    acceptance:
+      - Fails before the fix and passes after; committed with the fix
+  - name: Fix
+    location: source folder, on a branch named per the ticket convention
+    acceptance:
+      - Addresses the cause, not the symptom; the ticket says what the cause was
+      - No existing test was weakened or skipped to make it pass
+guidance: [G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-15, G-17, G-22]
+guidance_inline:
+  - No reproduction, no fix. If it cannot be reproduced, the ticket gets what was tried and goes back for more information.
+  - Find the cause before touching code. Form a hypothesis, test it, and record the result on the ticket; three hypotheses without evidence means stop and reassess (G-17).
+  - If the defect violates no scenario, one is missing. Add it to the feature file with the fix so the requirement is now stated.
+requires: [R-01, R-02, R-04, R-05, R-11, R-16]
+tenets: [T-07, T-12]

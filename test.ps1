@@ -59,6 +59,7 @@ try {
         $problems = @()
         $problems += & (Join-Path 'scripts' 'Test-SkillStructure.ps1')
         $problems += & (Join-Path 'scripts' 'Test-FeatureStructure.ps1')
+        $problems += & (Join-Path 'scripts' 'Test-WorkflowStructure.ps1')
         if ($problems.Count -gt 0) {
             $problems | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }
             throw "[unit] structural validation failed with $($problems.Count) problem(s)."

@@ -1,0 +1,25 @@
+id: decide
+name: Record a decision
+discipline: technical-analysis
+command: /aa-ta-decide
+summary: >
+  Record one significant technical decision: the context, the options, the choice, and the
+  consequences, so the next person can understand it without asking. Standalone so that
+  decisions made mid-implementation are captured too.
+anchor: required
+inputs:
+  - The decision to be made or just made, and the anchor ticket it arose from
+  - Existing decision records that touch the same area
+artifacts:
+  - name: Decision record
+    location: the knowledge base, or the documents folder as a numbered record, linked from the ticket
+    acceptance:
+      - States context, options considered, the decision, and consequences
+      - Is numbered, dated, and immutable once accepted; a reversal is a new record
+guidance: [G-10, G-16, G-22, G-24, G-26]
+guidance_inline:
+  - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
+  - Record the losing options with the same care as the winner; the next person will ask about them first.
+  - Write it when it happens. A decision reconstructed a month later is a story, not a record.
+requires: [R-02, R-03]
+tenets: [T-04]

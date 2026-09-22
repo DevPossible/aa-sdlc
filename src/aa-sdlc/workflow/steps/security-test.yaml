@@ -1,0 +1,32 @@
+id: security-test
+name: Security test
+discipline: security
+command: /aa-sec-security-test
+summary: >
+  Test the built system for the weaknesses the threat model and common weakness classes
+  predict, and produce evidence for the compliance report. Raises tickets for what it finds.
+anchor: required
+inputs:
+  - The threat model and security scenarios
+  - The built and deployed system, or the code and dependencies for static checks
+  - "The project's security tooling category: static analysis, dependency scanning, dynamic testing"
+methodology:
+  phase: 3
+  steps: ["3.4"]
+artifacts:
+  - name: Security test results
+    location: the anchor ticket, with the run output in the documents folder or test system
+    acceptance:
+      - Every security scenario has a result; every finding has a severity and a ticket
+      - Findings are reproducible from the recorded steps
+  - name: Security compliance report
+    location: the knowledge base
+    acceptance:
+      - Maps each control the organisation requires to the evidence that it is met, or the ticket that will meet it
+guidance: [G-04, G-06, G-13, G-15, G-22, G-26]
+guidance_inline:
+  - Test against the model first, the checklist second. The threat model says what matters here; the checklist says what matters everywhere.
+  - Never test a production system without written permission on the ticket. Prefer a production-like environment.
+  - Report findings without drama and without softening. Severity comes from impact and likelihood, not from how it will be received.
+requires: [R-02, R-04, R-11]
+tenets: [T-06, T-07]

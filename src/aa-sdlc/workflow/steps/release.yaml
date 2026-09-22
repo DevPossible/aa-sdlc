@@ -1,0 +1,33 @@
+id: release
+name: Release to production
+discipline: release-management
+command: /aa-rel-release
+summary: >
+  Deploy a prepared release to production using the pipeline Operations provides, verify it
+  did what the release notes say, and record the deployment. Stops and asks before the
+  irreversible step.
+anchor: required
+inputs:
+  - The prepared release with a "go" decision
+  - The deployment pipeline and runbook from Operations
+  - The verification checks defined in the release
+methodology:
+  phase: 4
+  steps: ["4.3"]
+artifacts:
+  - name: Production deployment record
+    location: the release ticket and the knowledge base
+    acceptance:
+      - Records what was deployed, when, by whom, with which pipeline run
+  - name: Deployment verification report
+    location: the release ticket
+    acceptance:
+      - Every verification check has a result; any failure triggers rollback or an incident, recorded
+guidance: [G-04, G-12, G-13, G-14, G-15, G-22, G-26]
+guidance_inline:
+  - Ask before you deploy, every time, unless the user granted this deployment in advance. Production is the irreversible step (G-13).
+  - Use the pipeline, not your hands. A deployment done outside the pipeline is unrecorded and unrepeatable.
+  - Verify before you announce. The release is not done when the pipeline is green; it is done when the checks pass in production.
+  - If verification fails, the default is rollback, not investigation in production.
+requires: [R-01, R-02, R-20]
+tenets: [T-06, T-07]

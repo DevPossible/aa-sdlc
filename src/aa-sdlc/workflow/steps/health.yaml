@@ -1,0 +1,28 @@
+id: health
+name: Report health
+discipline: framework
+command: /aa-fw-health
+summary: >
+  Aggregate every requirement declared by the installed skills, plugins, and processes, probe
+  each one, and report what is met, unmet, or not applicable, and what depends on each. Report
+  the install itself. Never block, never change anything.
+anchor: none
+inputs:
+  - The installed skills and plugins and the requirements they declare
+  - The merged aa.config.yaml, if a project is in scope
+  - "The agent's own tools: which systems it can actually reach"
+artifacts:
+  - name: Health report
+    location: returned to the user; written to the documents folder only if asked
+    acceptance:
+      - Every declared requirement appears with a status and, if unmet, what depends on it and the remedy
+      - The install (scope, version, target, skills, commands, update available) is reported
+      - Coverage is reported per discipline and technology, never headcount (T-13)
+guidance: [G-02, G-04, G-15, G-24]
+guidance_inline:
+  - Probe by doing, not by looking. To check the ticket system, read a ticket; to check source control, read the remote; to check the build, run the build script. A configuration file that exists proves nothing.
+  - Report not-applicable as its own status. A requirement that cannot apply here (hooks on a target with no hooks) is not a failure and must not look like one.
+  - Change nothing. If a probe would need to create, write, or install anything to succeed, report it as unmet and name /aa-fw-init as the remedy.
+  - Group the report by kind (environment, project, tooling, coverage) and lead with required-and-unmet.
+requires: [R-04, R-07]
+tenets: [T-10, T-11, T-13]

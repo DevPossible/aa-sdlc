@@ -1,0 +1,30 @@
+id: threat-model
+name: Threat model
+discipline: security
+command: /aa-sec-threat-model
+summary: >
+  Work through what could go wrong with the architecture from an attacker's view, decide which
+  threats matter, and turn each mitigation into a security requirement as a scenario and a
+  ticket.
+anchor: required
+inputs:
+  - The system architecture and technology stack document
+  - The feature files, for data flows and trust boundaries
+  - Organisational security standards from the enterprise scope, if any
+artifacts:
+  - name: Threat model
+    location: the knowledge base, linked from the epic
+    acceptance:
+      - Every trust boundary and data flow in the architecture is considered
+      - "Every threat is rated and has a decision: mitigate, accept, or transfer, with a reason"
+  - name: Security requirements
+    location: the features folder as scenarios, and the backlog as tickets
+    acceptance:
+      - Every mitigation is a scenario a test can verify and a ticket someone can build
+guidance: [G-02, G-16, G-18, G-19, G-22, G-24, G-26]
+guidance_inline:
+  - Follow the data. Start from what is valuable and trace how it moves; threats appear at every boundary it crosses.
+  - Accept explicitly. An accepted risk with a named owner and a reason is a decision; an unmentioned risk is a surprise.
+  - Make mitigations testable. "Validate input" is not a requirement; "Given a payload over the size limit, then the request is rejected with a logged event" is.
+requires: [R-02, R-03, R-16]
+tenets: [T-07, T-11, T-12]

@@ -1,0 +1,33 @@
+id: prototype
+name: Prototype
+discipline: ux-design
+command: /aa-ux-prototype
+summary: >
+  Make the requirement visible before it is built. Produces mockups and, where the interaction
+  matters, an interactive prototype that stakeholders can react to, and feeds what they say back
+  into the scenarios.
+anchor: required
+inputs:
+  - The scenarios for the ticket or epic
+  - Existing design system or conventions in the project, if any
+  - The technical constraints document
+methodology:
+  phase: 1
+  steps: ["1.3"]
+artifacts:
+  - name: Mockups
+    location: the documents folder or the design tool the project uses, linked from the ticket and page
+    acceptance:
+      - Every scenario with a user interface has at least one mockup showing its When and Then
+      - Variations are labelled with what question each answers
+  - name: Interactive prototype
+    location: linked from the ticket
+    acceptance:
+      - Covers the primary flow end to end; a stakeholder can complete the scenario's When without help
+guidance: [G-03, G-13, G-18, G-22, G-24, G-26]
+guidance_inline:
+  - Prototype the flow, not the pixels. The question a prototype answers is "is this the right interaction", and polish hides that question.
+  - Show the unhappy path. A mockup that only shows success leaves the error states to be invented at implementation time.
+  - Feed changes back through the feature file. If the prototype review changes what the user needs, change the scenario, then the prototype (T-12).
+requires: [R-02, R-16]
+tenets: [T-06, T-12]

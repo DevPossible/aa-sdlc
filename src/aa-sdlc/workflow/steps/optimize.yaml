@@ -1,0 +1,28 @@
+id: optimize
+name: Optimise performance
+discipline: development
+command: /aa-dev-optimize
+summary: >
+  Improve the performance of existing code against a measured baseline: profile, change the
+  thing the profile says, measure again, and keep the change only if the measurement improved
+  without breaking a test.
+anchor: required
+inputs:
+  - The performance ticket with the target metric and baseline from performance-test
+  - Profiling tools the project uses
+methodology:
+  phase: 6
+  steps: ["6.2"]
+artifacts:
+  - name: Optimisation implementation report
+    location: the anchor ticket
+    acceptance:
+      - Baseline, change, and after measurement are recorded with the method used
+      - The change is on a branch with all tests passing
+guidance: [G-02, G-04, G-05, G-06, G-08, G-11, G-12, G-15, G-22]
+guidance_inline:
+  - No baseline, no optimisation. Measure first, with a tool, and record the number.
+  - Change one thing per measurement. Two changes measured together teach nothing.
+  - A faster wrong answer is a defect. Every optimisation runs the full suite before it is kept.
+requires: [R-01, R-02, R-04, R-05, R-11]
+tenets: [T-07]

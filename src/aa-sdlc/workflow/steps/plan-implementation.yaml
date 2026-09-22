@@ -1,0 +1,29 @@
+id: plan-implementation
+name: Plan an implementation
+discipline: implementation-planning
+command: /aa-ip-plan-implementation
+summary: >
+  Before building a ticket, write down how: which files and components change, in what order,
+  what tests prove each step, what could go wrong, and what is still unknown. The plan lives on
+  the ticket and is confirmed before build starts.
+anchor: required
+inputs:
+  - The ready ticket and its scenarios
+  - The architecture, decision records, and technical constraints
+  - The current code, read, not remembered
+artifacts:
+  - name: Implementation plan
+    location: the anchor ticket
+    acceptance:
+      - Lists the changes in build order, each with the test that proves it
+      - Names the risks and unknowns, and how each will be resolved or accepted
+      - Says which tiers of test the change touches (O-07)
+      - Confirmed by the user or the ticket owner before implement runs
+guidance: [G-02, G-03, G-08, G-16, G-22, G-23, G-24]
+guidance_inline:
+  - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
+  - Plan the tests with the steps. A step with no test is a step you cannot know is done.
+  - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.
+  - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
+requires: [R-02, R-05, R-16]
+tenets: [T-06, T-07]

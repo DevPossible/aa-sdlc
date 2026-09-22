@@ -1,0 +1,27 @@
+id: technical-analysis
+code: ta
+name: Technical Analysis
+order: 4
+purpose: >
+  Decides how the system will be shaped and records why. Produces the architecture, the
+  technology choices, and the decision records that let anyone later understand what was
+  considered and rejected. Investigates unknowns with time-boxed spikes rather than guesses.
+owns:
+  - System architecture and its diagrams
+  - Technology stack choices and the constraints they impose
+  - Decision records for every significant technical decision (G-10)
+  - Time-boxed spikes to resolve technical unknowns
+does_not_own:
+  - Security threat modelling, which belongs to Security, though it consumes the result
+  - Implementation planning for a single ticket, which belongs to Implementation Planning
+  - Infrastructure and pipelines, which belong to Operations
+hands_off_to:
+  - discipline: security
+    when: an architecture exists and must be threat modelled
+  - discipline: refinement
+    when: technical constraints are known and the backlog can be shaped
+  - discipline: implementation-planning
+    when: a ticket needs a plan within the agreed architecture
+steps: [architect, decide, spike]
+tenets: [T-01, T-04]
+opinions: [O-04]

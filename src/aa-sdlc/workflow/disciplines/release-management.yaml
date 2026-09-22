@@ -1,0 +1,27 @@
+id: release-management
+code: rel
+name: Release Management
+order: 12
+purpose: >
+  Gets built, tested software into production deliberately and gets it back out if it must.
+  Owns the version, the release notes, the go/no-go decision, the production deployment record,
+  and rollback. Release Management never asks what to release; it asks whether it is ready.
+owns:
+  - Versioning and the release notes generated from tickets and commits
+  - The change record and go/no-go checklist for a release
+  - Production deployment and its verification record
+  - Rollback and its record
+does_not_own:
+  - The pipeline and infrastructure that perform the deployment, which belong to Operations
+  - Deciding scope, which belongs to Product Management
+  - Post-release monitoring, which belongs to Operations and Support
+hands_off_to:
+  - discipline: operations
+    when: a release is verified and enters routine monitoring
+  - discipline: support
+    when: a release causes an incident
+  - discipline: product-management
+    when: release notes and outcomes feed the roadmap
+steps: [prepare-release, release, rollback]
+tenets: [T-06, T-07]
+opinions: [O-02, O-06]

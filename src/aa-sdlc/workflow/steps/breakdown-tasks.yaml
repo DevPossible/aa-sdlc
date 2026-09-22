@@ -1,0 +1,23 @@
+id: breakdown-tasks
+name: Break a plan into tasks
+discipline: implementation-planning
+command: /aa-ip-breakdown-tasks
+summary: >
+  When a confirmed plan is too large to build as one change, split it into tasks on the ticket,
+  each independently buildable and testable, with their order and dependencies.
+anchor: required
+inputs:
+  - The confirmed implementation plan
+artifacts:
+  - name: Tasks
+    location: the ticket system, as children or a checklist of the anchor ticket
+    acceptance:
+      - Each task maps to one or more plan steps and names its test
+      - Order and dependencies are explicit
+      - The sum of the tasks is the whole plan; nothing is left implicit
+guidance: [G-08, G-12, G-22, G-24]
+guidance_inline:
+  - A task is done when its test passes and its change is committed, not when its code exists.
+  - Keep tasks at a size where the first commit is an hour away, not a day.
+requires: [R-02]
+tenets: [T-07]

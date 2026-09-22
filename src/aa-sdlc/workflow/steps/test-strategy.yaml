@@ -1,0 +1,26 @@
+id: test-strategy
+name: Write a test strategy
+discipline: testing
+command: /aa-qa-test-strategy
+summary: >
+  For an epic or release, decide what will be tested at which tier, what will be automated,
+  what needs exploratory or manual attention, what environments and data are needed, and what
+  will not be tested and why.
+anchor: required
+inputs:
+  - The feature files and architecture for the scope
+  - The risk view from Security and Technical Analysis
+  - Existing suites and their coverage
+artifacts:
+  - name: Test strategy
+    location: the knowledge base, linked from the epic
+    acceptance:
+      - Every scenario is assigned a tier and an approach
+      - Risks are ranked and the highest have the most attention
+      - Out-of-scope items are listed with the reason
+guidance: [G-02, G-16, G-21, G-22, G-24, G-26]
+guidance_inline:
+  - Push tests down. Prove it at the lowest tier that can observe it; end-to-end tests are for what only end-to-end can see.
+  - Name the risks the requirement does not mention. Concurrency, data volume, partial failure, and permissions rarely appear in scenarios and usually appear in incidents.
+requires: [R-02, R-03, R-16]
+tenets: [T-07]

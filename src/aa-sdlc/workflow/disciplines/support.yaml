@@ -1,0 +1,29 @@
+id: support
+code: sup
+name: Support
+order: 14
+purpose: >
+  Is the front door for what goes wrong in production. Triages incoming incidents and requests
+  into tickets with the right priority, coordinates response until the impact is contained,
+  and runs the post-incident review that turns an incident into prevention.
+owns:
+  - Incident and request intake, triage, and prioritisation
+  - Incident response coordination, timeline, and mitigation until resolved
+  - Post-incident review and the prevention tickets it raises
+  - User-facing follow-up
+does_not_own:
+  - Fixing the root cause, which belongs to Development
+  - Infrastructure changes, which belong to Operations
+  - Deciding whether a request becomes a feature, which belongs to Product Management
+hands_off_to:
+  - discipline: development
+    when: an incident's root cause is a defect
+  - discipline: operations
+    when: mitigation needs an infrastructure or configuration change
+  - discipline: release-management
+    when: mitigation is a rollback
+  - discipline: product-management
+    when: a request is a feature, not a defect
+steps: [triage, respond-incident, postmortem]
+tenets: [T-04, T-07, T-13]
+opinions: [O-03, O-04]

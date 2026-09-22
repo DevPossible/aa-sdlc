@@ -1,0 +1,29 @@
+id: postmortem
+name: Post-incident review
+discipline: support
+command: /aa-sup-postmortem
+summary: >
+  After an incident is closed, review what happened using the timeline and the evidence, find
+  the contributing causes without blame, and raise the tickets that will prevent recurrence or
+  shorten the next response.
+anchor: required
+inputs:
+  - The incident timeline and mitigation record
+  - Related tickets, releases, and changes
+artifacts:
+  - name: Post-incident review
+    location: the knowledge base, linked from the incident
+    acceptance:
+      - States impact, detection time, response time, and time to restore, computed from the timeline
+      - Lists contributing causes; names systems and decisions, not people
+  - name: Prevention tickets
+    location: the ticket system
+    acceptance:
+      - Every action item is a ticket with an owner; the review links them
+guidance: [G-02, G-10, G-12, G-15, G-22, G-24, G-26]
+guidance_inline:
+  - Compute the times from the timeline with a tool; do not estimate them.
+  - Ask "what made this reasonable at the time" for every decision in the timeline. Blame finds a person; this finds a cause.
+  - Prefer one action that removes the cause over five that add checks around it.
+requires: [R-02, R-03, R-04]
+tenets: [T-07]

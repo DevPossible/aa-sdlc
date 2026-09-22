@@ -1,0 +1,26 @@
+id: prioritise
+name: Prioritise the backlog
+discipline: product-management
+command: /aa-pd-prioritise
+summary: >
+  Order epics and stories by value against the outcome, risk, and dependency, and record why.
+  The ordered backlog lives in the ticket system; the reasoning lives on the tickets.
+anchor: optional
+inputs:
+  - The backlog as it stands in the ticket system
+  - Outcomes and metrics from define-outcome
+  - Dependencies and risks surfaced by Refinement, Technical Analysis, and Security
+artifacts:
+  - name: Ordered backlog
+    location: the ticket system
+    acceptance:
+      - Every item has a rank and a one-line reason on the ticket
+      - Items blocked by a dependency are ranked after what blocks them
+      - The top of the backlog is ready or in refinement, not raw ideas
+guidance: [G-02, G-12, G-22, G-24]
+guidance_inline:
+  - Rank by outcome contribution first, then risk reduction, then cost. When two items tie, prefer the one that retires an unknown.
+  - Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why.
+  - Ask before demoting. If an item someone is working on drops out of the iteration, that is a conversation, not a rank change.
+requires: [R-02]
+tenets: [T-04, T-06]

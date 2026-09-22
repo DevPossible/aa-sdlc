@@ -4,24 +4,32 @@ discipline: development
 command: /aa-dev-implement
 summary: >
   Build what the anchor ticket asks for, with the tests that prove it, on a branch that
-  references the ticket.
-methodology:
-  phase: 2
-  steps: ["2.2", "2.3", "2.4"]
+  references the ticket, following the confirmed plan.
 anchor: required
 inputs:
   - The anchor ticket and its scenarios in the feature files
-  - The implementation plan on the ticket, if plan-implementation ran
+  - The confirmed implementation plan and tasks
+  - The current code, read before it is changed
+methodology:
+  phase: 2
+  steps: ["2.2", "2.3", "2.4"]
 artifacts:
   - name: Application code
     location: source folder, on a branch named per the ticket convention
     acceptance:
       - Builds with the root build script
       - Every scenario for the ticket has a passing test at each tier the change touches
+      - Follows the plan, or the deviation is recorded on the ticket with the reason
   - name: Tests that prove the requirement
     location: unit tests with the project; integration and e2e under tests/
     acceptance:
       - Happy paths, general permutations, and obvious negative cases are covered (G-20)
-guidance: [G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20]
-requires: [R-01, R-02, R-04, R-05, R-10, R-11, R-21]
+guidance: [G-01, G-02, G-03, G-04, G-05, G-06, G-08, G-09, G-11, G-12, G-17, G-20, G-22, G-25]
+guidance_inline:
+  - Write the failing test for the scenario before the code that passes it. Then the code has one job.
+  - Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real.
+  - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
+  - Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
+requires: [R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21]
 tenets: [T-04, T-07]
+opinions: [O-08]

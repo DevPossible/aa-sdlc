@@ -1,0 +1,32 @@
+id: iterate
+name: Analyse feedback and update the roadmap
+discipline: product-management
+command: /aa-pd-iterate
+summary: >
+  Turn what users, support, and production are saying into decisions: what to enhance, what to
+  fix, what to stop. Produces a feedback analysis and a roadmap update, with new tickets where
+  the answer is "build".
+anchor: optional
+inputs:
+  - User feedback, support tickets, incident post-mortems, and production metrics
+  - Current roadmap and outcomes
+methodology:
+  phase: 6
+  steps: ["6.3"]
+artifacts:
+  - name: Product feedback analysis
+    location: the knowledge base, linked from the roadmap epic
+    acceptance:
+      - Feedback is grouped by theme with counts and sources, not by who said it loudest
+      - "Each theme has a decision: enhance, fix, stop, or wait, with a reason"
+  - name: Roadmap update
+    location: the ticket system and the knowledge base
+    acceptance:
+      - Every "enhance" or "fix" decision has a ticket; every "stop" has a closed ticket with the reason
+guidance: [G-02, G-10, G-12, G-22, G-26]
+guidance_inline:
+  - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
+  - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
+  - Close the loop. Where feedback came from a ticket, comment on it with the decision.
+requires: [R-02, R-03, R-04]
+tenets: [T-04, T-07]

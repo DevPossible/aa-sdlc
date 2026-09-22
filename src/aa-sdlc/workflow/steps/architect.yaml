@@ -1,0 +1,34 @@
+id: architect
+name: Architect
+discipline: technical-analysis
+command: /aa-ta-architect
+summary: >
+  Decide the shape of the system for an epic or initiative: components, boundaries,
+  integrations, data, and the technology stack, each with the reason. Produces the
+  architecture and the decision records that back it.
+anchor: required
+inputs:
+  - The feature files and technical constraints document
+  - The existing architecture and decision records
+  - Organisational standards from the enterprise or team scope
+methodology:
+  phase: 1
+  steps: ["1.4"]
+artifacts:
+  - name: System architecture
+    location: the documents folder, linked from the knowledge base page and the epic
+    acceptance:
+      - Shows components, their responsibilities, and every integration boundary
+      - Every scenario can be traced to the components that satisfy it
+  - name: Technology stack document
+    location: the knowledge base
+    acceptance:
+      - Every technology choice has a decision record
+      - Constraints imposed on Development and Operations are explicit
+guidance: [G-02, G-10, G-16, G-22, G-23, G-24, G-26]
+guidance_inline:
+  - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
+  - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-10).
+  - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.
+requires: [R-02, R-03, R-06]
+tenets: [T-01, T-04]

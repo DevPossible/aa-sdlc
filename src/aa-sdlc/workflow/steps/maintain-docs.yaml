@@ -1,0 +1,32 @@
+id: maintain-docs
+name: Maintain documentation
+discipline: documentation
+command: /aa-doc-maintain-docs
+summary: >
+  Audit the documentation and knowledge base for drift from the feature files and the code,
+  fix what is wrong, and raise tickets for what needs an owner. Recurring; each run anchors on a
+  maintenance ticket.
+anchor: required
+inputs:
+  - The feature files, the knowledge base, and the documents folder
+  - Changes merged since the last audit
+methodology:
+  phase: 6
+  steps: ["6.5"]
+artifacts:
+  - name: Up-to-date documentation
+    location: wherever it lives; changes on a branch linked to the ticket
+    acceptance:
+      - Every feature file has a knowledge base page that matches it (T-12)
+      - No documented behaviour contradicts a scenario or the running software
+  - name: Documentation health report
+    location: the knowledge base
+    acceptance:
+      - Lists what was checked, what was fixed, and what is ticketed for someone else
+guidance: [G-03, G-06, G-11, G-12, G-15, G-18, G-22, G-24, G-26]
+guidance_inline:
+  - Start from the feature files and walk outward. They are the truth; every page and document is checked against them, never the reverse.
+  - Delete confidently. Documentation for something that no longer exists is worse than none; remove it and say so in the report.
+  - A contradiction between a page and a scenario is a conflict to surface, not a page to quietly fix (T-12).
+requires: [R-02, R-03, R-06, R-16]
+tenets: [T-12]

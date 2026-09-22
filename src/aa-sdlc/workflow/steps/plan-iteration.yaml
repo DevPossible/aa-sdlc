@@ -1,0 +1,26 @@
+id: plan-iteration
+name: Plan an iteration
+discipline: project-management
+command: /aa-pm-plan-iteration
+summary: >
+  Commit a set of ready tickets to an iteration against known capacity, in priority order, and
+  record the commitment and the risks in the ticket system.
+anchor: optional
+inputs:
+  - The ordered backlog and which tickets are ready
+  - Capacity for the iteration, whatever unit the team uses
+  - Carry-over from the previous iteration and its reasons
+artifacts:
+  - name: Iteration plan
+    location: the ticket system, as the iteration or milestone with its committed tickets
+    acceptance:
+      - Committed size does not exceed capacity, or the overage is explicit and agreed
+      - Every committed ticket is ready; none is blocked by an uncommitted one
+      - Risks and assumptions are recorded on the iteration
+guidance: [G-02, G-12, G-13, G-22, G-24]
+guidance_inline:
+  - Fill in priority order and stop at capacity. Do not pull a lower item over a higher one because it is smaller unless the higher one is blocked.
+  - Capacity is computed, not felt. Use the team's actual completed size from recent iterations, calculated with a tool (G-02).
+  - Commitment is a proposal until the people doing the work agree; present it and ask.
+requires: [R-02, R-04]
+tenets: [T-06, T-07, T-13]

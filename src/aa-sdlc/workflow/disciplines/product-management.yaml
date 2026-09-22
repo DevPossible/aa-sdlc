@@ -1,0 +1,25 @@
+id: product-management
+code: pd
+name: Product Management
+order: 1
+purpose: >
+  Decides what to build and why, and in what order. Owns the outcome the software is meant to
+  achieve, the measure of whether it did, and the roadmap that sequences the work. Product
+  Management answers "should we", Business Analysis answers "what exactly".
+owns:
+  - The product outcome and success metrics for each initiative, recorded as the anchor epic
+  - Prioritisation of the backlog by value, risk, and dependency
+  - Feedback analysis from users, support, and production data, and the roadmap it produces
+  - The decision to start, pause, or stop an initiative
+does_not_own:
+  - Detailed requirements and scenarios, which belong to Business Analysis
+  - Breaking work into tickets, which belongs to Refinement
+  - Estimation and capacity, which belong to Project Management and Implementation Planning
+hands_off_to:
+  - discipline: business-analysis
+    when: an initiative has an approved outcome and needs its requirements discovered
+  - discipline: refinement
+    when: priorities are set and epics must become a well-formed backlog
+steps: [define-outcome, prioritise, iterate]
+tenets: [T-04, T-13]
+opinions: [O-03]

@@ -1,0 +1,25 @@
+id: define-outcome
+name: Define the outcome
+discipline: product-management
+command: /aa-pd-define-outcome
+summary: >
+  Write down what an initiative is meant to achieve and how we will know. Produces the anchor
+  epic with a measurable outcome, so every later step can answer "does this serve the outcome".
+anchor: optional
+inputs:
+  - The idea, request, or problem statement
+  - Existing roadmap and outcomes, to avoid duplicates and find conflicts
+artifacts:
+  - name: Anchor epic
+    location: the ticket system
+    acceptance:
+      - States the outcome as a change in a measure, not a list of features
+      - Names the success metric, its current value, and the target
+      - Names who benefits and what they can do afterwards that they cannot do now
+guidance: [G-02, G-16, G-22, G-24, G-26]
+guidance_inline:
+  - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
+  - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
+  - Say what is out of scope in the same place, so refinement does not have to guess.
+requires: [R-02]
+tenets: [T-04, T-07]

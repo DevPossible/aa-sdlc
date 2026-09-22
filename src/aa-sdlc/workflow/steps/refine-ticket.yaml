@@ -1,0 +1,26 @@
+id: refine-ticket
+name: Make a ticket ready
+discipline: refinement
+command: /aa-rf-refine-ticket
+summary: >
+  Bring one ticket to the definition of ready: scenarios linked and complete, acceptance
+  criteria checkable, size agreed, dependencies clear, questions answered or owned.
+anchor: required
+inputs:
+  - The ticket and its linked scenarios
+  - Open questions on the ticket
+  - The team's definition of ready from the project config or knowledge base
+artifacts:
+  - name: Ready ticket
+    location: the ticket system
+    acceptance:
+      - Meets every item of the definition of ready, or says which item it does not and why it proceeds anyway
+      - Acceptance criteria are the scenarios, not a restatement of them
+      - Size is recorded with the basis for it
+guidance: [G-02, G-03, G-12, G-16, G-18, G-22, G-24]
+guidance_inline:
+  - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
+  - Size from the plan, not the title. If sizing needs a plan, run implementation planning first and size from that.
+  - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
+requires: [R-02, R-16]
+tenets: [T-04, T-07]

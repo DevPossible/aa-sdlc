@@ -1,0 +1,25 @@
+id: project-management
+code: pm
+name: Project Management
+order: 7
+purpose: >
+  Keeps the work flowing and visible. Plans iterations against capacity, reports status from
+  the ticket system rather than from memory, and runs retrospectives that turn what happened
+  into what changes next.
+owns:
+  - "Iteration planning: what is committed, against what capacity"
+  - Status reporting derived from the ticket system and source control
+  - Retrospectives and the improvement backlog they produce
+  - Impediment tracking and escalation
+does_not_own:
+  - What to build or in what order, which belongs to Product Management
+  - Whether a ticket is ready, which belongs to Refinement
+  - Incident coordination, which belongs to Support
+hands_off_to:
+  - discipline: implementation-planning
+    when: an iteration is planned and tickets are assigned
+  - discipline: product-management
+    when: a retrospective or status report changes priorities or the roadmap
+steps: [plan-iteration, status, retrospective]
+tenets: [T-04, T-07, T-13]
+opinions: [O-03]

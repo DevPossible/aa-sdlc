@@ -41,3 +41,10 @@ it. `docs/requirements.md` is an index and defers to `features/requirements/`.
 ./test.ps1         # all tiers; -Tier unit|integration|e2e, -Filter '<pester name>'
 ./pack.ps1         # version, build, test, zip to .dist/
 ```
+
+## Workflow data
+
+`src/aa-sdlc/workflow/` (disciplines, steps, processes) is the source of truth for roles,
+commands, artifacts, and guidance. `docs/discipline-review.md` is generated from it by
+`scripts/Build-DisciplineReview.ps1`; never edit that document by hand. The unit tier runs
+`scripts/Test-WorkflowStructure.ps1`, which checks every id and cross-reference.

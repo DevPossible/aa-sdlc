@@ -1,0 +1,23 @@
+id: ux-design
+code: ux
+name: UX Design
+order: 3
+purpose: >
+  Makes requirements tangible before they are built and checks the result against real use
+  afterwards. Produces mockups and prototypes that stakeholders react to, and reviews the built
+  software for how people actually interact with it.
+owns:
+  - Mockups and interactive prototypes for requirements with a user interface
+  - "Interaction and flow design: what the user does, in what order, and what they see"
+  - Usability review of built features and the tickets it raises
+does_not_own:
+  - The requirement itself, which belongs to Business Analysis
+  - Visual brand or design system, which is a plugin or project concern
+  - Front-end implementation, which belongs to Development
+hands_off_to:
+  - discipline: business-analysis
+    when: a prototype changes or clarifies a requirement, so the scenarios must change
+  - discipline: development
+    when: an approved prototype is ready to build from
+steps: [prototype, review-ux]
+tenets: [T-06, T-07]

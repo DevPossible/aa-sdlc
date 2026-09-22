@@ -1,0 +1,25 @@
+id: security
+code: sec
+name: Security
+order: 5
+purpose: >
+  Finds what could go wrong before an attacker does. Threat models the architecture, turns the
+  mitigations into requirements, tests the built system for the weaknesses that matter, and
+  keeps dependencies, secrets, and compliance evidence current over the life of the system.
+owns:
+  - Threat models and the security requirements they produce as scenarios
+  - Security testing of the built system and the compliance report
+  - Dependency and secret hygiene, patching, and compliance audit evidence
+does_not_own:
+  - Fixing the defects it finds, which belongs to Development via tickets it raises
+  - Infrastructure hardening, which belongs to Operations against Security's requirements
+  - Functional testing, which belongs to Testing
+hands_off_to:
+  - discipline: refinement
+    when: mitigations must become tickets on the backlog
+  - discipline: development
+    when: a security defect is found and needs a fix
+  - discipline: operations
+    when: an infrastructure or pipeline control is required
+steps: [threat-model, security-test, maintain-security]
+tenets: [T-07, T-11]

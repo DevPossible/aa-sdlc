@@ -1,0 +1,20 @@
+id: maintenance
+name: Maintenance and continuous improvement
+summary: >
+  Keeping the system healthy, secure, documented, and improving after release.
+methodology:
+  phase: 6
+steps:
+  - triage
+  - respond-incident
+  - postmortem
+  - fix-bug
+  - optimize
+  - iterate
+  - maintain-security
+  - maintain-docs
+  - retrospective
+guidance: [G-06, G-12, G-22]
+exit: >
+  Incidents are resolved and reviewed, defects fixed with reproducing tests, feedback turned into
+  roadmap decisions, and security and documentation evidence current.

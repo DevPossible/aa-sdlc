@@ -63,7 +63,7 @@ framework needs to know about your stack, your process, or your agent.
 ## Layout
 
 ```
-docs/          design, tenets, opinions, vocabulary, guidance, requirements index
+docs/          design, tenets, opinions, vocabulary, guidance, requirements index, generated discipline review
 features/      the framework's own requirements as Gherkin (source of truth)
 scripts/       build and validation helpers
 src/aa-sdlc/    the SDK content: skills, commands, workflow, plugins, targets

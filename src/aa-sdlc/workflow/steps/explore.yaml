@@ -1,0 +1,24 @@
+id: explore
+name: Exploratory testing
+discipline: testing
+command: /aa-qa-explore
+summary: >
+  A time-boxed session using the system with a charter and a testing lens (boundaries, states,
+  errors, interruptions, roles), recording every surprise as a defect, a question, or a new
+  scenario.
+anchor: required
+inputs:
+  - "A charter: what area, what lens, what time box"
+  - The running system and its scenarios
+artifacts:
+  - name: Session notes
+    location: the anchor ticket
+    acceptance:
+      - Records what was tried, what surprised, and what was concluded
+      - Every surprise is a ticket, a question, or a pending scenario
+guidance: [G-06, G-12, G-15, G-18, G-21, G-22, G-23]
+guidance_inline:
+  - Follow the charter until the time box, then follow the most interesting surprise. Both halves matter.
+  - Interrupt things. Cancel midway, lose the connection, double-submit, go back; the scenarios almost never say what should happen.
+requires: [R-02, R-16]
+tenets: [T-07]

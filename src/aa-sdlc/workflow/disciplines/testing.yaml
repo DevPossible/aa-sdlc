@@ -1,0 +1,30 @@
+id: testing
+code: qa
+name: Testing
+order: 10
+purpose: >
+  Makes the test suite as comprehensive as is reasonable. Starts from the scenarios and the
+  tests Development wrote, then applies general testing strategies to find what the
+  requirement did not say. Every gap it finds becomes a question on the ticket and a scenario
+  in the feature file.
+owns:
+  - The test strategy for an epic or release
+  - "Tests beyond the stated requirement at every tier: boundaries, states, errors, concurrency, interaction sequences (G-21)"
+  - End-to-end and visual regression suites
+  - Performance and load testing and the baseline it establishes
+  - Exploratory testing and the defects and gaps it raises
+does_not_own:
+  - The tests that prove a ticket meets its requirement, which belong to Development
+  - Fixing defects, which belongs to Development via tickets
+  - Security testing, which belongs to Security
+  - Production validation, which belongs to Operations
+hands_off_to:
+  - discipline: business-analysis
+    when: a gap is a missing requirement rather than a missing test
+  - discipline: development
+    when: a defect is found
+  - discipline: release-management
+    when: the suite passes and coverage is judged sufficient for a release
+steps: [test-strategy, generate-tests, e2e-tests, performance-test, explore]
+tenets: [T-07, T-12]
+opinions: [O-01, O-07, O-08]

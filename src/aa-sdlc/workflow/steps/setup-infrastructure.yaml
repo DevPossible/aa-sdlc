@@ -1,0 +1,32 @@
+id: setup-infrastructure
+name: Set up infrastructure
+discipline: operations
+command: /aa-ops-setup-infrastructure
+summary: >
+  Define the environments the system runs in as code, with runbooks for the operations that
+  are not automated, meeting the constraints from architecture and the controls from security.
+anchor: required
+inputs:
+  - The architecture, technical constraints, and security requirements
+  - The organisation's platform standards from the enterprise scope
+  - The project's infrastructure tooling category
+methodology:
+  phase: 4
+  steps: ["4.1"]
+artifacts:
+  - name: Infrastructure code
+    location: the source folder, as its own project, on a branch linked to the ticket
+    acceptance:
+      - Every environment is reproducible from the code with no manual steps beyond the runbook
+      - Security controls from the threat model are implemented or ticketed
+  - name: Deployment runbooks
+    location: the documents folder
+    acceptance:
+      - Every manual operation has a runbook with preconditions, steps, verification, and rollback
+guidance: [G-04, G-08, G-11, G-12, G-13, G-22, G-24, G-25]
+guidance_inline:
+  - Everything as code, reviewed and tested like code. An environment changed by hand is an environment nobody can rebuild.
+  - Least privilege by default. Every credential, role, and network path is the narrowest that works, and widening one is a decision record.
+  - Ask before creating anything that costs money or is hard to delete.
+requires: [R-01, R-02, R-05, R-06]
+tenets: [T-01, T-06, T-07]

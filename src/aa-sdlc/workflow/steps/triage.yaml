@@ -1,0 +1,29 @@
+id: triage
+name: Triage
+discipline: support
+command: /aa-sup-triage
+summary: >
+  Take an incoming incident, defect report, or request and turn it into a ticket with the right
+  type, severity, priority, and owner, or link it to the existing ticket it duplicates.
+anchor: optional
+inputs:
+  - The incoming report from whatever channel the project uses
+  - Existing open tickets and known issues
+  - The project's severity and priority definitions
+methodology:
+  phase: 6
+  steps: ["6.1"]
+artifacts:
+  - name: Triaged ticket
+    location: the ticket system
+    acceptance:
+      - Has a type, severity, priority, and owner, each per the project's definitions
+      - "Has enough to act on: environment, steps, expected, actual, impact"
+      - Duplicates are linked, not created
+guidance: [G-02, G-03, G-12, G-16, G-22, G-24, G-26]
+guidance_inline:
+  - Severity is impact, priority is order. Do not let a loud reporter set either.
+  - Ask for what is missing once, precisely. A ticket that cannot be reproduced from its content goes back with the exact questions.
+  - Check for duplicates before creating. Search by symptom, not by the reporter's title.
+requires: [R-02]
+tenets: [T-04, T-13]

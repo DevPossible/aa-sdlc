@@ -1,0 +1,35 @@
+id: setup-pipeline
+name: Set up the delivery pipeline
+discipline: operations
+command: /aa-ops-setup-pipeline
+summary: >
+  Build the pipeline that takes a merged change to production: build, every test tier,
+  security checks, packaging, deployment per environment, and the deployment strategy that
+  makes a release safe to ship and to roll back.
+anchor: required
+inputs:
+  - The root scripts (build, test, pack) and the infrastructure code
+  - The release and deployment conventions
+  - The project's pipeline tooling category
+methodology:
+  phase: 4
+  steps: ["4.2"]
+artifacts:
+  - name: Deployment pipeline configuration
+    location: the repository, in the location the pipeline tool expects
+    acceptance:
+      - Calls the root scripts rather than duplicating their logic (O-06)
+      - Runs every test tier and fails on any failure; no skipped stages without a recorded reason
+      - Deploys to each environment with the same artifact
+  - name: Deployment strategy documentation
+    location: the documents folder
+    acceptance:
+      - States the strategy (for example staged, canary, blue-green) and how rollback works for it
+guidance: [G-04, G-06, G-08, G-11, G-12, G-14, G-22, G-24, G-25]
+guidance_inline:
+  - The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift.
+  - One artifact, promoted. Build once, deploy the same artifact everywhere; never rebuild for production.
+  - A pipeline that can be bypassed is not a pipeline. Protect the branches it deploys from.
+requires: [R-01, R-02, R-05, R-10, R-11, R-20]
+tenets: [T-07, T-09]
+opinions: [O-06]

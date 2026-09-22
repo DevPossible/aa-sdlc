@@ -1,0 +1,25 @@
+id: review-ux
+name: Review interaction
+discipline: ux-design
+command: /aa-ux-review-ux
+summary: >
+  Use the built software the way a user would and record where the interaction fails the
+  scenario, the prototype, or plain sense. Raises tickets for what it finds.
+anchor: required
+inputs:
+  - The deployed or locally running feature
+  - The scenarios and the prototype
+methodology:
+  phase: 5
+artifacts:
+  - name: Usability findings
+    location: the anchor ticket and the knowledge base page
+    acceptance:
+      - Each finding names the scenario or flow, what was expected, what happened, and the severity
+      - Each finding with severity above cosmetic is a ticket
+guidance: [G-06, G-12, G-15, G-22, G-26]
+guidance_inline:
+  - Follow the scenario literally first, then wander. The literal pass finds what was missed; the wander finds what was never imagined.
+  - Distinguish defect from design. "It does not do what the scenario says" goes to Development; "the scenario was wrong" goes to Business Analysis as a requirement change.
+requires: [R-02, R-16]
+tenets: [T-07]

@@ -36,6 +36,11 @@ written, guidance moves out of here and into the skill (for a step) or the proce
 | G-19 | Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description. | Business Analysis: discover, refine-requirements | R-16, R-02, R-03 |
 | G-20 | When implementing a ticket, write the automated tests that prove it: every happy path, the general permutations and cases, and the obvious negative cases, at each tier the change touches. The ticket is not done until they exist and pass. | Development: implement | R-11, R-21 |
 | G-21 | Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file. | Testing: generate-tests, e2e-tests | R-11, R-16, R-21 |
+| G-22 | Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone. | all steps | R-02, R-16 |
+| G-23 | State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way. | Technical Analysis: spike, architect; Testing: explore; Implementation Planning | none |
+| G-24 | Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13). | all steps | none |
+| G-25 | Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08). | all steps | R-07, R-18 |
+| G-26 | Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature. | all steps | R-02, R-03 |
 
 ## Conventions for writing guidance
 

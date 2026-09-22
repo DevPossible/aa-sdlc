@@ -1,0 +1,17 @@
+id: testing
+name: Testing
+summary: >
+  From Development's proof of the requirement to a suite that goes beyond it.
+methodology:
+  phase: 3
+steps:
+  - test-strategy
+  - generate-tests
+  - e2e-tests
+  - performance-test
+  - security-test
+  - explore
+guidance: [G-21, G-22]
+exit: >
+  Every scenario has a test at the tier the strategy assigned; gaps found are scenarios and
+  questions; security and performance results are recorded with tickets for every miss.

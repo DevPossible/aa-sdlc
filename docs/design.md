@@ -233,6 +233,23 @@ methodology left implicit are added.
 
 The command for any discipline step is `/aa-<code>-<step>` using the code from section 3.1.
 
+This table traces the methodology's original steps. The definitive list of disciplines, steps,
+commands, artifacts, and guidance is the workflow data in `src/aa-sdlc/workflow/` and the
+document generated from it, [discipline-review.md](discipline-review.md). The discipline review
+(decision 35) added thirteen steps the methodology and this table did not have:
+
+| Discipline | Added steps |
+|------------|-------------|
+| Product Management | `define-outcome`, `prioritise` |
+| Technical Analysis | `decide`, `spike` |
+| Refinement | `refine-ticket` |
+| Project Management | `plan-iteration`, `status` |
+| Implementation Planning | `breakdown-tasks` |
+| Development | `fix-bug` |
+| Testing | `test-strategy`, `explore` |
+| Documentation | `document-feature` |
+| Support | `postmortem` |
+
 Notes on the merges and additions:
 
 - Backend, frontend, and integration development collapse into `implement` because the split is a
@@ -430,6 +447,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 32 | 2026-09-21 | Fourteen disciplines: add Product Management, UX Design, Security, Release Management, and Support; confirm Operations; move triage to Support, release to Release Management, prototype to UX Design, security steps to Security, iterate to Product Management | Common roles must have a named home; a discipline is a kind of work, not a headcount |
 | 33 | 2026-09-21 | Tenet T-13: one person or fifteen, the same framework; the website leads with it | The framework must never assume a team size, a hand-off, or a large-organisation role; a solo developer and a full team are both first-class audiences |
 | 34 | 2026-09-21 | Every discipline has a 2 or 3 character code; discipline commands are `/aa-<code>-<step>`; framework commands use the code `fw` (`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`) | Commands group by discipline in the agent's command list, and the rule has no exceptions |
+| 35 | 2026-09-21 | All fifteen disciplines defined as workflow data (`disciplines/<id>.yaml`) with bounded responsibilities, 47 steps with artifacts and guidance, six processes; `docs/discipline-review.md` is generated from them and validated in the unit tier | The workflow data is the source of truth; a generated review document keeps it readable without letting it drift |
 
 ## 12. Open questions
 
@@ -440,8 +458,10 @@ produces the npm tarball; publishing to npm is a release step.
 - **Public hosting and licence.** Likely private GitLab mirrored to GitHub, matching existing
   mirror setup. Licence not chosen.
 - **Exact step and command names.** The names in section 4 are working names.
-- **New step definitions.** `threat-model`, `prepare-release`, `rollback`, `review-ux`, and
-  `respond-incident` have a row in the map and no workflow YAML or feature file yet.
+- **Feature files for the 44 discipline steps.** Only the framework's own commands have
+  scenarios; every discipline step now has workflow YAML but no feature file.
+- **Review of the generated discipline definitions.** `docs/discipline-review.md` is a first
+  draft awaiting the user's adjustments (see `plan-discipline-review.md`).
 - **Schema files** for workflow data and `aa.config.yaml`, to be written alongside the CLI
   (formats are decided in [formats.md](formats.md)).
 - **Stack detection for R-13.** How `/aa-fw-health` identifies the major technologies in a project

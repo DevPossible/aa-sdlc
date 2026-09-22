@@ -1,0 +1,24 @@
+id: framework
+code: fw
+name: Framework
+order: 0
+purpose: >
+  The framework's own work: bootstrapping a project, checking that the environment and
+  repository meet the declared requirements, and growing the framework through extensions. It
+  is not a software delivery discipline; it is what makes the other fourteen runnable.
+owns:
+  - Aggregating and probing every declared requirement and reporting the result (T-10, T-11)
+  - Bringing a repository up to the framework's requirements with the user's consent
+  - Scaffolding, validating, installing, and sharing extensions (T-02)
+  - Routing the agent to the right discipline and step for the task at hand
+does_not_own:
+  - Any project artifact; it produces reports, config, folders, and extensions only
+  - Machine-level installation, which belongs to the aa CLI (aa setup, aa init)
+  - Fixing a missing tool by choosing one; it names the gap and the project chooses (T-01)
+hands_off_to:
+  - discipline: business-analysis
+    when: a project is bootstrapped and real work begins with discovery
+  - discipline: development
+    when: init has created stub root scripts that a developer must fill in
+steps: [health, init, extend]
+tenets: [T-02, T-10, T-11]
