@@ -158,6 +158,23 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 		writeIfMissing(dir, stub.name, stub.body, report)
 	}
 
+	// 5b. A commit-message hook where git allows one (T-09): Conventional Commit subject from
+	// the configured types (O-14, R-28) and no agent attribution (O-17, R-31). Never overwrites
+	// a hook the project already has.
+	hooksDir := filepath.Join(dir, ".git", "hooks")
+	if isDir(hooksDir) {
+		hookPath := filepath.Join(hooksDir, "commit-msg")
+		if _, err := os.Stat(hookPath); err != nil {
+			types := existing.Conventions.Commit.Types
+			if len(types) == 0 {
+				types = config.DefaultCommitTypes
+			}
+			if err := os.WriteFile(hookPath, []byte(commitMsgHook(types)), 0o755); err == nil {
+				report("  wrote .git/hooks/commit-msg (Conventional Commit subject, no agent attribution)")
+			}
+		}
+	}
+
 	// 6. Project-scope skills and commands for each detected target.
 	home := opts.Home
 	if home == "" {
@@ -249,6 +266,36 @@ func targetNames(ts []targets.Target) string {
 		names[i] = t.Name
 	}
 	return strings.Join(names, ", ")
+}
+
+// commitMsgHook is the git commit-msg hook aa init writes: the subject must be a Conventional
+// Commit with one of the project's types (O-14, R-28), and the message may not carry an
+// attribution trailer naming an agent (O-17, R-31). It is a plain POSIX shell script so it
+// runs under git on every platform, and the project may edit it; aa init never overwrites it.
+func commitMsgHook(types []string) string {
+	return fmt.Sprintf(`#!/bin/sh
+# Written by aa init (AA-SDLC). Edit freely; aa init never overwrites this file.
+# 1. The subject is a Conventional Commit: <type>(<scope>)!: <subject>, type from aa.config.yaml (O-14, R-28).
+# 2. No trailer or line attributes the commit to an agent: the person who commits is the author (O-17, R-31).
+msg_file="$1"
+subject=$(grep -v '^#' "$msg_file" | sed -n '1p')
+types='%s'
+if [ -z "$subject" ]; then
+  echo "aa: empty commit message" >&2
+  exit 1
+fi
+if ! printf '%%s' "$subject" | grep -Eq "^($types)(\([^)]+\))?!?: .+"; then
+  echo "aa: the commit subject must be a Conventional Commit: <type>(<scope>): <subject>, with type one of: $(printf '%%s' "$types" | tr '|' ' ')" >&2
+  echo "aa: got: $subject" >&2
+  exit 1
+fi
+# Attribution patterns are the ones agents add by default; extend the list if your tools use another.
+if grep -Eiq '^(Co-Authored-By|Generated-By|Generated with|Signed-off-by):?.*(noreply@anthropic\.com|noreply@openai\.com|noreply@github\.com|\bclaude\b|\bcopilot\b|\bgpt\b|\bgemini\b|\bagent\b)' "$msg_file"; then
+  echo "aa: commits carry no agent attribution; the person who commits is the author (O-17, R-31)" >&2
+  exit 1
+fi
+exit 0
+`, strings.Join(types, "|"))
 }
 
 type stub struct{ name, body string }

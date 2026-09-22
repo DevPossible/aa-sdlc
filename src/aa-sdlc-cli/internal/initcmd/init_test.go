@@ -3,6 +3,7 @@ package initcmd
 import (
 	"bytes"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -12,6 +13,14 @@ import (
 )
 
 func fixedNow() time.Time { return time.Date(2026, 9, 22, 12, 0, 0, 0, time.UTC) }
+
+func execLookPath(name string) (string, error) { return exec.LookPath(name) }
+
+// runHook runs the commit-msg hook under sh with the message file, as git would.
+func runHook(sh, hook, msgFile string) error {
+	cmd := exec.Command(sh, filepath.ToSlash(hook), filepath.ToSlash(msgFile))
+	return cmd.Run()
+}
 
 func runInit(t *testing.T, dir string, extra func(*Options)) string {
 	t.Helper()
@@ -134,6 +143,53 @@ func TestInit_LayersScopesIntoProjectConfig(t *testing.T) {
 	}
 	if cfg.Organisation != nil {
 		t.Error("project config must not carry the organisation pointer")
+	}
+}
+
+func TestInit_WritesCommitMsgHookOnceAndItRejectsBadMessages(t *testing.T) {
+	dir := t.TempDir()
+	runInit(t, dir, func(o *Options) { o.TicketProject = "AA" })
+	hook := filepath.Join(dir, ".git", "hooks", "commit-msg")
+	b, err := os.ReadFile(hook)
+	if err != nil {
+		t.Fatalf("hook not written: %v", err)
+	}
+	s := string(b)
+	if !strings.Contains(s, "feat|fix|docs") || !strings.Contains(s, "agent attribution") {
+		t.Errorf("hook lacks the types or the attribution check:\n%s", s)
+	}
+	// aa init never overwrites a hook the project already has
+	if err := os.WriteFile(hook, []byte("#!/bin/sh\n# mine\n"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	runInit(t, dir, nil)
+	after, _ := os.ReadFile(hook)
+	if string(after) != "#!/bin/sh\n# mine\n" {
+		t.Error("second run overwrote the project's own hook")
+	}
+	// The hook's checks, exercised through sh when one is available
+	sh, err := execLookPath("sh")
+	if err != nil {
+		t.Skip("no sh on this machine to exercise the hook")
+	}
+	if err := os.WriteFile(hook, b, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	cases := map[string]bool{
+		"feat(cli): add update verb\n\nAA-12\n": true,
+		"Update stuff\n":                        false,
+		"fix: a thing\n\nCo-Authored-By: Claude <noreply@anthropic.com>\n":            false,
+		"docs(readme): explain install\n\nCo-Authored-By: A Person <a@example.com>\n": true,
+	}
+	for msg, want := range cases {
+		f := filepath.Join(t.TempDir(), "msg")
+		if err := os.WriteFile(f, []byte(msg), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		got := runHook(sh, hook, f) == nil
+		if got != want {
+			t.Errorf("message %q: accepted=%v, want %v", msg, got, want)
+		}
 	}
 }
 
