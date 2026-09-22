@@ -18,7 +18,7 @@ Feature: Commit messages are Conventional Commits
     And the footer references the anchor ticket
     And the body says why the change was made
 
-  @G-33 @G-08
+  @G-33 @G-39
   Scenario: A change that cannot name one type is split
     Given a working tree that contains a fix and an unrelated refactor
     When "/aa-dev-implement" commits

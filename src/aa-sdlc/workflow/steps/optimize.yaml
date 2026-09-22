@@ -19,7 +19,7 @@ artifacts:
     acceptance:
       - Baseline, change, and after measurement are recorded with the method used
       - The change is on a branch with all tests passing
-guidance: [G-02, G-04, G-05, G-06, G-08, G-11, G-12, G-15, G-22, G-42]
+guidance: [G-02, G-04, G-05, G-06, G-08, G-11, G-12, G-15, G-22, G-42, G-39]
 guidance_inline:
   - No baseline, no optimisation. Measure first, with a tool, and record the number.
   - Change one thing per measurement. Two changes measured together teach nothing.

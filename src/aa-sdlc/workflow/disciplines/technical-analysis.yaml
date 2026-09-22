@@ -9,7 +9,7 @@ purpose: >
 owns:
   - System architecture and its diagrams
   - Technology stack choices and the constraints they impose
-  - Decision records for every significant technical decision (G-10)
+  - Decision records for every significant technical decision (G-41)
   - Time-boxed spikes to resolve technical unknowns
 does_not_own:
   - Security threat modelling, which belongs to Security, though it consumes the result

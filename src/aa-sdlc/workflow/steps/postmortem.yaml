@@ -20,7 +20,7 @@ artifacts:
     location: the ticket system
     acceptance:
       - Every action item is a ticket with an owner; the review links them
-guidance: [G-02, G-10, G-12, G-15, G-22, G-24, G-26, G-27, G-41]
+guidance: [G-02, G-12, G-15, G-22, G-24, G-26, G-27, G-41]
 guidance_inline:
   - Compute the times from the timeline with a tool; do not estimate them.
   - Ask "what made this reasonable at the time" for every decision in the timeline. Blame finds a person; this finds a cause.

@@ -24,7 +24,7 @@ artifacts:
     location: the ticket system
     acceptance:
       - Every "change" is a ticket with an owner and a way to tell whether it worked
-guidance: [G-02, G-10, G-12, G-15, G-22, G-24, G-26, G-41]
+guidance: [G-02, G-12, G-15, G-22, G-24, G-26, G-41]
 guidance_inline:
   - Measure first, then ask. Present the numbers before opinions so the discussion is about causes, not impressions.
   - Three changes, not thirty. An improvement backlog nobody works is a complaint log.

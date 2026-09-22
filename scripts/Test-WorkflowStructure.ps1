@@ -46,6 +46,7 @@ $steps = Read-YamlFolder (Join-Path $WorkflowRoot 'steps')
 $processes = Read-YamlFolder (Join-Path $WorkflowRoot 'processes')
 
 $guidanceIds = Get-DefinedIds (Join-Path $DocsRoot 'guidance.md') '\| (G-\d+) \|'
+$supersededGuidance = Get-DefinedIds (Join-Path $DocsRoot 'guidance.md') '\| (G-\d+) \| Superseded by'
 $requirementIds = Get-DefinedIds (Join-Path $DocsRoot 'requirements.md') '\| (R-\d+) \|'
 $tenetIds = Get-DefinedIds (Join-Path $DocsRoot 'tenets.md') '\*\*(T-\d+)'
 $opinionIds = Get-DefinedIds (Join-Path $DocsRoot 'opinions.md') '\*\*(O-\d+)'
@@ -78,7 +79,10 @@ foreach ($id in $steps.Keys) {
         $expected = "/aa-$($disciplines[$s.discipline].code)-$id"
         if ($s.command -ne $expected) { $problems.Add("step ${id}: command '$($s.command)' should be '$expected'") }
     }
-    foreach ($g in @($s.guidance | Where-Object { $_ })) { if ($g -notin $guidanceIds) { $problems.Add("step ${id}: unknown guidance '$g'") } }
+    foreach ($g in @($s.guidance | Where-Object { $_ })) {
+        if ($g -notin $guidanceIds) { $problems.Add("step ${id}: unknown guidance '$g'") }
+        elseif ($g -in $supersededGuidance) { $problems.Add("step ${id}: cites superseded guidance '$g'") }
+    }
     foreach ($r in @($s.requires | Where-Object { $_ })) { if ($r -notin $requirementIds) { $problems.Add("step ${id}: unknown requirement '$r'") } }
     foreach ($t in @($s.tenets | Where-Object { $_ })) { if ($t -notin $tenetIds) { $problems.Add("step ${id}: unknown tenet '$t'") } }
     foreach ($o in @($s.opinions | Where-Object { $_ })) { if ($o -notin $opinionIds) { $problems.Add("step ${id}: unknown opinion '$o'") } }
@@ -111,7 +115,10 @@ foreach ($id in $processes.Keys) {
     foreach ($s in @($p.steps)) {
         if (-not $steps.ContainsKey($s)) { $problems.Add("process ${id}: step '$s' has no file") }
     }
-    foreach ($g in @($p.guidance | Where-Object { $_ })) { if ($g -notin $guidanceIds) { $problems.Add("process ${id}: unknown guidance '$g'") } }
+    foreach ($g in @($p.guidance | Where-Object { $_ })) {
+        if ($g -notin $guidanceIds) { $problems.Add("process ${id}: unknown guidance '$g'") }
+        elseif ($g -in $supersededGuidance) { $problems.Add("process ${id}: cites superseded guidance '$g'") }
+    }
 }
 
 return $problems

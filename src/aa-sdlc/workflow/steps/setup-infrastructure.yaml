@@ -24,7 +24,7 @@ artifacts:
     location: the documents folder
     acceptance:
       - Every manual operation has a runbook with preconditions, steps, verification, and rollback
-guidance: [G-04, G-08, G-11, G-12, G-13, G-22, G-24, G-25, G-37, G-38, G-40, G-41, G-48]
+guidance: [G-04, G-08, G-11, G-12, G-13, G-22, G-24, G-25, G-37, G-38, G-40, G-41, G-48, G-39]
 guidance_inline:
   - Everything as code, reviewed and tested like code. An environment changed by hand is an environment nobody can rebuild (O-16).
   - Least privilege by default. Every credential, role, and network path is the narrowest that works, and widening one is a decision record.

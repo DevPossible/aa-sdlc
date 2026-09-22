@@ -16,7 +16,7 @@ artifacts:
     acceptance:
       - States context, options considered, the decision, and consequences
       - Is numbered next in the repository sequence, dated, and immutable once accepted; a reversal is a new record that supersedes it and links back (O-18)
-guidance: [G-10, G-16, G-22, G-24, G-26, G-41, G-43]
+guidance: [G-16, G-22, G-24, G-26, G-41, G-43]
 guidance_inline:
   - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
   - Record the losing options with the same care as the winner; the next person will ask about them first.

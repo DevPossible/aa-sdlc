@@ -27,7 +27,7 @@ artifacts:
     location: the documents folder
     acceptance:
       - States the strategy (for example staged, canary, blue-green) and how rollback works for it
-guidance: [G-04, G-06, G-08, G-11, G-12, G-14, G-22, G-24, G-25, G-29, G-37, G-38, G-40, G-44, G-47, G-48]
+guidance: [G-04, G-06, G-08, G-11, G-12, G-14, G-22, G-24, G-25, G-29, G-37, G-38, G-40, G-44, G-47, G-48, G-39]
 guidance_inline:
   - The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift (O-11).
   - One artifact, promoted. Build once, give it an immutable identity, deploy that identity everywhere; never rebuild for a later environment (O-24).
