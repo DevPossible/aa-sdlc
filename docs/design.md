@@ -327,7 +327,9 @@ the convention. Scopes merge from enterprise down to project; the format and mer
 
 The primary delivery method is npm. `npm install -g aa-sdlc` provides the `aa` CLI and carries
 the SDK content inside the same package, so the CLI and the skills it installs always version
-together. The CLI then places skills and rendered commands into the chosen target and scope:
+together. The CLI itself is a compiled native binary, not a Node program: the package lists one
+optional dependency per platform that holds the binary, and npm installs the one that matches
+the machine. The CLI then places skills and rendered commands into the chosen target and scope:
 
 | Verb | Does |
 |------|------|
@@ -488,14 +490,18 @@ produces the npm tarball; publishing to npm is a release step.
 
 - **CLI flags and target detection.** The verb set is decided (section 7.1); flags, and how
   `aa setup` detects installed targets, are not.
-- **CLI implementation.** Plain Node or TypeScript; the package must work on Node LTS without a
-  build step for consumers.
+- **CLI language.** A compiled native binary in Go, Rust, or .NET with native AOT; no Node or
+  TypeScript in the repository. Delivery stays npm (decision 16): the package carries one
+  binary per platform as an optional dependency, the way esbuild and Biome ship. The choice is
+  task D1 in [plan-framework-gaps.md](plan-framework-gaps.md).
 - **Public hosting and licence.** Likely private GitLab mirrored to GitHub, matching existing
   mirror setup. Licence not chosen.
 - **Exact step and command names.** The names in section 4 are working names.
 - **Skills for every step except the five framework authoring commands.** 52 steps have
   workflow YAML; 5 have a SKILL.md. `health`, `init`, `extend`, and all 44 discipline steps
-  have no skill yet, and the 44 discipline steps have no feature file.
+  have no skill yet, and the 44 discipline steps have no feature file. Planned, with the
+  health skill, the CLI, executable feature files, and the framing and consolidation debt from
+  the 2026-09-21 review, in [plan-framework-gaps.md](plan-framework-gaps.md).
 - **Review of the generated discipline definitions.** `docs/discipline-review.md` is a first
   draft awaiting the user's adjustments (see `plan-discipline-review.md`).
 - **Schema files** for workflow data and `aa.config.yaml`, to be written alongside the CLI
