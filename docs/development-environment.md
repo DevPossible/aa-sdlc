@@ -64,7 +64,7 @@ runs nothing in an environment. Therefore:
 
 | Tier | Home | Today |
 |------|------|-------|
-| unit | `scripts/Test-*.ps1` via `./test.ps1 -Tier unit`, plus the Go tests in `src/aa-sdlc-cli/` | structural and schema validators; Go tests for config merging and `aa init` |
+| unit | `scripts/Test-*.ps1` via `./test.ps1 -Tier unit`, plus the Go tests in `src/aa-sdlc-cli/` | structural and schema validators; the website currency check when `website-aasdlc-com` is checked out beside this repository (decision record 0007), skipped with a warning otherwise; Go tests for config merging, `aa init`, `aa update`, and `aa plugin` |
 | integration | `tests/integration/`: godog executes `features/cli/*.feature` (`@cli`) against the built binary | 26 scenarios: 25 pass, 1 pending (a second target does not exist yet) |
 | e2e | `tests/e2e/`: Pester installs the packed npm tarballs into a temporary prefix and runs `aa setup` and `aa init`; also checks the health baseline names every requirement | 5 tests |
 
@@ -108,7 +108,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-13 | unmet (recommended) | PowerShell has a skill in the user's scope; YAML, Gherkin, and Markdown have none dedicated |
 | R-14, R-15 | present | Claude Code supports commands and hooks; guidance G-01, G-14, G-33, G-40 are enforceable here once hooks are installed (plan task D4) |
 | R-23, R-27 | not applicable | no tickets are reachable to sample |
-| R-24, R-38 | defined, first run pending | `.gitlab-ci.yml` calls only the root scripts (`build.ps1 -Lint`, `test.ps1`, `pack.ps1`) and `pack.ps1` builds the artifact once; the pipeline has not yet run on the remote, so its result is not evidence |
+| R-24, R-38 | met | `.gitlab-ci.yml` calls only the root scripts (`build.ps1 -Lint`, `test.ps1`, `pack.ps1`) and `pack.ps1` builds the artifact once; pipeline 8488 on the remote passed both stages (verify 1m08s, pack 1m24s) at commit 59ce81c on 2026-09-22 |
 | R-26, R-39 | not applicable | recorded above: no deployed system, no environments |
 | R-29 | not applicable | no user interface |
 | R-30 | met where applicable | root scripts and this document; no environments to template, no migrations, no manual operations |
