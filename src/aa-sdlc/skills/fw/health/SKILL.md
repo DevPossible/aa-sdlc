@@ -27,10 +27,14 @@ remedy.
    say so and stop after reporting the environment.
 2. **Aggregate the declared requirements.** For every `SKILL.md` under the install, read the
    frontmatter: `aa.requires` directly, plus the `requires` of every set named in
-   `aa.guidance_sets`, resolved from `workflow/guidance-sets/<set>.yaml`. Do the same for any
+   `aa.guidance_sets`, resolved from `workflow/guidance-sets/<set>.yaml`. Then do the same for
+   every step in `workflow/steps/` and every process in `workflow/processes/`, because a step
+   whose skill is not yet installed still declares what that skill will need, and a project is
+   held to the whole workflow, not to the skills that happen to be present. Do the same for any
    installed plugin's skills and manifest. Build one list of requirement ids, and for each id
-   the skills and plugins that depend on it. Do not read the registry table for this; the
-   installed set is the truth for what is declared.
+   the skills, steps, and plugins that depend on it, marking which of those have a skill
+   installed. Do not read the registry table for this; the installed package is the truth for
+   what is declared.
 3. **Resolve each id to its definition.** In `requirements/*.feature`, find the scenarios
    tagged with the id. The feature file names the kind (environment, project, tooling,
    coverage); the scenario tag names the level (`@required`, `@recommended`,
