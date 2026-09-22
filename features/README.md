@@ -9,7 +9,7 @@ wins.
 
 ```
 features/
-  framework/      how the framework itself behaves (requirements sync, tenets in action)
+  framework/      how the framework itself behaves (requirements sync, test responsibility, extensibility)
   cli/            one feature per aa CLI verb
   agent/          one feature per agent-only command
   requirements/   the requirements registry as scenarios, one file per kind

@@ -205,6 +205,7 @@ methodology left implicit are added.
 | Meta | Workflow Retrospective | Project Management | `retrospective` | Workflow Health Report, Process Improvement Backlog |
 | Cross-cutting | n/a | Project Management | `health` | Health report |
 | Cross-cutting | n/a | Project Management | `init` | Bootstrapped project: repository, documents folder, project config, conventions; health report |
+| Cross-cutting | n/a | Project Management | `extend` | A valid, installable extension (tech-stack pack, process pack, project skill, target adapter, guidance, or requirement) with its manifest, declared requirements, and feature files |
 
 Notes on the merges and additions:
 
@@ -282,7 +283,22 @@ Plugins add skills, commands, and workflow steps without changing core. Two kind
 - **Process packs**: extra steps or gates an organisation needs, such as a change-advisory step or
   a compliance review.
 
-Plugins never wrap the ticket system, wiki, or source control (see principle 3).
+Plugins never wrap the ticket system, wiki, or source control (T-05).
+
+### 8.1 Extensions and `/aa-extend`
+
+"Extension" is the umbrella for everything added outside core: the two plugin kinds above, a
+project skill (specific to one repository, project scope only), a target adapter (support for an
+agent the framework does not yet know), added guidance, and an added requirement. Every extension
+declares its requirements in its own numbered range and carries its own feature files (T-11,
+T-12).
+
+`/aa-extend` is the framework skill that helps the user create one. It asks what the extension
+is for, picks the kind, scaffolds it, validates it against the tenets (an extension cannot change
+core; core-level guidance cannot name a tool), and installs it at the chosen scope only when
+validation passes. It can also share a valid extension through the organisation config repository
+and add to an existing pack rather than creating a duplicate. Its behaviour is specified in
+[`features/framework/extensibility.feature`](../features/framework/extensibility.feature).
 
 ## 9. Repository layout
 
@@ -362,6 +378,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 24 | 2026-09-21 | Root scripts `initialize`, `build`, `test`, `pack` in every repository, with general filter and switch parameters (O-06) | One contract between a repository and everything that runs it; makes R-10 and R-11 true everywhere |
 | 25 | 2026-09-21 | Every repository has unit, integration, and end-to-end tiers, selectable from the root test script (O-07) | Each tier catches a class of defect the others cannot |
 | 26 | 2026-09-21 | Development writes the tests that prove the requirement; Testing extends the suite beyond it and turns gaps into scenarios (O-08) | Gives each discipline a job the other cannot do and keeps "done" honest |
+| 27 | 2026-09-21 | `/aa-extend` is a core framework skill that scaffolds, validates, installs, and shares extensions | T-02 makes extensibility a requirement of every core skill; a skill that makes extensions easy is how the framework keeps that promise |
 
 ## 12. Open questions
 

@@ -79,6 +79,12 @@ An optional pack that adds skills, steps, processes, or guidance without changin
 kinds: tech-stack packs and process packs. Plugins supply specifics; core supplies the
 framework.
 
+**Extension**
+Anything added outside core: a plugin (either kind), a project skill, a target adapter, added
+guidance, or an added requirement. Every extension declares its requirements and carries its
+own feature files. `/aa-extend` is the framework skill that helps the user create, validate,
+install, and share one.
+
 **Target**
 An agent environment the SDK installs into (Claude Code, Codex, Cursor, Hermes, OpenClaw, and
 others). Only commands, hooks, and subagent definitions differ per target.

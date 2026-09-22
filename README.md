@@ -42,7 +42,9 @@ or, without changing directory: `aa init -path c:\dev\myproject`
 
 The `aa` CLI bootstraps and maintains the install: `setup` for the machine, `init` for a
 repository, plus `update` and `plugin`. The work itself happens inside your agent through
-`/aa-<step>` commands such as `/aa-health`, `/aa-init`, and `/aa-implement`.
+`/aa-<step>` commands such as `/aa-health`, `/aa-init`, and `/aa-implement`. When the framework
+needs to know about your stack, your process, or your agent, `/aa-extend` walks you through
+building the extension.
 
 ## What it will be
 
