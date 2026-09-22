@@ -134,7 +134,7 @@ ships. That remains available if the status block reads as thinner than the page
 | W | W1 to W3 | done 2026-09-22; W1 is decision record 0007 (0005 was already taken). The alpha banner W2 kept was dropped the same day at the user's request, so the banner clauses in W2 and V3 no longer apply |
 | M | M1 to M4 | done 2026-09-22; M1 is decision record 0008; M3 and V1 share `scripts/Test-WebsiteCurrency.ps1` |
 | H | H1 to H4 | done 2026-09-22; the process map on the home page is generated inside the disciplines block |
-| H | H5 | resolved by omission: no Repo item; the home page states once that the repository is not public |
+| H | H5 | done 2026-09-22: the repository is mirrored to GitHub (DevPossible/aa-sdlc) and every page links it in the nav and footer; each step on the methodology page links its skill file |
 | C | C1 to C3 | done 2026-09-22; C2 assumed no measurement exists and reframed the figures under the cost model |
 | V | V1, V2 | done 2026-09-22 |
 | V | V3 | done 2026-09-22: website pipeline 8487 deployed commit 0ac648d; the four pages answer 200 on aasdlc.com, `/workflow` reaches the methodology page, the live `methodology.html` is byte-identical to the file the generator writes from the workflow data at 59ce81c |

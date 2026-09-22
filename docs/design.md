@@ -426,8 +426,8 @@ Executed on 2026-09-22 from `plan-website-pivot.md`; the website repository is
   data by `scripts/Build-WebsiteMethodology.ps1`; `workflow.html` redirects to it. Each step names
   its skill path and command. Actors and tooling from the old page are not rendered (decision
   record 0008).
-- Navigation is Home, Methodology, Business Case. The Repo item waits on public hosting and the
-  licence (section 12); the home page says once that the repository is not public.
+- Navigation is Home, Methodology, Business Case, Repo. Repo links the GitHub mirror (section 12);
+  each step on the methodology page links its skill file there.
 - The unit tier checks the committed site against the workflow data, its internal links, the
   commands it names, and the ids it cites, and skips with a reason when the website repository
   is not checked out beside this one (decision record 0007).

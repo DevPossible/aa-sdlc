@@ -68,6 +68,7 @@ $tenetCount = ([regex]::Matches((Get-Content -Path (Join-Path -Path $repo -Child
 $requirementCount = ([regex]::Matches((Get-Content -Path (Join-Path -Path $repo -ChildPath 'docs' -AdditionalChildPath 'requirements.md') -Raw), '\| (R-\d+) \|')).Count
 
 $banner = "<!-- Generated from src/aa-sdlc/workflow/ by scripts/Build-WebsiteMethodology.ps1 in the aa-sdlc repository. Do not edit by hand; edit the workflow data and regenerate. -->"
+$repoUrl = 'https://github.com/DevPossible/aa-sdlc'
 $processOrder = 'conception', 'development', 'testing', 'deployment', 'verification', 'maintenance'
 $nl = "`n"
 
@@ -153,11 +154,12 @@ L '<body class="page-methodology">'
 L "    $banner"
 L '    <nav class="fixed-nav">'
 L '        <div class="nav-container">'
-L '            <div class="nav-brand"><a href="index.html"><h2>AA-SDLC</h2></a><span class="nav-subtitle">Agent Assisted Software Development Life Cycle</span></div>'
+L '            <div class="nav-brand"><a href="index.html"><h2>AA-SDLC</h2></a><span class="nav-subtitle">Agent Assisted Software Development Life Cycle, by <a href="https://devpossible.com">DevPossible</a></span></div>'
 L '            <ul class="nav-menu">'
 L '                <li><a href="index.html">Home</a></li>'
 L '                <li><a href="methodology.html" class="active">Methodology</a></li>'
 L '                <li><a href="business-case.html">Business Case</a></li>'
+L '                <li><a href="https://github.com/DevPossible/aa-sdlc" rel="noopener">Repo</a></li>'
 L '            </ul>'
 L '        </div>'
 L '    </nav>'
@@ -228,7 +230,7 @@ foreach ($d in ($disciplines.Values | Sort-Object order)) {
         L "                    <h4>$(Esc $s.name) <span class=`"command-chip`">$(Esc $s.command)</span></h4>"
         L "                    <p>$(Esc $s.summary.Trim())</p>"
         $anchorText = switch ($s.anchor) { 'required' { 'Anchors on a ticket.' } 'optional' { 'A ticket is optional.' } default { 'No ticket anchor.' } }
-        L "                    <p class=`"muted`">$anchorText Skill: <code>src/aa-sdlc/skills/$($s.discipline)/$sid/SKILL.md</code></p>"
+        L "                    <p class=`"muted`">$anchorText Skill: <a href=`"$repoUrl/blob/main/src/aa-sdlc/skills/$($s.discipline)/$sid/SKILL.md`"><code>src/aa-sdlc/skills/$($s.discipline)/$sid/SKILL.md</code></a></p>"
         if ($s.inputs) {
             L '                    <h5>Reads</h5>'
             L '                    <ul>'
@@ -272,7 +274,8 @@ L '        </section>'
 L '    </main>'
 L '    <footer class="footer">'
 L '        <div class="footer-content">'
-L '            <p>AA-SDLC is a DevPossible process. This page is generated from the framework&#39;s workflow data.</p>'
+L "            <p><a href=`"$repoUrl`">The framework repository on GitHub</a></p>"
+L '            <p>AA-SDLC is a <a href="https://devpossible.com">DevPossible</a> process. This page is generated from the framework&#39;s workflow data.</p>'
 L '            <p>&copy; 2024-2026 DevPossible LLC</p>'
 L '        </div>'
 L '    </footer>'
