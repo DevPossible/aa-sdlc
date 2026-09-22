@@ -18,9 +18,9 @@ hands_off_to:
   - discipline: project-management
     when: tickets are ready and an iteration can be planned
   - discipline: implementation-planning
-    when: a ready ticket is picked up for build
+    when: a ticket is refined in every respect but size and needs its plan before it can be sized (O-10)
   - discipline: business-analysis
     when: refinement finds a requirement gap that needs discovery, not splitting
 steps: [plan-work, refine-ticket]
 tenets: [T-04, T-08]
-opinions: [O-03]
+opinions: [O-03, O-10]

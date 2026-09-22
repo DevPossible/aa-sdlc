@@ -17,10 +17,10 @@ artifacts:
       - Every scenario in the epic's feature files is linked to exactly one story
       - Every story can be finished in one iteration by one person or agent
       - Dependencies between stories are recorded as links, not prose
-guidance: [G-02, G-12, G-18, G-19, G-22, G-24, G-26, G-27]
+guidance: [G-02, G-12, G-18, G-19, G-22, G-24, G-26, G-27, G-28]
 guidance_inline:
   - Split by scenario, not by layer. A story that delivers one scenario end to end can be tested; a "backend story" and a "frontend story" cannot until both are done.
   - Keep the epic's outcome on every story. A story that cannot say which outcome it serves is either mis-filed or unnecessary.
   - Do not invent requirements while splitting. A gap found here goes back to Business Analysis as a question, not forward as a guess.
-requires: [R-02, R-16, R-22]
+requires: [R-02, R-16, R-22, R-23]
 tenets: [T-04, T-08, T-12]

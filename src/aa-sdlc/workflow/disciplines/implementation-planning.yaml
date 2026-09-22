@@ -13,7 +13,7 @@ owns:
 does_not_own:
   - Architecture decisions, which belong to Technical Analysis; a plan works within them
   - Writing code, which belongs to Development
-  - Sizing for prioritisation, which belongs to Refinement; a plan may revise it
+  - Recording the size, which belongs to Refinement and is done from the plan once it is confirmed (O-10)
 hands_off_to:
   - discipline: development
     when: the plan is written and confirmed
@@ -21,3 +21,4 @@ hands_off_to:
     when: planning reveals a decision or unknown bigger than the ticket
 steps: [plan-implementation, breakdown-tasks]
 tenets: [T-06, T-07]
+opinions: [O-10]

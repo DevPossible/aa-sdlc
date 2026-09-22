@@ -157,11 +157,33 @@ different products should be split, or should treat the ticket project as the pr
 link outward.
 *Requirements:* R-02, R-07, R-22. *Guidance:* G-27.
 
+**O-10 Size and estimate only after the implementation is planned.**
+*The stance:* no unit of work carries a size or an effort estimate until its implementation
+plan exists. Sizing is the last act of making a ticket ready: it is done from the plan on the
+ticket and recorded with the plan as its basis. A number offered before the plan exists is a
+guess. It may be given, labelled as one, but it is never recorded as the size and never used to
+commit an iteration.
+*Why:* an estimate made from a title or a description measures how the work sounds, not what
+it involves. The plan is the first moment anyone has read the code that will change, listed the
+changes in order, and named the tests and the unknowns; it is the first moment there is
+something to size. Agents make premature estimation worse, not better: shown a title, they
+produce a confident number instantly. Sizing from the plan makes every size traceable to
+evidence (T-07), lets iteration capacity be computed from real completions (G-02), and turns a
+plan that outgrows its ticket into a split rather than a surprise.
+*Rejected:* sizing a story from its title and description; relative sizing against "similar"
+tickets that were themselves never planned; committing an epic to a date before its stories
+are planned; an estimation ceremony that precedes planning; recording the plan-less number "to
+be refined later".
+*Would change our mind:* evidence that estimates made before planning match plan-based ones
+in accuracy over a sustained period. Rough, labelled ranges for early prioritisation remain
+acceptable precisely because they are not recorded as sizes.
+*Requirements:* R-02, R-23. *Guidance:* G-28.
+
 ---
 
 Opinions O-05, O-06, and O-07 describe the shape of every repository, O-08 describes who
-proves what, and O-09 ties each repository to its one ticket project. Together they are what
-`aa init` lays down and `/aa-fw-health` checks for.
+proves what, O-09 ties each repository to its one ticket project, and O-10 says when a ticket
+may be sized. Together they are what `aa init` lays down and `/aa-fw-health` checks for.
 
 ## Candidates
 

@@ -96,6 +96,30 @@ Feature: Project requirements
     And the report lists the foreign references
     And the remedy is for "/aa-fw-init" to help relink them to tickets in the configured project
 
+  @R-23 @required @O-10
+  Scenario: Every sized ticket was planned first
+    Given a sample of sized tickets in the configured project
+    And each has an implementation plan recorded no later than its size
+    And each size cites the plan as its basis
+    When "/aa-fw-health" probes R-23
+    Then R-23 is reported as met
+
+  @R-23 @required @O-10
+  Scenario: A ticket carries a size but no plan
+    Given a sized ticket in the configured project has no implementation plan
+    When "/aa-fw-health" probes R-23
+    Then R-23 is reported as unmet
+    And the report lists the ticket
+    And the remedy is for the user to run "/aa-ip-plan-implementation" and re-size it, or clear the size
+
+  @R-23 @required @O-10
+  Scenario: A ticket was sized before it was planned
+    Given a sized ticket in the configured project has an implementation plan recorded after its size
+    When "/aa-fw-health" probes R-23
+    Then R-23 is reported as unmet
+    And the report says the size predates the plan
+    And the remedy is for the user to re-size the ticket from the plan
+
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure
     Given the documents, features, scripts, source, and tests folders exist at the root

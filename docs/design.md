@@ -60,8 +60,9 @@ The framework is opinionated, and its **opinions** are stated up front in
 [opinions.md](opinions.md): requirements are Gherkin; every project uses source control, a
 ticket manager, and a knowledge repository; every repository shares one folder structure and
 has root scripts for initialize, build, test, and pack; every repository has unit, integration,
-and end-to-end tests; Development proves the requirement while Testing goes beyond it; and
-every repository maps to exactly one ticket project.
+and end-to-end tests; Development proves the requirement while Testing goes beyond it; every
+repository maps to exactly one ticket project; and work is sized and estimated only after its
+implementation is planned.
 
 ## 3. Architecture
 
@@ -453,6 +454,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 36 | 2026-09-21 | Framework authoring commands `/aa-fw-new-opinion`, `-tenet`, `-discipline`, `-process`, `-step`, each responsible for all the plumbing of the item it adds | Adding to the framework by hand misses pieces; a command that owns the whole checklist keeps the framework consistent with itself |
 | 37 | 2026-09-21 | Opinion O-09: one repository maps to exactly one ticket project; many repositories may share one; the mapping lives in the project config (R-22, G-27) | A state store split across projects has two truths; one mapping keeps ids, branches, commits, init, and health unambiguous |
 | 38 | 2026-09-21 | The five framework authoring commands are implemented as skills under `skills/fw/` with Claude Code command wrappers in `.claude/commands/`; the validator checks a skill's `aa.requires` and `aa.guidance` against its step | The first real skills; a specification without a skill is not a command, and the wrappers make them runnable in this repository today |
+| 39 | 2026-09-21 | Opinion O-10: a ticket is sized and estimated only from its implementation plan; `plan-implementation` now precedes the size, and sizing is the last act of `refine-ticket` (R-23, G-28) | A number given before the plan exists measures how the work sounds, not what it involves; sizing from the plan makes every size traceable and keeps capacity computed from evidence |
 
 ## 12. Open questions
 
