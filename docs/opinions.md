@@ -267,14 +267,37 @@ rather than a convention the tooling reads.
 release, versioning, and changelog tooling. None is in sight.
 *Requirements:* R-01, R-05, R-08, R-28. *Guidance:* G-08, G-09, G-33, G-34.
 
+**O-15 A requirement starts with written goals; the mock-up comes after.**
+*The stance:* no requirement begins as a screenshot or a mock-up. It begins as written goals:
+the outcome, then the scenarios, refined until they are unambiguous and testable. Only then is
+a mock-up produced, and it is produced from the scenarios and names the ones it renders. When
+a screenshot or mock-up arrives first, as they do, it is evidence of what someone wants, not a
+requirement: the goals and scenarios it implies are written from it, what it does not show is
+recorded as questions, and once those are confirmed a mock-up is made from them. The step
+that receives a picture still runs (T-03); it changes what it treats the picture as.
+*Why:* a picture shows one state of one screen and says nothing about why, about what happens
+when it goes wrong, or about what the user could do afterwards that they could not before.
+Requirements written from a picture inherit its silences and its accidents: the placeholder
+text becomes a rule, the missing error state is never built. Agents make this worse: shown a
+mock-up, they reproduce it faithfully and invent the behaviour between the pixels. Goals first
+gives the mock-up something to be checked against (T-07) and keeps the feature file the source
+of truth (O-01, T-12); a mock-up that shows behaviour no scenario states is a question, not a
+specification.
+*Rejected:* "build this" with a screenshot attached as the whole requirement; scenarios
+reverse-engineered from a finished design and never questioned; the design tool as the source
+of truth for behaviour; prototypes that run ahead of the scenarios and pull them along.
+*Would change our mind:* nothing foreseeable. A mock-up is a good way to discover a
+requirement and a good way to communicate one; it is not a way to state one.
+*Requirements:* R-02, R-16, R-29. *Guidance:* G-35, G-36.
+
 ---
 
 Opinions O-05, O-06, and O-07 describe the shape of every repository, O-08 describes who
 proves what, O-09 ties each repository to its one ticket project, O-10 says when a ticket may
 be sized, O-11 and O-12 keep the delivery path and the end-to-end tier runnable on any
-machine, O-13 keeps a refined ticket honest against a repository that has moved, and O-14 makes
-the history readable by tooling. Together they are what `aa init` lays down and
-`/aa-fw-health` checks for.
+machine, O-13 keeps a refined ticket honest against a repository that has moved, O-14 makes
+the history readable by tooling, and O-15 keeps the feature file ahead of the mock-up. Together
+they are what `aa init` lays down and `/aa-fw-health` checks for.
 
 ## Candidates
 

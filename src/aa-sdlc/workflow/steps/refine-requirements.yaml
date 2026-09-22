@@ -24,10 +24,11 @@ artifacts:
     location: the knowledge base, linked from the epic
     acceptance:
       - Lists the constraints (platform, integration, compliance, performance) the scenarios must satisfy, each with its source
-guidance: [G-03, G-16, G-18, G-19, G-22, G-24, G-26]
+guidance: [G-03, G-16, G-18, G-19, G-22, G-24, G-26, G-35]
 guidance_inline:
   - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
   - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.
   - Trace every change. When a scenario changes, the ticket's acceptance criteria and the page follow (T-12); never edit the ticket first.
-requires: [R-02, R-03, R-16]
+requires: [R-02, R-03, R-16, R-29]
 tenets: [T-07, T-12]
+opinions: [O-01, O-15]

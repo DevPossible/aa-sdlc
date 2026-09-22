@@ -361,7 +361,7 @@ Decides what to build and why, and in what order. Owns the outcome the software 
 - **Business Analysis** when an initiative has an approved outcome and needs its requirements discovered
 - **Refinement** when priorities are set and epics must become a well-formed backlog
 
-*Tenets: T-04, T-13 | Opinions: O-03*
+*Tenets: T-04, T-13 | Opinions: O-03, O-15*
 
 ### Commands
 
@@ -395,11 +395,12 @@ Write down what an initiative is meant to achieve and how we will know. Produces
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
 - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
 - Say what is out of scope in the same place, so refinement does not have to guess.
 
-*Requires: R-02, R-22 | Tenets: T-04, T-07*
+*Requires: R-02, R-22, R-29 | Tenets: T-04, T-07 | Opinions: O-15*
 
 ### `/aa-pd-prioritise`
 
@@ -489,7 +490,7 @@ Turns a business need into requirements the whole team can read and a test can e
 - **Technical Analysis** when requirements are stable enough to architect against
 - **Refinement** when scenarios exist and must become tickets
 
-*Tenets: T-04, T-07, T-12 | Opinions: O-01*
+*Tenets: T-04, T-07, T-12 | Opinions: O-01, O-15*
 
 ### Commands
 
@@ -508,6 +509,7 @@ Capture what stakeholders need, as they say it and as they mean it. Produces the
 - The anchor epic and its outcome
 - Stakeholder input: a conversation, a transcript, a document, or a session with the user
 - Existing system documentation and feature files
+- Any screenshot or mock-up offered as the request, treated as evidence rather than as the requirement (O-15)
 
 **Artifacts**
 
@@ -526,11 +528,13 @@ Capture what stakeholders need, as they say it and as they mean it. Produces the
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a draft scenario can be wrong in a way everyone can see.
 - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.
 - Record what was not said. Silence on error cases, permissions, and edge conditions is a question, not an assumption.
+- A picture is a witness, not a specification. When the request arrives as a screenshot or mock-up, write the goals and scenarios it implies, log what it does not show as questions, and let the mock-up be regenerated from the confirmed scenarios later (O-15).
 
-*Requires: R-02, R-16 | Tenets: T-04, T-06, T-12 | Methodology: phase 1 step 1.1*
+*Requires: R-02, R-16, R-29 | Tenets: T-04, T-06, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.1*
 
 ### `/aa-ba-refine-requirements`
 
@@ -560,11 +564,12 @@ Close the gaps. Turn draft scenarios into complete, unambiguous, testable ones; 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
 - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.
 - Trace every change. When a scenario changes, the ticket's acceptance criteria and the page follow (T-12); never edit the ticket first.
 
-*Requires: R-02, R-03, R-16 | Tenets: T-07, T-12 | Methodology: phase 1 step 1.2*
+*Requires: R-02, R-03, R-16, R-29 | Tenets: T-07, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.2*
 
 ### `/aa-ba-uat`
 
@@ -623,7 +628,7 @@ Makes requirements tangible before they are built and checks the result against 
 - **Business Analysis** when a prototype changes or clarifies a requirement, so the scenarios must change
 - **Development** when an approved prototype is ready to build from
 
-*Tenets: T-06, T-07*
+*Tenets: T-06, T-07 | Opinions: O-15*
 
 ### Commands
 
@@ -638,7 +643,7 @@ Make the requirement visible before it is built. Produces mockups and, where the
 
 **Inputs**
 
-- The scenarios for the ticket or epic
+- The confirmed scenarios for the ticket or epic; a mock-up is made from them, never before them (O-15)
 - Existing design system or conventions in the project, if any
 - The technical constraints document
 
@@ -646,6 +651,7 @@ Make the requirement visible before it is built. Produces mockups and, where the
 
 - **Mockups** in the documents folder or the design tool the project uses, linked from the ticket and page
   - Every scenario with a user interface has at least one mockup showing its When and Then
+  - Every mockup names the scenarios it renders (O-15)
   - Variations are labelled with what question each answers
 - **Interactive prototype** in linked from the ticket
   - Covers the primary flow end to end; a stakeholder can complete the scenario's When without help
@@ -658,11 +664,14 @@ Make the requirement visible before it is built. Produces mockups and, where the
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
+- **G-36** Generate every mock-up from confirmed scenarios and name on it the scenarios it renders. Behaviour a mock-up shows that no scenario states is a question on the ticket, not a requirement; change the scenario first, then the mock-up (T-12).
 - Prototype the flow, not the pixels. The question a prototype answers is "is this the right interaction", and polish hides that question.
+- Scenarios first, always. If asked for a mock-up with no confirmed scenarios behind it, write or request them first; a mock-up that shows behaviour no scenario states is a question on the ticket, not a requirement (O-15).
 - Show the unhappy path. A mockup that only shows success leaves the error states to be invented at implementation time.
 - Feed changes back through the feature file. If the prototype review changes what the user needs, change the scenario, then the prototype (T-12).
 
-*Requires: R-02, R-16 | Tenets: T-06, T-12 | Methodology: phase 1 step 1.3*
+*Requires: R-02, R-16, R-29 | Tenets: T-06, T-12 | Opinions: O-15 | Methodology: phase 1 step 1.3*
 
 ### `/aa-ux-review-ux`
 
@@ -686,10 +695,11 @@ Use the built software the way a user would and record where the interaction fai
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-36** Generate every mock-up from confirmed scenarios and name on it the scenarios it renders. Behaviour a mock-up shows that no scenario states is a question on the ticket, not a requirement; change the scenario first, then the mock-up (T-12).
 - Follow the scenario literally first, then wander. The literal pass finds what was missed; the wander finds what was never imagined.
 - Distinguish defect from design. "It does not do what the scenario says" goes to Development; "the scenario was wrong" goes to Business Analysis as a requirement change.
 
-*Requires: R-02, R-16 | Tenets: T-07 | Methodology: phase 5*
+*Requires: R-02, R-16, R-29 | Tenets: T-07 | Opinions: O-15 | Methodology: phase 5*
 
 ## 4. Technical Analysis
 

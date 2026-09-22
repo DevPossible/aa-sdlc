@@ -21,3 +21,4 @@ hands_off_to:
     when: an approved prototype is ready to build from
 steps: [prototype, review-ux]
 tenets: [T-06, T-07]
+opinions: [O-15]

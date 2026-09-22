@@ -64,7 +64,8 @@ and end-to-end tests; Development proves the requirement while Testing goes beyo
 repository maps to exactly one ticket project; every size is grounded in recorded
 implementation thinking; every pipeline step runs locally, exactly; end-to-end tests run
 against containers started from definitions in the repository; a refined ticket is checked
-against the repository before work starts on it; and commit messages are Conventional Commits.
+against the repository before work starts on it; commit messages are Conventional Commits; and
+a requirement starts with written goals, with the mock-up generated from them afterwards.
 
 ## 3. Architecture
 
@@ -461,6 +462,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 41 | 2026-09-21 | Opinion O-12: the end-to-end tier runs against the system and its dependencies in containers, from definitions committed to the repository, wherever the stack allows (R-25, R-26, G-30) | A shared test environment is owned and changed by someone else; containers make the e2e environment a reproducible, disposable build artifact that is identical on a developer machine and in the pipeline |
 | 42 | 2026-09-21 | Opinion O-13: a ticket records the repository revision it was refined and planned against, and the step that picks it up first checks what changed in the feature files and code it touches, sending any conflict back to refinement (R-27, G-31, G-32) | Refinement has a shelf life; a plan executed faithfully against a repository that has moved fails mid-change or in review. Recording the revision makes the check a cheap, filtered diff, and it is T-12 applied over time |
 | 43 | 2026-09-21 | Opinion O-14: every commit is a Conventional Commit with a type from the project config; release notes and the version bump are derived from the history (R-28, G-33, G-34); promoted from the candidates list | The history becomes data that release tooling and agents can read; the cost is a prefix, and one concern per commit (G-08) already makes the type honest |
+| 44 | 2026-09-21 | Opinion O-15: a requirement starts with written goals and refined scenarios; the mock-up is generated from them and names the scenarios it renders; a screenshot that arrives first is evidence for discovery, not a requirement (R-29, G-35, G-36) | A picture shows one state of one screen and is silent on why and on failure; requirements written from it inherit its silences. Goals first keeps the feature file the source of truth (O-01, T-12) and gives the mock-up something to be checked against |
 
 ## 12. Open questions
 

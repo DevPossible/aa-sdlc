@@ -24,4 +24,4 @@ hands_off_to:
     when: scenarios exist and must become tickets
 steps: [discover, refine-requirements, uat]
 tenets: [T-04, T-07, T-12]
-opinions: [O-01]
+opinions: [O-01, O-15]

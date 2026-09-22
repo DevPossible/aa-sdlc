@@ -45,6 +45,9 @@ mind, are in [docs/opinions.md](docs/opinions.md).
 14. **Commit messages are Conventional Commits.** Type, optional scope, imperative subject, a
     body that says why, and a footer with the ticket. The history becomes data: release notes
     and version bumps come from it.
+15. **A requirement starts with written goals; the mock-up comes after.** A screenshot that
+    arrives first is evidence, not a requirement. The outcome and scenarios are written and
+    refined, and the mock-up is generated from them.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).

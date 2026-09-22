@@ -8,7 +8,7 @@ summary: >
   into the scenarios.
 anchor: required
 inputs:
-  - The scenarios for the ticket or epic
+  - The confirmed scenarios for the ticket or epic; a mock-up is made from them, never before them (O-15)
   - Existing design system or conventions in the project, if any
   - The technical constraints document
 methodology:
@@ -19,15 +19,18 @@ artifacts:
     location: the documents folder or the design tool the project uses, linked from the ticket and page
     acceptance:
       - Every scenario with a user interface has at least one mockup showing its When and Then
+      - Every mockup names the scenarios it renders (O-15)
       - Variations are labelled with what question each answers
   - name: Interactive prototype
     location: linked from the ticket
     acceptance:
       - Covers the primary flow end to end; a stakeholder can complete the scenario's When without help
-guidance: [G-03, G-13, G-18, G-22, G-24, G-26]
+guidance: [G-03, G-13, G-18, G-22, G-24, G-26, G-35, G-36]
 guidance_inline:
   - Prototype the flow, not the pixels. The question a prototype answers is "is this the right interaction", and polish hides that question.
+  - Scenarios first, always. If asked for a mock-up with no confirmed scenarios behind it, write or request them first; a mock-up that shows behaviour no scenario states is a question on the ticket, not a requirement (O-15).
   - Show the unhappy path. A mockup that only shows success leaves the error states to be invented at implementation time.
   - Feed changes back through the feature file. If the prototype review changes what the user needs, change the scenario, then the prototype (T-12).
-requires: [R-02, R-16]
+requires: [R-02, R-16, R-29]
 tenets: [T-06, T-12]
+opinions: [O-15]

@@ -195,6 +195,36 @@ Feature: Project requirements
     And the report says prepare-release cannot derive notes or a version from them
     And the remedy names a commit-message hook where the target supports hooks
 
+  @R-29 @required @O-15
+  Scenario: Every mock-up names the scenarios it renders
+    Given a sample of mock-ups linked from tickets and pages each name the scenarios they render
+    And those scenarios exist in the features folder
+    And no scenario in the feature files cites an image or design file as its source
+    When "/aa-fw-health" probes R-29
+    Then R-29 is reported as met
+
+  @R-29 @required @O-15
+  Scenario: A mock-up names no scenario
+    Given a mock-up linked from a ticket names no scenario
+    When "/aa-fw-health" probes R-29
+    Then R-29 is reported as unmet
+    And the report lists the mock-up and the ticket
+    And the remedy is for "/aa-ux-prototype" to regenerate it from the ticket's scenarios or record the scenarios it renders
+
+  @R-29 @required @O-15
+  Scenario: A scenario was written from a picture
+    Given a scenario in the feature files cites a screenshot or design file as its source
+    When "/aa-fw-health" probes R-29
+    Then R-29 is reported as unmet
+    And the report names the scenario
+    And the remedy is for "/aa-ba-discover" to write the goals the picture implies and record what it does not show as questions
+
+  @R-29 @required @O-15
+  Scenario: The project has no user interface
+    Given the project has no user interface and no mock-ups
+    When "/aa-fw-health" probes R-29
+    Then R-29 is reported as not applicable
+
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure
     Given the documents, features, scripts, source, and tests folders exist at the root
