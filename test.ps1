@@ -75,5 +75,4 @@ try {
     if ($Tier -in 'all', 'e2e') {
         Invoke-PesterTier -Name 'e2e' -Paths @((Join-Path 'tests' 'e2e'))
     }
-}
-finally { Pop-Location }
+} finally { Pop-Location }

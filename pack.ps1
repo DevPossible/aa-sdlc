@@ -37,5 +37,4 @@ try {
         ConvertTo-Json | Set-Content (Join-Path $DistDir 'version.json')
 
     Write-Host "Packaging complete: $zipPath" -ForegroundColor Green
-}
-finally { Pop-Location }
+} finally { Pop-Location }

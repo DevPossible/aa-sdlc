@@ -37,7 +37,7 @@ function Read-YamlFolder {
     return $result
 }
 
-function Get-DefinedIds {
+function Get-DefinedId {
     param([string]$File, [string]$Pattern)
     if (-not (Test-Path $File)) { return @() }
     return [regex]::Matches((Get-Content $File -Raw), $Pattern) | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
@@ -48,11 +48,11 @@ $steps = Read-YamlFolder (Join-Path $WorkflowRoot 'steps')
 $processes = Read-YamlFolder (Join-Path $WorkflowRoot 'processes')
 $sets = Read-YamlFolder (Join-Path $WorkflowRoot 'guidance-sets')
 
-$guidanceIds = Get-DefinedIds (Join-Path $DocsRoot 'guidance.md') '\| (G-\d+) \|'
-$supersededGuidance = Get-DefinedIds (Join-Path $DocsRoot 'guidance.md') '\| (G-\d+) \| Superseded by'
-$requirementIds = Get-DefinedIds (Join-Path $DocsRoot 'requirements.md') '\| (R-\d+) \|'
-$tenetIds = Get-DefinedIds (Join-Path $DocsRoot 'tenets.md') '\*\*(T-\d+)'
-$opinionIds = Get-DefinedIds (Join-Path $DocsRoot 'opinions.md') '\*\*(O-\d+)'
+$guidanceIds = Get-DefinedId (Join-Path $DocsRoot 'guidance.md') '\| (G-\d+) \|'
+$supersededGuidance = Get-DefinedId (Join-Path $DocsRoot 'guidance.md') '\| (G-\d+) \| Superseded by'
+$requirementIds = Get-DefinedId (Join-Path $DocsRoot 'requirements.md') '\| (R-\d+) \|'
+$tenetIds = Get-DefinedId (Join-Path $DocsRoot 'tenets.md') '\*\*(T-\d+)'
+$opinionIds = Get-DefinedId (Join-Path $DocsRoot 'opinions.md') '\*\*(O-\d+)'
 
 # Guidance sets: id matches file, fields present, ids defined and not superseded
 foreach ($id in $sets.Keys) {
@@ -68,21 +68,6 @@ foreach ($id in $sets.Keys) {
     foreach ($r in @($g.requires | Where-Object { $_ })) { if ($r -notin $requirementIds) { $problems.Add("guidance set ${id}: unknown requirement '$r'") } }
 }
 
-function Expand-Citations {
-    # Returns @{ guidance = [string[]]; requires = [string[]] } for a step or process: its sets' ids plus its own.
-    param($Item)
-    $g = [System.Collections.Generic.List[string]]::new()
-    $r = [System.Collections.Generic.List[string]]::new()
-    foreach ($setId in @($Item.guidance_sets | Where-Object { $_ })) {
-        if ($sets.ContainsKey($setId)) {
-            foreach ($x in @($sets[$setId].guidance)) { if ($x -and $x -notin $g) { $g.Add($x) } }
-            foreach ($x in @($sets[$setId].requires)) { if ($x -and $x -notin $r) { $r.Add($x) } }
-        }
-    }
-    foreach ($x in @($Item.guidance | Where-Object { $_ })) { if ($x -notin $g) { $g.Add($x) } }
-    foreach ($x in @($Item.requires | Where-Object { $_ })) { if ($x -notin $r) { $r.Add($x) } }
-    return @{ guidance = $g.ToArray(); requires = $r.ToArray() }
-}
 
 foreach ($id in $disciplines.Keys) {
     $d = $disciplines[$id]

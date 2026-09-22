@@ -33,7 +33,7 @@ if ($skillFolders.Count -eq 0) {
     Write-Warning 'No skills defined yet.'
 }
 
-$skillFolders | Group-Object Name | Where-Object Count -gt 1 | ForEach-Object {
+$skillFolders | Group-Object Name | Where-Object Count -GT 1 | ForEach-Object {
     $problems.Add("$($_.Name): step name used in more than one discipline")
 }
 
@@ -50,8 +50,7 @@ foreach ($folder in $skillFolders) {
         if ($Matches[1] -ne $folder.Name) {
             $problems.Add("$($folder.Name): frontmatter name '$($Matches[1])' does not match folder")
         }
-    }
-    else {
+    } else {
         $problems.Add("$($folder.Name): frontmatter missing 'name'")
     }
 
