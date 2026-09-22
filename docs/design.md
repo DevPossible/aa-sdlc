@@ -402,26 +402,35 @@ framework's own repository (decision 28). The content package is compiled into t
 with `embed` at build time, so the CLI and the content it installs cannot drift.
 
 `src/aa-sdlc/workflow/` is the single source of truth for the methodology. The website's
-methodology page should be generated from it, or at least checked against it, so the site and the
-skills cannot drift.
+methodology page and the generated blocks of its home page are written from it by
+`scripts/Build-WebsiteMethodology.ps1` and committed to the website repository;
+`scripts/Test-WebsiteCurrency.ps1` fails the unit tier when the committed pages are stale, so the
+site and the skills cannot drift (decision records 0007 and 0008).
 
 The CLI and the content live in one package so they cannot drift from each other. `pack.ps1`
 produces the npm tarball; publishing to npm is a release step.
 
 ## 10. Website pivot
 
-- The current landing page becomes a **Business Case** page. Content is kept and retitled.
-- A new landing page is the **SDK project page**: what it is, the install one-liner, supported
-  targets, the phase-to-skill map, the plugin model, and links to the methodology, business case,
-  and repo. One message it must carry: the same framework serves a solo developer and a
-  fifteen-person team (T-13). Fourteen disciplines are kinds of work, not people, and the site
-  should show the solo path and the team path side by side so neither audience thinks it is
-  for the other.
-- The workflow page becomes **Methodology**. Each step gets a callout naming its skill and
-  command, linking to the repo.
-- Navigation becomes Home, Methodology, Business Case, Repo.
-- The site should say plainly that the methodology describes AI in meetings and similar roles,
-  while the SDK implements the coding-agent slice of it.
+Executed on 2026-09-22 from `plan-website-pivot.md`; the website repository is
+`website-aasdlc-com`, four static files deployed by its own CI with no build step.
+
+- The former landing page is the **Business Case** page (`business-case.html`). Content is kept
+  and retitled; its headline figures sit in the cost section beside the model assumptions that
+  produce them (T-07); it carries the paragraph on where the methodology ends and the SDK begins.
+- The landing page (`index.html`) is the **SDK project page**: what it is, a status block and a
+  discipline and command reference generated between HTML comment markers, the install steps
+  labelled as planned until the package is published, the solo path and the team path side by
+  side (T-13), the seven opinion groups, and the plugin model.
+- The workflow page is **Methodology** (`methodology.html`), generated in full from the workflow
+  data by `scripts/Build-WebsiteMethodology.ps1`; `workflow.html` redirects to it. Each step names
+  its skill path and command. Actors and tooling from the old page are not rendered (decision
+  record 0008).
+- Navigation is Home, Methodology, Business Case. The Repo item waits on public hosting and the
+  licence (section 12); the home page says once that the repository is not public.
+- The unit tier checks the committed site against the workflow data, its internal links, the
+  commands it names, and the ids it cites, and skips with a reason when the website repository
+  is not checked out beside this one (decision record 0007).
 
 ## 11. Decision log
 
