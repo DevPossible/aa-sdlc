@@ -14,7 +14,7 @@ steps:
   - maintain-security
   - maintain-docs
   - retrospective
-guidance: [G-06, G-12, G-22]
+guidance: [G-06, G-12, G-22, G-37]
 exit: >
   Incidents are resolved and reviewed, defects fixed with reproducing tests, feedback turned into
   roadmap decisions, and security and documentation evidence current.

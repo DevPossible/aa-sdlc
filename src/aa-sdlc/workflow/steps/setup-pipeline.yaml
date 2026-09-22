@@ -26,11 +26,11 @@ artifacts:
     location: the documents folder
     acceptance:
       - States the strategy (for example staged, canary, blue-green) and how rollback works for it
-guidance: [G-04, G-06, G-08, G-11, G-12, G-14, G-22, G-24, G-25, G-29]
+guidance: [G-04, G-06, G-08, G-11, G-12, G-14, G-22, G-24, G-25, G-29, G-37, G-38]
 guidance_inline:
   - The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift (O-11).
   - One artifact, promoted. Build once, deploy the same artifact everywhere; never rebuild for production.
   - A pipeline that can be bypassed is not a pipeline. Protect the branches it deploys from.
-requires: [R-01, R-02, R-05, R-10, R-11, R-20, R-24]
+requires: [R-01, R-02, R-05, R-10, R-11, R-20, R-24, R-30]
 tenets: [T-07, T-09]
-opinions: [O-06, O-11]
+opinions: [O-06, O-11, O-16]

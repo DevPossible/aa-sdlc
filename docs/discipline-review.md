@@ -958,11 +958,12 @@ Keep the system safe after release: patch dependencies, rotate and remove secret
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
 - Patch in small, tested steps. A dependency update is a change like any other: branch, test, review, merge (G-08).
 - Never commit, log, or paste a secret, including in the report of having found one. Reference where it was, not what it was.
 - Treat "no findings" as a finding to verify. Confirm the scanner ran against the current code before reporting clean.
 
-*Requires: R-01, R-02, R-05, R-11 | Tenets: T-07 | Methodology: phase 6 step 6.4*
+*Requires: R-01, R-02, R-05, R-11, R-30 | Tenets: T-07 | Opinions: O-16 | Methodology: phase 6 step 6.4*
 
 ## 6. Refinement
 
@@ -1329,7 +1330,7 @@ Builds the software and proves it meets the requirement. Every change ships with
 - **Release Management** when merged work is ready to be included in a release
 - **Documentation** when a change affects user or developer documentation
 
-*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12, O-13, O-14*
+*Tenets: T-04, T-05, T-07 | Opinions: O-02, O-06, O-07, O-08, O-11, O-12, O-13, O-14, O-16*
 
 ### Commands
 
@@ -1362,6 +1363,7 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
   - The e2e tier starts the system and its dependencies in containers from definitions in the repository, where the stack allows (O-12)
 - **Development environment configuration** in the documents folder
   - Anything not automated by initialize is written down as a step with a reason
+  - Names where every secret comes from and how a fresh clone obtains it; no secret value is committed (O-16)
 
 **Guidance**
 
@@ -1373,12 +1375,15 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
+- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
 - Prove it on a clean clone. Clone to a temporary folder and run initialize, build, test, and pack there before calling it done.
 - Automate before documenting. A manual step in the documentation is a bug in initialize until it is proven to be impossible to automate.
 - Do not choose tools the project has not chosen. Use what the stack document, plugins, and existing config name; where nothing does, ask.
 - Whatever the pipeline will run, make it a script here first. A step that only works on the pipeline runner is a defect (O-11).
+- The fresh clone is the test. If it needs a file from your machine, a page from the wiki, or a value from your head, commit the template and document the source (O-16).
 
-*Requires: R-05, R-10, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12 | Methodology: phase 2 step 2.1*
+*Requires: R-05, R-10, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-30 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16 | Methodology: phase 2 step 2.1*
 
 ### `/aa-dev-implement`
 
@@ -1420,13 +1425,15 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
 - **G-33** Write every commit message in Conventional Commits form: a type from the project's list, an optional scope, an imperative subject, a body that says why, and a footer carrying the ticket reference and any breaking change. One concern per commit (G-08); if you cannot name the type, split the commit.
+- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
 - Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real, each a Conventional Commit that names its type and its ticket (O-14).
 - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
 - Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
+- System.Collections.Hashtable
 
-*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26, R-27, R-28 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22, R-26, R-27, R-28, R-30 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1807,7 +1814,7 @@ Keeps what is written true. Documents each feature for the people who will use a
 - **Business Analysis** when documenting reveals a requirement that is unclear or contradicted
 - **Development** when documentation reveals a defect
 
-*Tenets: T-04, T-12, T-13 | Opinions: O-04*
+*Tenets: T-04, T-12, T-13 | Opinions: O-04, O-16*
 
 ### Commands
 
@@ -1841,11 +1848,12 @@ Write or update the user-facing and developer-facing documentation for a ticket,
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - Write from the scenarios, verify against the software. The scenarios say what should happen; run the feature to confirm the documentation is describing what does.
 - Document the unhappy path. Users read documentation when something went wrong.
 - Never duplicate a scenario in prose. Link to it, or embed it; two copies drift.
 
-*Requires: R-02, R-03, R-06, R-16 | Tenets: T-12, T-13*
+*Requires: R-02, R-03, R-06, R-16, R-30 | Tenets: T-12, T-13 | Opinions: O-16*
 
 ### `/aa-doc-maintain-docs`
 
@@ -1875,11 +1883,12 @@ Audit the documentation and knowledge base for drift from the feature files and 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - Start from the feature files and walk outward. They are the truth; every page and document is checked against them, never the reverse.
 - Delete confidently. Documentation for something that no longer exists is worse than none; remove it and say so in the report.
 - A contradiction between a page and a scenario is a conflict to surface, not a page to quietly fix (T-12).
 
-*Requires: R-02, R-03, R-06, R-16 | Tenets: T-12 | Methodology: phase 6 step 6.5*
+*Requires: R-02, R-03, R-06, R-16, R-30 | Tenets: T-12 | Opinions: O-16 | Methodology: phase 6 step 6.5*
 
 ## 12. Release Management
 
@@ -2047,7 +2056,7 @@ Provides and runs the environments the software lives in. Infrastructure as code
 - **Development** when validation or observability reveals a defect
 - **Security** when an infrastructure control needs a security requirement clarified
 
-*Tenets: T-01, T-07 | Opinions: O-06, O-11*
+*Tenets: T-01, T-07 | Opinions: O-06, O-11, O-16*
 
 ### Commands
 
@@ -2072,6 +2081,7 @@ Define the environments the system runs in as code, with runbooks for the operat
 
 - **Infrastructure code** in the source folder, as its own project, on a branch linked to the ticket
   - Every environment is reproducible from the code with no manual steps beyond the runbook
+  - A configuration template exists for every environment, with every key named and no secret values (O-16)
   - Security controls from the threat model are implemented or ticketed
 - **Deployment runbooks** in the documents folder
   - Every manual operation has a runbook with preconditions, steps, verification, and rollback
@@ -2086,11 +2096,13 @@ Define the environments the system runs in as code, with runbooks for the operat
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
-- Everything as code, reviewed and tested like code. An environment changed by hand is an environment nobody can rebuild.
+- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
+- Everything as code, reviewed and tested like code. An environment changed by hand is an environment nobody can rebuild (O-16).
 - Least privilege by default. Every credential, role, and network path is the narrowest that works, and widening one is a decision record.
 - Ask before creating anything that costs money or is hard to delete.
 
-*Requires: R-01, R-02, R-05, R-06 | Tenets: T-01, T-06, T-07 | Methodology: phase 4 step 4.1*
+*Requires: R-01, R-02, R-05, R-06, R-30 | Tenets: T-01, T-06, T-07 | Opinions: O-16 | Methodology: phase 4 step 4.1*
 
 ### `/aa-ops-setup-pipeline`
 
@@ -2124,11 +2136,13 @@ Build the pipeline that takes a merged change to production: build, every test t
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
+- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
 - The pipeline calls the scripts; the scripts do the work. Logic in pipeline configuration cannot be run locally and will drift (O-11).
 - One artifact, promoted. Build once, deploy the same artifact everywhere; never rebuild for production.
 - A pipeline that can be bypassed is not a pipeline. Protect the branches it deploys from.
 
-*Requires: R-01, R-02, R-05, R-10, R-11, R-20, R-24 | Tenets: T-07, T-09 | Opinions: O-06, O-11 | Methodology: phase 4 step 4.2*
+*Requires: R-01, R-02, R-05, R-10, R-11, R-20, R-24, R-30 | Tenets: T-07, T-09 | Opinions: O-06, O-11, O-16 | Methodology: phase 4 step 4.2*
 
 ### `/aa-ops-observability`
 
@@ -2144,7 +2158,7 @@ Make the running system visible: the dashboards, alerts, logs, and traces that s
 
 - **Monitoring dashboards** in the observability tool, linked from the knowledge base
   - Show the outcome metrics from define-outcome and the health of each component
-- **Alert configuration** in as code in the repository where the tool allows; otherwise documented
+- **Alert configuration** in as code in the repository where the tool allows; otherwise documented in the documents folder (O-16)
   - Every alert has a runbook, an owner, and a threshold with a reason
   - No alert fires that nobody acts on
 
@@ -2158,11 +2172,12 @@ Make the running system visible: the dashboards, alerts, logs, and traces that s
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
 - Alert on what users feel, not on what machines do. Latency and error rate at the edge before CPU in the middle.
 - Every alert has a runbook or it is noise. Write the runbook before enabling the alert.
 - Observability is a requirement on the code. If a scenario cannot be observed in production, raise a ticket for the signal.
 
-*Requires: R-01, R-02, R-03, R-05 | Tenets: T-07 | Methodology: phase 5 step 5.1*
+*Requires: R-01, R-02, R-03, R-05, R-30 | Tenets: T-07 | Opinions: O-16 | Methodology: phase 5 step 5.1*
 
 ### `/aa-ops-validate-production`
 

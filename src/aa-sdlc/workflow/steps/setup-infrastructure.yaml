@@ -18,15 +18,17 @@ artifacts:
     location: the source folder, as its own project, on a branch linked to the ticket
     acceptance:
       - Every environment is reproducible from the code with no manual steps beyond the runbook
+      - A configuration template exists for every environment, with every key named and no secret values (O-16)
       - Security controls from the threat model are implemented or ticketed
   - name: Deployment runbooks
     location: the documents folder
     acceptance:
       - Every manual operation has a runbook with preconditions, steps, verification, and rollback
-guidance: [G-04, G-08, G-11, G-12, G-13, G-22, G-24, G-25]
+guidance: [G-04, G-08, G-11, G-12, G-13, G-22, G-24, G-25, G-37, G-38]
 guidance_inline:
-  - Everything as code, reviewed and tested like code. An environment changed by hand is an environment nobody can rebuild.
+  - Everything as code, reviewed and tested like code. An environment changed by hand is an environment nobody can rebuild (O-16).
   - Least privilege by default. Every credential, role, and network path is the narrowest that works, and widening one is a decision record.
   - Ask before creating anything that costs money or is hard to delete.
-requires: [R-01, R-02, R-05, R-06]
+requires: [R-01, R-02, R-05, R-06, R-30]
 tenets: [T-01, T-06, T-07]
+opinions: [O-16]

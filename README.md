@@ -48,6 +48,9 @@ mind, are in [docs/opinions.md](docs/opinions.md).
 15. **A requirement starts with written goals; the mock-up comes after.** A screenshot that
     arrives first is evidence, not a requirement. The outcome and scenarios are written and
     refined, and the mock-up is generated from them.
+16. **Version everything needed to build and operate the software.** Configuration templates,
+    migrations, automation, and operating documentation live in the repository. A fresh clone
+    plus the documented secrets is enough to build, deploy, and run it.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).

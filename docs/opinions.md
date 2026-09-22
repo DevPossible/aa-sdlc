@@ -290,14 +290,40 @@ of truth for behaviour; prototypes that run ahead of the scenarios and pull them
 requirement and a good way to communicate one; it is not a way to state one.
 *Requirements:* R-02, R-16, R-29. *Guidance:* G-35, G-36.
 
+**O-16 Version everything needed to build and operate the software.**
+*The stance:* the repository holds everything required to build, deploy, and run the system:
+the code, the configuration templates for every environment with every key named and no
+secret values, the schema and data migrations, the automation (root scripts, pipeline and
+infrastructure definitions, container definitions, alert configuration), and the documentation
+that operates it (runbooks, the development environment configuration, developer docs). The
+test is a fresh clone: with the repository and the secrets its documentation names, a person or
+an agent can build, deploy, and operate the software. Anything that test needs and cannot find
+in the repository is missing from it. Secrets are the one thing never committed; their
+templates always are.
+*Why:* source control is the only output that counts (O-02), and a repository that builds but
+cannot be deployed or operated without a file on someone's machine, a page in a wiki, or a
+setting typed into a console is an output that cannot be reproduced. Every such gap is invisible
+until the person who knows it is unavailable, and an agent cannot know it at all. Versioning
+it all gives every change to how the system is built and run a history, a review, and a way
+back (O-11, O-12, and "everything as code" in `setup-infrastructure` are this opinion applied
+to one artifact each). The knowledge base still holds why (O-04); the repository holds how.
+*Rejected:* configuration that lives only on the server; migrations run by hand from a script
+kept elsewhere; a runbook in a wiki with no copy in the repository, where it drifts from the
+scripts it describes; "ask the person who set it up"; documentation that describes how to
+operate the system but is not versioned with the version of the system it describes.
+*Would change our mind:* nothing foreseeable. An artifact that genuinely cannot be versioned
+(a secret, a licence file) is represented by a template and a documented way to obtain it.
+*Requirements:* R-05, R-06, R-19, R-30. *Guidance:* G-11, G-37, G-38.
+
 ---
 
 Opinions O-05, O-06, and O-07 describe the shape of every repository, O-08 describes who
 proves what, O-09 ties each repository to its one ticket project, O-10 says when a ticket may
 be sized, O-11 and O-12 keep the delivery path and the end-to-end tier runnable on any
 machine, O-13 keeps a refined ticket honest against a repository that has moved, O-14 makes
-the history readable by tooling, and O-15 keeps the feature file ahead of the mock-up. Together
-they are what `aa init` lays down and `/aa-fw-health` checks for.
+the history readable by tooling, O-15 keeps the feature file ahead of the mock-up, and O-16
+makes the repository sufficient to build and operate the system. Together they are what
+`aa init` lays down and `/aa-fw-health` checks for.
 
 ## Candidates
 

@@ -21,4 +21,4 @@ hands_off_to:
     when: documentation reveals a defect
 steps: [document-feature, maintain-docs]
 tenets: [T-04, T-12, T-13]
-opinions: [O-04]
+opinions: [O-04, O-16]

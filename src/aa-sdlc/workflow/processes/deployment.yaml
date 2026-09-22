@@ -10,7 +10,7 @@ steps:
   - prepare-release
   - release
   - rollback
-guidance: [G-13, G-14, G-22, G-29, G-34]
+guidance: [G-13, G-14, G-22, G-29, G-34, G-37]
 exit: >
   The release is deployed through the pipeline, verified in production, and recorded, or rolled
   back and recorded with a ticket for the cause.

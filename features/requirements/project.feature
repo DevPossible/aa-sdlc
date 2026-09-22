@@ -225,6 +225,49 @@ Feature: Project requirements
     When "/aa-fw-health" probes R-29
     Then R-29 is reported as not applicable
 
+  @R-30 @required @O-16
+  Scenario: The repository holds everything needed to build and operate the software
+    Given a configuration template exists for each environment the infrastructure names
+    And no template contains a secret value
+    And the migrations live in the repository and a script in it applies them
+    And the pipeline, infrastructure, container, and alert definitions are in the repository
+    And the documents folder holds a runbook for every manual operation
+    And the development environment configuration names how each secret is obtained
+    When "/aa-fw-health" probes R-30
+    Then R-30 is reported as met
+
+  @R-30 @required @O-16
+  Scenario: An environment has no configuration template
+    Given the infrastructure names an environment that has no configuration template in the repository
+    When "/aa-fw-health" probes R-30
+    Then R-30 is reported as unmet
+    And the report names the environment
+    And the remedy is for the user to commit a template with every key named and no secret values
+
+  @R-30 @required @O-16
+  Scenario: Migrations are applied from outside the repository
+    Given the schema is changed by scripts that are not in the repository
+    When "/aa-fw-health" probes R-30
+    Then R-30 is reported as unmet
+    And the report says the schema cannot be reproduced from a fresh clone
+    And the remedy is for the user to commit the migrations and a script that applies them
+
+  @R-30 @required @O-16
+  Scenario: A manual operation has no runbook in the repository
+    Given a manual operation is documented only in the knowledge base or nowhere
+    When "/aa-fw-health" probes R-30
+    Then R-30 is reported as unmet
+    And the report names the operation
+    And the remedy is for "/aa-ops-setup-infrastructure" to write the runbook in the documents folder
+
+  @R-30 @required @O-16
+  Scenario: A secret value is committed
+    Given a file in the repository contains a secret value rather than a placeholder
+    When "/aa-fw-health" probes R-30
+    Then R-30 is reported as unmet
+    And the report names the file but never the value
+    And the remedy is for "/aa-sec-maintain-security" to rotate the secret and replace it with a placeholder
+
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure
     Given the documents, features, scripts, source, and tests folders exist at the root
