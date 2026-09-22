@@ -61,8 +61,8 @@ The framework is opinionated, and its **opinions** are stated up front in
 ticket manager, and a knowledge repository; every repository shares one folder structure and
 has root scripts for initialize, build, test, and pack; every repository has unit, integration,
 and end-to-end tests; Development proves the requirement while Testing goes beyond it; every
-repository maps to exactly one ticket project; and work is sized and estimated only after its
-implementation is planned.
+repository maps to exactly one ticket project; and every size is grounded in recorded
+implementation thinking.
 
 ## 3. Architecture
 
@@ -454,7 +454,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 36 | 2026-09-21 | Framework authoring commands `/aa-fw-new-opinion`, `-tenet`, `-discipline`, `-process`, `-step`, each responsible for all the plumbing of the item it adds | Adding to the framework by hand misses pieces; a command that owns the whole checklist keeps the framework consistent with itself |
 | 37 | 2026-09-21 | Opinion O-09: one repository maps to exactly one ticket project; many repositories may share one; the mapping lives in the project config (R-22, G-27) | A state store split across projects has two truths; one mapping keeps ids, branches, commits, init, and health unambiguous |
 | 38 | 2026-09-21 | The five framework authoring commands are implemented as skills under `skills/fw/` with Claude Code command wrappers in `.claude/commands/`; the validator checks a skill's `aa.requires` and `aa.guidance` against its step | The first real skills; a specification without a skill is not a command, and the wrappers make them runnable in this repository today |
-| 39 | 2026-09-21 | Opinion O-10: a ticket is sized and estimated only from its implementation plan; `plan-implementation` now precedes the size, and sizing is the last act of `refine-ticket` (R-23, G-28) | A number given before the plan exists measures how the work sounds, not what it involves; sizing from the plan makes every size traceable and keeps capacity computed from evidence |
+| 39 | 2026-09-21 | Opinion O-10: a size is grounded in implementation thinking recorded on the ticket, at a depth that matches the stakes; this is a condition on the ticket's content, not an ordering of steps (R-23, G-28) | You cannot size what you have not thought about building; a number from a title measures how the work sounds. Stating it as ticket content rather than a workflow keeps T-03 intact and lets a sentence suffice for a small change |
 
 ## 12. Open questions
 

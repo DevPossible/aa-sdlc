@@ -97,28 +97,29 @@ Feature: Project requirements
     And the remedy is for "/aa-fw-init" to help relink them to tickets in the configured project
 
   @R-23 @required @O-10
-  Scenario: Every sized ticket was planned first
+  Scenario: Every sized ticket carries the thinking behind its size
     Given a sample of sized tickets in the configured project
-    And each has an implementation plan recorded no later than its size
-    And each size cites the plan as its basis
+    And each has written implementation thinking on the ticket at a depth that matches its stakes
+    And each size cites that reasoning as its basis
     When "/aa-fw-health" probes R-23
     Then R-23 is reported as met
 
   @R-23 @required @O-10
-  Scenario: A ticket carries a size but no plan
-    Given a sized ticket in the configured project has no implementation plan
+  Scenario: A ticket carries a size but no implementation thinking
+    Given a sized ticket in the configured project has no written thought about how it will be built
     When "/aa-fw-health" probes R-23
     Then R-23 is reported as unmet
     And the report lists the ticket
-    And the remedy is for the user to run "/aa-ip-plan-implementation" and re-size it, or clear the size
+    And the remedy is for the user to write down how it will be built and re-size it, or clear the size
 
   @R-23 @required @O-10
-  Scenario: A ticket was sized before it was planned
-    Given a sized ticket in the configured project has an implementation plan recorded after its size
+  Scenario: A size does not cite its reasoning
+    Given a sized ticket in the configured project has implementation thinking on it
+    But the size does not cite it
     When "/aa-fw-health" probes R-23
     Then R-23 is reported as unmet
-    And the report says the size predates the plan
-    And the remedy is for the user to re-size the ticket from the plan
+    And the report says the size is not linked to its basis
+    And the remedy is for the user to cite the reasoning from the size, or re-size from it
 
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure

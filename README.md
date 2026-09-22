@@ -29,8 +29,9 @@ mind, are in [docs/opinions.md](docs/opinions.md).
    every gap they find into a scenario.
 9. **One repository, one ticket project.** Many repositories may share a ticket project; a
    single repository never manages tickets across two.
-10. **Size and estimate only after the implementation is planned.** A number given before the
-    plan exists is a guess, labelled as one and never recorded as the size.
+10. **A size is grounded in implementation thinking.** A ticket carries no size until it also
+    carries written thought about how it will be built, at a depth that matches the stakes.
+    A number without that is a guess, labelled as one and never recorded as the size.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).

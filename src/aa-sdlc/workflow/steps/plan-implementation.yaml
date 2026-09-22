@@ -8,7 +8,7 @@ summary: >
   the ticket and is confirmed before build starts.
 anchor: required
 inputs:
-  - The refined ticket and its scenarios, not yet sized; sizing follows this plan (O-10)
+  - The ready ticket, its scenarios, and the implementation thinking its size was based on
   - The architecture, decision records, and technical constraints
   - The current code, read, not remembered
 artifacts:
@@ -25,6 +25,7 @@ guidance_inline:
   - Plan the tests with the steps. A step with no test is a step you cannot know is done.
   - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.
   - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
+  - Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
 requires: [R-02, R-05, R-16, R-23]
 tenets: [T-06, T-07]
 opinions: [O-10]

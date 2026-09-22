@@ -424,7 +424,7 @@ Order epics and stories by value against the outcome, risk, and dependency, and 
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-28** Size and estimate a ticket only from its confirmed implementation plan, and record the size on the ticket with the plan as its basis. If a number is needed before the plan exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - Rank by outcome contribution first, then risk reduction, then cost. When two items tie, prefer the one that retires an unknown.
 - Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why.
 - Ask before demoting. If an item someone is working on drops out of the iteration, that is a conversation, not a rank change.
@@ -977,7 +977,7 @@ Turns requirements and priorities into a backlog of tickets that are ready to pl
 **Hands off to**
 
 - **Project Management** when tickets are ready and an iteration can be planned
-- **Implementation Planning** when a ticket is refined in every respect but size and needs its plan before it can be sized (O-10)
+- **Implementation Planning** when a ready ticket is picked up for build
 - **Business Analysis** when refinement finds a requirement gap that needs discovery, not splitting
 
 *Tenets: T-04, T-08 | Opinions: O-03, O-10*
@@ -1016,7 +1016,7 @@ Turn an epic and its feature files into stories and tasks in the ticket system, 
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
-- **G-28** Size and estimate a ticket only from its confirmed implementation plan, and record the size on the ticket with the plan as its basis. If a number is needed before the plan exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - Split by scenario, not by layer. A story that delivers one scenario end to end can be tested; a "backend story" and a "frontend story" cannot until both are done.
 - Keep the epic's outcome on every story. A story that cannot say which outcome it serves is either mis-filed or unnecessary.
 - Do not invent requirements while splitting. A gap found here goes back to Business Analysis as a question, not forward as a guess.
@@ -1038,7 +1038,7 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
 - **Ready ticket** in the ticket system
   - Meets every item of the definition of ready, or says which item it does not and why it proceeds anyway
   - Acceptance criteria are the scenarios, not a restatement of them
-  - Size is recorded last, from the confirmed implementation plan, and cites it
+  - Size is recorded with the implementation thinking that grounds it, and cites it
 
 **Guidance**
 
@@ -1050,9 +1050,9 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
-- **G-28** Size and estimate a ticket only from its confirmed implementation plan, and record the size on the ticket with the plan as its basis. If a number is needed before the plan exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
-- Size last, and only from the plan. Run plan-implementation before sizing; a ticket has no size until its plan exists, and the size cites the plan (O-10).
+- Size from the thinking, not the title. Before putting a number on it, write on the ticket what changes, what is unknown, and what could go wrong, at a depth that matches the stakes; a sentence for a small change, a full plan-implementation for a large one (O-10).
 - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
 
 *Requires: R-02, R-16, R-22, R-23 | Tenets: T-04, T-07 | Opinions: O-10*
@@ -1117,7 +1117,7 @@ Commit a set of ready tickets to an iteration against known capacity, in priorit
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-28** Size and estimate a ticket only from its confirmed implementation plan, and record the size on the ticket with the plan as its basis. If a number is needed before the plan exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - Fill in priority order and stop at capacity. Do not pull a lower item over a higher one because it is smaller unless the higher one is blocked.
 - Capacity is computed, not felt. Use the team's actual completed size from recent iterations, calculated with a tool (G-02).
 - Commitment is a proposal until the people doing the work agree; present it and ask.
@@ -1206,7 +1206,7 @@ Plans how one ticket will be built before anyone builds it. Reads the scenarios,
 
 - Architecture decisions, which belong to Technical Analysis; a plan works within them
 - Writing code, which belongs to Development
-- Recording the size, which belongs to Refinement and is done from the plan once it is confirmed (O-10)
+- Sizing for prioritisation, which belongs to Refinement; a plan may revise it (O-10)
 
 **Hands off to**
 
@@ -1228,7 +1228,7 @@ Before building a ticket, write down how: which files and components change, in 
 
 **Inputs**
 
-- The refined ticket and its scenarios, not yet sized; sizing follows this plan (O-10)
+- The ready ticket, its scenarios, and the implementation thinking its size was based on
 - The architecture, decision records, and technical constraints
 - The current code, read, not remembered
 
@@ -1249,11 +1249,12 @@ Before building a ticket, write down how: which files and components change, in 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
-- **G-28** Size and estimate a ticket only from its confirmed implementation plan, and record the size on the ticket with the plan as its basis. If a number is needed before the plan exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
 - Plan the tests with the steps. A step with no test is a step you cannot know is done.
 - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.
 - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
+- Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
 
 *Requires: R-02, R-05, R-16, R-23 | Tenets: T-06, T-07 | Opinions: O-10*
 

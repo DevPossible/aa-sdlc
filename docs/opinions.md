@@ -157,26 +157,28 @@ different products should be split, or should treat the ticket project as the pr
 link outward.
 *Requirements:* R-02, R-07, R-22. *Guidance:* G-27.
 
-**O-10 Size and estimate only after the implementation is planned.**
-*The stance:* no unit of work carries a size or an effort estimate until its implementation
-plan exists. Sizing is the last act of making a ticket ready: it is done from the plan on the
-ticket and recorded with the plan as its basis. A number offered before the plan exists is a
-guess. It may be given, labelled as one, but it is never recorded as the size and never used to
-commit an iteration.
+**O-10 A size is grounded in implementation thinking.**
+*The stance:* no unit of work carries a size or an effort estimate that is not backed by
+written thought about how it will be built: which parts change, what is unknown, what could go
+wrong. The depth matches the stakes. A sentence is enough for a small change; a large or risky
+one warrants a full implementation plan. Whatever the depth, the reasoning is on the ticket and
+the size cites it. The framework does not say when this thinking happens or who does it
+(T-03, T-13); it says that a number without it is a guess, given as a labelled range if it must
+be given at all, and never recorded as the size or used to commit an iteration.
 *Why:* an estimate made from a title or a description measures how the work sounds, not what
-it involves. The plan is the first moment anyone has read the code that will change, listed the
-changes in order, and named the tests and the unknowns; it is the first moment there is
-something to size. Agents make premature estimation worse, not better: shown a title, they
-produce a confident number instantly. Sizing from the plan makes every size traceable to
-evidence (T-07), lets iteration capacity be computed from real completions (G-02), and turns a
-plan that outgrows its ticket into a split rather than a surprise.
+it involves. You cannot size what you have not thought about building, and the act of writing
+down even a few lines of how surfaces the unknowns that make the difference between a small
+ticket and a large one. Agents make this worse, not better: shown a title, they produce a
+confident number instantly. Grounding every size in recorded reasoning makes it traceable to
+evidence (T-07), lets iteration capacity be computed from real completions (G-02), and gives
+the eventual implementation plan something to check the size against.
 *Rejected:* sizing a story from its title and description; relative sizing against "similar"
-tickets that were themselves never planned; committing an epic to a date before its stories
-are planned; an estimation ceremony that precedes planning; recording the plan-less number "to
-be refined later".
-*Would change our mind:* evidence that estimates made before planning match plan-based ones
-in accuracy over a sustained period. Rough, labelled ranges for early prioritisation remain
-acceptable precisely because they are not recorded as sizes.
+tickets whose own sizes had no reasoning behind them; committing an epic to a date before
+anyone has thought about how its stories will be built; recording an ungrounded number "to be
+refined later"; demanding a full implementation plan for every ticket before it may be sized.
+*Would change our mind:* evidence that ungrounded estimates match grounded ones in accuracy
+over a sustained period. Rough, labelled ranges for early prioritisation remain acceptable
+precisely because they are not recorded as sizes.
 *Requirements:* R-02, R-23. *Guidance:* G-28.
 
 ---
