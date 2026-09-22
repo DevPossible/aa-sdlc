@@ -394,11 +394,12 @@ Write down what an initiative is meant to achieve and how we will know. Produces
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
 - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
 - Say what is out of scope in the same place, so refinement does not have to guess.
 
-*Requires: R-02 | Tenets: T-04, T-07*
+*Requires: R-02, R-22 | Tenets: T-04, T-07*
 
 ### `/aa-pd-prioritise`
 
@@ -453,11 +454,12 @@ Turn what users, support, and production are saying into decisions: what to enha
 - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
 - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
 - Close the loop. Where feedback came from a ticket, comment on it with the decision.
 
-*Requires: R-02, R-03, R-04 | Tenets: T-04, T-07 | Methodology: phase 6 step 6.3*
+*Requires: R-02, R-03, R-04, R-22 | Tenets: T-04, T-07 | Methodology: phase 6 step 6.3*
 
 ## 2. Business Analysis
 
@@ -881,11 +883,12 @@ Work through what could go wrong with the architecture from an attacker's view, 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Follow the data. Start from what is valuable and trace how it moves; threats appear at every boundary it crosses.
 - Accept explicitly. An accepted risk with a named owner and a reason is a decision; an unmentioned risk is a surprise.
 - Make mitigations testable. "Validate input" is not a requirement; "Given a payload over the size limit, then the request is rejected with a logged event" is.
 
-*Requires: R-02, R-03, R-16 | Tenets: T-07, T-11, T-12*
+*Requires: R-02, R-03, R-16, R-22 | Tenets: T-07, T-11, T-12*
 
 ### `/aa-sec-security-test`
 
@@ -1011,11 +1014,12 @@ Turn an epic and its feature files into stories and tasks in the ticket system, 
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Split by scenario, not by layer. A story that delivers one scenario end to end can be tested; a "backend story" and a "frontend story" cannot until both are done.
 - Keep the epic's outcome on every story. A story that cannot say which outcome it serves is either mis-filed or unnecessary.
 - Do not invent requirements while splitting. A gap found here goes back to Business Analysis as a question, not forward as a guess.
 
-*Requires: R-02, R-16 | Tenets: T-04, T-08, T-12*
+*Requires: R-02, R-16, R-22 | Tenets: T-04, T-08, T-12*
 
 ### `/aa-rf-refine-ticket`
 
@@ -1043,11 +1047,12 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
 - Size from the plan, not the title. If sizing needs a plan, run implementation planning first and size from that.
 - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
 
-*Requires: R-02, R-16 | Tenets: T-04, T-07*
+*Requires: R-02, R-16, R-22 | Tenets: T-04, T-07*
 
 ## 7. Project Management
 
@@ -1383,12 +1388,13 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-20** When implementing a ticket, write the automated tests that prove it: unit and integration tests for every happy path, the general permutations and cases, and the obvious negative cases, plus a happy-path end-to-end test for each scenario. The ticket is not done until they exist and pass.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
 - Commit at every green. Small commits that each pass the tests are the plan's checkpoints made real.
 - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
 - Do not widen the change. Adjacent problems become tickets, not fixes on this branch.
 
-*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21 | Tenets: T-04, T-07 | Opinions: O-08 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-01, R-02, R-04, R-05, R-09, R-10, R-11, R-21, R-22 | Tenets: T-04, T-07 | Opinions: O-08 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1421,11 +1427,12 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-17** After three failed attempts at the same fix, stop and reassess the approach rather than trying a fourth variation.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - No reproduction, no fix. If it cannot be reproduced, the ticket gets what was tried and goes back for more information.
 - Find the cause before touching code. Form a hypothesis, test it, and record the result on the ticket; three hypotheses without evidence means stop and reassess (G-17).
 - If the defect violates no scenario, one is missing. Add it to the feature file with the fix so the requirement is now stated.
 
-*Requires: R-01, R-02, R-04, R-05, R-11, R-16 | Tenets: T-07, T-12*
+*Requires: R-01, R-02, R-04, R-05, R-11, R-16, R-22 | Tenets: T-07, T-12*
 
 ### `/aa-dev-review`
 
@@ -1492,12 +1499,13 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
 - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
 - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
 
-*Requires: R-01, R-02, R-05, R-08, R-09, R-11 | Tenets: T-06, T-07*
+*Requires: R-01, R-02, R-05, R-08, R-09, R-11, R-22 | Tenets: T-06, T-07*
 
 ### `/aa-dev-optimize`
 
@@ -2204,11 +2212,12 @@ Take an incoming incident, defect report, or request and turn it into a ticket w
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Severity is impact, priority is order. Do not let a loud reporter set either.
 - Ask for what is missing once, precisely. A ticket that cannot be reproduced from its content goes back with the exact questions.
 - Check for duplicates before creating. Search by symptom, not by the reporter's title.
 
-*Requires: R-02 | Tenets: T-04, T-13 | Methodology: phase 6 step 6.1*
+*Requires: R-02, R-22 | Tenets: T-04, T-13 | Methodology: phase 6 step 6.1*
 
 ### `/aa-sup-respond-incident`
 
@@ -2271,9 +2280,10 @@ After an incident is closed, review what happened using the timeline and the evi
 - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
 - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+- **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - Compute the times from the timeline with a tool; do not estimate them.
 - Ask "what made this reasonable at the time" for every decision in the timeline. Blame finds a person; this finds a cause.
 - Prefer one action that removes the cause over five that add checks around it.
 
-*Requires: R-02, R-03, R-04 | Tenets: T-07*
+*Requires: R-02, R-03, R-04, R-22 | Tenets: T-07*
 

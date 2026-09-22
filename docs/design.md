@@ -60,7 +60,8 @@ The framework is opinionated, and its **opinions** are stated up front in
 [opinions.md](opinions.md): requirements are Gherkin; every project uses source control, a
 ticket manager, and a knowledge repository; every repository shares one folder structure and
 has root scripts for initialize, build, test, and pack; every repository has unit, integration,
-and end-to-end tests; and Development proves the requirement while Testing goes beyond it.
+and end-to-end tests; Development proves the requirement while Testing goes beyond it; and
+every repository maps to exactly one ticket project.
 
 ## 3. Architecture
 
@@ -450,6 +451,7 @@ produces the npm tarball; publishing to npm is a release step.
 | 34 | 2026-09-21 | Every discipline has a 2 or 3 character code; discipline commands are `/aa-<code>-<step>`; framework commands use the code `fw` (`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`) | Commands group by discipline in the agent's command list, and the rule has no exceptions |
 | 35 | 2026-09-21 | All fifteen disciplines defined as workflow data (`disciplines/<id>.yaml`) with bounded responsibilities, 47 steps with artifacts and guidance, six processes; `docs/discipline-review.md` is generated from them and validated in the unit tier | The workflow data is the source of truth; a generated review document keeps it readable without letting it drift |
 | 36 | 2026-09-21 | Framework authoring commands `/aa-fw-new-opinion`, `-tenet`, `-discipline`, `-process`, `-step`, each responsible for all the plumbing of the item it adds | Adding to the framework by hand misses pieces; a command that owns the whole checklist keeps the framework consistent with itself |
+| 37 | 2026-09-21 | Opinion O-09: one repository maps to exactly one ticket project; many repositories may share one; the mapping lives in the project config (R-22, G-27) | A state store split across projects has two truths; one mapping keeps ids, branches, commits, init, and health unambiguous |
 
 ## 12. Open questions
 

@@ -41,6 +41,7 @@ written, guidance moves out of here and into the skill (for a step) or the proce
 | G-24 | Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13). | all steps | none |
 | G-25 | Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08). | all steps | R-07, R-18 |
 | G-26 | Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature. | all steps | R-02, R-03 |
+| G-27 | Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project. | all anchored steps; Support: triage; Refinement: plan-work | R-02, R-07, R-22 |
 
 ## Conventions for writing guidance
 

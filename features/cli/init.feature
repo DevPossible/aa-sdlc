@@ -36,6 +36,13 @@ Feature: aa init bootstraps a repository
     Then the project config records a default pattern for referencing the anchor ticket
     And the pattern can be changed in the project config
 
+  @O-09 @R-22
+  Scenario: Record the one ticket project
+    When I run "aa init"
+    Then it asks which ticket system project or group this repository maps to
+    And the project config records exactly one
+    And a second repository may record the same project
+
   Scenario: Re-running is safe
     Given "aa init" has already been run here
     When I run "aa init" again

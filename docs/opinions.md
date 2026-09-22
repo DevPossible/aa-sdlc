@@ -138,8 +138,30 @@ O-01 they define what the framework treats as the truth for each kind of informa
 
 The tooling keeps the links between them current (T-12). No one of them holds another's truth.
 
-Opinions O-05, O-06, and O-07 describe the shape of every repository, and O-08 describes who
-proves what. Together they are what `aa init` lays down and `/aa-fw-health` checks for.
+**O-09 One repository, one ticket project.**
+*The stance:* every repository maps to exactly one ticket system project (or group, whatever
+the system calls its unit of ownership). Many repositories may point at the same project; a
+single repository never manages tickets across two. The mapping is recorded once, in the
+project config, and every step anchors within it.
+*Why:* the ticket system is the state store (O-03), and a state store split across two projects
+has two truths. One mapping per repository means every ticket id resolves without a qualifier,
+every branch and commit reference is unambiguous, `aa init` can write the mapping and
+`/aa-fw-health` can check it, and a step never has to ask which project it is working in.
+Work that spans repositories is coordinated by tickets that link to each other, not by one
+repository reaching into another project.
+*Rejected:* per-branch or per-folder ticket projects; a repository with tickets in several
+projects "depending on the team"; unqualified ticket ids that the agent must disambiguate;
+recording the mapping anywhere but the project config.
+*Would change our mind:* nothing foreseeable. A monorepo whose subfolders genuinely belong to
+different products should be split, or should treat the ticket project as the product's and
+link outward.
+*Requirements:* R-02, R-07, R-22. *Guidance:* G-27.
+
+---
+
+Opinions O-05, O-06, and O-07 describe the shape of every repository, O-08 describes who
+proves what, and O-09 ties each repository to its one ticket project. Together they are what
+`aa init` lays down and `/aa-fw-health` checks for.
 
 ## Candidates
 

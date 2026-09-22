@@ -25,6 +25,8 @@ mind, are in [docs/opinions.md](docs/opinions.md).
 8. **Development proves the requirement; Testing goes beyond it.** Developers write the tests
    that show a ticket is met. Testers make the suite as comprehensive as is reasonable and turn
    every gap they find into a scenario.
+9. **One repository, one ticket project.** Many repositories may share a ticket project; a
+   single repository never manages tickets across two.
 
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).

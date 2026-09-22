@@ -73,6 +73,29 @@ Feature: Project requirements
     And the report says requirements cannot be captured as the source of truth until it exists
     And the remedy is for "aa init" or "/aa-fw-init" to create it
 
+  @R-22 @required @O-09
+  Scenario: The repository maps to one ticket project
+    Given the merged config names exactly one ticket project
+    And the tickets referenced in recent branches and commits resolve within it
+    When "/aa-fw-health" probes R-22
+    Then R-22 is reported as met
+
+  @R-22 @required @O-09
+  Scenario: The repository names no ticket project
+    Given the merged config has no ticket project
+    When "/aa-fw-health" probes R-22
+    Then R-22 is reported as unmet
+    And the remedy is for "aa init" to ask for the project and write it
+
+  @R-22 @required @O-09
+  Scenario: The repository references tickets in more than one project
+    Given the config names one ticket project
+    And branches or commits reference tickets in a different project
+    When "/aa-fw-health" probes R-22
+    Then R-22 is reported as unmet
+    And the report lists the foreign references
+    And the remedy is for "/aa-fw-init" to help relink them to tickets in the configured project
+
   @R-18 @required @O-05
   Scenario: The repository follows the conventional structure
     Given the documents, features, scripts, source, and tests folders exist at the root

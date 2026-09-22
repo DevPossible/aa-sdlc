@@ -20,10 +20,10 @@ artifacts:
       - Has a type, severity, priority, and owner, each per the project's definitions
       - "Has enough to act on: environment, steps, expected, actual, impact"
       - Duplicates are linked, not created
-guidance: [G-02, G-03, G-12, G-16, G-22, G-24, G-26]
+guidance: [G-02, G-03, G-12, G-16, G-22, G-24, G-26, G-27]
 guidance_inline:
   - Severity is impact, priority is order. Do not let a loud reporter set either.
   - Ask for what is missing once, precisely. A ticket that cannot be reproduced from its content goes back with the exact questions.
   - Check for duplicates before creating. Search by symptom, not by the reporter's title.
-requires: [R-02]
+requires: [R-02, R-22]
 tenets: [T-04, T-13]

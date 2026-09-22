@@ -17,10 +17,10 @@ artifacts:
       - Meets every item of the definition of ready, or says which item it does not and why it proceeds anyway
       - Acceptance criteria are the scenarios, not a restatement of them
       - Size is recorded with the basis for it
-guidance: [G-02, G-03, G-12, G-16, G-18, G-22, G-24]
+guidance: [G-02, G-03, G-12, G-16, G-18, G-22, G-24, G-27]
 guidance_inline:
   - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
   - Size from the plan, not the title. If sizing needs a plan, run implementation planning first and size from that.
   - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
-requires: [R-02, R-16]
+requires: [R-02, R-16, R-22]
 tenets: [T-04, T-07]

@@ -137,6 +137,7 @@ plugins:                            # added to the merged list, never removed by
   - gitlab-flow
 conventions:
   ticket:
+    project: "ABC"                  # the ONE ticket system project or group this repo maps to (O-09)
     pattern: "[A-Z]+-\\d+"          # how a ticket id looks; used in tags, branches, commits
     tag: "@{id}"                    # how a scenario is tagged with its ticket
   branch:
