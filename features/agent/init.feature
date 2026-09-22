@@ -42,3 +42,37 @@ Feature: /aa-fw-init bootstraps what needs judgement
     When "/aa-fw-init" completes
     Then it runs "/aa-fw-health" again
     And it reports what changed and what remains
+
+  @O-09 @O-04 @R-22 @R-03 @T-05
+  Scenario: Ask for the ticket project and knowledge base
+    Given the project config names no ticket project
+    When I run "/aa-fw-init"
+    Then it asks which ticket project this repository belongs to and where its knowledge base is
+    And it accepts a name, a key, or a URL
+
+  @T-05
+  Scenario: A connector for the named system is in scope
+    Given the user answers with a system and a project URL
+    And the agent has a skill, MCP server, or CLI for that system that is authorised
+    When "/aa-fw-init" continues
+    Then it confirms through the connector that the project exists
+    And it records the project key and URL in the project config
+    And it does not name any system the user did not name
+
+  @T-05 @T-10
+  Scenario: A connector is present but not authorised for the site
+    Given the user answers with a system and a project URL
+    And the agent has a connector for that system that is not authorised for that site
+    When "/aa-fw-init" continues
+    Then it says the connector was found and is not authorised for the site
+    And it records the mapping in the project config anyway
+    And it says health will report R-02 or R-03 unmet until the connector is authorised
+
+  @T-05 @T-10
+  Scenario: No connector for the named system is in scope
+    Given the user answers with a system and a project URL
+    And the agent has nothing in scope for that system
+    When "/aa-fw-init" continues
+    Then it says nothing in scope reaches that system
+    And it records the mapping in the project config anyway
+    And the remedy is for the user to install or authorise a connector
