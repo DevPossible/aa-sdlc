@@ -86,7 +86,6 @@ L '    <link rel="stylesheet" href="styles.css">'
 L '</head>'
 L '<body class="page-methodology">'
 L "    $banner"
-L '    <div class="alpha-banner">ALPHA: AA-SDLC is under active development and not yet ready for adoption</div>'
 L '    <nav class="fixed-nav">'
 L '        <div class="nav-container">'
 L '            <div class="nav-brand"><a href="index.html"><h2>AA-SDLC</h2></a><span class="nav-subtitle">Agent Assisted Software Development Life Cycle</span></div>'
