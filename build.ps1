@@ -11,6 +11,8 @@
     markdown content; see docs/development-environment.md.
 .PARAMETER Lint
     Run the formatter check and the static analyser in addition to the build.
+.PARAMETER Version
+    The package version stamped into the CLI binary and build-info.json. Defaults to "dev".
 .EXAMPLE
     ./build.ps1
     ./build.ps1 -Lint
@@ -18,7 +20,10 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [switch]$Lint
+    [switch]$Lint,
+
+    [Parameter()]
+    [string]$Version = 'dev'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -98,6 +103,28 @@ try {
     }
 
     if ($Lint) { Invoke-Lint }
+
+    # The aa CLI: refresh the embedded content, then build for this platform (decision record 0004)
+    & (Join-Path 'scripts' 'Sync-EmbeddedContent.ps1') -Version $Version | Out-Null
+    $cliDir = Join-Path $PSScriptRoot 'src' 'aa-sdlc-cli'
+    $cliOut = Join-Path $BuildDir 'aa-sdlc-cli'
+    New-Item -ItemType Directory -Path $cliOut -Force | Out-Null
+    $exe = if ($IsWindows) { 'aa.exe' } else { 'aa' }
+    $commit = (git rev-parse HEAD 2>$null)
+    $ldflags = "-s -w -X aasdlc.com/aa/internal/version.Version=$Version -X aasdlc.com/aa/internal/version.Commit=$commit -X aasdlc.com/aa/internal/version.BuildDate=$(Get-Date -Format 'o')"
+    Push-Location $cliDir
+    try {
+        $env:CGO_ENABLED = '0'
+        if ($Lint) {
+            $unformatted = & gofmt -l .
+            if ($unformatted) { $unformatted | ForEach-Object { Write-Host "  not gofmt-formatted: $_" -ForegroundColor Red }; throw 'Lint failed: run gofmt -w on the files above.' }
+            & go vet ./...
+            if ($LASTEXITCODE -ne 0) { throw 'go vet reported problems.' }
+        }
+        & go build -trimpath -ldflags $ldflags -o (Join-Path $cliOut $exe) ./cmd/aa
+        if ($LASTEXITCODE -ne 0) { throw 'go build failed.' }
+    } finally { Pop-Location }
+    Write-Host "CLI: $(Join-Path $cliOut $exe)" -ForegroundColor Green
 
     $packageDir = Join-Path $BuildDir 'aa-sdlc'
     New-Item -ItemType Directory -Path $packageDir -Force | Out-Null

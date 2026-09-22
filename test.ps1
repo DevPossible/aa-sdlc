@@ -65,6 +65,18 @@ try {
             throw "[unit] structural validation failed with $($problems.Count) problem(s)."
         }
         Write-Host '[unit] structural validation passed.' -ForegroundColor Green
+
+        # The aa CLI's Go tests live with the module (O-07); they need the embedded content present
+        & (Join-Path 'scripts' 'Sync-EmbeddedContent.ps1') | Out-Null
+        Push-Location (Join-Path 'src' 'aa-sdlc-cli')
+        try {
+            $goArgs = @('test', './...')
+            if ($Filter) { $goArgs += @('-run', $Filter) }
+            & go @goArgs
+            if ($LASTEXITCODE -ne 0) { throw '[unit] go test failed.' }
+            Write-Host '[unit] go test passed.' -ForegroundColor Green
+        } finally { Pop-Location }
+
         Invoke-PesterTier -Name 'unit' -Paths @('src')
     }
 

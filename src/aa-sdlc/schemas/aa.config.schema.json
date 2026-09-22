@@ -65,7 +65,19 @@
     "organisation": {
       "type": "object",
       "additionalProperties": false,
-      "properties": { "repository": { "type": "string", "minLength": 1 } }
+      "properties": {
+        "repository": { "type": "string", "minLength": 1, "description": "The organisation config repository: enterprise scope at its root." },
+        "team": { "type": "string", "minLength": 1, "description": "Subfolder of the organisation repository holding the team scope." }
+      }
+    },
+    "install": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Written by aa setup at user scope: what was installed and when.",
+      "properties": {
+        "version": { "type": "string", "minLength": 1 },
+        "updated": { "type": "string", "minLength": 1 }
+      }
     }
   }
 }
