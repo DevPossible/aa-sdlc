@@ -17,6 +17,9 @@
     Path to the SDK content package. Defaults to src/aa-sdlc relative to the repository root.
 .PARAMETER DocsRoot
     Path to the docs folder. Defaults to docs relative to the repository root.
+.PARAMETER SkillsRoot
+    The skills tree to update. Defaults to <SourceRoot>/skills; the scaffold passes its output
+    root so a skill written elsewhere is filled from the real workflow data.
 .EXAMPLE
     ./scripts/Sync-SkillGuidance.ps1
 #>
@@ -26,10 +29,14 @@ param(
     [string]$SourceRoot = (Join-Path -Path $PSScriptRoot -ChildPath '..' -AdditionalChildPath 'src', 'aa-sdlc'),
 
     [Parameter()]
-    [string]$DocsRoot = (Join-Path -Path $PSScriptRoot -ChildPath '..' -AdditionalChildPath 'docs')
+    [string]$DocsRoot = (Join-Path -Path $PSScriptRoot -ChildPath '..' -AdditionalChildPath 'docs'),
+
+    [Parameter()]
+    [string]$SkillsRoot
 )
 
 $ErrorActionPreference = 'Stop'
+if (-not $SkillsRoot) { $SkillsRoot = Join-Path -Path $SourceRoot -ChildPath 'skills' }
 $nl = "`n"
 
 $guidanceText = @{}
@@ -71,7 +78,7 @@ function New-GuidanceSection([object]$step) {
 }
 
 $changed = 0
-foreach ($skillFile in Get-ChildItem -Path (Join-Path -Path $SourceRoot -ChildPath 'skills') -Recurse -Filter 'SKILL.md' -File) {
+foreach ($skillFile in Get-ChildItem -Path $SkillsRoot -Recurse -Filter 'SKILL.md' -File) {
     $content = (Get-Content -Path $skillFile.FullName -Raw) -replace "`r`n", "`n"
     if ($content -notmatch '(?s)^---\n(.*?)\n---') { continue }
     $front = ConvertFrom-Yaml $Matches[1]

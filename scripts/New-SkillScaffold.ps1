@@ -43,15 +43,6 @@ if (-not (Test-Path $stepFile)) { throw "No workflow step '$Step' at $stepFile" 
 $s = ConvertFrom-Yaml (Get-Content -Path $stepFile -Raw)
 $d = ConvertFrom-Yaml (Get-Content -Path (Join-Path -Path $workflow -ChildPath 'disciplines' -AdditionalChildPath "$($s.discipline).yaml") -Raw)
 
-$sets = @{}
-Get-ChildItem -Path (Join-Path -Path $workflow -ChildPath 'guidance-sets') -Filter '*.yaml' | ForEach-Object {
-    $y = ConvertFrom-Yaml (Get-Content -Path $_.FullName -Raw); $sets[$y.id] = $y
-}
-$guidanceText = @{}
-foreach ($m in [regex]::Matches((Get-Content -Path (Join-Path -Path $repo -ChildPath 'docs' -AdditionalChildPath 'guidance.md') -Raw), '\| (G-\d+) \| (.+?) \| (.+?) \| (.+?) \|')) {
-    $guidanceText[$m.Groups[1].Value] = $m.Groups[2].Value
-}
-
 function Format-IdList([object[]]$items) { if ($items) { '[' + (($items | Where-Object { $_ }) -join ', ') + ']' } else { '[]' } }
 $oneLine = ($s.summary -replace '\s+', ' ').Trim()
 $anchorText = switch ($s.anchor) {
@@ -98,26 +89,9 @@ foreach ($a in $s.artifacts) {
     foreach ($c in $a.acceptance) { [void]$sb.AppendLine("- $c") }
     [void]$sb.AppendLine()
 }
+# The Guidance section is written by Sync-SkillGuidance.ps1 after the file exists, so there is one renderer
 [void]$sb.AppendLine('## Guidance')
 [void]$sb.AppendLine()
-$seen = [System.Collections.Generic.List[string]]::new()
-foreach ($setId in @($s.guidance_sets | Where-Object { $_ })) {
-    $set = $sets[$setId]
-    [void]$sb.AppendLine("*From the ``$setId`` set:* $($set.purpose.Trim())")
-    [void]$sb.AppendLine()
-    foreach ($g in $set.guidance) {
-        if ($seen.Contains($g)) { continue }; $seen.Add($g)
-        [void]$sb.AppendLine("- **$g** $($guidanceText[$g])")
-    }
-    [void]$sb.AppendLine()
-}
-if ($s.guidance -or $s.guidance_inline) {
-    [void]$sb.AppendLine('*For this step:*')
-    [void]$sb.AppendLine()
-    foreach ($g in @($s.guidance | Where-Object { $_ })) { if (-not $seen.Contains($g)) { $seen.Add($g); [void]$sb.AppendLine("- **$g** $($guidanceText[$g])") } }
-    foreach ($g in @($s.guidance_inline | Where-Object { $_ })) { [void]$sb.AppendLine("- $g") }
-    [void]$sb.AppendLine()
-}
 [void]$sb.AppendLine('## Report')
 [void]$sb.AppendLine()
 [void]$sb.AppendLine('State what was produced and where, quote the output of anything that was run, list what was skipped or could not be done and why, and name what remains (G-15). Update the anchor ticket with the same (G-12). Stage every changed file as one change set and present the summary with a Conventional Commit message; commit only if the user asked for that commit (O-17, G-40).')
@@ -128,6 +102,8 @@ if ((Test-Path $skillPath) -and -not $Force) { throw "$skillPath exists; use -Fo
 New-Item -ItemType Directory -Path $skillDir -Force | Out-Null
 Set-Content -Path $skillPath -Value ($sb.ToString() -replace "`r`n", "`n") -NoNewline -Encoding utf8
 Write-Host "Wrote $skillPath" -ForegroundColor Green
+# Fill the Guidance section from the workflow data with the one renderer (decision record 0011)
+& (Join-Path -Path $PSScriptRoot -ChildPath 'Sync-SkillGuidance.ps1') -SkillsRoot $OutputRoot | Out-Null
 
 # Claude Code command wrapper for this repository (project scope), only when writing into the real skills tree
 $realRoot = (Resolve-Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc', 'skills')).Path
