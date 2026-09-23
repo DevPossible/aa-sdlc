@@ -98,7 +98,8 @@ $icon = @{
 }
 function Get-Icon([string]$disciplineId) {
     $paths = $icon[$disciplineId]
-    if (-not $paths) { $paths = '<circle cx="12" cy="12" r="9"/>' }
+    # A new discipline must bring an icon; failing here makes the unit tier say so instead of shipping a blank
+    if (-not $paths) { throw "No icon for discipline '$disciplineId': add an entry to the icon table in scripts/Build-WebsiteMethodology.ps1 and regenerate the site" }
     return "<svg class=`"discipline-icon`" viewBox=`"0 0 24 24`" aria-hidden=`"true`" focusable=`"false`" fill=`"none`" stroke=`"currentColor`" stroke-width=`"2`" stroke-linecap=`"round`" stroke-linejoin=`"round`">$paths</svg>"
 }
 

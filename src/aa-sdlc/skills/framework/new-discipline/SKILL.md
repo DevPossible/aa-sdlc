@@ -50,7 +50,12 @@ otherwise stop and say so.
    table in `docs/plan-discipline-review.md` at the right position with status `drafted`;
    update the "Fourteen" wording wherever the count of disciplines is stated.
 9. **Log the decision** in the `docs/design.md` decision log.
-10. **Verify.** Run `./test.ps1 -Tier unit` and fix every problem. Run
+10. **Give it an icon and regenerate the site.** Add an entry for the discipline id to the icon
+    table in `scripts/Build-WebsiteMethodology.ps1` (a small stroke-only SVG in the style of
+    the others); the generator refuses a discipline without one. Then run
+    `./scripts/Build-WebsiteMethodology.ps1` and commit the regenerated pages in the website
+    repository (decision record 0007).
+11. **Verify.** Run `./test.ps1 -Tier unit` and fix every problem. Run
     `./scripts/Build-DisciplineReview.ps1`.
 11. **Stage and present.** Stage every changed file as one change set and present the staged
     summary with the message `feat(workflow): add <name> discipline`. Commit only if the user
