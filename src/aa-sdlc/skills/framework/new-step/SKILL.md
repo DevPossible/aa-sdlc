@@ -43,7 +43,9 @@ stop and say so.
 4. **Guidance rules.** Name tool categories, never tools (T-01); if the step needs a tool
    category, add a requirement and cite it. Promote an inline item to a `G-nn` in
    `docs/guidance.md` only when a second step shares it; otherwise keep it inline. For an
-   anchored step, always cite G-22 (read the ticket first) and G-12 (update it last).
+   anchored step, always cite G-22 (read the ticket first) and G-12 (update it last). The
+   skill's Guidance section is written by `scripts/Sync-SkillGuidance.ps1` from these lists;
+   run it rather than typing guidance text into the skill.
 5. **Add requirements** the guidance implies as rows in `docs/requirements.md` with met and
    unmet scenarios in `features/requirements/`, if they do not already exist.
 6. **List it.** Add the id to `steps:` in `src/aa-sdlc/workflow/disciplines/<discipline>.yaml`
@@ -67,6 +69,30 @@ stop and say so.
 11. **Stage and present.** Stage every changed file as one change set and present the staged
     summary with the message `feat(workflow): add <discipline> step <id>`. Commit only if the
     user asked for the commit in this invocation (O-17, G-40). No attribution trailers.
+
+## Guidance
+
+*From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+
+- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+
+*From the `framework-authoring` set:* What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+
+*For this step:*
+
+- Name the step by the work, in the imperative, unique across all disciplines: implement, not development-work; fix-bug, not bugfix. The id is the last segment of the command and the skill folder name, so it cannot change later.
+- Guidance names categories, never tools (T-01). If the step needs a tool category, declare the requirement and cite it; if it needs a specific tool, the step belongs in a plugin.
+- Promote guidance to an id only when a second step shares it; otherwise keep it inline on the step. Do not create G-nn ids speculatively.
+- Check every anchor: a step with anchor required must read the ticket first (G-22) and update it last (G-12); write both into the skill body.
+- Run the validator before regenerating the review; a step the validator rejects is not added.
 
 ## Report
 

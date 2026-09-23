@@ -61,6 +61,24 @@ remedy.
 7. **Report** in the shape below. Return it to the user. Write it to the documents folder only
    if the user asked for a file.
 
+## Guidance
+
+*From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+
+- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+
+*For this step:*
+
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- Probe by doing, not by looking. To check the ticket system, read a ticket; to check source control, read the remote; to check the build, run the build script. A configuration file that exists proves nothing.
+- Report not-applicable as its own status. A requirement that cannot apply here (hooks on a target with no hooks) is not a failure and must not look like one.
+- Change nothing. If a probe would need to create, write, or install anything to succeed, report it as unmet and name /aa-fw-init as the remedy.
+- Group the report by kind (environment, project, tooling, coverage) and lead with required-and-unmet.
+
 ## Report shape
 
 ```

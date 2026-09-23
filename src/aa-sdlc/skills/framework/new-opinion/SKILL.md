@@ -61,7 +61,8 @@ Ask for anything missing before writing:
 6. **Create implied guidance.** For each practice the stance demands, add a row to
    `docs/guidance.md` with the next `G-nn`, then cite it from every step it applies to by
    editing that step's `guidance:` list in `src/aa-sdlc/workflow/steps/<step>.yaml`. Add the
-   new requirement ids to those steps' `requires:` lists.
+   new requirement ids to those steps' `requires:` lists. Run `scripts/Sync-SkillGuidance.ps1`
+   so every affected skill carries the new text verbatim; the unit tier fails until it does.
 7. **Update the config format** in `docs/formats.md` if the stance needs a new
    `aa.config.yaml` key, with a comment citing `O-nn`.
 8. **Write the scenarios** for the opinion in action: `features/framework/<slug>.feature`,
@@ -74,6 +75,30 @@ Ask for anything missing before writing:
     summary with a conventional message such as `docs(opinions): O-nn <short statement>`.
     Commit only if the user asked for the commit in this invocation (O-17, G-40).
     No attribution trailers.
+
+## Guidance
+
+*From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+
+- **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+- **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+- **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+- **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+- **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+
+*From the `framework-authoring` set:* What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+- **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
+
+*For this step:*
+
+- Check the opinion against the tenets before writing it. An opinion that names a tool violates T-01; an opinion that assumes a team size violates T-13. Rewrite until it does not.
+- Ids are permanent. Take the next O-nn; never reuse or renumber, even if an earlier opinion was withdrawn.
+- Trace forward, all of it. List what the opinion implies for requirements, guidance, disciplines, steps, and the health command, and stage each change in the same change set for the user to commit (O-17). An opinion nothing depends on is a slogan.
+- Say what it rejects with the same care as what it holds. The rejected alternatives are what make the opinion reviewable.
+- Finish by running the unit tier and regenerating docs/discipline-review.md. Report what changed, file by file.
 
 ## Report
 
