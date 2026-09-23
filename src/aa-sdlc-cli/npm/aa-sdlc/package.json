@@ -2,7 +2,7 @@
   "name": "aa-sdlc",
   "version": "0.0.0",
   "description": "The aa CLI for the AA-SDLC framework: bootstrap a machine and a repository, then work through your agent. A native Go binary per platform, delivered through npm.",
-  "license": "SEE LICENSE IN https://aasdlc.com",
+  "license": "FSL-1.1-ALv2",
   "homepage": "https://aasdlc.com",
   "repository": {
     "type": "git",

@@ -83,6 +83,19 @@ pack.ps1       version, build, test, and zip into .dist/
 
 This is opinions 5, 6, and 7 applied to the framework's own repository.
 
+## Licence and trademark
+
+Licensed under the Functional Source License, version 1.1, with Apache 2.0 as the future
+licence (`FSL-1.1-ALv2`): see [LICENSE.md](LICENSE.md). In short, use it for anything,
+including commercial work and client projects, modify it, and contribute back; the one thing
+you may not do is offer it, or a derivative of it, as a competing product. Each version becomes
+Apache 2.0 two years after its release.
+
+AA-SDLC is a trademark of DevPossible LLC. The licence grants no right to the name: a fork or
+derivative may not present itself as AA-SDLC (decision record
+[0009](docs/decisions/0009-functional-source-license.md)).
+
 ## Related
 
 - Methodology and business case: https://aasdlc.com
+- Source on GitHub (mirror of the GitLab origin): https://github.com/DevPossible/aa-sdlc

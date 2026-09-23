@@ -503,11 +503,12 @@ row it supersedes; the superseded row gains only a "Superseded by" note.
 - **CLI language.** Closed: Go, with the content package embedded in the binary and npm
   delivery through one optional dependency per platform (decision record
   [0004](decisions/0004-cli-in-go-delivered-by-npm.md)).
-- **Public hosting and licence.** Hosting closed 2026-09-22: GitLab is the origin and runs the
-  pipeline; GitLab push mirrors copy protected branches to `github.com/DevPossible/aa-sdlc`
-  (created private until the licence is chosen) and every branch to the Azure DevOps
-  `OpenSource` project as a backup, the same arrangement as the other open-source
-  repositories. Licence not chosen; the GitHub repository goes public when it is.
+- **Public hosting and licence.** Closed 2026-09-22. GitLab is the origin and runs the
+  pipeline; GitLab push mirrors copy protected branches to the public
+  `github.com/DevPossible/aa-sdlc` and every branch to the Azure DevOps `OpenSource` project
+  as a backup, the same arrangement as the other open-source repositories. The licence is
+  FSL-1.1-ALv2 with AA-SDLC as a DevPossible trademark (decision record
+  [0009](decisions/0009-functional-source-license.md)).
 - **Exact step and command names.** The names in section 4 are working names.
 - **Skills for every step.** Closed 2026-09-22: all 52 steps have a skill scaffolded from
   their workflow data by `scripts/New-SkillScaffold.ps1` and completed by hand, a command

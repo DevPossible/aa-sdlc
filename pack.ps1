@@ -70,11 +70,12 @@ function New-PlatformPackage {
         Pop-Location
     }
 
+    Copy-Item -Path (Join-Path -Path $PSScriptRoot -ChildPath 'LICENSE.md') -Destination $pkgDir
     $manifest = [ordered]@{
         name        = $pkgName
         version     = $Version
         description = "The aa CLI binary for $nodeName. Installed by the aa-sdlc package as an optional dependency; installable on its own."
-        license     = 'SEE LICENSE IN https://aasdlc.com'
+        license     = 'FSL-1.1-ALv2'
         homepage    = 'https://aasdlc.com'
         os          = @($NodeOS[$GoOS])
         cpu         = @($NodeArch[$GoArch])
@@ -113,6 +114,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'the npm launcher bin/aa.js does not parse' }
     Copy-Item -Path (Join-Path -Path $NpmSource -ChildPath 'bin' -AdditionalChildPath 'aa.js') -Destination (Join-Path -Path $mainDir -ChildPath 'bin')
     Copy-Item -Path (Join-Path -Path $NpmSource -ChildPath 'README.md') -Destination $mainDir
+    Copy-Item -Path (Join-Path -Path $PSScriptRoot -ChildPath 'LICENSE.md') -Destination $mainDir
     $manifest = Get-Content -Path (Join-Path -Path $NpmSource -ChildPath 'package.json') -Raw | ConvertFrom-Json
     $manifest.version = $Version
     foreach ($dep in @($manifest.optionalDependencies.PSObject.Properties.Name)) { $manifest.optionalDependencies.$dep = $Version }
