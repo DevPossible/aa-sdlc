@@ -107,7 +107,9 @@ function Get-Icon([string]$disciplineId) {
 function New-Ring([bool]$WithLinks) {
     $ring = [System.Text.StringBuilder]::new()
     $size = 460; $centre = $size / 2; $radius = 165; $node = 52
-    [void]$ring.Append("<svg xmlns=`"http://www.w3.org/2000/svg`" viewBox=`"0 0 $size $size`" role=`"img`" aria-labelledby=`"ring-title`" class=`"workflow-ring`">$nl")
+    # The standalone file is one image; the inline copy holds links, so it must not be role="img" or assistive technology cannot reach them
+    $role = if ($WithLinks) { '' } else { ' role="img"' }
+    [void]$ring.Append("<svg xmlns=`"http://www.w3.org/2000/svg`" viewBox=`"0 0 $size $size`"$role aria-labelledby=`"ring-title`" class=`"workflow-ring`">$nl")
     [void]$ring.Append("  <title id=`"ring-title`">The six AA-SDLC processes as a cycle: $(($processOrder | ForEach-Object { $processes[$_].name }) -join ', ')</title>$nl")
     [void]$ring.Append("  <defs><marker id=`"ring-arrow`" viewBox=`"0 0 10 10`" refX=`"8`" refY=`"5`" markerWidth=`"7`" markerHeight=`"7`" orient=`"auto-start-reverse`"><path d=`"M0 0L10 5 0 10z`" fill=`"#8a9bb0`"/></marker></defs>$nl")
     [void]$ring.Append("  <circle cx=`"$centre`" cy=`"$centre`" r=`"$radius`" fill=`"none`" stroke=`"#dfe6ee`" stroke-width=`"14`"/>$nl")
@@ -128,7 +130,7 @@ function New-Ring([bool]$WithLinks) {
         # The node is small, so a long name such as "Conception and idea refinement" shows its first part
         $short = ($p.name -split ' and ')[0]
         $label = "<circle cx=`"$x`" cy=`"$y`" r=`"$node`" fill=`"$($processColour[$processId])`"/><text x=`"$x`" y=`"$($y - 4)`" text-anchor=`"middle`" font-family=`"Inter, Segoe UI, Arial, sans-serif`" font-size=`"14`" font-weight=`"700`" fill=`"#ffffff`">$(Esc $short)</text><text x=`"$x`" y=`"$($y + 15)`" text-anchor=`"middle`" font-family=`"Inter, Segoe UI, Arial, sans-serif`" font-size=`"12`" fill=`"#ffffff`" opacity=`"0.9`">$count steps</text>"
-        if ($WithLinks) { [void]$ring.Append("  <a href=`"#process-$processId`">$label</a>$nl") } else { [void]$ring.Append("  $label$nl") }
+        if ($WithLinks) { [void]$ring.Append("  <a href=`"#process-$processId`" aria-label=`"$(Esc $p.name), $count steps`">$label</a>$nl") } else { [void]$ring.Append("  $label$nl") }
     }
     [void]$ring.Append("  <text x=`"$centre`" y=`"$($centre - 8)`" text-anchor=`"middle`" font-family=`"Inter, Segoe UI, Arial, sans-serif`" font-size=`"26`" font-weight=`"700`" fill=`"#1a2332`">AA-SDLC</text>$nl")
     [void]$ring.Append("  <text x=`"$centre`" y=`"$($centre + 18)`" text-anchor=`"middle`" font-family=`"Inter, Segoe UI, Arial, sans-serif`" font-size=`"14`" fill=`"#666666`">$($steps.Count) steps, $($disciplines.Count) disciplines</text>$nl")

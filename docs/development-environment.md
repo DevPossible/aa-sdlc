@@ -67,7 +67,7 @@ runs nothing in an environment. Therefore:
 | Confluence space AS | `aa.config.yaml` `conventions.knowledge` | same connector, same state | R-03 reports unmet until granted; decisions are in `docs/decisions/` regardless |
 | GitLab remote | `git remote` | git CLI | R-01 and R-05 met; the pipeline runs here and nowhere else |
 | GitHub mirror `DevPossible/aa-sdlc` | GitLab push mirror, protected branches only | none needed; GitLab pushes | private until the licence is chosen; never push to it directly |
-| Azure DevOps `OpenSource/aa-sdlc` | GitLab push mirror, every branch | none needed; GitLab pushes | backup only; no pipeline definition may exist there |
+| Azure DevOps `OpenSource/aa-sdlc` | GitLab push mirror, every branch | none needed; GitLab pushes | backup only; no pipeline definition may exist there. The mirror authenticates with an Azure DevOps personal access token named `gitlab-mirror-aa-sdlc` (scope: code write) that expires on 2027-09-21; when the mirror reports an authentication error, create a new token with the same scope and update the mirror URL in GitLab (Settings, Repository, Mirroring) |
 
 ## Test tiers (O-07)
 
