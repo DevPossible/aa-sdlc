@@ -66,7 +66,7 @@ runs nothing in an environment. Therefore:
 
 | Tier | Home | Today |
 |------|------|-------|
-| unit | `scripts/Test-*.ps1` via `./test.ps1 -Tier unit`, plus the Go tests in `src/aa-sdlc-cli/` | structural and schema validators; the website currency check when `website-aasdlc-com` is checked out beside this repository (decision record 0007), skipped with a warning otherwise; Go tests for config merging, `aa init`, `aa update`, and `aa plugin` |
+| unit | `scripts/Test-*.ps1` via `./test.ps1 -Tier unit`, plus the Go tests in `src/aa-sdlc-cli/` | structural and schema validators; the website currency check against the committed HEAD of `website-aasdlc-com` when it is checked out beside this repository (decision records 0007 and 0010), skipped with a warning otherwise; Go tests for config merging, `aa init`, `aa update`, and `aa plugin` |
 | integration | `tests/integration/`: godog executes `features/cli/*.feature` (`@cli`) against the built binary | 26 scenarios: 25 pass, 1 pending (a second target does not exist yet) |
 | e2e | `tests/e2e/`: Pester installs the packed npm tarballs into a temporary prefix and runs `aa setup` and `aa init`; also checks the health baseline names every requirement | 5 tests |
 
