@@ -4,6 +4,7 @@
 package targets
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
@@ -71,6 +72,18 @@ func InstallClaudeCode(dir string, skillRefPrefix string) (InstallResult, error)
 	if err != nil {
 		return res, err
 	}
+	// The shared guidance sets: one folder beside the skills, no command; every skill's
+	// reference to the source path becomes the scope's path (decision record 0012)
+	guidancePath := skillRefPrefix + "/" + content.SharedGuidanceDir
+	shared, err := content.SharedGuidance()
+	if err != nil {
+		return res, err
+	}
+	written, err := writeSkillFiles(dir, content.SharedGuidanceDir, shared)
+	if err != nil {
+		return res, err
+	}
+	res.Written = append(res.Written, written...)
 	for _, sk := range skills {
 		step, ok := stepByID[sk.StepID]
 		if !ok {
@@ -81,7 +94,11 @@ func InstallClaudeCode(dir string, skillRefPrefix string) (InstallResult, error)
 			return res, fmt.Errorf("step %s names unknown discipline %s", step.ID, step.Discipline)
 		}
 		name := fmt.Sprintf("aa-%s-%s", d.Code, step.ID)
-		written, err := writeSkillAndCommand(dir, name, sk.Files, skillRefPrefix, oneLine(step.Summary))
+		files := map[string][]byte{}
+		for rel, b := range sk.Files {
+			files[rel] = bytes.ReplaceAll(b, []byte(content.SourceGuidancePath), []byte(guidancePath))
+		}
+		written, err := writeSkillAndCommand(dir, name, files, skillRefPrefix, oneLine(step.Summary))
 		if err != nil {
 			return res, err
 		}
@@ -199,7 +216,7 @@ func coreCommandPrefixes() []string {
 	if err != nil {
 		return nil
 	}
-	var out []string
+	out := []string{content.SharedGuidanceDir}
 	for _, d := range ds {
 		out = append(out, "aa-"+d.Code+"-")
 	}
@@ -215,7 +232,9 @@ func hasAnyPrefix(s string, prefixes []string) bool {
 	return false
 }
 
-func writeSkillAndCommand(dir, name string, files map[string][]byte, skillRefPrefix, description string) ([]string, error) {
+// writeSkillFiles writes a skill folder's files under dir/.claude/skills/<name> and returns the
+// paths written, relative to dir.
+func writeSkillFiles(dir, name string, files map[string][]byte) ([]string, error) {
 	var written []string
 	skillDir := filepath.Join(dir, ".claude", "skills", name)
 	for rel, b := range files {
@@ -228,6 +247,14 @@ func writeSkillAndCommand(dir, name string, files map[string][]byte, skillRefPre
 		}
 		r, _ := filepath.Rel(dir, p)
 		written = append(written, filepath.ToSlash(r))
+	}
+	return written, nil
+}
+
+func writeSkillAndCommand(dir, name string, files map[string][]byte, skillRefPrefix, description string) ([]string, error) {
+	written, err := writeSkillFiles(dir, name, files)
+	if err != nil {
+		return written, err
 	}
 	cmdDir := filepath.Join(dir, ".claude", "commands")
 	if err := os.MkdirAll(cmdDir, 0o755); err != nil {

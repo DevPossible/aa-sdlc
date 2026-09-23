@@ -131,6 +131,38 @@ func Skills() ([]Skill, error) {
 	return skills, nil
 }
 
+// SharedGuidanceDir is the top-level skill folder that holds the guidance sets every step
+// reads (skills/aa-guidance/sets/<set>.md). It is installed beside the step skills, with no
+// command, and each installed skill's reference to it is rewritten to the scope's path
+// (decision record 0012).
+const SharedGuidanceDir = "aa-guidance"
+
+// SourceGuidancePath is how the source skills refer to the shared sets; it resolves from the
+// framework repository's root and is rewritten on install.
+const SourceGuidancePath = "src/aa-sdlc/skills/" + SharedGuidanceDir
+
+// SharedGuidance returns the files of the shared guidance folder, keyed by path relative to it.
+func SharedGuidance() (map[string][]byte, error) {
+	root := FS()
+	dir := path.Join("skills", SharedGuidanceDir)
+	files := map[string][]byte{}
+	err := fs.WalkDir(root, dir, func(p string, e fs.DirEntry, err error) error {
+		if err != nil || e.IsDir() {
+			return err
+		}
+		b, err := fs.ReadFile(root, p)
+		if err != nil {
+			return err
+		}
+		files[strings.TrimPrefix(p, dir+"/")] = b
+		return nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("reading %s: %w", dir, err)
+	}
+	return files, nil
+}
+
 // ReadFile reads one file from the embedded content.
 func ReadFile(name string) ([]byte, error) {
 	return fs.ReadFile(FS(), name)

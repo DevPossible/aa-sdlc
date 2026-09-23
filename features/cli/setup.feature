@@ -36,3 +36,8 @@ Feature: aa setup bootstraps the machine
   Scenario: Tell the user what to do next
     When "aa setup" completes
     Then it tells the user to run "aa init" in a repository
+
+  Scenario: The guidance sets are installed once beside the skills
+    When I run "aa setup"
+    Then the shared guidance sets are installed at user scope with no command
+    And every installed skill at user scope points at the guidance sets by their user-scope path

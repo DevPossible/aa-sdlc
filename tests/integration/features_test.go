@@ -289,6 +289,18 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	sc.Step(`^it installs the skills and commands for each at user scope$`, func() error {
 		return w.exists(w.home, ".claude/commands/aa-fw-health.md")
 	})
+	sc.Step(`^the shared guidance sets are installed at user scope with no command$`, func() error {
+		return w.guidanceInstalled(w.home)
+	})
+	sc.Step(`^every installed skill at user scope points at the guidance sets by their user-scope path$`, func() error {
+		return w.skillsPointAt(w.home, "~/.claude/skills/aa-guidance/sets/")
+	})
+	sc.Step(`^the shared guidance sets are installed at project scope with no command$`, func() error {
+		return w.guidanceInstalled(w.project)
+	})
+	sc.Step(`^every installed skill at project scope points at the guidance sets by their project-scope path$`, func() error {
+		return w.skillsPointAt(w.project, ".claude/skills/aa-guidance/sets/")
+	})
 	sc.Step(`^a user-scope config exists$`, func() error { return w.exists(w.home, ".aa/aa.config.yaml") })
 	sc.Step(`^it records the targets installed and the package version$`, func() error {
 		b, err := os.ReadFile(filepath.Join(w.home, ".aa", "aa.config.yaml"))
@@ -450,6 +462,54 @@ func (w *world) snapshotConfig() {
 }
 
 // writeFixturePlugin creates a plugin folder under the scenario's home and returns its path.
+// guidanceInstalled checks the shared guidance folder is beside the skills at a scope and that
+// it got no command (decision record 0012).
+func (w *world) guidanceInstalled(scopeDir string) error {
+	for _, set := range []string{"every-step", "anchored-step", "repository-write", "code-change", "test-writing", "framework-authoring"} {
+		if err := w.exists(scopeDir, ".claude/skills/aa-guidance/sets/"+set+".md"); err != nil {
+			return err
+		}
+	}
+	if err := w.exists(scopeDir, ".claude/skills/aa-guidance/SKILL.md"); err != nil {
+		return err
+	}
+	if _, err := os.Stat(filepath.Join(scopeDir, ".claude", "commands", "aa-guidance.md")); err == nil {
+		return errors.New("aa-guidance must not get a command")
+	}
+	return nil
+}
+
+// skillsPointAt checks every installed step skill refers to the shared sets by the scope's
+// path and no longer by the source path.
+func (w *world) skillsPointAt(scopeDir, prefix string) error {
+	entries, err := os.ReadDir(filepath.Join(scopeDir, ".claude", "skills"))
+	if err != nil {
+		return err
+	}
+	checked := 0
+	for _, e := range entries {
+		if !e.IsDir() || e.Name() == "aa-guidance" || !strings.HasPrefix(e.Name(), "aa-") {
+			continue
+		}
+		b, err := os.ReadFile(filepath.Join(scopeDir, ".claude", "skills", e.Name(), "SKILL.md"))
+		if err != nil {
+			return err
+		}
+		s := string(b)
+		if strings.Contains(s, "src/aa-sdlc/skills/aa-guidance") {
+			return fmt.Errorf("%s still names the source path of the guidance sets", e.Name())
+		}
+		if strings.Contains(s, "## Guidance") && strings.Contains(s, "guidance sets") && !strings.Contains(s, prefix) {
+			return fmt.Errorf("%s does not point at %s", e.Name(), prefix)
+		}
+		checked++
+	}
+	if checked == 0 {
+		return errors.New("no installed skills found to check")
+	}
+	return nil
+}
+
 func (w *world) writeFixturePlugin(name string, skills ...string) string {
 	dir := filepath.Join(w.home, "plugins", name)
 	_ = os.MkdirAll(dir, 0o755)

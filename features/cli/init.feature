@@ -79,3 +79,9 @@ Feature: aa init bootstraps a repository
     When I run "aa health"
     Then the CLI explains that health is an agent command
     And it names "/aa-fw-health"
+
+  Scenario: The guidance sets are installed beside the project skills
+    Given I am in a project directory
+    When I run "aa init"
+    Then the shared guidance sets are installed at project scope with no command
+    And every installed skill at project scope points at the guidance sets by their project-scope path
