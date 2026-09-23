@@ -34,6 +34,13 @@ Per R-12, health warns that YAML, Gherkin, and Markdown have no linter beyond th
 validators. That warning is expected and recorded here; it does not block. `.gitattributes`
 fixes LF line endings for every text file so the convention check does not fight the checkout.
 
+## Skill authoring aids
+
+| Aid | Where | Use |
+|-----|-------|-----|
+| `scripts/Sync-SkillGuidance.ps1` | this repository | Regenerates every skill's Guidance section from the workflow data and `docs/guidance.md`. Run after editing guidance, a guidance set, or a step's guidance; `scripts/Test-SkillGuidance.ps1` in the unit tier fails until you do. |
+| `semantic-compressor` skill (v2.0.0, vendored) | `.claude/skills/semantic-compressor/`, invoked as `/semantic-compressor` in a Claude Code session on this repository | Fail-closed compression of skill or agent Markdown. For contributed or plugin prose, not the generated core skills, which measured at a 1.01 ratio (decision record 0011). Use `--min-word-ratio 1.1`, list guidance lines under `security_rules` in the inventory, and run `./test.ps1 -Tier unit` after any apply. Never installed for consumers: it sits outside `src/aa-sdlc/`. |
+
 ## Secrets (G-38)
 
 None. This repository holds no credentials and needs none to build, test, or pack. The ticket
