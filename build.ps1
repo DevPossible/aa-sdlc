@@ -83,7 +83,7 @@ function Invoke-Lint {
 
     # Text conventions for YAML, Gherkin, Markdown, and JSON stand in for a formatter (decision record 0006)
     $textFiles = Get-ChildItem -Path $PSScriptRoot -Recurse -Include '*.yaml', '*.feature', '*.md', '*.json' -File |
-        Where-Object { $_.FullName -notmatch '[\\/](\.build|\.dist|\.tools|\.aitemp|node_modules|\.git)[\\/]' -and $_.FullName -notmatch '[\\/]internal[\\/]content[\\/]data[\\/]' }
+        Where-Object { $_.FullName -notmatch '[\\/](\.build|\.dist|\.tools|\.aitemp|node_modules|\.git)[\\/]' -and $_.FullName -notmatch '[\\/]internal[\\/]content[\\/]data[\\/]' -and $_.FullName -notmatch '[\\/]\.claude[\\/]skills[\\/]semantic-compressor[\\/]' } # the vendored compressor is kept byte-identical to upstream (decision record 0011)
     foreach ($file in $textFiles) {
         $raw = Get-Content -Path $file.FullName -Raw
         if ($null -eq $raw -or $raw.Length -eq 0) { continue }

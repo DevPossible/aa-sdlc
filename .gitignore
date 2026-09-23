@@ -74,3 +74,8 @@ node_modules/
 
 # Editor workspace files (personal)
 *.code-workspace
+
+# Semantic compressor run state (decision record 0011); the tool itself is committed
+.claude/semantic-compressor-work/
+.claude/backups/
+.claude/disabled-skills/
