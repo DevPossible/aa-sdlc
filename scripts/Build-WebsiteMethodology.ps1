@@ -60,7 +60,8 @@ $guidanceText = @{}
 foreach ($m in [regex]::Matches((Get-Content -Path (Join-Path -Path $repo -ChildPath 'docs' -AdditionalChildPath 'guidance.md') -Raw), '\| (G-\d+) \| (.+?) \| (.+?) \| (.+?) \|')) {
     $guidanceText[$m.Groups[1].Value] = $m.Groups[2].Value
 }
-$skillCount = (Get-ChildItem -Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc', 'skills') -Recurse -Filter 'SKILL.md' | Measure-Object).Count
+# Step skills only: the shared aa-guidance folder is a skill folder in shape, not a step (decision record 0012)
+$skillCount = (Get-ChildItem -Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc', 'skills') -Recurse -Filter 'SKILL.md' | Where-Object { $_.Directory.Name -ne 'aa-guidance' } | Measure-Object).Count
 $featureFiles = Get-ChildItem -Path (Join-Path -Path $repo -ChildPath 'features') -Recurse -Filter '*.feature'
 $scenarioCount = ($featureFiles | Select-String -Pattern '^\s*Scenario' | Measure-Object).Count
 $opinionCount = ([regex]::Matches((Get-Content -Path (Join-Path -Path $repo -ChildPath 'docs' -AdditionalChildPath 'opinions.md') -Raw), '^\*\*(O-\d+) ', 'Multiline')).Count

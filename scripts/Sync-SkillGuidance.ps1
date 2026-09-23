@@ -2,17 +2,20 @@
 #Requires -Modules powershell-yaml
 <#
 .SYNOPSIS
-    Writes every skill's Guidance section from the workflow data and docs/guidance.md.
+    Writes the shared guidance set files and every skill's Guidance section from the workflow
+    data and docs/guidance.md (decision record 0012).
 .DESCRIPTION
-    For each SKILL.md under src/aa-sdlc/skills whose frontmatter names a workflow step, renders
-    the Guidance section exactly as scripts/New-SkillScaffold.ps1 does: each guidance set the
-    step cites with its purpose and its guidance lines, then the step's own guidance ids and
-    inline guidance. The rendered section replaces the existing one (from the "## Guidance"
-    heading to the next "## " heading), or is inserted before "## Report", or is appended when
-    neither exists. Idempotent: a skill whose section already matches is left byte-identical.
-    scripts/Test-SkillGuidance.ps1 is the check; this is the fix. Run it after editing
-    docs/guidance.md, a guidance set, or a step's guidance, then commit the skills with that
-    change (decision record 0011).
+    Two outputs, both generated and both checked by scripts/Test-SkillGuidance.ps1:
+
+    1. skills/aa-guidance/sets/<set-id>.md, one per guidance set: the set's purpose and each of
+       its rules verbatim from docs/guidance.md.
+    2. Each SKILL.md's Guidance section: the sets the step cites, each with its purpose and the
+       path of its set file, then the step's own guidance ids verbatim and its inline guidance.
+       The rendered section replaces the existing one (from "## Guidance" to the next "## "
+       heading), or is inserted before "## Report", or is appended when neither exists.
+
+    Idempotent: unchanged files are left byte-identical. Run after editing docs/guidance.md, a
+    guidance set, or a step's guidance, then commit the skills and set files with that change.
 .PARAMETER SourceRoot
     Path to the SDK content package. Defaults to src/aa-sdlc relative to the repository root.
 .PARAMETER DocsRoot
@@ -38,46 +41,72 @@ param(
 $ErrorActionPreference = 'Stop'
 if (-not $SkillsRoot) { $SkillsRoot = Join-Path -Path $SourceRoot -ChildPath 'skills' }
 $nl = "`n"
+# The path a skill gives for the set files. It resolves from the framework repository's root;
+# the installer rewrites it to the scope's path when it copies the skills (decision record 0012).
+$setPathPrefix = 'src/aa-sdlc/skills/aa-guidance/sets'
 
 $guidanceText = @{}
 foreach ($m in [regex]::Matches((Get-Content -Path (Join-Path -Path $DocsRoot -ChildPath 'guidance.md') -Raw), '\| (G-\d+) \| (.+?) \| (.+?) \| (.+?) \|')) {
     $guidanceText[$m.Groups[1].Value] = $m.Groups[2].Value.Trim()
 }
 $workflow = Join-Path -Path $SourceRoot -ChildPath 'workflow'
-$sets = @{}
-Get-ChildItem -Path (Join-Path -Path $workflow -ChildPath 'guidance-sets') -Filter '*.yaml' -File | ForEach-Object {
+$sets = [ordered]@{}
+Get-ChildItem -Path (Join-Path -Path $workflow -ChildPath 'guidance-sets') -Filter '*.yaml' -File | Sort-Object Name | ForEach-Object {
     $y = ConvertFrom-Yaml (Get-Content -Path $_.FullName -Raw); $sets[$y.id] = $y
 }
 
+function Get-RuleLine([string]$g) {
+    if (-not $guidanceText.ContainsKey($g)) { throw "guidance $g is not defined in docs/guidance.md" }
+    return "- **$g** $($guidanceText[$g])"
+}
+
+function Write-IfChanged([string]$path, [string]$text) {
+    $current = if (Test-Path $path) { (Get-Content -Path $path -Raw) -replace "`r`n", "`n" } else { $null }
+    if ($current -eq $text) { return $false }
+    New-Item -ItemType Directory -Path (Split-Path -Path $path) -Force | Out-Null
+    Set-Content -Path $path -Value $text -NoNewline -Encoding utf8
+    return $true
+}
+
+# 1. The set files
+$changed = 0
+foreach ($set in $sets.Values) {
+    $sb = [System.Text.StringBuilder]::new()
+    [void]$sb.Append("# Guidance set ``$($set.id)``$nl$nl")
+    [void]$sb.Append("$($set.purpose.Trim())$nl$nl")
+    [void]$sb.Append("Generated from ``src/aa-sdlc/workflow/guidance-sets/$($set.id).yaml`` and ``docs/guidance.md`` by ``scripts/Sync-SkillGuidance.ps1``; do not edit by hand.$nl$nl")
+    foreach ($g in @($set.guidance)) { [void]$sb.Append((Get-RuleLine $g) + $nl) }
+    $path = Join-Path -Path $SkillsRoot -ChildPath 'aa-guidance' -AdditionalChildPath 'sets', "$($set.id).md"
+    if (Write-IfChanged $path $sb.ToString()) { Write-Host "Updated aa-guidance/sets/$($set.id).md"; $changed++ }
+}
+
+# 2. The skills
 function New-GuidanceSection([object]$step) {
     $sb = [System.Text.StringBuilder]::new()
     [void]$sb.Append("## Guidance$nl$nl")
-    $seen = [System.Collections.Generic.List[string]]::new()
-    foreach ($setId in @($step.guidance_sets | Where-Object { $_ })) {
-        $set = $sets[$setId]
-        if (-not $set) { throw "guidance set '$setId' does not exist" }
-        [void]$sb.Append("*From the ``$setId`` set:* $($set.purpose.Trim())$nl$nl")
-        foreach ($g in @($set.guidance)) {
-            if ($seen.Contains($g)) { continue }; $seen.Add($g)
-            if (-not $guidanceText.ContainsKey($g)) { throw "guidance $g is not defined in docs/guidance.md" }
-            [void]$sb.Append("- **$g** $($guidanceText[$g])$nl")
+    $setIds = @($step.guidance_sets | Where-Object { $_ })
+    $covered = [System.Collections.Generic.List[string]]::new()
+    if ($setIds.Count -gt 0) {
+        [void]$sb.Append("Read these guidance sets before starting; each is one file, installed beside this skill:$nl$nl")
+        foreach ($setId in $setIds) {
+            $set = $sets[$setId]
+            if (-not $set) { throw "guidance set '$setId' does not exist" }
+            [void]$sb.Append("- ``$setPathPrefix/$setId.md``: $($set.purpose.Trim())$nl")
+            foreach ($g in @($set.guidance)) { if (-not $covered.Contains($g)) { $covered.Add($g) } }
         }
         [void]$sb.Append($nl)
     }
-    if ($step.guidance -or $step.guidance_inline) {
+    $own = @($step.guidance | Where-Object { $_ -and -not $covered.Contains($_) })
+    $inline = @($step.guidance_inline | Where-Object { $_ })
+    if ($own.Count -gt 0 -or $inline.Count -gt 0) {
         [void]$sb.Append("*For this step:*$nl$nl")
-        foreach ($g in @($step.guidance | Where-Object { $_ })) {
-            if ($seen.Contains($g)) { continue }; $seen.Add($g)
-            if (-not $guidanceText.ContainsKey($g)) { throw "guidance $g is not defined in docs/guidance.md" }
-            [void]$sb.Append("- **$g** $($guidanceText[$g])$nl")
-        }
-        foreach ($g in @($step.guidance_inline | Where-Object { $_ })) { [void]$sb.Append("- $g$nl") }
+        foreach ($g in $own) { [void]$sb.Append((Get-RuleLine $g) + $nl) }
+        foreach ($g in $inline) { [void]$sb.Append("- $g$nl") }
         [void]$sb.Append($nl)
     }
     return $sb.ToString()
 }
 
-$changed = 0
 foreach ($skillFile in Get-ChildItem -Path $SkillsRoot -Recurse -Filter 'SKILL.md' -File) {
     $content = (Get-Content -Path $skillFile.FullName -Raw) -replace "`r`n", "`n"
     if ($content -notmatch '(?s)^---\n(.*?)\n---') { continue }
@@ -97,10 +126,9 @@ foreach ($skillFile in Get-ChildItem -Path $SkillsRoot -Recurse -Filter 'SKILL.m
     } else {
         $content.TrimEnd("`n") + "$nl$nl" + $section.TrimEnd("`n") + $nl
     }
-    if ($new -ne $content) {
-        Set-Content -Path $skillFile.FullName -Value $new -NoNewline -Encoding utf8
+    if (Write-IfChanged $skillFile.FullName $new) {
         Write-Host "Updated $($skillFile.Directory.Parent.Name)/$($skillFile.Directory.Name)"
         $changed++
     }
 }
-Write-Host "$changed skill(s) updated." -ForegroundColor Green
+Write-Host "$changed file(s) updated." -ForegroundColor Green
