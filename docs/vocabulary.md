@@ -40,7 +40,9 @@ agent as a skill and invoked by a command.
 A detail on a step or process that indicates how best to perform it. Guidance is specific and
 actionable, and is written against tool categories rather than tools. Example: "Always format the
 code for the changed files before committing, but do not format files that were not changed."
-Guidance lives inside the skill for its step, or in the process definition for its process.
+A step's own guidance lives inside its skill; guidance a set supplies lives once in the shared
+`aa-guidance` set files the skill names (decision record 0012); process guidance lives in the
+process definition.
 See [guidance.md](guidance.md) for the backlog of guidance not yet attached.
 
 **Requirement**

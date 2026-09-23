@@ -118,10 +118,15 @@ expected, and plugins may add more. Processes are defined as data in `src/aa-sdl
 
 ### 3.3 Guidance
 
-Guidance is the specific, actionable advice on how best to perform a step or process. It lives in
-the skill for its step or in the process definition, is written against tool categories only
-(T-01), and is cited by ID. Guidance replaces the earlier idea of separate "discipline skills"
-for behaviour: the behaviour is attached where it applies rather than held in a parallel layer.
+Guidance is the specific, actionable advice on how best to perform a step or process. It is
+written against tool categories only (T-01) and cited by ID. A step's own guidance is written
+verbatim in its skill; the guidance sets many steps share live once, one file per set, in the
+`aa-guidance` folder installed beside the skills, and each skill names the sets it reads with
+their path (decision record 0012). Process guidance lives in the process definition. Both the
+set files and the skills' Guidance sections are generated from the workflow data and
+`docs/guidance.md` by `scripts/Sync-SkillGuidance.ps1`, and the unit tier fails when either is
+stale. Guidance replaces the earlier idea of separate "discipline skills" for behaviour: the
+behaviour is attached where it applies rather than held in a parallel layer.
 
 ### 3.4 Meta skill
 
@@ -300,6 +305,9 @@ Targets in scope: Claude Code, Codex, Cursor, Hermes, OpenClaw, and others that 
   and commands are installed, how commands are declared, and hook or subagent definitions where a
   target supports them.
 - A target with no command concept still gets the skills; the meta skill covers routing.
+- Every adapter installs the `aa-guidance` folder beside the skills, gives it no command, and
+  rewrites the source path `src/aa-sdlc/skills/aa-guidance` in each skill to the scope's path
+  (decision record 0012).
 
 ## 7. Deployment scopes and configuration
 
@@ -378,6 +386,7 @@ aa-sdlc/
   scripts/              build and validation helpers
   src/aa-sdlc/          the content package: everything the CLI installs
     skills/             core skills grouped by discipline: <discipline>/<step>/SKILL.md
+      aa-guidance/      the shared guidance sets, one file per set under sets/ (decision 0012)
     commands/           target-neutral command definitions
     workflow/           disciplines, steps, processes, and guidance sets as data
     schemas/            JSON Schema for the workflow data and aa.config.yaml
