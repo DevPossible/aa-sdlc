@@ -387,20 +387,30 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	})
 
 	// --- plugin ---
-	sc.Step(`^I run "aa plugin add <plugin>"$`, func() error {
-		if w.plugin == "" {
-			w.plugin = w.writeFixturePlugin("fixture", "notes")
-		}
-		return w.run(w.project, "", "plugin", "add", w.plugin)
-	})
-	sc.Step(`^I run "aa plugin add <plugin> --scope user"$`, func() error {
+	for _, verb := range []string{"install", "add"} {
+		verb := verb
+		sc.Step(`^I run "aa plugin `+verb+` <plugin>"$`, func() error {
+			if w.plugin == "" {
+				w.plugin = w.writeFixturePlugin("fixture", "notes")
+			}
+			return w.run(w.project, "", "plugin", verb, w.plugin)
+		})
+	}
+	sc.Step(`^I run "aa plugin install <plugin> --scope user"$`, func() error {
 		w.plugin = w.writeFixturePlugin("fixture", "notes")
-		return w.run(w.project, "", "plugin", "add", w.plugin, "--scope", "user")
+		return w.run(w.project, "", "plugin", "install", w.plugin, "--scope", "user")
 	})
 	sc.Step(`^the plugin's skills and commands are installed at project scope$`, func() error {
 		return w.exists(w.project, ".claude/skills/aa-fixture-notes/SKILL.md")
 	})
-	sc.Step(`^the project config records the plugin$`, func() error { return w.configContains("- fixture") })
+	sc.Step(`^the project config records the plugin with its version and source$`, func() error {
+		for _, s := range []string{"name: fixture", "version: 0.1.0", "source: "} {
+			if err := w.configContains(s); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
 	sc.Step(`^the plugin's skills and commands are installed at user scope$`, func() error {
 		return w.exists(w.home, ".claude/skills/aa-fixture-notes/SKILL.md")
 	})
@@ -409,7 +419,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		if err != nil {
 			return err
 		}
-		if !strings.Contains(string(b), "- fixture") {
+		if !strings.Contains(string(b), "name: fixture") {
 			return fmt.Errorf("user config does not record the plugin:\n%s", b)
 		}
 		return nil
@@ -419,8 +429,79 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 			return err
 		}
 		w.plugin = w.writeFixturePlugin("fixture", "notes")
-		return w.run(w.project, "", "plugin", "add", w.plugin)
+		return w.run(w.project, "", "plugin", "install", w.plugin)
 	})
+	sc.Step(`^its source now has a newer version that adds one skill and drops another$`, func() error {
+		if err := os.RemoveAll(w.plugin); err != nil {
+			return err
+		}
+		w.plugin = w.writeFixturePlugin("fixture", "extra")
+		return os.WriteFile(filepath.Join(w.plugin, "plugin.yaml"), []byte("name: fixture\nversion: 0.2.0\nkind: tool\n"), 0o644)
+	})
+	sc.Step(`^I run "aa plugin update <plugin>"$`, func() error { return w.run(w.project, "", "plugin", "update", "fixture") })
+	sc.Step(`^I run "aa plugin update"$`, func() error { return w.run(w.project, "", "plugin", "update") })
+	sc.Step(`^the new skill is installed and the dropped skill is removed$`, func() error {
+		if err := w.exists(w.project, ".claude/skills/aa-fixture-extra/SKILL.md"); err != nil {
+			return err
+		}
+		if _, err := os.Stat(filepath.Join(w.project, ".claude", "skills", "aa-fixture-notes")); err == nil {
+			return errors.New("the dropped skill is still installed")
+		}
+		return nil
+	})
+	sc.Step(`^the config records the newer version$`, func() error { return w.configContains("version: 0.2.0") })
+	sc.Step(`^the output names the old and new versions and what was added, changed, and removed$`, func() error {
+		for _, s := range []string{"0.1.0 -> 0.2.0", "+ .claude/skills/aa-fixture-extra/SKILL.md", "- .claude/skills/aa-fixture-notes/SKILL.md"} {
+			if err := w.outputContains(s); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	sc.Step(`^every plugin recorded at that scope is reinstalled from its source$`, func() error {
+		return w.outputContains("aa plugin update fixture")
+	})
+	sc.Step(`^a plugin already at its source's version is reported as current$`, func() error {
+		return w.outputContains("0.1.0 is current")
+	})
+	sc.Step(`^the plugin is reinstalled from the source the config records for it$`, func() error {
+		return w.outputContains("aa plugin update fixture")
+	})
+	sc.Step(`^the plugin's files are not reported as stale core files$`, func() error {
+		if strings.Contains(w.out, "- .claude/skills/aa-fixture-notes") {
+			return fmt.Errorf("plugin files reported as removed:\n%s", w.out)
+		}
+		return w.exists(w.project, ".claude/skills/aa-fixture-notes/SKILL.md")
+	})
+	sc.Step(`^a plugin whose kind is not tech-stack, tool, or process$`, func() error {
+		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+			return err
+		}
+		w.plugin = w.writeFixturePlugin("flux", "render")
+		return os.WriteFile(filepath.Join(w.plugin, "plugin.yaml"), []byte("name: flux\nversion: 0.1.0\nkind: media\n"), 0o644)
+	})
+	sc.Step(`^the reason names the three kinds$`, func() error { return w.errContains("tech-stack, tool, process") })
+	sc.Step(`^a plugin with a skill that names no core step, process, or requirement$`, func() error {
+		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+			return err
+		}
+		w.plugin = w.writeFixturePlugin("csharp", "codegen")
+		return w.writeFixtureSkill("codegen", "")
+	})
+	sc.Step(`^the reason names the skill and says to install it as an ordinary agent skill instead$`, func() error {
+		if err := w.errContains(`"codegen"`); err != nil {
+			return err
+		}
+		return w.errContains("ordinary agent skill")
+	})
+	sc.Step(`^a plugin with a skill that attaches to a step core does not define$`, func() error {
+		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+			return err
+		}
+		w.plugin = w.writeFixturePlugin("k6", "load")
+		return w.writeFixtureSkill("load", "aa:\n  attaches_to: [soak-test]\n")
+	})
+	sc.Step(`^the reason names the unknown step$`, func() error { return w.errContains(`"soak-test"`) })
 	sc.Step(`^I run "aa plugin remove <plugin>"$`, func() error { return w.run(w.project, "", "plugin", "remove", "fixture") })
 	sc.Step(`^its skills and commands are removed from that scope$`, func() error {
 		if _, err := os.Stat(filepath.Join(w.project, ".claude", "skills", "aa-fixture-notes")); err == nil {
@@ -430,7 +511,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	})
 	sc.Step(`^core skills are untouched$`, func() error { return w.exists(w.project, ".claude/skills/aa-fw-health/SKILL.md") })
 	sc.Step(`^I run "aa plugin list"$`, func() error { return w.run(w.project, "", "plugin", "list") })
-	sc.Step(`^it lists installed plugins by scope$`, func() error {
+	sc.Step(`^it lists installed plugins by scope, with each one's version and source$`, func() error {
 		if err := w.outputContains("Installed"); err != nil {
 			return err
 		}
@@ -518,9 +599,16 @@ func (w *world) writeFixturePlugin(name string, skills ...string) string {
 	for _, s := range skills {
 		d := filepath.Join(dir, "skills", s)
 		_ = os.MkdirAll(d, 0o755)
-		_ = os.WriteFile(filepath.Join(d, "SKILL.md"), []byte("---\nname: "+s+"\ndescription: \""+name+" "+s+"\"\n---\n# "+s+"\n"), 0o644)
+		_ = os.WriteFile(filepath.Join(d, "SKILL.md"), []byte("---\nname: "+s+"\ndescription: \""+name+" "+s+"\"\naa:\n  attaches_to: [implement]\n---\n# "+s+"\n"), 0o644)
 	}
 	return dir
+}
+
+// writeFixtureSkill rewrites one skill of the scenario's fixture plugin with the frontmatter
+// given in place of its attachment.
+func (w *world) writeFixtureSkill(skill, front string) error {
+	body := "---\nname: " + skill + "\ndescription: \"a skill\"\n" + front + "---\n# " + skill + "\n"
+	return os.WriteFile(filepath.Join(w.plugin, "skills", skill, "SKILL.md"), []byte(body), 0o644)
 }
 
 // run executes aa with the scenario's AA_HOME, feeding stdin, from dir.

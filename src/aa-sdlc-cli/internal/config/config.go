@@ -19,7 +19,7 @@ type Config struct {
 	Version        int               `yaml:"version"`
 	Scope          string            `yaml:"scope"`
 	Targets        []string          `yaml:"targets,omitempty"`
-	Plugins        []string          `yaml:"plugins,omitempty"`
+	Plugins        []PluginRef       `yaml:"plugins,omitempty"`
 	PluginsExclude []string          `yaml:"plugins_exclude,omitempty"`
 	Conventions    Conventions       `yaml:"conventions,omitempty"`
 	Folders        map[string]string `yaml:"folders,omitempty"`
@@ -65,6 +65,50 @@ type Commit struct {
 type Organisation struct {
 	Repository string `yaml:"repository,omitempty"`
 	Team       string `yaml:"team,omitempty"`
+}
+
+// PluginRef is one entry of plugins: the plugin's name and, once aa plugin install has run at
+// that scope, the version installed and the source it came from ("package", "organisation",
+// or a folder path, relative to the config file where it can be). An entry with only a name
+// reads and writes as a plain string, as enterprise and team configs write it
+// (decision record 0013).
+type PluginRef struct {
+	Name    string `yaml:"name"`
+	Version string `yaml:"version,omitempty"`
+	Source  string `yaml:"source,omitempty"`
+}
+
+type plainPluginRef PluginRef
+
+// UnmarshalYAML accepts a plain name or a mapping.
+func (p *PluginRef) UnmarshalYAML(n *yaml.Node) error {
+	if n.Kind == yaml.ScalarNode {
+		*p = PluginRef{Name: n.Value}
+		return nil
+	}
+	var v plainPluginRef
+	if err := n.Decode(&v); err != nil {
+		return err
+	}
+	*p = PluginRef(v)
+	return nil
+}
+
+// MarshalYAML writes a plain name when nothing else is recorded.
+func (p PluginRef) MarshalYAML() (interface{}, error) {
+	if p.Version == "" && p.Source == "" {
+		return p.Name, nil
+	}
+	return plainPluginRef(p), nil
+}
+
+// PluginNames returns the names of the plugins, in order.
+func PluginNames(refs []PluginRef) []string {
+	names := make([]string, 0, len(refs))
+	for _, r := range refs {
+		names = append(names, r.Name)
+	}
+	return names
 }
 
 // Install records what setup installed, at user scope.
@@ -160,7 +204,7 @@ func Merge(cfgs ...*Config) (*Config, error) {
 		out.Version = c.Version
 		out.Scope = c.Scope
 		out.Targets = union(out.Targets, c.Targets)
-		out.Plugins = union(out.Plugins, c.Plugins)
+		out.Plugins = mergePlugins(out.Plugins, c.Plugins)
 		out.PluginsExclude = union(out.PluginsExclude, c.PluginsExclude)
 		for k, v := range c.Folders {
 			if v != "" {
@@ -180,9 +224,9 @@ func Merge(cfgs ...*Config) (*Config, error) {
 		}
 	}
 	if len(out.PluginsExclude) > 0 {
-		var kept []string
+		var kept []PluginRef
 		for _, p := range out.Plugins {
-			if !contains(out.PluginsExclude, p) {
+			if !contains(out.PluginsExclude, p.Name) {
 				kept = append(kept, p)
 			}
 		}
@@ -272,6 +316,29 @@ func union(a, b []string) []string {
 	for _, x := range b {
 		if x != "" && !contains(out, x) {
 			out = append(out, x)
+		}
+	}
+	return out
+}
+
+// mergePlugins is a union by name in scope order; a later scope's entry replaces an earlier one
+// of the same name, so the version and source recorded closest to the user win.
+func mergePlugins(a, b []PluginRef) []PluginRef {
+	out := append([]PluginRef(nil), a...)
+	for _, p := range b {
+		if p.Name == "" {
+			continue
+		}
+		replaced := false
+		for i := range out {
+			if out[i].Name == p.Name {
+				out[i] = p
+				replaced = true
+				break
+			}
+		}
+		if !replaced {
+			out = append(out, p)
 		}
 	}
 	return out

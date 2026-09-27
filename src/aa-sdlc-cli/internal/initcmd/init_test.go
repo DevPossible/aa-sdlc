@@ -127,7 +127,7 @@ func TestInit_LayersScopesIntoProjectConfig(t *testing.T) {
 		}
 	}
 	must(os.MkdirAll(filepath.Join(org, "web"), 0o755))
-	must(config.Write(filepath.Join(org, config.FileName), &config.Config{Version: 1, Scope: "enterprise", Plugins: []string{"ent-plugin"}, Conventions: config.Conventions{Branch: config.Branch{Pattern: "ent/{id}"}}}, "e"))
+	must(config.Write(filepath.Join(org, config.FileName), &config.Config{Version: 1, Scope: "enterprise", Plugins: []config.PluginRef{{Name: "ent-plugin"}}, Conventions: config.Conventions{Branch: config.Branch{Pattern: "ent/{id}"}}}, "e"))
 	must(config.Write(filepath.Join(org, "web", config.FileName), &config.Config{Version: 1, Scope: "team", Conventions: config.Conventions{Branch: config.Branch{Pattern: "team/{id}"}}}, "t"))
 	userPath := filepath.Join(home, ".aa", config.FileName)
 	must(config.Write(userPath, &config.Config{Version: 1, Scope: "user", Organisation: &config.Organisation{Repository: org, Team: "web"}}, "u"))
@@ -135,7 +135,7 @@ func TestInit_LayersScopesIntoProjectConfig(t *testing.T) {
 	var out bytes.Buffer
 	must(Run(Options{Path: dir, Yes: true, Home: home, UserConfigPath: userPath, Now: fixedNow, TicketProject: "AA"}, strings.NewReader(""), &out))
 	cfg, _ := config.Load(filepath.Join(dir, config.FileName))
-	if len(cfg.Plugins) != 1 || cfg.Plugins[0] != "ent-plugin" {
+	if len(cfg.Plugins) != 1 || cfg.Plugins[0].Name != "ent-plugin" {
 		t.Errorf("enterprise plugin not layered: %v", cfg.Plugins)
 	}
 	if cfg.Conventions.Branch.Pattern != "team/{id}" {

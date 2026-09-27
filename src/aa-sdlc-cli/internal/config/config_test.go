@@ -3,13 +3,14 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
 func TestMerge_LaterScopeWins_ListsUnion_FoldersDeepMerge(t *testing.T) {
-	enterprise := &Config{Version: 1, Scope: "enterprise", Plugins: []string{"gitlab-flow"}, Targets: []string{"claude-code"},
+	enterprise := &Config{Version: 1, Scope: "enterprise", Plugins: []PluginRef{{Name: "gitlab-flow"}}, Targets: []string{"claude-code"},
 		Conventions: Conventions{Commit: Commit{Types: []string{"feat", "fix"}}}, Folders: map[string]string{"documents": "documentation"}}
-	team := &Config{Version: 1, Scope: "team", Plugins: []string{"dotnet"}, Conventions: Conventions{Ticket: Ticket{Pattern: `TEAM-\d+`}}}
+	team := &Config{Version: 1, Scope: "team", Plugins: []PluginRef{{Name: "dotnet"}}, Conventions: Conventions{Ticket: Ticket{Pattern: `TEAM-\d+`}}}
 	user := &Config{Version: 1, Scope: "user", Targets: []string{"claude-code", "codex"}}
 	project := &Config{Version: 1, Scope: "project", Conventions: Conventions{Ticket: Ticket{Project: "AA"}}, Folders: map[string]string{"features": "specs"}}
 
@@ -20,7 +21,7 @@ func TestMerge_LaterScopeWins_ListsUnion_FoldersDeepMerge(t *testing.T) {
 	if got.Scope != "project" {
 		t.Errorf("scope: want project, got %s", got.Scope)
 	}
-	if len(got.Plugins) != 2 || got.Plugins[0] != "gitlab-flow" || got.Plugins[1] != "dotnet" {
+	if len(got.Plugins) != 2 || got.Plugins[0].Name != "gitlab-flow" || got.Plugins[1].Name != "dotnet" {
 		t.Errorf("plugins: want union in scope order, got %v", got.Plugins)
 	}
 	if len(got.Targets) != 2 {
@@ -38,11 +39,11 @@ func TestMerge_LaterScopeWins_ListsUnion_FoldersDeepMerge(t *testing.T) {
 }
 
 func TestMerge_ExcludeRemovesInheritedPlugin(t *testing.T) {
-	got, err := Merge(&Config{Version: 1, Plugins: []string{"a", "b"}}, &Config{Version: 1, PluginsExclude: []string{"a"}})
+	got, err := Merge(&Config{Version: 1, Plugins: []PluginRef{{Name: "a"}, {Name: "b"}}}, &Config{Version: 1, PluginsExclude: []string{"a"}})
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(got.Plugins) != 1 || got.Plugins[0] != "b" {
+	if len(got.Plugins) != 1 || got.Plugins[0].Name != "b" {
 		t.Errorf("want [b], got %v", got.Plugins)
 	}
 }
@@ -93,8 +94,8 @@ func TestLoadScopes_ReadsEnterpriseAndTeamFromLocalOrganisationRepository(t *tes
 			t.Fatal(err)
 		}
 	}
-	must(Write(filepath.Join(org, FileName), &Config{Version: 1, Scope: "enterprise", Plugins: []string{"ent"}}, "e"))
-	must(Write(filepath.Join(org, "platform", FileName), &Config{Version: 1, Scope: "team", Plugins: []string{"team"}}, "t"))
+	must(Write(filepath.Join(org, FileName), &Config{Version: 1, Scope: "enterprise", Plugins: []PluginRef{{Name: "ent"}}}, "e"))
+	must(Write(filepath.Join(org, "platform", FileName), &Config{Version: 1, Scope: "team", Plugins: []PluginRef{{Name: "team"}}}, "t"))
 	userPath := filepath.Join(dir, "user", FileName)
 	must(Write(userPath, &Config{Version: 1, Scope: "user", Organisation: &Organisation{Repository: org, Team: "platform"}}, "u"))
 
@@ -108,5 +109,38 @@ func TestLoadScopes_ReadsEnterpriseAndTeamFromLocalOrganisationRepository(t *tes
 	merged, _ := Merge(scopes...)
 	if len(merged.Plugins) != 2 {
 		t.Errorf("want plugins from enterprise and team, got %v", merged.Plugins)
+	}
+}
+
+func TestPlugins_ReadPlainNamesAndMappings(t *testing.T) {
+	path := filepath.Join(t.TempDir(), FileName)
+	body := "version: 1\nplugins:\n  - dotnet\n  - name: k6\n    version: 0.2.0\n    source: ../plugins/k6\n"
+	if err := os.WriteFile(path, []byte(body), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	c, err := Load(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := []PluginRef{{Name: "dotnet"}, {Name: "k6", Version: "0.2.0", Source: "../plugins/k6"}}
+	if len(c.Plugins) != 2 || c.Plugins[0] != want[0] || c.Plugins[1] != want[1] {
+		t.Fatalf("want %v, got %v", want, c.Plugins)
+	}
+	if err := Write(path, c, "h"); err != nil {
+		t.Fatal(err)
+	}
+	b, _ := os.ReadFile(path)
+	if !strings.Contains(string(b), "- dotnet\n") || !strings.Contains(string(b), "- name: k6\n") {
+		t.Errorf("a name-only entry writes as a plain name and a recorded one as a mapping:\n%s", b)
+	}
+}
+
+func TestMerge_LaterScopeRecordsThePluginSource(t *testing.T) {
+	got, err := Merge(&Config{Version: 1, Plugins: []PluginRef{{Name: "k6"}}}, &Config{Version: 1, Plugins: []PluginRef{{Name: "k6", Version: "0.2.0", Source: "organisation"}}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got.Plugins) != 1 || got.Plugins[0].Source != "organisation" {
+		t.Errorf("want one k6 entry with the later scope's source, got %v", got.Plugins)
 	}
 }

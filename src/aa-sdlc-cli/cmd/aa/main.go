@@ -33,8 +33,9 @@ Usage:
   aa init    [-path <dir>] [-ticket-project <key>] [-ticket-url <url>] [-knowledge-space <key>] [-knowledge-url <url>] [-shell pwsh|sh] [-yes]
                                                     bootstrap a repository, then hand off to /aa-fw-health and /aa-fw-init in your agent
   aa update  [-path <dir>]                          bring everything setup and init installed up to this package version, at user scope and in this repository
-  aa plugin  add <name|path> | remove <name> | list [-scope project|user] [-path <dir>]
-                                                    manage tech-stack and process packs at a scope; a plugin adds skills and never changes core
+  aa plugin  install <name|path> | update [<name>] | list | remove <name> [-scope project|user] [-path <dir>]
+                                                    manage tech-stack, tool, and process packs at a scope; a plugin adds skills
+                                                    that attach to the life cycle and never changes core (add is another name for install)
   aa version                                        print the package version, commit, and build date
 
 Health is not a CLI verb: run /aa-fw-health inside your agent, because the probes that matter
@@ -106,7 +107,7 @@ func run(args []string) int {
 		return 0
 	case "plugin":
 		if len(args) < 2 {
-			fmt.Fprintln(os.Stderr, "aa plugin: expected add <name|path>, remove <name>, or list")
+			fmt.Fprintln(os.Stderr, "aa plugin: expected install <name|path>, update [<name>], list, or remove <name>")
 			return 2
 		}
 		fs := flag.NewFlagSet("plugin", flag.ContinueOnError)
@@ -115,7 +116,10 @@ func run(args []string) int {
 		sub := args[1]
 		rest := args[2:]
 		var name string
-		if (sub == "add" || sub == "remove") && len(rest) > 0 && !strings.HasPrefix(rest[0], "-") {
+		if sub == "add" {
+			sub = "install"
+		}
+		if (sub == "install" || sub == "update" || sub == "remove") && len(rest) > 0 && !strings.HasPrefix(rest[0], "-") {
 			name, rest = rest[0], rest[1:]
 		}
 		if err := fs.Parse(rest); err != nil {
@@ -124,12 +128,14 @@ func run(args []string) int {
 		opts := plugincmd.Options{Scope: *scope, Path: *path, Home: home, UserConfigPath: userConfig}
 		var err error
 		switch sub {
-		case "add":
+		case "install":
 			if name == "" {
-				fmt.Fprintln(os.Stderr, "aa plugin add: a plugin name or path is required")
+				fmt.Fprintln(os.Stderr, "aa plugin install: a plugin name or path is required")
 				return 2
 			}
-			err = plugincmd.Add(name, opts, os.Stdout)
+			err = plugincmd.Install(name, opts, os.Stdout)
+		case "update":
+			err = plugincmd.Update(name, opts, os.Stdout)
 		case "remove":
 			if name == "" {
 				fmt.Fprintln(os.Stderr, "aa plugin remove: a plugin name is required")
@@ -139,7 +145,7 @@ func run(args []string) int {
 		case "list":
 			err = plugincmd.List(opts, os.Stdout)
 		default:
-			fmt.Fprintf(os.Stderr, "aa plugin: unknown subcommand %q; expected add, remove, or list\n", sub)
+			fmt.Fprintf(os.Stderr, "aa plugin: unknown subcommand %q; expected install, update, list, or remove\n", sub)
 			return 2
 		}
 		if err != nil {

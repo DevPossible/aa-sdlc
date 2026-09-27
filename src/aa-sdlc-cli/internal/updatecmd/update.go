@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"aasdlc.com/aa/internal/config"
+	"aasdlc.com/aa/internal/plugincmd"
 	"aasdlc.com/aa/internal/targets"
 	"aasdlc.com/aa/internal/version"
 )
@@ -71,6 +72,11 @@ func Run(opts Options, out io.Writer) error {
 			return err
 		}
 		report("  user config records version %s", version.Version)
+		if len(user.Plugins) > 0 {
+			if err := plugincmd.Update("", plugincmd.Options{Scope: "user", Path: opts.Path, Home: home, UserConfigPath: userPath}, out); err != nil {
+				return err
+			}
+		}
 	}
 
 	// Project scope: only inside an initialised repository with a project-scope install.
@@ -103,6 +109,9 @@ func Run(opts Options, out io.Writer) error {
 	added, changed := diff(before, targets.SnapshotClaudeCode(dir))
 	report("  project scope (%s): %d added, %d changed, %d removed; config, documents, and feature files untouched", targets.ClaudeCode.Name, len(added), len(changed), len(removed))
 	listFiles(out, added, changed, removed)
+	if len(project.Plugins) > 0 {
+		return plugincmd.Update("", plugincmd.Options{Scope: "project", Path: dir, Home: home, UserConfigPath: userPath}, out)
+	}
 	return nil
 }
 

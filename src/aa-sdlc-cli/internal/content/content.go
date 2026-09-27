@@ -10,6 +10,7 @@ import (
 	"io/fs"
 	"os"
 	"path"
+	"regexp"
 	"sort"
 	"strings"
 
@@ -62,6 +63,41 @@ func Steps() ([]Step, error) {
 	})
 	sort.Slice(steps, func(i, j int) bool { return steps[i].ID < steps[j].ID })
 	return steps, err
+}
+
+// Processes returns the id of every workflow process, sorted.
+func Processes() ([]string, error) {
+	var ids []string
+	err := eachYAML("workflow/processes", func(b []byte) error {
+		var p struct {
+			ID string `yaml:"id"`
+		}
+		if err := yaml.Unmarshal(b, &p); err != nil {
+			return err
+		}
+		ids = append(ids, p.ID)
+		return nil
+	})
+	sort.Strings(ids)
+	return ids, err
+}
+
+// requirementRow matches a row of the requirement registry table: "| R-nn | ...".
+var requirementRow = regexp.MustCompile(`(?m)^\| (R-\d+) \|`)
+
+// RequirementIDs returns the id of every core requirement in the registry (docs/requirements.md,
+// embedded as requirements/registry.md).
+func RequirementIDs() ([]string, error) {
+	b, err := fs.ReadFile(FS(), "requirements/registry.md")
+	if err != nil {
+		return nil, err
+	}
+	var ids []string
+	for _, m := range requirementRow.FindAllSubmatch(b, -1) {
+		ids = append(ids, string(m[1]))
+	}
+	sort.Strings(ids)
+	return ids, nil
 }
 
 // Disciplines returns every discipline keyed by id.
@@ -168,8 +204,8 @@ func ReadFile(name string) ([]byte, error) {
 	return fs.ReadFile(FS(), name)
 }
 
-// Plugin is a tech-stack or process pack: a plugin.yaml manifest and the skills under
-// skills/<name>/SKILL.md (docs/formats.md section 3).
+// Plugin is a tech-stack, tool, or process pack: a plugin.yaml manifest and the skills under
+// skills/<name>/SKILL.md (docs/formats.md section 3, decision record 0013).
 type Plugin struct {
 	Name     string   `yaml:"name"`
 	Version  string   `yaml:"version"`
@@ -182,10 +218,14 @@ type Plugin struct {
 	Source string        `yaml:"-"` // "package", or the directory it was loaded from
 }
 
-// PluginSkill is one installable skill of a plugin.
+// PluginSkill is one installable skill of a plugin. AttachesTo and Satisfies come from its
+// frontmatter: the core steps or processes it serves and the core requirements it satisfies
+// (decision record 0013).
 type PluginSkill struct {
 	Name        string
 	Description string
+	AttachesTo  []string
+	Satisfies   []string
 	Files       map[string][]byte
 }
 
@@ -259,26 +299,38 @@ func loadPlugin(root fs.FS, source string) (*Plugin, error) {
 		if err != nil {
 			return nil, err
 		}
-		p.Skills = append(p.Skills, PluginSkill{Name: d.Name(), Description: frontmatterDescription(files["SKILL.md"]), Files: files})
+		front := parseFrontmatter(files["SKILL.md"])
+		p.Skills = append(p.Skills, PluginSkill{Name: d.Name(), Description: front.description(), AttachesTo: front.AA.AttachesTo, Satisfies: front.AA.Satisfies, Files: files})
 	}
 	sort.Slice(p.Skills, func(i, j int) bool { return p.Skills[i].Name < p.Skills[j].Name })
 	return &p, nil
 }
 
-func frontmatterDescription(skill []byte) string {
+// frontmatter is the part of a SKILL.md frontmatter the CLI reads.
+type frontmatter struct {
+	Description string `yaml:"description"`
+	AA          struct {
+		AttachesTo []string `yaml:"attaches_to"`
+		Satisfies  []string `yaml:"satisfies"`
+	} `yaml:"aa"`
+}
+
+func (f frontmatter) description() string {
+	return strings.Join(strings.Fields(f.Description), " ")
+}
+
+func parseFrontmatter(skill []byte) frontmatter {
+	var front frontmatter
 	s := string(skill)
 	if !strings.HasPrefix(s, "---") {
-		return ""
+		return front
 	}
 	end := strings.Index(s[3:], "\n---")
 	if end < 0 {
-		return ""
-	}
-	var front struct {
-		Description string `yaml:"description"`
+		return front
 	}
 	_ = yaml.Unmarshal([]byte(s[3:3+end]), &front)
-	return strings.Join(strings.Fields(front.Description), " ")
+	return front
 }
 
 func eachYAML(dir string, fn func([]byte) error) error {
