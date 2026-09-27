@@ -1,4 +1,4 @@
-@agent @release-management @O-24
+@agent @release-management @O-24 @F-061
 Feature: /aa-rel-release deploys a prepared release to production and proves it
   The deployment goes through the pipeline with the artifact identity the release names, never
   rebuilt and never by hand; the user is asked before the irreversible step every time; the
@@ -8,18 +8,21 @@ Feature: /aa-rel-release deploys a prepared release to production and proves it
     Given a project bootstrapped with "aa init"
     And a prepared release with a go decision, an artifact identity, verification checks, and a deployment runbook
 
+  @F-061-01
   Scenario: No go decision, no deployment
     Given the release ticket records no go decision
     When "/aa-rel-release" runs
     Then it stops before any deployment
     And it says on the release ticket what is missing
 
+  @F-061-02
   Scenario: The user is asked before every production deployment
     When "/aa-rel-release" is ready to deploy
     Then it presents the identity, the target, the pipeline run, the strategy, and what rollback would return to
     And it deploys only when the user grants this deployment
     And a permission granted for an earlier release does not carry over
 
+  @F-061-03
   Scenario: The same identity is deployed, through the pipeline
     Given the user grants the deployment
     When "/aa-rel-release" deploys
@@ -27,12 +30,14 @@ Feature: /aa-rel-release deploys a prepared release to production and proves it
     And nothing is rebuilt for production
     And no deployment step is performed by hand
 
+  @F-061-04
   Scenario: A blocking gate is never bypassed
     Given a pipeline gate or check blocks the run
     When "/aa-rel-release" reaches it
     Then no bypass flag is used
     And it fixes the cause or tells the user
 
+  @F-061-05
   Scenario: Verification happens before anything is announced
     Given the pipeline run is green
     When "/aa-rel-release" verifies
@@ -40,12 +45,14 @@ Feature: /aa-rel-release deploys a prepared release to production and proves it
     And the identity running in production is confirmed to be the one deployed
     And the release is reported done only when the checks pass
 
+  @F-061-06
   Scenario: A failed check rolls back by default
     Given a verification check fails in production
     When "/aa-rel-release" handles it
     Then it returns to the previous known-good identity through the pipeline, or raises an incident where the runbook says rollback is unsafe
     And which was done and why is recorded on the release ticket
 
+  @F-061-07
   Scenario: The deployment is recorded
     When "/aa-rel-release" finishes
     Then the release ticket and the knowledge base record what was deployed by identity, when, by whom, and with which pipeline run

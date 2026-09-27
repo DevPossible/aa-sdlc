@@ -1,4 +1,4 @@
-@framework @agent @O-11 @O-06 @T-07 @T-13
+@framework @agent @O-11 @O-06 @T-07 @T-13 @F-036
 Feature: Every pipeline step runs locally, exactly
   Every step the delivery pipeline performs can be reproduced exactly on any machine, from the
   command line or a local tool, with the same script, the same arguments, and the same inputs.
@@ -9,14 +9,14 @@ Feature: Every pipeline step runs locally, exactly
     Given a project bootstrapped with "aa init"
     And root scripts for initialize, build, test, and pack
 
-  @G-29
+  @G-29 @F-036-01
   Scenario: The pipeline calls the root scripts
     When "/aa-ops-setup-pipeline" writes the pipeline configuration
     Then every stage calls a root script or a command committed to the repository
     And each call uses the same arguments a person would use locally
     And no stage contains logic beyond the call
 
-  @G-29
+  @G-29 @F-036-02
   Scenario: A pipeline failure is reproduced locally before it is fixed
     Given a pipeline stage has failed
     When "/aa-dev-fix-bug" or "/aa-dev-finish-branch" addresses the failure
@@ -24,7 +24,7 @@ Feature: Every pipeline step runs locally, exactly
     And the local run shows the same failure
     And the fix is proven by the local run before anything is pushed
 
-  @G-29
+  @G-29 @F-036-03
   Scenario: Logic found only in the pipeline is moved out
     Given a stage in the pipeline configuration contains logic that exists nowhere else
     When "/aa-ops-setup-pipeline" or "/aa-dev-setup-environment" reviews the pipeline
@@ -32,6 +32,7 @@ Feature: Every pipeline step runs locally, exactly
     And the stage is changed to call that script
     And the script is run locally and its output quoted
 
+  @F-036-04
   Scenario: A step that truly cannot run locally is recorded, with a stand-in
     Given a stage depends on a signing key held only by the pipeline
     When "/aa-ops-setup-pipeline" writes the configuration
@@ -39,7 +40,7 @@ Feature: Every pipeline step runs locally, exactly
     And a local stand-in exercises everything up to the point of difference
     And the deployment strategy documentation names the stand-in
 
-  @R-24
+  @R-24 @F-036-05
   Scenario: Health reports steps that exist only in the pipeline
     Given a stage in the pipeline configuration holds logic of its own
     When "/aa-fw-health" runs

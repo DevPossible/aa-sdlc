@@ -1,4 +1,4 @@
-@framework @agent @T-12 @O-01
+@framework @agent @T-12 @O-01 @F-037
 Feature: Gherkin is the source of truth for requirements
   Every project using the framework, and the framework itself, keeps its requirements as feature
   files in the repository. Each feature is linked to its ticket and its knowledge base page, and
@@ -9,26 +9,27 @@ Feature: Gherkin is the source of truth for requirements
     Given a project bootstrapped with "aa init"
     And the project has a features folder
 
-  @R-16
+  @R-16 @F-037-01
   Scenario: A new requirement starts as a scenario
     When a requirement is captured during discover or refine-requirements
     Then it is written as a scenario in a feature file in the features folder
     And it is not considered captured until the feature file contains it
 
-  @R-02
+  @R-02 @F-037-02
   Scenario: Every scenario is linked to a ticket
     Given a scenario exists in a feature file
     When the tooling next runs a step that touches requirements
     Then the scenario carries a tag naming its anchor ticket
     And the ticket links back to the feature file and scenario
 
-  @R-03
+  @R-03 @F-037-03
   Scenario: Every feature is linked to a knowledge base page
     Given a feature file exists
     When the tooling next runs a step that touches requirements
     Then the feature description names its knowledge base page
     And the page carries the feature's narrative and links back to the feature file
 
+  @F-037-04
   Scenario: Changing a scenario propagates outward
     Given a scenario, its ticket, and its knowledge base page are aligned
     When the scenario is changed in the feature file
@@ -36,6 +37,7 @@ Feature: Gherkin is the source of truth for requirements
     And the tooling updates the knowledge base page to match
     And the anchor ticket records that the requirement changed
 
+  @F-037-05
   Scenario: A requirement changed outside the feature file is a conflict, not a change
     Given a scenario, its ticket, and its knowledge base page are aligned
     When the acceptance criteria are edited in the ticket alone
@@ -43,26 +45,27 @@ Feature: Gherkin is the source of truth for requirements
     And it does not silently rewrite either side
     And the user decides which is correct
 
-  @R-11 @R-17
+  @R-11 @R-17 @F-037-06
   Scenario: Feature files are the business-facing tests
     Given a project with a tool that can execute feature files
     When generate-tests runs for a ticket
     Then the scenarios for that ticket are the business-facing test cases
     And no separate acceptance criteria document is produced
 
+  @F-037-07
   Scenario: The framework dogfoods its own rule
     Given the aa-sdlc repository
     Then its own requirements are feature files under features/
     And the requirements registry document is an index derived from them
 
-  @O-01
+  @O-01 @F-037-08
   Scenario: Features and scenarios carry stable ids
     When a feature or a scenario is written during discover or refine-requirements
     Then the feature carries an id tag unique in the repository
     And each scenario carries an id derived from its feature's id
     And an id is never renumbered or reused, even when a scenario is moved or deleted
 
-  @O-01
+  @O-01 @F-037-09
   Scenario: Tests name the scenarios they prove
     When a test is written during implement, generate-tests, or e2e-tests
     Then the test names the ids of the scenarios it proves, in the form its test framework supports

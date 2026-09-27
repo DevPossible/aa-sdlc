@@ -1,4 +1,4 @@
-@framework @agent @O-16 @O-02 @T-07
+@framework @agent @O-16 @O-02 @T-07 @F-044
 Feature: Version everything needed to build and operate the software
   The repository holds everything required to build, deploy, and run the system: the code,
   configuration templates with no secret values, migrations, automation, and the documentation
@@ -9,7 +9,7 @@ Feature: Version everything needed to build and operate the software
     Given a project bootstrapped with "aa init"
     And the project is under source control with a remote
 
-  @G-37
+  @G-37 @F-044-01
   Scenario: A fresh clone can build, deploy, and run the system
     Given a fresh clone of the repository
     And the secrets the development environment configuration names
@@ -18,7 +18,7 @@ Feature: Version everything needed to build and operate the software
     Then the system builds, deploys, and runs
     And nothing was fetched from a machine, a wiki page, or a person outside the repository
 
-  @G-37
+  @G-37 @F-044-02
   Scenario: A change ships with the migration and the config it needs
     Given a ticket that adds a database column and a new configuration key
     When "/aa-dev-implement" commits the change
@@ -26,14 +26,14 @@ Feature: Version everything needed to build and operate the software
     And every environment's configuration template gains the new key
     And the development environment configuration says where the key's value comes from
 
-  @G-37
+  @G-37 @F-044-03
   Scenario: Infrastructure and alerts are committed as code
     When "/aa-ops-setup-infrastructure" and "/aa-ops-observability" run
     Then the infrastructure definitions and alert configuration are in the repository
     And every manual operation has a runbook in the documents folder
     And each runbook is versioned with the scripts it describes
 
-  @G-38
+  @G-38 @F-044-04
   Scenario: A secret is templated, never committed
     Given the system needs a database password
     When "/aa-dev-setup-environment" writes the configuration templates
@@ -41,7 +41,7 @@ Feature: Version everything needed to build and operate the software
     And the development environment configuration says how a fresh clone obtains the value
     And no committed file contains the value
 
-  @G-38
+  @G-38 @F-044-05
   Scenario: A committed secret is rotated and replaced
     Given a secret value is found in a committed file
     When "/aa-sec-maintain-security" handles it
@@ -49,6 +49,7 @@ Feature: Version everything needed to build and operate the software
     And the value is replaced with a placeholder
     And the report names the file and never the value
 
+  @F-044-06
   Scenario: The knowledge base still holds why
     Given a decision about how the system is deployed
     When it is recorded
@@ -56,7 +57,7 @@ Feature: Version everything needed to build and operate the software
     And the runbook and the automation that carry it out go to the repository
     And each links to the other
 
-  @R-30
+  @R-30 @F-044-07
   Scenario: Health reports what a fresh clone could not do
     Given an environment has no configuration template in the repository
     And a manual operation has no runbook in the documents folder

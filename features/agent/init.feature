@@ -1,4 +1,4 @@
-@agent @T-06 @T-11
+@agent @T-06 @T-11 @F-002
 Feature: /aa-fw-init bootstraps what needs judgement
   aa init on the CLI lays down files. /aa-fw-init in the agent works through the unmet
   requirements that need a decision, with the user's consent, and reports the rest.
@@ -7,17 +7,20 @@ Feature: /aa-fw-init bootstraps what needs judgement
     Given the skills and commands are installed in the agent
     And I am in a repository initialised with "aa init"
 
+  @F-002-01
   Scenario: Start from health
     When I run "/aa-fw-init"
     Then it runs "/aa-fw-health" first
     And it works only on requirements reported as unmet
 
+  @F-002-02
   Scenario: Fix what it can, with consent
     Given an unmet requirement has a remedy the agent can perform
     When I run "/aa-fw-init"
     Then it proposes the remedy
     And it performs it only after the user agrees
 
+  @F-002-03
   Scenario: A language with no formatter
     Given the project has a language with no formatter
     When I run "/aa-fw-init"
@@ -25,6 +28,7 @@ Feature: /aa-fw-init bootstraps what needs judgement
     And it offers the options available in the project's scope, without naming a tool itself
     And it lets the user choose
 
+  @F-002-04
   Scenario: A technology with no skill in scope
     Given the project's stack has a technology with no skill in scope
     When I run "/aa-fw-init"
@@ -32,25 +36,27 @@ Feature: /aa-fw-init bootstraps what needs judgement
     And it lists the tech-stack plugins that would cover it
     And it lets the user choose
 
+  @F-002-05
   Scenario: Report what it cannot fix
     Given an unmet requirement that needs the user to act outside the agent
     When I run "/aa-fw-init"
     Then it lists the requirement and the remedy
     And it does not attempt the remedy itself
 
+  @F-002-06
   Scenario: Finish with health
     When "/aa-fw-init" completes
     Then it runs "/aa-fw-health" again
     And it reports what changed and what remains
 
-  @O-09 @O-04 @R-22 @R-03 @T-05
+  @O-09 @O-04 @R-22 @R-03 @T-05 @F-002-07
   Scenario: Ask for the ticket project and knowledge base
     Given the project config names no ticket project
     When I run "/aa-fw-init"
     Then it asks which ticket project this repository belongs to and where its knowledge base is
     And it accepts a name, a key, or a URL
 
-  @T-05
+  @T-05 @F-002-08
   Scenario: A connector for the named system is in scope
     Given the user answers with a system and a project URL
     And the agent has a skill, MCP server, or CLI for that system that is authorised
@@ -59,7 +65,7 @@ Feature: /aa-fw-init bootstraps what needs judgement
     And it records the project key and URL in the project config
     And it does not name any system the user did not name
 
-  @T-05 @T-10
+  @T-05 @T-10 @F-002-09
   Scenario: A connector is present but not authorised for the site
     Given the user answers with a system and a project URL
     And the agent has a connector for that system that is not authorised for that site
@@ -68,7 +74,7 @@ Feature: /aa-fw-init bootstraps what needs judgement
     And it records the mapping in the project config anyway
     And it says health will report R-02 or R-03 unmet until the connector is authorised
 
-  @T-05 @T-10
+  @T-05 @T-10 @F-002-10
   Scenario: No connector for the named system is in scope
     Given the user answers with a system and a project URL
     And the agent has nothing in scope for that system

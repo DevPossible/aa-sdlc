@@ -1,4 +1,4 @@
-@framework @agent @O-08 @T-07
+@framework @agent @O-08 @T-07 @F-042
 Feature: Development proves the requirement; Testing goes beyond it
   The Development discipline writes the automated tests that show a requirement is met. The
   Testing discipline makes the suite as comprehensive as is reasonable and turns every gap it
@@ -8,7 +8,7 @@ Feature: Development proves the requirement; Testing goes beyond it
     Given a project bootstrapped with "aa init"
     And a ticket with scenarios in a feature file
 
-  @G-20
+  @G-20 @F-042-01
   Scenario: Implementing a ticket includes the tests that prove it
     When "/aa-dev-implement" runs for the ticket
     Then unit and integration tests exist for every happy path in the ticket's scenarios
@@ -16,7 +16,7 @@ Feature: Development proves the requirement; Testing goes beyond it
     And unit and integration tests exist for the obvious negative cases
     And a happy-path end-to-end test exists for each scenario
 
-  @G-20
+  @G-20 @F-042-02
   Scenario: A ticket is not done without its tests
     Given the code for the ticket is written
     And the tests that prove it do not yet exist or do not pass
@@ -24,21 +24,21 @@ Feature: Development proves the requirement; Testing goes beyond it
     Then the ticket is reported as not done
     And the missing or failing tests are named
 
-  @G-21
+  @G-21 @F-042-03
   Scenario: Testing starts from the feature files
     When "/aa-qa-generate-tests" runs for the ticket
     Then it reads the ticket's scenarios first
     And it reads the tests Development already wrote
     And it does not duplicate them
 
-  @G-21
+  @G-21 @F-042-04
   Scenario: Testing applies general strategies beyond the requirement
     When "/aa-qa-generate-tests" runs for the ticket
     Then it considers boundaries, state transitions, error and recovery paths, and concurrency
     And it considers realistic sequences of user interaction
     And it adds tests for what the requirement did not say
 
-  @G-21 @T-12
+  @G-21 @T-12 @F-042-05
   Scenario: A gap becomes a question and a scenario
     Given Testing finds behaviour the requirement did not specify
     When "/aa-qa-generate-tests" records the gap
@@ -46,6 +46,7 @@ Feature: Development proves the requirement; Testing goes beyond it
     And a new scenario is added to the feature file, marked as pending the answer
     And the knowledge base page is updated when the answer is decided
 
+  @F-042-06
   Scenario: Neither discipline hides a failure
     Given a test written by either discipline fails
     When the step reports its outcome

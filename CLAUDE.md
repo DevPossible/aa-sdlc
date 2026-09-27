@@ -10,7 +10,9 @@ file, Artifact identity.
 
 The framework's own requirements are feature files under `features/` and they are the source of
 truth (T-12). When behaviour changes, change the feature file first, then the docs that index
-it. `docs/requirements.md` is an index and defers to `features/requirements/`.
+it. `docs/requirements.md` is an index and defers to `features/requirements/`. Every feature and
+scenario carries a stable `@F` id (G-49); after adding one, run `./scripts/Add-FeatureId.ps1`,
+which assigns the next free id and never renumbers.
 
 ## Structure
 

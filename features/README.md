@@ -22,6 +22,9 @@ features/
 - Every scenario is tagged with the framework IDs it realises: `@T-nn`, `@O-nn`, `@R-nn`,
   `@G-nn`. Requirement scenarios also carry their level: `@required`, `@recommended`,
   `@informational`.
+- Every feature carries a stable id, `@F-nnn`, and every scenario one derived from it,
+  `@F-nnn-nn` (G-49). Ids are never renumbered or reused; `scripts/Add-FeatureId.ps1` gives the
+  next free id to anything new, and the unit tier fails on a missing or duplicated one.
 - In a consuming project the same shape applies, with a ticket tag per scenario
   (`@TICKET-123` or the project's configured pattern) in place of framework IDs.
 - Scenarios describe observable behaviour in plain language. They name tool categories, never
