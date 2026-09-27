@@ -90,7 +90,8 @@ try {
             }
         }
 
-        foreach ($m in [regex]::Matches($text, '/aa-[a-z]+-[a-z0-9-]+')) {
+        # A command stands on its own; a path such as ../aa-sdlc-plugins/src is not one
+        foreach ($m in [regex]::Matches($text, '(?<![\w./-])/aa-[a-z]+-[a-z0-9-]+')) {
             if (-not $commands.Contains($m.Value)) { $problems.Add("$($page.Name): names command $($m.Value), which no step defines") }
         }
 
