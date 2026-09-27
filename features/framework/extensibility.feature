@@ -11,7 +11,7 @@ Feature: /aa-fw-extend helps the user create extensions to the framework
   Scenario: Choose the kind of extension
     When I run "/aa-fw-extend"
     Then it asks what the extension is for
-    And it offers the kinds: a tech-stack pack, a process pack, a project skill, a target adapter, added guidance, and an added requirement
+    And it offers the kinds: a tech-stack pack, a tool pack, a process pack, a project skill, a target adapter, added guidance, and an added requirement
     And it explains which kind fits the need before scaffolding anything
 
   Scenario: Scaffold a tech-stack pack
@@ -21,6 +21,20 @@ Feature: /aa-fw-extend helps the user create extensions to the framework
     And it contains stack-specific guidance for implement, generate-tests, setup-pipeline, and the other steps it extends
     And it may name the tools of that stack, because that is what a plugin is for
     And it declares the requirements those tools imply
+
+  Scenario: Scaffold a tool pack
+    Given I choose a tool pack for a tool the life cycle uses, such as a formatter, a load-testing tool, or a pipeline system
+    When "/aa-fw-extend" scaffolds it
+    Then a plugin folder exists with a manifest of kind tool
+    And each skill names the core step or process it serves, or the core requirement it satisfies
+    And it may name the tool and carry opinions on how to use it, per language where that matters
+    And a pipeline pack covers pipeline definitions and runs, never the tickets, merge requests, or wiki of the same system (T-05)
+
+  Scenario: Refuse a skill that does not attach to the life cycle
+    Given I ask for a plugin skill that serves no step, process, or requirement, such as code generation, script generation, organisation-wide practice, or media generation
+    When "/aa-fw-extend" fits the kind
+    Then it says the skill is an ordinary agent skill, not a plugin
+    And it offers to leave it as a user or project skill outside the framework
 
   Scenario: Scaffold a process pack
     Given I choose a process pack for an extra step or gate

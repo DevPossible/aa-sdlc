@@ -226,7 +226,7 @@ scenarios.
 # plugins/dotnet/plugin.yaml
 name: dotnet
 version: 0.1.0
-kind: tech-stack                    # tech-stack | process
+kind: tech-stack                    # tech-stack | tool | process
 covers:                             # technologies this pack gives skills for (R-13)
   - language: csharp
   - framework: aspnet-core
@@ -244,7 +244,31 @@ adds:
 requires: [R-dotnet-01, R-dotnet-02] # defined in plugins/dotnet/features/requirements/
 ```
 
+- Every plugin skill's `SKILL.md` frontmatter names what it attaches to, at least one of:
+
+  ```yaml
+  aa:
+    attaches_to: [e2e-tests]        # core step or process ids
+    satisfies: [R-09]               # core requirement ids
+  ```
+
+  Every id must exist in core. A skill with neither is refused as a plugin skill (decision
+  record 0013).
 - Plugin IDs are namespaced: `R-<plugin>-nn`, `G-<plugin>-nn`.
+- A plugin repository (the project's own is `aa-sdlc-plugins`) keeps each plugin in
+  `src/<name>/` with a `README.md`, and lists them all in `src/index.yaml`:
+
+  ```yaml
+  # src/index.yaml
+  plugins:
+    - name: k6
+      kind: tool
+      version: 0.1.0
+      path: k6
+      summary: Load and performance tests with k6 for the performance-test step.
+  ```
+
+  The repository's build checks every entry against the folder's `plugin.yaml`.
 - A plugin's requirement definitions are feature files in its own `features/requirements/`,
   same shape as core's.
 - A plugin cannot list a core id under `adds`; `/aa-fw-extend` and the build validator refuse it.

@@ -22,7 +22,7 @@ wrong.
 
 **T-02 Rough in the framework; expect others to supply the specifics.**
 The core defines the shape of the work: disciplines, processes, steps, artifacts, and guidance.
-Tech-stack packs, process packs, the project's own skills, and the tooling already in the agent's
+Tech-stack packs, tool packs, process packs, the project's own skills, and the tooling already in the agent's
 scope supply the details. Extensibility is a requirement of every core skill, not a feature
 added later.
 

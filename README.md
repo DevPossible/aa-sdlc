@@ -62,8 +62,9 @@ framework needs to know about your stack, your process, or your agent.
   the memory, source control is the output. The SDK owns no process state.
 - Target-agnostic: skills ship as `SKILL.md` folders to Claude Code, Codex, Cursor, Hermes,
   OpenClaw and others. Only commands and hooks are adapted per target.
-- Plugins for tech-stack packs and extra processes. Deployable at project, user, team, or
-  enterprise scope.
+- Plugins: tech-stack packs, tool packs, and extra processes, each skill attached to a step or
+  requirement. Deployable at project, user, team, or enterprise scope. Optional plugins live in
+  `aa-sdlc-plugins`.
 - `/aa-fw-health` checks the install, the environment, and the current project, and reports what
   is missing without blocking anything.
 

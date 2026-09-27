@@ -122,9 +122,11 @@ reuses, tied to the commit it was built from. Every environment deploys the same
 release records it, and validation confirms it is what is running (O-24).
 
 **Plugin**
-An optional pack that adds skills, steps, processes, or guidance without changing core. Two
-kinds: tech-stack packs and process packs. Plugins supply specifics; core supplies the
-framework.
+An optional pack that adds skills, steps, processes, or guidance without changing core. Three
+kinds: tech-stack packs, tool packs, and process packs. Every skill in a plugin attaches to the
+life cycle: it names the core step or process it serves, or the core requirement it satisfies; a
+skill that attaches to nothing is an ordinary agent skill, not a plugin. Plugins supply
+specifics, and may name tools; core supplies the framework (decision record 0013).
 
 **Extension**
 Anything added outside core: a plugin (either kind), a project skill, a target adapter, added

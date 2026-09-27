@@ -336,7 +336,7 @@ the machine. The CLI then places skills and rendered commands into the chosen ta
 | `aa setup` | bootstrap the machine: detect the agent targets installed, install skills and commands for each at user scope, write the user config, and connect a team or enterprise config repository if one is given. The main verb. |
 | `aa init [-path <dir>]` | bootstrap a repository: write the project config, create the documents folder, install project-scope skills and commands, then point the user at `/aa-fw-init` and `/aa-fw-health` in their agent |
 | `aa update` | update everything `setup` and `init` installed to the package version |
-| `aa plugin add / remove / list` | manage plugins at a scope |
+| `aa plugin install / update / list / remove` | manage plugins at a scope; `add` is another name for `install` |
 
 There is no `health` verb and no separate `install` verb: `setup` and `init` are the two ways
 things get installed, at machine and repository level respectively.
@@ -346,14 +346,28 @@ layered on top of core. Flags are working names.
 
 ## 8. Plugins
 
-Plugins add skills, commands, and workflow steps without changing core. Two kinds:
+Plugins add skills, commands, and workflow steps without changing core. Three kinds:
 
 - **Tech-stack packs**: `.NET`, `Node`, `Android`, and so on. They add stack-specific guidance to
-  `implement`, `generate-tests`, `setup-pipeline`, and the like.
+  `implement`, `generate-tests`, `setup-pipeline`, and the like: MSBuild lint commands, how to
+  publish web artifacts.
+- **Tool packs**: a tool the life cycle uses. A formatter with opinions per language (R-09), a
+  browser-test tool for a particular kind of app (`e2e-tests`), a load tool (`performance-test`),
+  a pipeline system (`setup-pipeline`).
 - **Process packs**: extra steps or gates an organisation needs, such as a change-advisory step or
   a compliance review.
 
-Plugins never wrap the ticket system, wiki, or source control (T-05).
+Every skill in a plugin attaches to the life cycle: its frontmatter names the core steps or
+processes it serves (`aa.attaches_to`) or the core requirements it satisfies (`aa.satisfies`).
+A skill that attaches to nothing (code generation in a language, script generation, an
+organisation's general practices, media generation) is an ordinary agent skill, which the user
+loads outside the framework; `aa plugin install` and `/aa-fw-extend` refuse it as a plugin.
+
+Plugins never wrap the ticket system, wiki, or source control (T-05). A pipeline pack covers
+pipeline definitions and runs, never the tickets, merge requests, or wiki of the same system.
+
+The optional plugins this project maintains live in the `aa-sdlc-plugins` repository; the core
+package ships none (decision record 0013).
 
 ### 8.1 Extensions and `/aa-fw-extend`
 
@@ -390,7 +404,7 @@ aa-sdlc/
     commands/           target-neutral command definitions
     workflow/           disciplines, steps, processes, and guidance sets as data
     schemas/            JSON Schema for the workflow data and aa.config.yaml
-    plugins/            tech-stack and process packs
+    plugins/            empty: optional plugins live in aa-sdlc-plugins (decision 0013)
     targets/            per-target adapter templates
   src/aa-sdlc-cli/      the aa CLI: a Go module (decision record 0004)
     cmd/aa/             main package
@@ -504,6 +518,7 @@ row it supersedes; the superseded row gains only a "Superseded by" note.
 | 54 | 2026-09-21 | Opinion O-25: configuration is split by what varies; environment-specific settings (endpoints, connection strings, resource names, credentials) live in an environment file or the platform's equivalent, one per environment, supplied at deploy time; functional settings (timeouts, limits, behaviour) live in the application configuration committed once; no key in both (R-39, G-48) | The two kinds change for different reasons at different times; mixing them means every functional change is made per environment and missed in one, and the diff between environments is buried in identical lines |
 | 55 | 2026-09-21 | Supersedes 39. Opinion O-10 is reframed: a size is grounded in implementation thinking recorded on the ticket, at a depth that matches the stakes; this is a condition on the ticket's content, not an ordering of steps, and the step reordering in 39 is undone (R-23, G-28) | You cannot size what you have not thought about building, but stating that as a workflow cut against T-03; stating it as ticket content keeps T-03 intact and lets a sentence suffice for a small change. Row 39 was first edited in place, which O-18 forbids; it is restored and superseded here instead |
 | 56 | 2026-09-22 | Rows in this log are immutable once written; a change of mind is a new row that names the row it supersedes, and the superseded row gains only a "Superseded by" note (O-18 applied to the design's own history) | The log had been edited in place once (row 39); a record that can be edited after the fact tells you what someone now wishes had been decided |
+| 57 | 2026-09-26 | Plugins have three kinds (tech-stack, tool, process), every plugin skill attaches to a core step, process, or requirement, the verb is `aa plugin install / update / list / remove`, and the project's optional plugins live in `aa-sdlc-plugins` (decision record 0013) | Most wanted plugins are tools, not stacks; without an admission rule any skill becomes a plugin and the guarantee that a plugin serves the life cycle is lost |
 
 ## 12. Open questions
 

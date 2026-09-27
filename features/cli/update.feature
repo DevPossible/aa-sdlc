@@ -21,3 +21,9 @@ Feature: aa update brings the install up to the package version
   Scenario: Report what changed
     When "aa update" completes
     Then it lists the skills and commands that were added, changed, or removed
+
+  Scenario: Update the plugins installed at each scope
+    Given a plugin is installed at a scope
+    When I run "aa update"
+    Then the plugin is reinstalled from the source the config records for it
+    And the plugin's files are not reported as stale core files
