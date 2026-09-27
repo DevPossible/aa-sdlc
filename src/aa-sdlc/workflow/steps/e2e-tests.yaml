@@ -25,7 +25,7 @@ artifacts:
     acceptance:
       - Baselines are versioned and reviewed when they change
 guidance_sets: [every-step, anchored-step, repository-write, test-writing]
-guidance: [G-21, G-30]
+guidance: [G-21, G-30, G-49]
 guidance_inline:
   - Drive the system the way a user does, through its real entry points; do not reach into internals to make a test pass.
   - Own the test data. Every end-to-end test creates what it needs and cleans up; a test that depends on leftover state will lie eventually.

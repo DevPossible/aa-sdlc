@@ -5,7 +5,7 @@ aa:
   discipline: testing
   step: e2e-tests
   guidance_sets: [every-step, anchored-step, repository-write, test-writing]
-  guidance: [G-21, G-30]
+  guidance: [G-21, G-30, G-49]
   requires: [R-16, R-25, R-26, R-17]
 ---
 
@@ -84,6 +84,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
+- **G-49** Give every feature a stable id tag (@F-nnn) and every scenario one derived from it (@F-nnn-nn), assigned once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
 - Drive the system the way a user does, through its real entry points; do not reach into internals to make a test pass.
 - Own the test data. Every end-to-end test creates what it needs and cleans up; a test that depends on leftover state will lie eventually.
 - Own the environment too. Start it from the repository's container definitions and tear it down after; a test that needs a shared environment is marked and the reason recorded (O-12).

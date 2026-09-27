@@ -25,7 +25,7 @@ artifacts:
     acceptance:
       - Every behaviour found that the requirement did not specify is a question on the ticket and a pending scenario in the feature file
 guidance_sets: [every-step, anchored-step, repository-write, test-writing]
-guidance: [G-07, G-18, G-19, G-21]
+guidance: [G-07, G-18, G-19, G-21, G-49]
 guidance_inline:
   - Read Development's tests first and say what they cover. Your job starts where theirs stops.
   - Test the seams. The boundaries between components, between tiers, and between the system and its dependencies are where the requirement was vaguest.

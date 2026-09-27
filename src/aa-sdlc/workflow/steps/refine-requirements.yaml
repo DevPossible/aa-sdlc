@@ -25,7 +25,7 @@ artifacts:
     acceptance:
       - Lists the constraints (platform, integration, compliance, performance) the scenarios must satisfy, each with its source
 guidance_sets: [every-step, anchored-step, repository-write]
-guidance: [G-16, G-18, G-19, G-35]
+guidance: [G-16, G-18, G-19, G-35, G-49]
 guidance_inline:
   - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
   - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.

@@ -54,3 +54,16 @@ Feature: Gherkin is the source of truth for requirements
     Given the aa-sdlc repository
     Then its own requirements are feature files under features/
     And the requirements registry document is an index derived from them
+
+  @O-01
+  Scenario: Features and scenarios carry stable ids
+    When a feature or a scenario is written during discover or refine-requirements
+    Then the feature carries an id tag unique in the repository
+    And each scenario carries an id derived from its feature's id
+    And an id is never renumbered or reused, even when a scenario is moved or deleted
+
+  @O-01
+  Scenario: Tests name the scenarios they prove
+    When a test is written during implement, generate-tests, or e2e-tests
+    Then the test names the ids of the scenarios it proves, in the form its test framework supports
+    And a scenario with no test naming its id is reported as not covered

@@ -5,7 +5,7 @@ aa:
   discipline: testing
   step: generate-tests
   guidance_sets: [every-step, anchored-step, repository-write, test-writing]
-  guidance: [G-07, G-18, G-19, G-21]
+  guidance: [G-07, G-18, G-19, G-21, G-49]
   requires: [R-16, R-17]
 ---
 
@@ -86,6 +86,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
+- **G-49** Give every feature a stable id tag (@F-nnn) and every scenario one derived from it (@F-nnn-nn), assigned once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
 - Read Development's tests first and say what they cover. Your job starts where theirs stops.
 - Test the seams. The boundaries between components, between tiers, and between the system and its dependencies are where the requirement was vaguest.
 - Every test you add runs alone and in any order with the same result. Control time, randomness, state, and dependencies; never lean on another test having run first (O-23).

@@ -25,7 +25,7 @@ artifacts:
     acceptance:
       - Every unanswered question has context and an owner
 guidance_sets: [every-step, anchored-step, repository-write]
-guidance: [G-16, G-18, G-19, G-35]
+guidance: [G-16, G-18, G-19, G-35, G-49]
 guidance_inline:
   - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a draft scenario can be wrong in a way everyone can see.
   - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.

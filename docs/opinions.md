@@ -179,9 +179,14 @@ business analyst, the developer, the tester, and the model.
 *Rejected:* prose requirements documents (drift from the code and cannot execute); acceptance
 criteria held only in tickets (no history, no review, not in the repository); user stories as
 the unit of truth (a story is a promise to have a conversation, not a specification).
+Because the feature files are in the repository, every agent working on it reads the
+requirements as it reads the code, with no connector and no copy that can be stale; the ticket
+and the knowledge base page are kept in step with them, never the other way round (G-18). Every
+feature and scenario carries a stable id, and every test names the ids it proves, so which
+requirements are tested is a query, not an opinion (G-49).
 *Would change our mind:* a structured natural-language format with equal or better executor
 support across stacks and equal readability for non-technical stakeholders.
-*Requirements:* R-16, R-17.
+*Requirements:* R-16, R-17. *Guidance:* G-18, G-49.
 
 **O-15 A requirement starts with written goals; the mock-up comes after.**
 *The stance:* no requirement begins as a screenshot or a mock-up. It begins as written goals:

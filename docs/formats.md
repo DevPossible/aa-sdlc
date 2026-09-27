@@ -273,6 +273,34 @@ requires: [R-dotnet-sdlc-01, R-dotnet-sdlc-02] # defined in features/requirement
   same shape as core's.
 - A plugin cannot list a core id under `adds`; `/aa-fw-extend` and the build validator refuse it.
 
+## 4. A project's feature files
+
+The feature files in the project's features folder are the requirements (T-12, O-01). Each
+feature and each scenario carries a stable id, and each scenario carries its anchor ticket, so a
+requirement can be traced to its ticket, its page, and the tests that prove it (G-19, G-49).
+
+```gherkin
+# features/orders/export-order-history.feature
+@F-012
+Feature: Customers can export their order history
+  Knowledge base page: Requirements / Orders / Export order history
+
+  @F-012-01 @ABC-142
+  Scenario: Export the last twelve months as CSV
+    Given a customer with orders in the last twelve months
+    When they export their order history
+    Then they receive a CSV with one row per order
+```
+
+- A feature id is `@F-` and a number, unique in the repository, on the line above `Feature:`.
+- A scenario id is the feature id, a hyphen, and a number unique within the feature.
+- Ids are assigned once, when the feature or scenario is written, and never renumbered or
+  reused. A deleted scenario's id stays retired; a moved scenario keeps its id.
+- Every automated test that proves a scenario names the scenario's id, in the form the test
+  framework supports: a tag, a category, a trait, or the test's name. A scenario is covered when
+  at least one test names its id.
+- The ticket tag follows the project config's `conventions.ticket.tag` (section 2).
+
 ## What this settles and what it does not
 
 Settled: file formats, locations, id scheme, merge rules, where each kind of text lives once.
