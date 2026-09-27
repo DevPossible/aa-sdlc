@@ -153,8 +153,8 @@ scope: project
 targets:                            # which agents this scope installs into
   - claude-code
 plugins:                            # added to the merged list, never removed by a lower scope
-  - dotnet
-  - gitlab-flow
+  - dotnet-sdlc
+  - change-advisory
 conventions:
   ticket:
     project: "ABC"                  # the ONE ticket system project or group this repo maps to (O-09)
@@ -223,8 +223,8 @@ scenarios.
 ### Plugin manifest
 
 ```yaml
-# plugins/dotnet/plugin.yaml
-name: dotnet
+# src/dotnet-sdlc/plugin.yaml, in a plugin repository
+name: dotnet-sdlc
 version: 0.1.0
 kind: tech-stack                    # tech-stack | tool | process
 covers:                             # technologies this pack gives skills for (R-13)
@@ -233,15 +233,15 @@ covers:                             # technologies this pack gives skills for (R
   - build: msbuild
   - test: xunit
 adds:
-  skills: [dotnet-implement, dotnet-generate-tests]
+  skills: [build, lint]           # installed as aa-dotnet-sdlc-build, aa-dotnet-sdlc-lint
   guidance:                         # plugin guidance may name tools
-    - id: G-dotnet-01
+    - id: G-dotnet-sdlc-01
       text: Run the solution formatter on changed files only before committing.
       attaches_to: finish-branch
-      requires: [R-dotnet-01]
+      requires: [R-dotnet-sdlc-01]
   processes: []
   steps: []
-requires: [R-dotnet-01, R-dotnet-02] # defined in plugins/dotnet/features/requirements/
+requires: [R-dotnet-sdlc-01, R-dotnet-sdlc-02] # defined in features/requirements/ beside the manifest
 ```
 
 - Every plugin skill's `SKILL.md` frontmatter names what it attaches to, at least one of:
@@ -261,10 +261,10 @@ requires: [R-dotnet-01, R-dotnet-02] # defined in plugins/dotnet/features/requir
   ```yaml
   # src/index.yaml
   plugins:
-    - name: k6
+    - name: k6-sdlc
       kind: tool
       version: 0.1.0
-      path: k6
+      path: k6-sdlc
       summary: Load and performance tests with k6 for the performance-test step.
   ```
 
