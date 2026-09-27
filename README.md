@@ -61,7 +61,7 @@ framework needs to know about your stack, your process, or your agent.
 - Opinionated for consistency, but not enforcing. The ticket system is the state store, the wiki is
   the memory, source control is the output. The SDK owns no process state.
 - Target-agnostic: skills ship as `SKILL.md` folders; Claude Code is supported today, and Codex,
-  Gemini CLI, OpenCode, Cursor, Hermes, and OpenClaw are planned. Only commands and hooks are
+  Gemini CLI, OpenCode, Pi, Cursor, Hermes, and OpenClaw are planned. Only commands and hooks are
   adapted per target, and `aa setup` installs into every target it finds.
 - Plugins: tech-stack packs, tool packs, and extra processes, each skill attached to a step or
   requirement. Deployable at project, user, team, or enterprise scope. Optional plugins live in
