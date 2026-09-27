@@ -20,7 +20,8 @@ artifacts:
       - Installed at the chosen scope, or added to the organisation config repository
 guidance_sets: [every-step, anchored-step]
 guidance_inline:
-  - Fit the kind to the need before scaffolding. A stack-specific practice is a tech-stack pack; an organisational gate is a process pack; something only this repository needs is a project skill; a new agent is a target adapter. Explain the choice in one sentence.
+  - Fit the kind to the need before scaffolding. A stack-specific practice is a tech-stack pack; a tool the life cycle uses is a tool pack; an organisational gate is a process pack; something only this repository needs is a project skill; a new agent is a target adapter. Explain the choice in one sentence.
+  - A plugin skill attaches to the life cycle. It names the core step or process it serves, or the core requirement it satisfies; a skill that attaches to nothing, such as code generation, script generation, organisation-wide practice, or media generation, is an ordinary agent skill and stays outside the framework.
   - Write the feature file first. The extension's behaviour is captured as scenarios before any skill text is written, so the skill has something to be checked against.
   - Refuse politely and specifically. When an extension would change core, name the exact core item and offer the nearest allowed alternative.
   - Prefer adding to an existing pack over creating a second pack for the same technology or process.

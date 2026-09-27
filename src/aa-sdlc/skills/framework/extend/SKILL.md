@@ -28,12 +28,16 @@ A ticket is optional here. When one is given, read it, its linked scenarios, and
    its page (G-22); otherwise work locally and say so. Ask what the user needs the framework to
    know about, then read the installed extensions at every scope and the organisation config
    repository if one is set, so you add to what exists rather than duplicate it.
-2. **Fit the kind to the need.** A stack-specific practice is a tech-stack pack; an
-   organisational gate is a process pack; something only this repository needs is a project
+2. **Fit the kind to the need.** A stack-specific practice is a tech-stack pack; a tool the
+   life cycle uses (a formatter, a test runner, a load tool, a pipeline system) is a tool pack;
+   an organisational gate is a process pack; something only this repository needs is a project
    skill; a new agent is a target adapter; a single practice or capability is added guidance or
    an added requirement. Explain the choice in one sentence and confirm it with the user before
    scaffolding. Where an existing pack covers the same technology or process, add to it rather
-   than create a second.
+   than create a second. A plugin skill must attach to the life cycle: name the core step or
+   process it serves or the core requirement it satisfies. If it attaches to nothing (code
+   generation, script generation, organisation-wide practice, media generation), say it is an
+   ordinary agent skill, not a plugin, and offer to leave it as a user or project skill.
 3. **Refuse what would change core, by name.** If the need would redefine a core skill, step,
    tenet, or opinion, name the exact core item, say why an extension cannot change it, and
    offer the nearest allowed alternative: added guidance, a new step in a process pack, or one
@@ -43,8 +47,11 @@ A ticket is optional here. When one is given, read it, its linked scenarios, and
    written (T-12). The scenarios are what the skill is checked against.
 5. **Scaffold the extension** in the location its kind names: plugins/<name>/ for a pack, the
    project's skills location for a project skill, targets/<name>/ for an adapter. Write the
-   manifest and, for each step it extends, a skill whose frontmatter names the step. Only a
-   tech-stack pack may name tools; core-level guidance may not (T-01).
+   manifest (its `kind` is `tech-stack`, `tool`, or `process`) and, for each step it extends, a
+   skill whose frontmatter names what it attaches to in `aa.attaches_to` (steps or processes)
+   or `aa.satisfies` (requirements). A pack may name tools; core-level guidance may not (T-01).
+   A pipeline pack covers pipeline definitions and runs, never the tickets, merge requests, or
+   wiki of the same system (T-05).
 6. **Declare its requirements** in the extension's own numbered id range (T-11): every tool,
    system, or capability its guidance depends on, named in the manifest, so health can
    aggregate and check them once it is installed.
@@ -76,7 +83,8 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- Fit the kind to the need before scaffolding. A stack-specific practice is a tech-stack pack; an organisational gate is a process pack; something only this repository needs is a project skill; a new agent is a target adapter. Explain the choice in one sentence.
+- Fit the kind to the need before scaffolding. A stack-specific practice is a tech-stack pack; a tool the life cycle uses is a tool pack; an organisational gate is a process pack; something only this repository needs is a project skill; a new agent is a target adapter. Explain the choice in one sentence.
+- A plugin skill attaches to the life cycle. It names the core step or process it serves, or the core requirement it satisfies; a skill that attaches to nothing, such as code generation, script generation, organisation-wide practice, or media generation, is an ordinary agent skill and stays outside the framework.
 - Write the feature file first. The extension's behaviour is captured as scenarios before any skill text is written, so the skill has something to be checked against.
 - Refuse politely and specifically. When an extension would change core, name the exact core item and offer the nearest allowed alternative.
 - Prefer adding to an existing pack over creating a second pack for the same technology or process.
