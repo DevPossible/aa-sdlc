@@ -298,8 +298,9 @@ Notes on the merges and additions:
 
 ## 6. Multi-target strategy
 
-Targets in scope: Claude Code, Codex, Cursor, Hermes, OpenClaw, and others that read the
-`SKILL.md` format.
+Targets in scope: Claude Code, Codex, Gemini CLI, OpenCode, Cursor, Hermes, OpenClaw, and others
+that read the `SKILL.md` format. Only Claude Code has an adapter today. A machine may have several
+targets: `aa setup` installs into every one it detects, and `targets:` in the config is a list.
 
 - Skills ship unchanged to every target.
 - `src/aa-sdlc/targets/<target>/` holds adapter templates for the parts that differ: where skills
