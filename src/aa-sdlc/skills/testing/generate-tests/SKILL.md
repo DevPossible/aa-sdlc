@@ -6,7 +6,7 @@ aa:
   step: generate-tests
   guidance_sets: [every-step, anchored-step, repository-write, test-writing]
   guidance: [G-07, G-18, G-19, G-21, G-49]
-  requires: [R-16, R-17]
+  requires: [R-16, R-17, R-40]
 ---
 
 # /aa-qa-generate-tests

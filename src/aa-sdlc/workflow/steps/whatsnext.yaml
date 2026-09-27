@@ -34,6 +34,6 @@ guidance_inline:
   - Choose the next ticket from the current iteration in priority order, and let its state choose the command. Unrefined is /aa-rf-refine-ticket; refined without a confirmed plan is /aa-ip-plan-implementation; planned is /aa-dev-implement. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
   - Change nothing. Read the folder, the tickets, and the pages; do not create, edit, commit, transition, or install anything, even to make a check possible.
   - When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.
-requires: [R-01, R-02, R-03, R-07]
+requires: [R-01, R-02, R-03, R-07, R-40]
 tenets: [T-03, T-04, T-10]
 opinions: [O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19]

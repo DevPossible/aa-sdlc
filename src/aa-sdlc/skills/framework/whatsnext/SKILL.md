@@ -6,7 +6,7 @@ aa:
   step: whatsnext
   guidance_sets: [every-step]
   guidance: [G-04]
-  requires: [R-01, R-02, R-03, R-07]
+  requires: [R-01, R-02, R-03, R-07, R-40]
 ---
 
 # /aa-fw-whatsnext
@@ -51,6 +51,9 @@ broken: there is no point choosing the next ticket while the last change broke t
      it, naming the commits.
    - Code changed with no test changed or added breaks O-07: recommend `/aa-qa-generate-tests`
      with the ticket id, or `/aa-dev-implement` if the change is unfinished.
+   - A scenario added or changed with no test naming its id (G-49) leaves it uncovered (R-40):
+     recommend `/aa-qa-generate-tests` with the scenario id and the ticket id. Use the coverage
+     finding from the health report; do not search again.
    - Behaviour changed with no feature file changed breaks O-01 and T-12: recommend
      `/aa-ba-refine-requirements` with the ticket id.
    - A significant decision (a new dependency, a new component, a changed boundary) with no

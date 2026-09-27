@@ -439,3 +439,25 @@ Feature: Project requirements
     Then R-18 is reported as unmet
     And the report names the missing folders
     And the remedy is for "aa init" to create them or "/aa-fw-init" to propose a mapping
+
+  @R-40 @recommended @O-01 @O-07 @F-065-57
+  Scenario: Every scenario is named by a test
+    Given every scenario id in the features folder appears in at least one automated test
+    When "/aa-fw-health" probes R-40
+    Then R-40 is reported as met
+    And the report gives the count of scenarios covered and the total
+
+  @R-40 @recommended @O-01 @O-07 @F-065-58
+  Scenario: Some scenarios are named by no test
+    Given a scenario id in the features folder appears in no automated test
+    When "/aa-fw-health" probes R-40
+    Then R-40 is reported as unmet
+    And the report lists the uncovered scenario ids with their features
+    And the remedy is "/aa-qa-generate-tests" with those ids
+
+  @R-40 @recommended @F-065-59
+  Scenario: Scenarios proven another way are not counted as gaps
+    Given the development environment configuration records that some features are executed directly or reviewed as contracts
+    When "/aa-fw-health" probes R-40
+    Then those scenarios are reported as not applicable, citing the configuration
+    And the remaining scenarios are counted as usual

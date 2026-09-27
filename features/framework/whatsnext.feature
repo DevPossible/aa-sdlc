@@ -36,6 +36,14 @@ Feature: /aa-fw-whatsnext names the one thing to do next
     And the evidence names the commit and the files it changed
     And it cites O-07
 
+  @F-045-14
+  Scenario: A recently changed scenario that no test names
+    Given the foundation passes and no work is in flight
+    And a recent commit added or changed a scenario whose id no test names
+    When I run "/aa-fw-whatsnext"
+    Then it recommends "/aa-qa-generate-tests" with that scenario id and the commit's ticket id
+    And it cites R-40
+
   @F-045-05
   Scenario: A failing build outranks everything after it
     Given the foundation passes and no work is in flight

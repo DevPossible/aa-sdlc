@@ -78,6 +78,9 @@ runs nothing in an environment. Therefore:
 | e2e | `tests/e2e/`: Pester installs the packed npm tarballs into a temporary prefix and runs `aa setup` and `aa init`; also checks the health baseline names every requirement | 5 tests |
 
 R-17 (a feature-file executor) is met for the `@cli` subset by godog (decision record 0005).
+R-40 (every scenario named by a test) is not applicable to this repository: godog executes the
+`@cli` feature files themselves, so no separate test names their scenario ids, and the `@agent`
+and `@health` features are contracts that are reviewed, not executed.
 `@health` scenarios are verified through the health baseline below; `@agent` scenarios are
 contracts and are reviewed, not executed.
 

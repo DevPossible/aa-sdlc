@@ -172,7 +172,7 @@ Review the working folder, and the ticket system and knowledge base it links to,
 - Change nothing. Read the folder, the tickets, and the pages; do not create, edit, commit, transition, or install anything, even to make a check possible.
 - When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.
 
-*Requires: R-04, R-01, R-02, R-03, R-07 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19*
+*Requires: R-04, R-01, R-02, R-03, R-07, R-40 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19*
 
 ### `/aa-fw-extend`
 
@@ -2127,7 +2127,7 @@ Start from the scenarios and the tests Development wrote, then apply general tes
 - Every test you add runs alone and in any order with the same result. Control time, randomness, state, and dependencies; never lean on another test having run first (O-23).
 - A pending scenario is a real scenario with a tag saying it awaits an answer. Do not leave gaps as comments in test code.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-16, R-17 | Tenets: T-07, T-12 | Opinions: O-08, O-23 | Methodology: phase 3 step 3.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-11, R-21, R-37, R-16, R-17, R-40 | Tenets: T-07, T-12 | Opinions: O-08, O-23 | Methodology: phase 3 step 3.1*
 
 ### `/aa-qa-e2e-tests`
 
