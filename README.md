@@ -82,6 +82,11 @@ test.ps1       run tests by tier: -Tier unit|integration|e2e|all, -Filter
 pack.ps1       version, build, test, and zip into .dist/
 ```
 
+To try a release candidate before anything is published, `./scripts/Install-LocalRelease.ps1
+-Version 0.1.0-rc.1` packs it, runs every test tier, and installs this platform's `aa` binary from
+the packed artifact into a per-user folder on the PATH, without npm. Run it with `-Uninstall`
+before installing the real package.
+
 This is opinions 5, 6, and 7 applied to the framework's own repository.
 
 ## Licence and trademark

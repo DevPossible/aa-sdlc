@@ -44,6 +44,7 @@ it. `docs/requirements.md` is an index and defers to `features/requirements/`.
 ./build.ps1        # validate skills and feature files, assemble .build/aa-sdlc
 ./test.ps1         # all tiers; -Tier unit|integration|e2e, -Filter '<pester name>'
 ./pack.ps1         # version, build, test, zip to .dist/
+./scripts/Install-LocalRelease.ps1 -Version 0.1.0-rc.1   # pack, then install that aa binary for this user, no npm; -Uninstall removes it
 ```
 
 ## Workflow data
