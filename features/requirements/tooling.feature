@@ -132,18 +132,27 @@ Feature: Tooling requirements
     And the report names the script and what it depends on
     And the remedy is for the user to supply a local equivalent or record the step as pipeline-only with a local stand-in
 
-  @R-12 @recommended
-  Scenario: Every language has a linter
-    Given for each language detected in the project a linter configuration exists and runs
+  @R-12 @required @O-21
+  Scenario: Every language has a static analyser with a committed rule set
+    Given for each language detected in the project a static analyser is configured and runs
+    And its rule set is committed to the repository
     When "/aa-fw-health" probes R-12
     Then R-12 is reported as met
 
-  @R-12 @recommended
-  Scenario: A language has no linter
-    Given a language detected in the project has no linter configuration
+  @R-12 @required @O-21
+  Scenario: A language has no static analyser
+    Given a language detected in the project has no static analyser configured
     When "/aa-fw-health" probes R-12
     Then R-12 is reported as unmet
     And the report names the language
+    And the remedy is "/aa-dev-setup-environment", which helps choose the analyser and its rule set
+
+  @R-12 @required @O-21
+  Scenario: An analyser runs with no committed rule set
+    Given a language has a static analyser that runs only with its built-in defaults
+    When "/aa-fw-health" probes R-12
+    Then R-12 is reported as unmet
+    And the report says the project's conventions are not written down as a rule set
 
   @R-35 @recommended @O-21
   Scenario: The root build runs the formatter check and the linters
@@ -163,11 +172,11 @@ Feature: Tooling requirements
     And the remedy is for "aa init" to add a lint stub to "build"
 
   @R-35 @recommended @O-21
-  Scenario: A language has no known linter
-    Given a language in the project has no linter configured
+  Scenario: A language has no known static analyser
+    Given a language in the project has no static analyser configured
     And the development environment configuration records that none is known for it
     When "/aa-fw-health" probes R-12 and R-35
-    Then R-12 is reported as unmet with a warning naming the language
+    Then R-12 is reported as not applicable for that language, citing the development environment configuration
     And R-35 is reported as met for the languages that do have one
     And nothing blocks
 

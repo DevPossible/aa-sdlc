@@ -5,7 +5,7 @@ aa:
   discipline: development
   step: setup-environment
   guidance_sets: [every-step, anchored-step, code-change]
-  guidance: [G-29, G-30, G-38, G-48]
+  guidance: [G-29, G-30, G-38, G-48, G-50]
   requires: [R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-39, R-13]
 ---
 
@@ -36,10 +36,21 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    the artifacts once with an immutable identity (O-24). Whatever the pipeline will run is a
    script here first; a step that only works on the pipeline runner is a defect (O-11).
 3. **Conventions by tool.** For each language, configure the formatter the project or a plugin
-   names (R-09) and the linter where one is known (R-12). Do not choose a tool the project has
-   not chosen; list what is available and let the user choose (T-01). Record a language with
-   no known linter in the development environment configuration so health's warning is
-   expected (G-44).
+   names (R-09) and a static analyser with a committed rule set (R-12). Do not choose a tool the
+   project has not chosen; list what is available and let the user choose (T-01). Then settle
+   the rule set with the user (G-50), offering three routes:
+   - **A published baseline** that matches the language, the framework version, and the kind of
+     application: the vendor's recommended set where one exists. This is the default.
+   - **A widely used alternative**, from a short list with what distinguishes each.
+   - **From scratch**, by asking the user's preferences one topic at a time: naming, ordering,
+     documentation, strictness.
+
+   Commit the rule set, tailor it in the rule set file rather than with suppressions in code,
+   and write a decision record naming the baseline, its version, and every departure with its
+   reason. In an existing codebase, record the findings in untouched code as a baseline the
+   analyser accepts, or raise them as tickets, and hold new and changed code to the full rule
+   set. Record a language with no known analyser in the development environment configuration
+   so health reports it as not applicable (G-44).
 4. **Split the configuration.** Environment-specific settings go in one environment template
    per environment with placeholders for secrets; functional settings go in the application
    configuration once; no key in both (O-25). Write where every secret comes from and how a
@@ -92,6 +103,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - **G-38** Never commit a secret value. Commit a configuration template that names every key with a placeholder for each secret, and record in the development environment configuration where each secret comes from and how a fresh clone obtains it.
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
+- **G-50** Start each language's static analyser rule set from a published best-practice baseline for the language, framework version, and kind of application, or from a widely used alternative the user picks, or from the user's stated preferences; tailor it in the rule set file rather than with suppressions in code, and record the baseline, its version, and every departure with its reason in a decision record.
 - Prove it on a clean clone. Clone to a temporary folder and run initialize, build, test, and pack there before calling it done.
 - Automate before documenting. A manual step in the documentation is a bug in initialize until it is proven to be impossible to automate.
 - Do not choose tools the project has not chosen. Use what the stack document, plugins, and existing config name; where nothing does, ask.

@@ -547,14 +547,17 @@ competitor for the job.
 
 **O-21 Conventions are enforced by tools, not by people.**
 *The stance:* every project follows consistent coding conventions, and those conventions live
-as formatter and linter configuration committed to the repository, not in a document or a
-reviewer's head. Formatting is automated and runs on changed files before a change is
-presented (G-01). Linting is enforced: every language with a known linter has one configured,
-the root build runs it, the pipeline calls the same script (O-11), and a finding is fixed or
-suppressed with a reason beside it (G-06), never ignored. A formatter is required (R-09); a
-linter is recommended (R-12), because not every language has a usable one, and where none is
-known the project says so once in its development environment configuration and health warns
-rather than blocks (T-10). Style is never argued in review.
+in the repository as tool configuration, not in a document or a reviewer's head. A formatter
+settles layout and runs on changed files before a change is presented (G-01). A static analyser
+settles everything else a convention covers, from naming and ordering to documentation and the
+patterns that read fine and are wrong, and its rule set is the project's conventions written
+down. The rule set starts from a published baseline for the language, framework version, and
+kind of application, and every departure from that baseline is recorded (G-50). The root build
+runs the analyser, the pipeline calls the same script (O-11), and a finding is fixed or
+suppressed with a reason beside it (G-06), never ignored. A formatter (R-09) and a static
+analyser with a committed rule set (R-12) are both required; where a language has no known
+analyser, the project says so once in its development environment configuration and health
+reports it as not applicable rather than blocking (T-10). Style is never argued in review.
 *Why:* conventions that live in a document are followed by the people who read it and
 forgotten by everyone else, including every agent that arrives later. Conventions that live in
 tool configuration are followed by everyone, cost nothing to apply, and free review for what
@@ -567,10 +570,10 @@ the same for humans and agents.
 repository as a side effect of a change (G-01); a linter that runs only in the pipeline, where
 its findings arrive after the push (O-11); suppressing findings without a reason; blocking a
 project because its language has no linter.
-*Would change our mind:* nothing foreseeable. The formatter or linter for a given language is
-the project's or a tech-stack plugin's choice (T-01); the opinion is that one is configured and
-runs.
-*Requirements:* R-09, R-12, R-15, R-35. *Guidance:* G-01, G-06, G-44.
+*Would change our mind:* nothing foreseeable. The formatter, the analyser, and the baseline rule
+set for a given language are the project's or a tech-stack plugin's choice (T-01); the opinion is
+that they are configured, committed, and run.
+*Requirements:* R-09, R-12, R-15, R-35. *Guidance:* G-01, G-06, G-44, G-50.
 
 **O-23 Tests are deterministic and independent.**
 *The stance:* every test, at every tier, produces the same result every time it runs, alone or

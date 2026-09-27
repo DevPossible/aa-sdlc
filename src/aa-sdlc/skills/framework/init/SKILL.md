@@ -5,7 +5,7 @@ aa:
   discipline: framework
   step: init
   guidance_sets: [every-step]
-  guidance: [G-13]
+  guidance: [G-13, G-50]
   requires: [R-07, R-14, R-15]
 ---
 
@@ -40,10 +40,12 @@ down as the first proposals (config, folders, root script stubs), with consent.
 3. **Propose each fixable unmet requirement** as one line: what it creates or changes, and why
    (the requirement id and what depends on it). Batch trivial fixes such as folders and stubs
    into one proposal. Perform a fix only after the user agrees (G-13).
-4. **For a language with no formatter or linter**, name the language and list what is
-   available in the project's scope or as a tech-stack plugin; the user chooses. If they choose
-   nothing, record that no linter is known for the language in the development environment
-   configuration so health's warning is expected (O-21).
+4. **For a language with no formatter or static analyser**, name the language and list what is
+   available in the project's scope or as a tech-stack plugin; the user chooses. A static
+   analyser needs a rule set as well as the tool: offer `/aa-dev-setup-environment` to choose
+   one from a published baseline (G-50). If they choose nothing, record that no analyser is
+   known for the language in the development environment configuration so health reports it as
+   not applicable (O-21).
 5. **For a technology with no skill in scope**, name the technology and list the tech-stack
    plugins that would cover it; the user chooses (R-13).
 6. **Map before you create.** If the repository already has an equivalent of a conventional
@@ -68,6 +70,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
+- **G-50** Start each language's static analyser rule set from a published best-practice baseline for the language, framework version, and kind of application, or from a widely used alternative the user picks, or from the user's stated preferences; tailor it in the rule set file rather than with suppressions in code, and record the baseline, its version, and every departure with its reason in a decision record.
 - Propose, then act. State each fix as a one-line proposal with what it creates or changes, and perform it only after the user agrees. Batch trivial fixes (folders, stubs) into one proposal.
 - Never choose a tool for the project. When a language has no formatter or a technology has no skill, name the gap and list what is available in the project's scope or as plugins; the user chooses (T-01).
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.

@@ -25,7 +25,28 @@ Feature: /aa-dev-setup-environment makes a fresh clone buildable and testable
     When "/aa-dev-setup-environment" reaches it
     Then it lists what is available in the project's scope or as a plugin
     And the user chooses
-    And a language with no known linter is recorded in the development environment configuration
+    And a language with no known static analyser is recorded in the development environment configuration
+
+  Scenario: The conventions start from a published baseline
+    Given a language in the stack has no static analyser rule set
+    When "/aa-dev-setup-environment" reaches it
+    Then it offers a published best-practice rule set matching the language, the framework version, and the kind of application
+    And it offers a short list of other widely used rule sets with what distinguishes each
+    And it offers to build a rule set from scratch by asking the user's preferences
+    And the user chooses
+
+  Scenario: The chosen rule set is tailored and recorded
+    Given the user has chosen a baseline rule set
+    When "/aa-dev-setup-environment" configures it
+    Then the rule set is committed to the repository and the analyser runs from the root build's lint switch
+    And each rule the user changes from the baseline is changed in the rule set file, not suppressed in code
+    And a decision record names the baseline, its version, and every departure with the reason
+
+  Scenario: An existing codebase adopts a rule set without a big-bang change
+    Given the chosen rule set reports findings in code the change did not touch
+    When "/aa-dev-setup-environment" configures it
+    Then the existing findings are recorded as a baseline the analyser accepts, or raised as tickets
+    And new and changed code is held to the full rule set
 
   Scenario: Configuration is split by what varies
     When "/aa-dev-setup-environment" writes the configuration

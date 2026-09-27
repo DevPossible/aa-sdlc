@@ -23,7 +23,7 @@ artifacts:
     acceptance:
       - initialize, build, test, and pack each run to completion on a fresh clone (O-06)
       - test accepts a tier parameter and each tier has a home (O-07)
-      - build accepts a lint switch that runs the formatter check and every configured linter; languages with no known linter are recorded in the development environment configuration (O-21)
+      - build accepts a lint switch that runs the formatter check and every configured static analyser; each analyser reads a committed rule set whose baseline and departures are in a decision record; languages with no known analyser are recorded in the development environment configuration (O-21)
       - The e2e tier starts the system and its dependencies in containers from definitions in the repository, where the stack allows (O-12)
   - name: Development environment configuration
     location: the documents folder
@@ -32,7 +32,7 @@ artifacts:
       - Names where every secret comes from and how a fresh clone obtains it; no secret value is committed (O-16)
       - Environment-specific settings are in one environment template per environment; functional settings are in the application configuration once; no key is in both (O-25)
 guidance_sets: [every-step, anchored-step, code-change]
-guidance: [G-29, G-30, G-38, G-48]
+guidance: [G-29, G-30, G-38, G-48, G-50]
 guidance_inline:
   - Prove it on a clean clone. Clone to a temporary folder and run initialize, build, test, and pack there before calling it done.
   - Automate before documenting. A manual step in the documentation is a bug in initialize until it is proven to be impossible to automate.

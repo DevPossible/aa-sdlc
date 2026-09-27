@@ -18,7 +18,7 @@ artifacts:
       - Every unfixable unmet requirement is listed with its remedy
       - A second health report shows what changed and what remains
 guidance_sets: [every-step]
-guidance: [G-13]
+guidance: [G-13, G-50]
 guidance_inline:
   - Propose, then act. State each fix as a one-line proposal with what it creates or changes, and perform it only after the user agrees. Batch trivial fixes (folders, stubs) into one proposal.
   - Never choose a tool for the project. When a language has no formatter or a technology has no skill, name the gap and list what is available in the project's scope or as plugins; the user chooses (T-01).
