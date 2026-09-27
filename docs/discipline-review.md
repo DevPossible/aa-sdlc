@@ -154,6 +154,7 @@ Review the working folder, and the ticket system and knowledge base it links to,
   - Names the one thing to do about it, as a command with its arguments where a command fits
   - Lists the layers checked before it and that each passed, so the user knows what was not found wrong
   - Says when a layer could not be checked because a system was out of reach, and moves on to the next layer
+  - System.Collections.Hashtable
 
 **Guidance**
 

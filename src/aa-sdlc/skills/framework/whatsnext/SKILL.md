@@ -87,6 +87,7 @@ possible (T-03, T-10).
 - Names the one thing to do about it, as a command with its arguments where a command fits
 - Lists the layers checked before it and that each passed, so the user knows what was not found wrong
 - Says when a layer could not be checked because a system was out of reach, and moves on to the next layer
+- Ends with the remaining planned work: the open tickets in the current iteration counted by state, or says it could not be read
 
 ## Guidance
 
@@ -114,7 +115,11 @@ Next: <command and arguments, or the plain action>
 Why:  <the gap, in one sentence> (<the requirement, opinion, or process it breaks>)
 Evidence: <what was read or run that shows it, quoted>
 Layers: foundation passed | work in flight passed | recent changes <gap> | knowledge not reached | next ticket not reached
+Remaining: <n> open in <iteration>: <count> new, <count> refined, <count> planned, <count> in progress, <count> in review
 ```
 
 Name every layer checked, the one that stopped the review, and the ones not reached. A layer
-that could not be checked says why. Quote the output of anything run (G-15).
+that could not be checked says why. Whatever layer stopped the review, end with the remaining
+planned work, read from the current iteration in the ticket system, so the user sees what is
+left as well as what is next; if the ticket system is out of reach, say so. Quote the output of
+anything run (G-15).

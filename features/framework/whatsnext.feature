@@ -111,6 +111,13 @@ Feature: /aa-fw-whatsnext names the one thing to do next
     Then it reports only the work in flight
     And it lists the recent-changes layer as not reached
 
+  @F-045-15
+  Scenario: The remaining planned work closes every report
+    Given a current iteration with open tickets in several states
+    When I run "/aa-fw-whatsnext"
+    Then after the recommendation it reports how many tickets remain open in the iteration, counted by state
+    And it reports this whichever layer stopped the review
+
   @F-045-13
   Scenario: It changes nothing
     When I run "/aa-fw-whatsnext" in any folder
