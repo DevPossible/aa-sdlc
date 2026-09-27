@@ -1,0 +1,39 @@
+id: whatsnext
+name: Find what is next
+discipline: framework
+command: /aa-fw-whatsnext
+summary: >
+  Review the working folder, and the ticket system and knowledge base it links to, against the
+  framework's requirements, opinions, and processes in a fixed order of layers, stop at the
+  first major gap, and name the one thing to do next, usually a command with its arguments.
+  Change nothing.
+anchor: none
+inputs:
+  - The working folder, whether or not it is a repository yet
+  - The merged aa.config.yaml, if a project is in scope
+  - "The health report: the requirements that are required and unmet"
+  - The working tree, the current branch, open merge requests, and the recent commits on the default branch
+  - The decision records, feature files, and tests the recent commits touched
+  - The knowledge base pages linked to recent tickets and feature files
+  - The current iteration and the ordered backlog in the ticket system
+artifacts:
+  - name: Next-step recommendation
+    location: returned to the user; nothing is written
+    acceptance:
+      - Names exactly one gap, the first major one in the layer order, with the evidence that shows it
+      - Names the one thing to do about it, as a command with its arguments where a command fits
+      - Lists the layers checked before it and that each passed, so the user knows what was not found wrong
+      - Says when a layer could not be checked because a system was out of reach, and moves on to the next layer
+guidance_sets: [every-step]
+guidance: [G-04]
+guidance_inline:
+  - "Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project and knowledge base), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap."
+  - A gap is major when it breaks a required requirement, an opinion on the default branch, or work already started. Anything smaller is not reported; the command answers one question, what to do next, not what could be better.
+  - Take the foundation layer from /aa-fw-health's required-and-unmet findings rather than probing requirements again; health owns requirement checks, and this step owns choosing among them.
+  - Recommend the step that closes the gap, named as its command with its arguments, such as /aa-qa-generate-tests with the ticket id. Where no command fits, say plainly what to do.
+  - Choose the next ticket from the current iteration in priority order, and let its state choose the command. Unrefined is /aa-rf-refine-ticket; refined without a confirmed plan is /aa-ip-plan-implementation; planned is /aa-dev-implement. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
+  - Change nothing. Read the folder, the tickets, and the pages; do not create, edit, commit, transition, or install anything, even to make a check possible.
+  - When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.
+requires: [R-01, R-02, R-03, R-07]
+tenets: [T-03, T-04, T-10]
+opinions: [O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19]

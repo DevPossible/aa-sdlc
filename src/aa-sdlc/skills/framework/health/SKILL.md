@@ -82,7 +82,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 ## Install
 Target: <target> | Scope(s): <user, project> | Package: <version> (<commit>) | Newer available: <yes/no/unknown>
-Skills: <n> (<list or "all 52 steps">) | Commands: <n> | Plugins: <list or none> | Guidance sets: <present beside the skills, or missing>
+Skills: <n> (<list or "all steps">) | Commands: <n> | Plugins: <list or none> | Guidance sets: <present beside the skills, or missing>
 
 ## Required and unmet                      <- lead with this; omit the section if empty
 | Id | Requirement | Depends on it | Remedy |

@@ -6,7 +6,7 @@ Every discipline in SDLC order: its role and bounded responsibilities, its comma
 
 ## Contents
 
-- 0. [Framework](#0-framework) (`fw`): 8 commands
+- 0. [Framework](#0-framework) (`fw`): 9 commands
 - 1. [Product Management](#1-product-management) (`pd`): 3 commands
 - 2. [Business Analysis](#2-business-analysis) (`ba`): 3 commands
 - 3. [UX Design](#3-ux-design) (`ux`): 2 commands
@@ -24,7 +24,7 @@ Every discipline in SDLC order: its role and bounded responsibilities, its comma
 
 ## 0. Framework
 
-**Code:** `fw` | **Id:** `framework` | **Commands:** `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`, `/aa-fw-new-opinion`, `/aa-fw-new-tenet`, `/aa-fw-new-discipline`, `/aa-fw-new-process`, `/aa-fw-new-step`
+**Code:** `fw` | **Id:** `framework` | **Commands:** `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-whatsnext`, `/aa-fw-extend`, `/aa-fw-new-opinion`, `/aa-fw-new-tenet`, `/aa-fw-new-discipline`, `/aa-fw-new-process`, `/aa-fw-new-step`
 
 ### Role
 
@@ -57,6 +57,7 @@ The framework's own work: bootstrapping a project, checking that the environment
 |---------|------|--------|------------------|
 | `/aa-fw-health` | Report health | none | Health report |
 | `/aa-fw-init` | Bootstrap a project | none | Bootstrapped project |
+| `/aa-fw-whatsnext` | Find what is next | none | Next-step recommendation |
 | `/aa-fw-extend` | Create an extension | optional | Extension |
 | `/aa-fw-new-opinion` | Add an opinion | none | Opinion entry |
 | `/aa-fw-new-tenet` | Add a tenet | none | Tenet entry |
@@ -130,6 +131,47 @@ Run health, then work through the unmet requirements that need judgement, fixing
 - The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01).
 
 *Requires: R-04, R-07, R-14, R-15 | Tenets: T-06, T-11*
+
+### `/aa-fw-whatsnext`
+
+Review the working folder, and the ticket system and knowledge base it links to, against the framework's requirements, opinions, and processes in a fixed order of layers, stop at the first major gap, and name the one thing to do next, usually a command with its arguments. Change nothing.
+
+**Inputs**
+
+- The working folder, whether or not it is a repository yet
+- The merged aa.config.yaml, if a project is in scope
+- The health report: the requirements that are required and unmet
+- The working tree, the current branch, open merge requests, and the recent commits on the default branch
+- The decision records, feature files, and tests the recent commits touched
+- The knowledge base pages linked to recent tickets and feature files
+- The current iteration and the ordered backlog in the ticket system
+
+**Artifacts**
+
+- **Next-step recommendation** in returned to the user; nothing is written
+  - Names exactly one gap, the first major one in the layer order, with the evidence that shows it
+  - Names the one thing to do about it, as a command with its arguments where a command fits
+  - Lists the layers checked before it and that each passed, so the user knows what was not found wrong
+  - Says when a layer could not be checked because a system was out of reach, and moves on to the next layer
+
+**Guidance**
+
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project and knowledge base), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap.
+- A gap is major when it breaks a required requirement, an opinion on the default branch, or work already started. Anything smaller is not reported; the command answers one question, what to do next, not what could be better.
+- Take the foundation layer from /aa-fw-health's required-and-unmet findings rather than probing requirements again; health owns requirement checks, and this step owns choosing among them.
+- Recommend the step that closes the gap, named as its command with its arguments, such as /aa-qa-generate-tests with the ticket id. Where no command fits, say plainly what to do.
+- Choose the next ticket from the current iteration in priority order, and let its state choose the command. Unrefined is /aa-rf-refine-ticket; refined without a confirmed plan is /aa-ip-plan-implementation; planned is /aa-dev-implement. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
+- Change nothing. Read the folder, the tickets, and the pages; do not create, edit, commit, transition, or install anything, even to make a check possible.
+- When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.
+
+*Requires: R-04, R-01, R-02, R-03, R-07 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19*
 
 ### `/aa-fw-extend`
 

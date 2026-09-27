@@ -4,7 +4,7 @@ Agent skills and commands that implement the Agent Assisted Software Development
 (AA-SDLC) methodology. The methodology says what a well-run agent-assisted project produces at
 each step and why; this SDK gives an agent the how.
 
-**Status:** first complete cut, unproven in the field. All 52 steps have a skill, a command,
+**Status:** first complete cut, unproven in the field. All 53 steps have a skill, a command,
 and a feature file; the `aa` CLI (`setup`, `init`) is a Go binary packed for six platforms;
 the unit, integration, and e2e tiers run. Nothing is published to npm yet, and the skills have
 not been exercised against a real project. See [docs/design.md](docs/design.md) and

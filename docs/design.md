@@ -96,7 +96,7 @@ Every discipline has a short code, two characters where a natural one exists and
 readability wins (`dev`, `sec`, `doc`, `rel`, `ops`, `sup`). The code is the middle segment of
 every command in that discipline: `/aa-qa-generate-tests`, `/aa-dev-implement`,
 `/aa-rel-release`. The framework itself has the code `fw`, so its own commands are
-`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`, and the authoring commands `/aa-fw-new-*`: the rule has no exceptions. Plugins reuse
+`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-whatsnext`, `/aa-fw-extend`, and the authoring commands `/aa-fw-new-*`: the rule has no exceptions. Plugins reuse
 the code of the discipline they extend.
 
 Fourteen is deliberately more than a small team has people for. A discipline is a kind of
@@ -241,6 +241,7 @@ methodology left implicit are added.
 | Meta | Workflow Retrospective | Project Management | `retrospective` | Workflow Health Report, Process Improvement Backlog |
 | Framework | n/a | Framework (`fw`) | `health` | Health report |
 | Framework | n/a | Framework (`fw`) | `init` | Bootstrapped project: repository, documents folder, project config, conventions; health report |
+| Framework | n/a | Framework (`fw`) | `whatsnext` | Next-step recommendation: the first major gap across foundation, work in flight, recent changes, knowledge, and backlog, and the one command to run |
 | Framework | n/a | Framework (`fw`) | `new-opinion`, `new-tenet`, `new-discipline`, `new-process`, `new-step` | The item added with all of its plumbing: definition, commands, skill scaffold, scenarios, implied requirements and guidance, documents, decision log, regenerated review (aa-sdlc repository only) |
 | Framework | n/a | Framework (`fw`) | `extend` | A valid, installable extension (tech-stack pack, process pack, project skill, target adapter, guidance, or requirement) with its manifest, declared requirements, and feature files |
 

@@ -26,7 +26,7 @@ validates every cross-reference.
 
 | # | Discipline | Code | Commands | Gate 1 Role | Gate 2 Commands | Gate 3 Guidance |
 |---|------------|------|----------|-------------|-----------------|-----------------|
-| 0 | Framework | `fw` | 8 | drafted | drafted | drafted |
+| 0 | Framework | `fw` | 9 | drafted | drafted | drafted |
 | 1 | Product Management | `pd` | 3 | drafted | drafted | drafted |
 | 2 | Business Analysis | `ba` | 3 | drafted | drafted | drafted |
 | 3 | UX Design | `ux` | 2 | drafted | drafted | drafted |
@@ -53,7 +53,7 @@ validates every cross-reference.
   `document-feature` (Documentation); `postmortem` (Support).
 - **Anchor is `optional`** for steps that can legitimately run without a ticket: Product
   Management's three, `plan-iteration`, `status`, `retrospective`, `triage`, and `extend`.
-  Everything else is `required`. Framework `health` and `init` are `none`.
+  Everything else is `required`. Framework `health`, `init`, and `whatsnext` are `none`.
 - **Shared guidance added:** G-22 anchor first, G-23 time box, G-24 write for the next reader,
   G-25 named location, G-26 bidirectional links. Everything else step-specific is inline.
 - **Security testing sits in the Testing process** even though the step belongs to the

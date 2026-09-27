@@ -21,5 +21,5 @@ hands_off_to:
     when: a project is bootstrapped and real work begins with discovery
   - discipline: development
     when: init has created stub root scripts that a developer must fill in
-steps: [health, init, extend, new-opinion, new-tenet, new-discipline, new-process, new-step]
+steps: [health, init, whatsnext, extend, new-opinion, new-tenet, new-discipline, new-process, new-step]
 tenets: [T-02, T-10, T-11]
