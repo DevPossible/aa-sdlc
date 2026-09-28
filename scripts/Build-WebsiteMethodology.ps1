@@ -9,7 +9,8 @@
     <SitePath>/images/workflow-ring.svg in full, and replaces the regions of <SitePath>/index.html
     between the markers <!-- aa:status:begin --> / <!-- aa:status:end --> and
     <!-- aa:disciplines:begin --> / <!-- aa:disciplines:end -->, and <!-- aa:harnesses:begin --> /
-    <!-- aa:harnesses:end --> from src/aa-sdlc/targets/targets.yaml. Everything else in index.html is
+    <!-- aa:harnesses:end --> from src/aa-sdlc/targets/targets.yaml, and <!-- aa:opinions:begin --> /
+    <!-- aa:opinions:end --> from docs/opinions.md. Everything else in index.html is
     hand-written and untouched. The output carries nothing volatile, so two runs are
     byte-identical. With -Check nothing is written; the script returns the list of files whose
     committed content differs from what it would write, and an empty list means current.
@@ -341,6 +342,36 @@ foreach ($d in ($disciplines.Values | Sort-Object order)) {
 [void]$grid.Append('</div>')
 $disciplinesHtml = $grid.ToString()
 
+# The opinions as data, for the dialog each O-nn link on the home page opens: the fields of each
+# entry and the lines it occupies in docs/opinions.md, so the GitHub link lands on it exactly
+$opinionLines = Get-Content -Path (Join-Path -Path $repo -ChildPath 'docs' -AdditionalChildPath 'opinions.md')
+$opinionList = [System.Collections.Generic.List[object]]::new()
+$current = $null
+for ($i = 0; $i -lt $opinionLines.Count; $i++) {
+    $line = $opinionLines[$i]
+    if ($line -match '^\*\*(O-\d+) (.+?)\*\*\s*$') {
+        $current = [ordered]@{ id = $Matches[1]; title = $Matches[2].TrimEnd('.'); start = $i + 1; end = $i + 1; body = [System.Collections.Generic.List[string]]::new() }
+        $opinionList.Add($current)
+        continue
+    }
+    if (-not $current) { continue }
+    if ($line -match '^(---|## )' -or $line.Trim() -eq '') { $current = $null; continue }
+    $current.body.Add($line.Trim())
+    $current.end = $i + 1
+}
+$opinionFields = [ordered]@{ stance = 'The stance:'; why = 'Why:'; rejected = 'Rejected:'; change = 'Would change our mind:'; requirements = 'Requirements:' }
+$opinionData = foreach ($o in $opinionList) {
+    $text = $o.body -join ' '
+    $entry = [ordered]@{ id = $o.id; title = $o.title; lines = "L$($o.start)-L$($o.end)" }
+    foreach ($key in $opinionFields.Keys) {
+        $label = [regex]::Escape($opinionFields[$key])
+        $entry[$key] = if ($text -match "\*$label\*\s*(.+?)(?=\s\*(The stance|Why|Rejected|Would change our mind|Requirements):\*|$)") { $Matches[1].Trim() } else { '' }
+    }
+    $entry
+}
+$opinionJson = (ConvertTo-Json -InputObject @($opinionData) -Depth 3 -Compress).Replace('</', '<\/')
+$opinionsHtml = $banner + $nl + "<script type=`"application/json`" id=`"opinions-data`" data-source=`"$repoUrl/blob/main/docs/opinions.md`">$opinionJson</script>"
+
 # The harness table: one row per harness in the target table (decision record 0014)
 $formatNames = @{ 'markdown-arguments' = 'Markdown commands'; 'gemini-toml' = 'TOML commands'; 'markdown-braces' = 'Markdown commands' }
 $rows = [System.Text.StringBuilder]::new()
@@ -390,6 +421,7 @@ if (Test-Path $indexPath) {
     $newIndex = Set-Region -html $currentIndex -name 'status' -body $status
     $newIndex = Set-Region -html $newIndex -name 'disciplines' -body $disciplinesHtml
     $newIndex = Set-Region -html $newIndex -name 'harnesses' -body $harnessHtml
+    $newIndex = Set-Region -html $newIndex -name 'opinions' -body $opinionsHtml
     if ($newIndex -ne $currentIndex) { $stale.Add('index.html') }
 } else {
     $stale.Add('index.html (missing)')
