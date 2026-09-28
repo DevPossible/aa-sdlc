@@ -8,7 +8,8 @@
     Reads src/aa-sdlc/workflow/ and docs/guidance.md and writes <SitePath>/methodology.html and
     <SitePath>/images/workflow-ring.svg in full, and replaces the regions of <SitePath>/index.html
     between the markers <!-- aa:status:begin --> / <!-- aa:status:end --> and
-    <!-- aa:disciplines:begin --> / <!-- aa:disciplines:end -->. Everything else in index.html is
+    <!-- aa:disciplines:begin --> / <!-- aa:disciplines:end -->, and <!-- aa:harnesses:begin --> /
+    <!-- aa:harnesses:end --> from src/aa-sdlc/targets/targets.yaml. Everything else in index.html is
     hand-written and untouched. The output carries nothing volatile, so two runs are
     byte-identical. With -Check nothing is written; the script returns the list of files whose
     committed content differs from what it would write, and an empty list means current.
@@ -290,7 +291,10 @@ L '</html>'
 $methodology = $sb.ToString()
 
 # ---------- index.html generated blocks ----------
-$cliVerbs = 'setup, init, update, plugin'
+$cliVerbs = 'setup, init, update, uninstall, plugin'
+$harnessTable = (ConvertFrom-Yaml (Get-Content -Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc', 'targets', 'targets.yaml') -Raw)).targets
+$supportedHarnesses = @($harnessTable | Where-Object { $_.status -eq 'supported' })
+$verifiedHarnesses = @($supportedHarnesses | Where-Object { $_.verified })
 $status = @(
     $banner
     '<div class="status-block">'
@@ -301,7 +305,7 @@ $status = @(
     "        <li><span class=`"status-count`">$tenetCount</span> tenets, <span class=`"status-count`">$opinionCount</span> opinions, <span class=`"status-count`">$requirementCount</span> requirements, each with a stable id</li>"
     "        <li><span class=`"status-count`">$($featureFiles.Count)</span> feature files holding <span class=`"status-count`">$scenarioCount</span> scenarios: the framework&#39;s own requirements, in Gherkin</li>"
     "        <li>The <code>aa</code> command line: verbs <code>$cliVerbs</code>, a native binary packed for six platforms, not yet published</li>"
-    '        <li>One agent target supported so far: Claude Code. The skills are plain files and read the same on any agent that supports the skills format.</li>'
+    "        <li><span class=`"status-count`">$($supportedHarnesses.Count)</span> agent harnesses supported by the installer: $(Esc (($verifiedHarnesses | ForEach-Object { $_.name }) -join ', ')) verified in the harness itself, the others installed as their documentation describes</li>"
     '    </ul>'
     '    <p class="muted">Counts are regenerated from the repository; if this block is stale, the framework&#39;s own tests fail.</p>'
     '</div>'
@@ -337,6 +341,32 @@ foreach ($d in ($disciplines.Values | Sort-Object order)) {
 [void]$grid.Append('</div>')
 $disciplinesHtml = $grid.ToString()
 
+# The harness table: one row per harness in the target table (decision record 0014)
+$formatNames = @{ 'markdown-arguments' = 'Markdown commands'; 'gemini-toml' = 'TOML commands'; 'markdown-braces' = 'Markdown commands' }
+$rows = [System.Text.StringBuilder]::new()
+[void]$rows.Append($banner + $nl)
+[void]$rows.Append('<div class="table-wrapper">' + $nl)
+[void]$rows.Append('    <table class="styled-table harness-table">' + $nl)
+[void]$rows.Append('        <thead>' + $nl)
+[void]$rows.Append('            <tr><th scope="col">Harness</th><th scope="col">Status</th><th scope="col">Skills go to</th><th scope="col">Commands</th><th scope="col">Subagents</th></tr>' + $nl)
+[void]$rows.Append('        </thead>' + $nl)
+[void]$rows.Append('        <tbody>' + $nl)
+foreach ($h in $harnessTable) {
+    if ($h.status -ne 'supported') {
+        [void]$rows.Append("            <tr><th scope=`"row`">$(Esc $h.name)</th><td>Not supported</td><td colspan=`"3`">$(Esc $h.reason)</td></tr>" + $nl)
+        continue
+    }
+    $harnessStatus = if ($h.verified) { 'Supported, verified' } else { 'Supported, per its documentation' }
+    $skills = (@($h.skills.user) | Select-Object -First 1) -replace '^', '~/'
+    $commands = if ($h.commands) { $formatNames[$h.commands.format] + ' in <code>~/' + (Esc $h.commands.user) + '</code>' } else { 'Each skill is its own command' }
+    $subagents = if ($h.subagents) { 'Yes' } else { 'No: runs inline' }
+    [void]$rows.Append("            <tr><th scope=`"row`">$(Esc $h.name)</th><td>$harnessStatus</td><td><code>$(Esc $skills)</code></td><td>$commands</td><td>$subagents</td></tr>" + $nl)
+}
+[void]$rows.Append('        </tbody>' + $nl)
+[void]$rows.Append('    </table>' + $nl)
+[void]$rows.Append('</div>')
+$harnessHtml = $rows.ToString()
+
 function Set-Region([string]$html, [string]$name, [string]$body) {
     $pattern = "(?s)(<!-- aa:${name}:begin -->).*?(<!-- aa:${name}:end -->)"
     if ($html -notmatch $pattern) { throw "index.html has no <!-- aa:${name}:begin --> / end markers" }
@@ -359,6 +389,7 @@ if (Test-Path $indexPath) {
     $currentIndex = Get-Content -Path $indexPath -Raw
     $newIndex = Set-Region -html $currentIndex -name 'status' -body $status
     $newIndex = Set-Region -html $newIndex -name 'disciplines' -body $disciplinesHtml
+    $newIndex = Set-Region -html $newIndex -name 'harnesses' -body $harnessHtml
     if ($newIndex -ne $currentIndex) { $stale.Add('index.html') }
 } else {
     $stale.Add('index.html (missing)')
