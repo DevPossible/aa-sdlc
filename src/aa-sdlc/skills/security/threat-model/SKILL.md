@@ -25,6 +25,12 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
+**Hand the independent part to a separate context where you can** (decision record 0015). If this
+harness can run the `aa-sec` subagent, give it steps 2 to 4 (follow the data, enumerate the threats,
+rate and decide), with the epic, its page, and the system architecture, and write what it returns as
+the threat model in step 5, saying the findings came from the agent. Otherwise do those steps
+yourself, treating every boundary as an attacker would.
+
 1. **Anchor.** Read the epic and its knowledge base page, the system architecture, the technology
    stack document, and the feature files (G-22), and note any organisational security standards
    in scope. Where the architecture does not show a boundary or a data flow that the scenarios

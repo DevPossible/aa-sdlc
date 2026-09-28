@@ -25,6 +25,13 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
+**Hand the independent part to a separate context where you can** (decision record 0015). If this
+harness can run the `aa-sec` subagent, give it steps 2 to 5 (plan against the model, run the
+tooling, exercise the scenarios, record the findings), with the ticket, the threat model, and the
+security scenarios, and write what it returns as the results in step 6, saying the findings came
+from the agent. Otherwise do those steps yourself, working from the threat model rather than from
+what the code was meant to do.
+
 1. **Anchor.** Read the ticket, the threat model, the security scenarios in the feature files,
    and the controls the organisation requires or the existing compliance report (G-22). Note
    which environment holds the built system. If it is production, stop: no security test runs

@@ -48,3 +48,10 @@ Feature: /aa-sec-threat-model turns threats into decisions and testable requirem
     Then the threat model is in the knowledge base and linked from the epic
     And the new feature files are staged with a Conventional Commit message naming the epic
     And no commit is made unless the user asked for that commit
+
+  @F-069-07
+  Scenario: The threats are enumerated by a separate mind where one is available
+    Given the harness can run the aa-sec subagent
+    When "/aa-sec-threat-model" runs
+    Then it hands following the data, enumerating the threats, and rating them to the aa-sec subagent
+    And where no subagent is available it does that work itself

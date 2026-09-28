@@ -24,7 +24,7 @@ $target = Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc-c
 if (Test-Path $target) { Remove-Item -Path $target -Recurse -Force }
 New-Item -ItemType Directory -Path $target -Force | Out-Null
 
-foreach ($part in 'skills', 'workflow', 'commands', 'targets', 'plugins', 'schemas') {
+foreach ($part in 'skills', 'workflow', 'commands', 'targets', 'plugins', 'schemas', 'agents') {
     $from = Join-Path -Path $source -ChildPath $part
     if (Test-Path $from) { Copy-Item -Path $from -Destination (Join-Path -Path $target -ChildPath $part) -Recurse }
 }

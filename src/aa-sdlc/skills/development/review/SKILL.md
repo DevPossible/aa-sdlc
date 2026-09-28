@@ -25,6 +25,12 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
+**Hand the independent part to a separate context where you can** (decision record 0015). If this
+harness can run the `aa-dev` subagent, give it steps 2 to 5 (run it, walk the diff, check the
+commits, check the proof), with the ticket, its scenarios, its plan, and the branch, and record what
+it returns in step 6, saying the findings came from the agent. Otherwise do those steps yourself,
+reading the change as if you had not written it.
+
 1. **Read the purpose before the diff.** The ticket, its scenarios, and its plan. A diff
    reviewed without its purpose is proofread, not reviewed.
 2. **Run it yourself.** Build and test the branch with the root scripts, lint switch included,

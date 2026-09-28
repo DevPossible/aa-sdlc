@@ -35,6 +35,7 @@ type Spec struct {
 		Project []string `yaml:"project"`
 	} `yaml:"skills"`
 	Commands     *CommandSpec `yaml:"commands"`
+	Agents       *AgentSpec   `yaml:"agents"`
 	Instructions string       `yaml:"instructions"`
 	Subagents    bool         `yaml:"subagents"`
 	Reason       string       `yaml:"reason"`
@@ -47,6 +48,21 @@ type CommandSpec struct {
 	User    string `yaml:"user"`
 	Project string `yaml:"project"`
 }
+
+// AgentSpec says where a harness reads subagent definitions and in which format (decision
+// record 0015).
+type AgentSpec struct {
+	Format  string   `yaml:"format"`
+	Suffix  string   `yaml:"suffix"`
+	User    []string `yaml:"user"`
+	Project []string `yaml:"project"`
+}
+
+// Agent file formats (targets/targets.yaml).
+const (
+	AgentMarkdown         = "markdown"
+	AgentMarkdownOpenCode = "markdown-opencode"
+)
 
 // Command file formats (targets/targets.yaml).
 const (
@@ -180,6 +196,18 @@ func (s Scope) CommandDir(t Spec) string {
 	return t.Commands.User
 }
 
+// AgentDirs returns the folders a harness reads subagents from at this scope, in its order of
+// preference, or none where the CLI does not install its agents.
+func (s Scope) AgentDirs(t Spec) []string {
+	if t.Agents == nil {
+		return nil
+	}
+	if s.project {
+		return t.Agents.Project
+	}
+	return t.Agents.User
+}
+
 // Ref is how a skill or command refers to a path under the scope: repository-relative at project
 // scope, home-relative with ~ at user scope, so the path resolves wherever the agent runs.
 func (s Scope) Ref(rel string) string {
@@ -197,6 +225,16 @@ type Plan struct {
 	SkillDirs []string            // skill folders to write, relative to the scope's folder
 	Reads     map[string][]string // harness id -> the planned skill folders it reads
 	Commands  []CommandSet        // command files to write
+	Agents    []AgentSet          // subagent folders to write
+}
+
+// AgentSet is one folder of subagent definitions in one format.
+type AgentSet struct {
+	Format   string
+	Suffix   string
+	Dir      string   // relative to the scope's folder
+	SkillDir string   // the planned skill folder whose guidance sets the agents point at
+	Targets  []string // harness ids served by this folder
 }
 
 // CommandSet is one folder of command files in one format.
@@ -249,6 +287,25 @@ func PlanInstall(scope Scope, harnesses []Spec) Plan {
 		byDir[key] = len(plan.Commands)
 		plan.Commands = append(plan.Commands, CommandSet{Format: t.Commands.Format, Dir: dir, SkillDir: plan.Reads[t.ID][0], Targets: []string{t.ID}})
 	}
+	// Agents, like skills, are written once per folder: a harness already reached by a planned
+	// folder in its own format adds nothing.
+	for _, t := range ordered {
+		dirs := scope.AgentDirs(t)
+		if len(dirs) == 0 || len(plan.Reads[t.ID]) == 0 {
+			continue
+		}
+		served := false
+		for i, set := range plan.Agents {
+			if set.Format == t.Agents.Format && set.Suffix == t.Agents.Suffix && contains(dirs, set.Dir) {
+				plan.Agents[i].Targets = append(plan.Agents[i].Targets, t.ID)
+				served = true
+				break
+			}
+		}
+		if !served {
+			plan.Agents = append(plan.Agents, AgentSet{Format: t.Agents.Format, Suffix: t.Agents.Suffix, Dir: dirs[0], SkillDir: plan.Reads[t.ID][0], Targets: []string{t.ID}})
+		}
+	}
 	return plan
 }
 
@@ -258,6 +315,7 @@ const sharedSkillDir = ".agents/skills"
 type InstallResult struct {
 	Skills   int      // skills written per folder
 	Commands int      // command files written across folders
+	Agents   int      // discipline subagents written per folder
 	Plan     Plan     // the folders chosen
 	Written  []string // every path written, relative to the scope's folder, for stale-file removal
 }
@@ -305,6 +363,29 @@ func Install(scope Scope, harnesses []Spec) (InstallResult, error) {
 			}
 			res.Written = append(res.Written, p)
 			res.Commands++
+		}
+	}
+	agents, err := content.Agents()
+	if err != nil {
+		return res, err
+	}
+	res.Agents = len(agents)
+	for _, set := range res.Plan.Agents {
+		guidance := []byte(scope.Ref(set.SkillDir) + "/" + content.SharedGuidanceDir)
+		for name, b := range agents {
+			body := bytes.ReplaceAll(b, []byte(content.SourceGuidancePath), guidance)
+			if set.Format == AgentMarkdownOpenCode {
+				body = bytes.Replace(body, []byte("\n---\n"), []byte("\nmode: subagent\n---\n"), 1)
+			}
+			rel := set.Dir + "/" + name + set.Suffix
+			p := filepath.Join(scope.Dir, filepath.FromSlash(rel))
+			if err := os.MkdirAll(filepath.Dir(p), 0o755); err != nil {
+				return res, err
+			}
+			if err := os.WriteFile(p, body, 0o644); err != nil {
+				return res, err
+			}
+			res.Written = append(res.Written, rel)
 		}
 	}
 	return res, nil
@@ -371,6 +452,9 @@ func RemoveExcept(scope Scope, plan Plan) []string {
 		keep[d] = true
 	}
 	for _, set := range plan.Commands {
+		keep[set.Dir] = true
+	}
+	for _, set := range plan.Agents {
 		keep[set.Dir] = true
 	}
 	var removed []string
@@ -479,6 +563,7 @@ func knownRoots(scope Scope) []string {
 		if d := scope.CommandDir(t); d != "" {
 			dirs = append(dirs, d)
 		}
+		dirs = append(dirs, scope.AgentDirs(t)...)
 		for _, d := range dirs {
 			if !seen[d] {
 				seen[d] = true
@@ -497,7 +582,8 @@ func corePrefixes() []string {
 	}
 	out := []string{content.SharedGuidanceDir}
 	for _, d := range ds {
-		out = append(out, "aa-"+d.Code+"-")
+		// skills and commands are aa-<code>-<step>; a discipline agent is aa-<code>.<suffix>
+		out = append(out, "aa-"+d.Code+"-", "aa-"+d.Code+".")
 	}
 	return out
 }

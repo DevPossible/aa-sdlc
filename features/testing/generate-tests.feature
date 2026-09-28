@@ -57,3 +57,10 @@ Feature: /aa-qa-generate-tests tests what the requirement did not say
     Then the tests and feature file changes are staged as one change set with a Conventional Commit message naming the ticket
     And no commit is made unless the user asked for that commit
     And the ticket records what was added, the questions raised, and what remains
+
+  @F-078-08
+  Scenario: Tests beyond Development's come from a separate mind where one is available
+    Given the harness can run the aa-qa subagent
+    When "/aa-qa-generate-tests" runs
+    Then it hands the reading of Development's tests and of the built code, and the sorting of the findings, to the aa-qa subagent
+    And where no subagent is available it does that work itself, without relying on how the code was meant to work

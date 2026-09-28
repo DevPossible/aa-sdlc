@@ -25,6 +25,13 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
+**Hand the independent part to a separate context where you can** (decision record 0015). If this
+harness can run the `aa-qa` subagent, give it steps 2 to 4 (read Development's tests, read the built
+code for what the scenarios do not say, sort the findings), with the ticket, its scenarios, and the
+branch, and write the tests from what it returns in step 5, saying the findings came from the agent.
+Otherwise do those steps yourself, without relying on what you know of how the code was meant to
+work.
+
 1. **Anchor and check currency.** Read the ticket, its scenarios, its knowledge base page, and
    the test strategy for the epic. Confirm the change Development made for the ticket is at the
    head; if the ticket records a revision, compare it with the head for the linked feature

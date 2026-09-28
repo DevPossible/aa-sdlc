@@ -49,3 +49,11 @@ Feature: /aa-dev-review reviews a merge request against its purpose
   Scenario: Approval means the tests were seen to pass
     When "/aa-dev-review" approves
     Then every scenario had a passing test that the reviewer saw run
+
+  @F-014-08
+  Scenario: The review goes to a separate mind where one is available
+    Given the harness can run the aa-dev subagent
+    When "/aa-dev-review" runs
+    Then it hands the build, the walk through the diff, and the checks of the commits and the proof to the aa-dev subagent
+    And it records what the agent returns on the merge request
+    And where no subagent is available it does that work itself, reading the change as if it had not written it

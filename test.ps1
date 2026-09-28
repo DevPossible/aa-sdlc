@@ -62,6 +62,8 @@ try {
         $problems += & (Join-Path 'scripts' 'Test-WorkflowStructure.ps1')
         # Every skill carries its guidance verbatim from docs/guidance.md (decision record 0011)
         $problems += & (Join-Path 'scripts' 'Test-SkillGuidance.ps1')
+        # Every discipline agent is generated from the workflow data, never edited by hand (decision record 0015)
+        $problems += & (Join-Path 'scripts' 'Sync-Agents.ps1') -Check
         # The website must be current with the workflow data when its repository is checked out (decision record 0007)
         $problems += & (Join-Path 'scripts' 'Test-WebsiteCurrency.ps1')
         if ($problems.Count -gt 0) {

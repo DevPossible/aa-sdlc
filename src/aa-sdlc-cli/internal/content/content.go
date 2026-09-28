@@ -204,6 +204,28 @@ func ReadFile(name string) ([]byte, error) {
 	return fs.ReadFile(FS(), name)
 }
 
+// Agents returns the generated discipline agents (agents/aa-<code>.md), keyed by name without
+// the extension (decision record 0015). A package built before agents existed returns none.
+func Agents() (map[string][]byte, error) {
+	root := FS()
+	entries, err := fs.ReadDir(root, "agents")
+	if err != nil {
+		return nil, nil
+	}
+	out := map[string][]byte{}
+	for _, e := range entries {
+		if e.IsDir() || !strings.HasSuffix(e.Name(), ".md") {
+			continue
+		}
+		b, err := fs.ReadFile(root, path.Join("agents", e.Name()))
+		if err != nil {
+			return nil, err
+		}
+		out[strings.TrimSuffix(e.Name(), ".md")] = b
+	}
+	return out, nil
+}
+
 // Plugin is a tech-stack, tool, or process pack: a plugin.yaml manifest and the skills under
 // skills/<name>/SKILL.md (docs/formats.md section 3, decision record 0013).
 type Plugin struct {

@@ -119,3 +119,13 @@ func TestInstructionBlock_WrittenReplacedAndRemovedWithoutTouchingTheRest(t *tes
 		t.Error("a file that held only our block should be deleted with it")
 	}
 }
+
+func TestPlan_AgentsOnlyWhereTheHarnessTakesThem(t *testing.T) {
+	plan := PlanInstall(UserScope("home"), specs(t, "claude-code", "codex", "cursor"))
+	if len(plan.Agents) != 1 || plan.Agents[0].Dir != ".claude/agents" {
+		t.Fatalf("want one agent folder, .claude/agents, got %+v", plan.Agents)
+	}
+	if got := strings.Join(plan.Agents[0].Targets, ","); got != "claude-code,cursor" {
+		t.Errorf("Cursor reads .claude/agents too and should share it, got %s", got)
+	}
+}

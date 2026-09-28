@@ -24,6 +24,13 @@ func ReportInstall(out io.Writer, scope Scope, harnesses []Spec, res InstallResu
 				}
 			}
 		}
+		for _, set := range res.Plan.Agents {
+			for _, id := range set.Targets {
+				if id == t.ID {
+					line += fmt.Sprintf("; %d subagents in %s", res.Agents, scope.Ref(set.Dir))
+				}
+			}
+		}
 		line += fmt.Sprintf(" at %s scope", scope.Name)
 		if !t.Verified {
 			line += " (per its documentation; not yet verified in the harness)"

@@ -11,6 +11,9 @@
 #                 or markdown-braces (Markdown, {{args}})
 #   instructions  the project instruction file it reads, where aa init writes its block
 #   subagents     true where the harness supports subagents (decision record 0015)
+#   agents        where the CLI installs the discipline subagents, only where the harness's agent file
+#                 format is documented: format markdown (name and description frontmatter) or
+#                 markdown-opencode (adds mode: subagent), the file suffix, and the folders it reads
 #   source        the documentation the entry was taken from, checked 2026-09-27
 targets:
   - id: claude-code
@@ -22,6 +25,7 @@ targets:
     commands: {format: markdown-arguments, user: .claude/commands, project: .claude/commands}
     instructions: CLAUDE.md
     subagents: true
+    agents: {format: markdown, suffix: .md, user: [.claude/agents], project: [.claude/agents]}
     source: https://code.claude.com/docs
 
   - id: codex
@@ -43,6 +47,7 @@ targets:
     commands: {format: gemini-toml, user: .gemini/commands, project: .gemini/commands}
     instructions: GEMINI.md
     subagents: true
+    agents: {format: markdown, suffix: .md, user: [.gemini/agents], project: [.gemini/agents]}
     source: https://geminicli.com/docs/cli/skills/
 
   - id: opencode
@@ -54,6 +59,7 @@ targets:
     commands: {format: markdown-arguments, user: .config/opencode/commands, project: .opencode/commands}
     instructions: AGENTS.md
     subagents: true
+    agents: {format: markdown-opencode, suffix: .md, user: [.config/opencode/agents], project: [.opencode/agents]}
     source: https://opencode.ai/docs/skills/
 
   - id: pi
@@ -74,6 +80,7 @@ targets:
     skills: {user: [.cursor/skills, .agents/skills, .claude/skills], project: [.cursor/skills, .agents/skills, .claude/skills]}
     instructions: AGENTS.md
     subagents: true
+    agents: {format: markdown, suffix: .md, user: [.cursor/agents, .claude/agents], project: [.cursor/agents, .claude/agents]}
     source: https://cursor.com/docs/context/skills
 
   - id: copilot
@@ -84,6 +91,7 @@ targets:
     skills: {user: [.copilot/skills, .agents/skills], project: [.github/skills, .agents/skills, .claude/skills]}
     instructions: AGENTS.md
     subagents: true
+    agents: {format: markdown, suffix: .agent.md, user: [.copilot/agents], project: [.github/agents]}
     source: https://docs.github.com/en/copilot/concepts/agents/about-agent-skills
 
   - id: windsurf
@@ -184,6 +192,7 @@ targets:
     skills: {user: [.qwen/skills], project: [.qwen/skills]}
     commands: {format: markdown-braces, user: .qwen/commands, project: .qwen/commands}
     subagents: true
+    agents: {format: markdown, suffix: .md, user: [.qwen/agents], project: [.qwen/agents]}
     source: https://qwenlm.github.io/qwen-code-docs/en/users/features/skills/
 
   - id: crush

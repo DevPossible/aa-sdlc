@@ -48,3 +48,10 @@ Feature: /aa-sec-security-test proves the built system against the threat model
     When "/aa-sec-security-test" finishes
     Then the run output is staged with a Conventional Commit message naming the ticket
     And no commit is made unless the user asked for that commit
+
+  @F-068-07
+  Scenario: The security pass is run by a separate mind where one is available
+    Given the harness can run the aa-sec subagent
+    When "/aa-sec-security-test" runs
+    Then it hands the plan, the tooling, the scenarios, and the findings to the aa-sec subagent with the threat model
+    And where no subagent is available it does that work itself

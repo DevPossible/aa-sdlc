@@ -83,3 +83,10 @@ Feature: aa setup bootstraps the machine
     Given Aider is installed on this machine
     When I run "aa setup"
     Then it says Aider has no skills support and installs nothing for it
+
+  @F-008-13
+  Scenario: Discipline subagents are installed where the harness takes them
+    Given Claude Code and Codex are installed on this machine
+    When I run "aa setup"
+    Then Claude Code gets one subagent per delivery discipline
+    And nothing is written for Codex's subagents

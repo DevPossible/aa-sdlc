@@ -24,6 +24,12 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
+**Hand the independent part to a separate context where you can** (decision record 0015). If this
+harness can run the `aa-qa` subagent, give it steps 2 to 5 (start the system, work the charter, stop
+at the time box, sort the surprises), with the ticket, the charter, and the scenarios for the area,
+and write what it returns as the session notes in step 6, saying the findings came from the agent.
+Otherwise do those steps yourself, keeping to the charter and the time box.
+
 1. **Anchor and fix the charter.** Read the ticket, the scenarios for the area, and its
    knowledge base page. Write the charter on the ticket before touching the system: the area,
    the lens (boundaries, states, errors, interruptions, roles), and the time box (G-23). If any

@@ -390,7 +390,7 @@ foreach ($h in $harnessTable) {
     $harnessStatus = if ($h.verified) { 'Supported, verified' } else { 'Supported, per its documentation' }
     $skills = (@($h.skills.user) | Select-Object -First 1) -replace '^', '~/'
     $commands = if ($h.commands) { $formatNames[$h.commands.format] + ' in <code>~/' + (Esc $h.commands.user) + '</code>' } else { 'Each skill is its own command' }
-    $subagents = if ($h.subagents) { 'Yes' } else { 'No: runs inline' }
+    $subagents = if ($h.agents) { 'Installed' } elseif ($h.subagents) { 'The harness has them; not installed yet' } else { 'No: runs inline' }
     [void]$rows.Append("            <tr><th scope=`"row`">$(Esc $h.name)</th><td>$harnessStatus</td><td><code>$(Esc $skills)</code></td><td>$commands</td><td>$subagents</td></tr>" + $nl)
 }
 [void]$rows.Append('        </tbody>' + $nl)

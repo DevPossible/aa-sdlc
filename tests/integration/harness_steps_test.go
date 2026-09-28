@@ -175,6 +175,30 @@ func registerHarnessSteps(sc *godog.ScenarioContext, w *world) {
 		return w.configContains("operations: Operations")
 	})
 
+	// Discipline subagents (decision record 0015)
+	sc.Step(`^Claude Code gets one subagent per delivery discipline$`, func() error {
+		entries, err := os.ReadDir(filepath.Join(w.home, ".claude", "agents"))
+		if err != nil {
+			return err
+		}
+		n := 0
+		for _, e := range entries {
+			if strings.HasPrefix(e.Name(), "aa-") && strings.HasSuffix(e.Name(), ".md") {
+				n++
+			}
+		}
+		if n != 14 {
+			return fmt.Errorf("want 14 discipline agents, found %d", n)
+		}
+		return nil
+	})
+	sc.Step(`^nothing is written for Codex's subagents$`, func() error {
+		if _, err := os.Stat(filepath.Join(w.home, ".codex", "agents")); err == nil {
+			return fmt.Errorf("a Codex agents folder was written")
+		}
+		return nil
+	})
+
 	// Uninstall
 	setUp := func(names ...string) error {
 		if err := install(names...); err != nil {

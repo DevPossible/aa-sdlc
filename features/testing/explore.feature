@@ -55,3 +55,10 @@ Feature: /aa-qa-explore finds what the scenarios did not think of
     Then the ticket holds the charter, the environment, what was tried, what surprised, and what was concluded
     And every surprise links to a ticket, a question, or a pending scenario
     And nothing remains only as a note
+
+  @F-077-08
+  Scenario: The session is run by a separate mind where one is available
+    Given the harness can run the aa-qa subagent
+    When "/aa-qa-explore" runs
+    Then it hands the session, from starting the system to sorting the surprises, to the aa-qa subagent with the charter
+    And where no subagent is available it runs the session itself
