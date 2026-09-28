@@ -38,10 +38,10 @@ in [docs/opinions.md](docs/opinions.md).
 The framework's own requirements follow opinion 1: they are feature files under
 [features/](features/).
 
-## Install (planned)
+## Install
 
 ```
-npm install -g aa-sdlc
+npm install -g aa-sdlc@alpha      # the alpha; Windows binaries are signed
 aa setup                          # once per machine
 cd c:\dev\myproject
 aa init                           # once per repository

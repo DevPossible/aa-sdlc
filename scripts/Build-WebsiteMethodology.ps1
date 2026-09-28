@@ -293,6 +293,7 @@ $methodology = $sb.ToString()
 
 # ---------- index.html generated blocks ----------
 $cliVerbs = 'setup, init, update, uninstall, plugin'
+$cliVersion = (Get-Content -Path (Join-Path -Path $repo -ChildPath 'version.json') -Raw | ConvertFrom-Json).version
 $harnessTable = (ConvertFrom-Yaml (Get-Content -Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc', 'targets', 'targets.yaml') -Raw)).targets
 $supportedHarnesses = @($harnessTable | Where-Object { $_.status -eq 'supported' })
 $verifiedHarnesses = @($supportedHarnesses | Where-Object { $_.verified -eq 'run' })
@@ -306,7 +307,7 @@ $status = @(
     "        <li><span class=`"status-count`">$($steps.Count)</span> steps, each with a skill and a command: <span class=`"status-count`">$skillCount</span> of $($steps.Count) skills present</li>"
     "        <li><span class=`"status-count`">$tenetCount</span> tenets, <span class=`"status-count`">$opinionCount</span> opinions, <span class=`"status-count`">$requirementCount</span> requirements, each with a stable id</li>"
     "        <li><span class=`"status-count`">$($featureFiles.Count)</span> feature files holding <span class=`"status-count`">$scenarioCount</span> scenarios: the framework&#39;s own requirements, in Gherkin</li>"
-    "        <li>The <code>aa</code> command line: verbs <code>$cliVerbs</code>, a native binary packed for six platforms, not yet published</li>"
+    "        <li>The <code>aa</code> command line: verbs <code>$cliVerbs</code>, a native binary for six platforms, published to npm as <code>aa-sdlc</code> $cliVersion</li>"
     "        <li><span class=`"status-count`">$($supportedHarnesses.Count)</span> agent harnesses supported by the installer: $(Esc (($verifiedHarnesses | ForEach-Object { $_.name }) -join ', ')) verified in use, <span class=`"status-count`">$($checkedHarnesses.Count)</span> checked against a real install on Linux, the others installed as their documentation describes</li>"
     '    </ul>'
     '    <p class="muted">Counts are regenerated from the repository; if this block is stale, the framework&#39;s own tests fail.</p>'
