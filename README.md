@@ -108,4 +108,4 @@ derivative may not present itself as AA-SDLC (decision record
 ## Related
 
 - Methodology and business case: https://aasdlc.com
-- Source on GitHub (mirror of the GitLab origin): https://github.com/DevPossible/aa-sdlc
+- Source on GitHub: https://github.com/DevPossible/aa-sdlc
