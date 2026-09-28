@@ -14,6 +14,6 @@ aa init                           # once per repository: config, folders, script
 Then, inside your agent, run `/aa-fw-health` and `/aa-fw-init`.
 
 `aa` is a native binary. This package carries one launcher and lists one optional dependency
-per platform (`@aa-sdlc/cli-<os>-<arch>`); npm installs the one that matches your machine. The
+per platform (`@devpossible/aa-sdlc-cli-<os>-<arch>`); npm installs the one that matches your machine. The
 content the CLI installs is compiled into the binary, so the CLI and the skills it installs
 always version together.

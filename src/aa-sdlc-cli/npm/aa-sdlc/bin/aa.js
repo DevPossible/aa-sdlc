@@ -7,7 +7,7 @@
 const { spawnSync } = require("child_process");
 const path = require("path");
 
-const pkg = `@aa-sdlc/cli-${process.platform}-${process.arch}`;
+const pkg = `@devpossible/aa-sdlc-cli-${process.platform}-${process.arch}`;
 let dir;
 try {
   dir = path.dirname(require.resolve(`${pkg}/package.json`));

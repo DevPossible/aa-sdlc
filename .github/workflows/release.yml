@@ -1,0 +1,144 @@
+# Publishes the aa CLI when version.json changes on main (decision record 0016).
+#
+# Tests run on Linux, macOS, and Windows; the release job packs once on Windows, signs the Windows
+# binaries with Azure Trusted Signing, publishes every package to npm with provenance, and creates
+# the GitHub Release. Nothing here holds a secret: Azure and npm both trust this workflow's OIDC
+# identity (azure/login with a federated credential, npm trusted publishing).
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths: [version.json]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Test, pack, and sign, but publish nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: write   # the GitHub Release
+  id-token: write   # Azure sign-in and npm trusted publishing, both by OIDC
+
+jobs:
+  version:
+    name: Read the version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read.outputs.version }}
+      publish: ${{ steps.read.outputs.publish }}
+      tag: ${{ steps.read.outputs.tag }}
+      dry: ${{ steps.read.outputs.dry }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: read
+        shell: bash
+        run: |
+          VERSION=$(jq -r .version version.json)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          # a prerelease goes to its own dist-tag, so npm install aa-sdlc never picks it by accident
+          if [[ "$VERSION" == *-* ]]; then echo "tag=${VERSION#*-}" | sed 's/\..*//' >> "$GITHUB_OUTPUT"; else echo "tag=latest" >> "$GITHUB_OUTPUT"; fi
+          if [[ "${{ inputs.dry_run }}" == "true" ]]; then
+            echo "dry run: test, pack, and sign; publish nothing"
+            echo "publish=true" >> "$GITHUB_OUTPUT"; echo "dry=true" >> "$GITHUB_OUTPUT"
+          elif ! npm view aa-sdlc versions > /dev/null 2>&1; then
+            # trusted publishing needs the package to exist, so the first release is published by hand
+            echo "aa-sdlc is not on npm yet; the first release is published by hand (decision record 0016)"
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          elif npm view "aa-sdlc@$VERSION" version > /dev/null 2>&1; then
+            echo "aa-sdlc@$VERSION is already published; nothing to do"
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  test:
+    name: Test on ${{ matrix.os }}
+    needs: version
+    if: needs.version.outputs.publish == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: src/aa-sdlc-cli/go.mod
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: PowerShell modules
+        shell: pwsh
+        run: Install-Module Pester, powershell-yaml, PSScriptAnalyzer -Scope CurrentUser -Force -SkipPublisherCheck
+      - name: Build
+        shell: pwsh
+        run: ./build.ps1 -Lint
+      - name: Unit and integration tiers
+        shell: pwsh
+        run: |
+          ./test.ps1 -Tier unit
+          ./test.ps1 -Tier integration
+
+  release:
+    name: Pack, sign, publish
+    needs: [version, test]
+    runs-on: windows-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: src/aa-sdlc-cli/go.mod
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: npm with trusted publishing
+        run: npm install -g npm@latest
+      - name: PowerShell modules
+        shell: pwsh
+        run: Install-Module Pester, powershell-yaml, PSScriptAnalyzer -Scope CurrentUser -Force -SkipPublisherCheck
+      - name: Sign in to Azure for code signing
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Pack and sign
+        shell: pwsh
+        run: ./pack.ps1 -Version ${{ needs.version.outputs.version }} -Sign -SignWith azure-cli -SkipTests
+      - name: Install from the packed tarballs
+        shell: pwsh
+        run: ./test.ps1 -Tier e2e
+      - name: Publish to npm
+        if: needs.version.outputs.dry != 'true'
+        shell: pwsh
+        run: |
+          # the platform packages first, so the main package's optional dependencies resolve
+          $dist = '.dist/npm'
+          $platform = Get-ChildItem -Path $dist -Filter 'devpossible-aa-sdlc-cli-*.tgz'
+          $main = Get-ChildItem -Path $dist -Filter 'aa-sdlc-*.tgz'
+          foreach ($tgz in @($platform) + @($main)) {
+            npm publish $tgz.FullName --provenance --access public --tag ${{ needs.version.outputs.tag }}
+            if ($LASTEXITCODE -ne 0) { throw "npm publish failed for $($tgz.Name)" }
+          }
+      - name: GitHub Release
+        if: needs.version.outputs.dry != 'true'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = '${{ needs.version.outputs.version }}'
+          Push-Location .dist/npm
+          Get-ChildItem -Filter '*.tgz' | ForEach-Object { "{0}  {1}" -f (Get-FileHash $_.Name -Algorithm SHA256).Hash.ToLower(), $_.Name } | Set-Content SHA256SUMS
+          Pop-Location
+          $pre = if ($version -like '*-*') { '--prerelease' } else { '' }
+          gh release create "v$version" (Get-ChildItem .dist/npm/*.tgz).FullName .dist/npm/SHA256SUMS --title "aa $version" --generate-notes $pre --target $env:GITHUB_SHA

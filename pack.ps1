@@ -5,12 +5,21 @@
 .DESCRIPTION
     The root pack script required by opinion O-06. Runs build (which embeds the content package
     into the CLI) and the tests, then compiles the CLI once per platform target and assembles
-    one npm package per platform (@aa-sdlc/cli-<os>-<arch>, holding only its binary) plus the
+    one npm package per platform (@devpossible/aa-sdlc-cli-<os>-<arch>, holding only its binary) plus the
     aa-sdlc package that lists them as optional dependencies and carries the launcher. Every
     package is packed to a tarball in .dist/npm/. The artifact is built once here and published
     as is; nothing is rebuilt for a later environment (O-24, decision record 0004).
 .PARAMETER Version
-    The semantic version to stamp. Defaults to the last tag's patch plus one, or 0.1.0.
+    The semantic version to stamp. Defaults to the version in version.json, which the release
+    workflow publishes (decision record 0016).
+.PARAMETER Sign
+    Authenticode-sign the Windows binaries with Azure Trusted Signing (account DevPossible,
+    certificate profile CodeSigning) before they are packed, and verify each signature. Windows
+    only, because Authenticode uses Win32 APIs. Needs an Azure sign-in holding the Artifact
+    Signing Certificate Profile Signer role on the account.
+.PARAMETER SignWith
+    The Azure credential the sign tool uses: azure-cli (default), workload-identity, or
+    managed-identity.
 .PARAMETER SkipTests
     Skip ./test.ps1.
 .PARAMETER Targets
@@ -28,6 +37,13 @@ param(
     [switch]$SkipTests,
 
     [Parameter()]
+    [switch]$Sign,
+
+    [Parameter()]
+    [ValidateSet('azure-cli', 'workload-identity', 'managed-identity', 'azure-powershell')]
+    [string]$SignWith = 'azure-cli',
+
+    [Parameter()]
     [string[]]$Targets = @('windows/amd64', 'windows/arm64', 'darwin/amd64', 'darwin/arm64', 'linux/amd64', 'linux/arm64')
 )
 
@@ -40,20 +56,46 @@ $NpmSource = Join-Path -Path $CliDir -ChildPath 'npm' -AdditionalChildPath 'aa-s
 $NodeOS = @{ windows = 'win32'; darwin = 'darwin'; linux = 'linux' }
 $NodeArch = @{ amd64 = 'x64'; arm64 = 'arm64' }
 
+# Azure Trusted Signing. None of these are secrets: access is RBAC on the Azure account, not a key
+# in the repository. The endpoint's host carries the region the account was created in (eus).
+$SigningEndpoint = 'https://eus.codesigning.azure.net/'
+$SigningAccount = 'DevPossible'
+$SigningCertificateProfile = 'CodeSigning'
+
 function Get-NextVersion {
-    $lastTag = git describe --tags --abbrev=0 2>$null
-    if ($lastTag) {
-        $current = [Version]($lastTag -replace '^v', '')
-        return "$($current.Major).$($current.Minor).$($current.Build + 1)"
+    $file = Join-Path -Path $PSScriptRoot -ChildPath 'version.json'
+    if (Test-Path -Path $file) {
+        return (Get-Content -Path $file -Raw | ConvertFrom-Json).version
     }
     return '0.1.0'
+}
+
+function Invoke-Signing {
+    <#
+        Authenticode-signs one file with Azure Trusted Signing through the pinned sign tool
+        (.config/dotnet-tools.json), timestamped so the signature outlives the short-lived
+        certificate, then verifies it rather than trusting the exit code.
+    #>
+    param([Parameter(Mandatory)][string]$Path)
+    & dotnet sign code artifact-signing $Path `
+        --artifact-signing-endpoint $SigningEndpoint `
+        --artifact-signing-account $SigningAccount `
+        --artifact-signing-certificate-profile $SigningCertificateProfile `
+        --azure-credential-type $SignWith `
+        --description 'aa, the AA-SDLC command line' `
+        --description-url 'https://aasdlc.com' `
+        --verbosity Warning
+    if ($LASTEXITCODE -ne 0) { throw "signing failed for $Path (exit $LASTEXITCODE)" }
+    $signature = Get-AuthenticodeSignature -FilePath $Path
+    if ($signature.Status -ne 'Valid') { throw "signature on $Path is $($signature.Status): $($signature.StatusMessage)" }
+    Write-Host "  signed $(Split-Path -Path $Path -Leaf): $($signature.SignerCertificate.Subject)" -ForegroundColor Green
 }
 
 function New-PlatformPackage {
     param([string]$GoOS, [string]$GoArch, [string]$Commit)
 
     $nodeName = "$($NodeOS[$GoOS])-$($NodeArch[$GoArch])"
-    $pkgName = "@aa-sdlc/cli-$nodeName"
+    $pkgName = "@devpossible/aa-sdlc-cli-$nodeName"
     $pkgDir = Join-Path -Path $DistDir -ChildPath 'npm' -AdditionalChildPath 'staging', "cli-$nodeName"
     $binDir = Join-Path -Path $pkgDir -ChildPath 'bin'
     New-Item -ItemType Directory -Path $binDir -Force | Out-Null
@@ -65,6 +107,7 @@ function New-PlatformPackage {
         $env:CGO_ENABLED = '0'; $env:GOOS = $GoOS; $env:GOARCH = $GoArch
         & go build -trimpath -ldflags $ldflags -o (Join-Path -Path $binDir -ChildPath $exe) ./cmd/aa
         if ($LASTEXITCODE -ne 0) { throw "go build failed for $GoOS/$GoArch" }
+        if ($Sign -and $GoOS -eq 'windows') { Invoke-Signing -Path (Join-Path -Path $binDir -ChildPath $exe) }
     } finally {
         Remove-Item Env:GOOS, Env:GOARCH -ErrorAction SilentlyContinue
         Pop-Location
@@ -77,6 +120,8 @@ function New-PlatformPackage {
         description = "The aa CLI binary for $nodeName. Installed by the aa-sdlc package as an optional dependency; installable on its own."
         license     = 'FSL-1.1-ALv2'
         homepage    = 'https://aasdlc.com'
+        repository  = @{ type = 'git'; url = 'git+https://github.com/DevPossible/aa-sdlc.git' }
+        publishConfig = @{ access = 'public' }
         os          = @($NodeOS[$GoOS])
         cpu         = @($NodeArch[$GoArch])
         bin         = @{ aa = "bin/$exe" }
@@ -96,6 +141,11 @@ try {
     if (Test-Path $DistDir) { Remove-Item -Path $DistDir -Recurse -Force }
     New-Item -ItemType Directory -Path (Join-Path -Path $DistDir -ChildPath 'npm') -Force | Out-Null
 
+    if ($Sign) {
+        if (-not $IsWindows) { throw 'pack.ps1 -Sign needs Windows: Authenticode uses Win32 APIs.' }
+        & dotnet tool restore
+        if ($LASTEXITCODE -ne 0) { throw 'dotnet tool restore failed (sign)' }
+    }
     & ./build.ps1 -Version $Version
     if (-not $SkipTests) { & ./test.ps1 }
 

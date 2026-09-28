@@ -83,7 +83,8 @@ function Test-Evidence {
     param([string[]]$Roots, [string]$Text)
     $roots = @($Roots | Where-Object { Test-Path $_ })
     if ($roots.Count -eq 0) { return 'not searched' }
-    if (& grep -rasFl -m1 -- $Text @roots 2>$null | Select-Object -First 1) { return 'exact' }
+    $hit = & grep -rasFl -m1 -- $Text @roots 2>$null | Select-Object -First 1
+    if ($hit) { return 'exact' }
     # Java harnesses keep their code in .jar archives, which a text search cannot see into
     foreach ($jar in @($roots | ForEach-Object { Get-ChildItem -Path $_ -Recurse -Filter '*.jar' -ErrorAction SilentlyContinue })) {
         # through bash, so grep -q ends unzip at the first match instead of PowerShell buffering the stream

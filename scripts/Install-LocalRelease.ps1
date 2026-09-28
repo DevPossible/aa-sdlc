@@ -90,8 +90,8 @@ $arch = switch ([Runtime.InteropServices.RuntimeInformation]::OSArchitecture) {
     'Arm64' { 'arm64' }
     default { throw "no aa build for architecture $_" }
 }
-$tarball = Join-Path -Path $repo -ChildPath '.dist' -AdditionalChildPath 'npm', "aa-sdlc-cli-$os-$arch-$Version.tgz"
-if (-not (Test-Path -Path $tarball)) {
+$tarball = Get-ChildItem -Path (Join-Path -Path $repo -ChildPath '.dist' -AdditionalChildPath 'npm') -Filter "*aa-sdlc-cli-$os-$arch-$Version.tgz" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
+if (-not $tarball -or -not (Test-Path -Path $tarball)) {
     throw "pack.ps1 did not produce $tarball"
 }
 

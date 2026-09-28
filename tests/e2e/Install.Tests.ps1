@@ -31,7 +31,7 @@ Describe 'Install from the packed npm tarballs' -Skip:(-not $script:havePack) {
         $os = if ($IsWindows) { 'win32' } elseif ($IsMacOS) { 'darwin' } else { 'linux' }
         # array indexing rather than Select-Object -First: the latter stops the pipeline in a way Pester mistakes for a stray break (Pester issue 2669)
         $main = @(Get-ChildItem -Path $script:dist -Filter 'aa-sdlc-*.tgz' | Where-Object { $_.Name -match '^aa-sdlc-\d' })[0]
-        $platform = @(Get-ChildItem -Path $script:dist -Filter "aa-sdlc-cli-$os-$arch-*.tgz")[0]
+        $platform = @(Get-ChildItem -Path $script:dist -Filter "*aa-sdlc-cli-$os-$arch-*.tgz")[0]
         if (-not $main -or -not $platform) { throw "tarballs for $os-$arch not found in $script:dist" }
         # npm.cmd rather than npm: on Windows, npm may resolve to a PowerShell shim that Pester cannot host (Pester issue 2669)
         $npm = if ($IsWindows) { 'npm.cmd' } else { 'npm' }
