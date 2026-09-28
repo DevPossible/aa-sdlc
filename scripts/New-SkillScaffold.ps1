@@ -41,7 +41,6 @@ $workflow = Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc
 $stepFile = Join-Path -Path $workflow -ChildPath 'steps' -AdditionalChildPath "$Step.yaml"
 if (-not (Test-Path $stepFile)) { throw "No workflow step '$Step' at $stepFile" }
 $s = ConvertFrom-Yaml (Get-Content -Path $stepFile -Raw)
-$d = ConvertFrom-Yaml (Get-Content -Path (Join-Path -Path $workflow -ChildPath 'disciplines' -AdditionalChildPath "$($s.discipline).yaml") -Raw)
 
 function Format-IdList([object[]]$items) { if ($items) { '[' + (($items | Where-Object { $_ }) -join ', ') + ']' } else { '[]' } }
 $oneLine = ($s.summary -replace '\s+', ' ').Trim()
@@ -110,7 +109,7 @@ $realRoot = (Resolve-Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChi
 if ((Resolve-Path $OutputRoot).Path -eq $realRoot) {
     $cmdDir = Join-Path -Path $repo -ChildPath '.claude' -AdditionalChildPath 'commands'
     New-Item -ItemType Directory -Path $cmdDir -Force | Out-Null
-    $cmdPath = Join-Path -Path $cmdDir -ChildPath "aa-$($d.code)-$($s.id).md"
+    $cmdPath = Join-Path -Path $cmdDir -ChildPath "$($s.command.TrimStart('/')).md"
     if (-not (Test-Path $cmdPath) -or $Force) {
         $quoted = '"' + ($oneLine -replace '\\', '\\' -replace '"', '\"') + '"'
         $wrapper = "---`ndescription: $quoted`n---`nRead src/aa-sdlc/skills/$($s.discipline)/$($s.id)/SKILL.md and follow it exactly, with these arguments: `$ARGUMENTS`n"

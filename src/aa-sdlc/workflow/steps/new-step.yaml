@@ -1,7 +1,8 @@
 id: new-step
 name: Add a step
 discipline: framework
-command: /aa-fw-new-step
+command: /aa-internal-new-step
+internal: true
 summary: >
   Add a new step to an existing discipline with all of its plumbing: the step definition,
   the command, the skill scaffold, the scenarios, its guidance and requirements, its place in

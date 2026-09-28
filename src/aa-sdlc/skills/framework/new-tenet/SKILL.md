@@ -7,7 +7,7 @@ aa:
   guidance_sets: [every-step, framework-authoring]
 ---
 
-# /aa-fw-new-tenet
+# /aa-internal-new-tenet
 
 Adds one tenet. Tenets are few and govern everything, so adding one means showing it in
 action, citing it from what it governs, and proving nothing already written contradicts it.
@@ -29,7 +29,7 @@ exist; otherwise stop and say so.
 1. **Classify it.** A tenet is framework-level: it governs how the framework and its content
    are designed. If the statement is about how to perform a step, it is guidance: redirect to
    `docs/guidance.md`. If it chooses between defensible alternatives, it is an opinion:
-   redirect to `/aa-fw-new-opinion`. Stop in either case and say why.
+   redirect to `/aa-internal-new-opinion`. Stop in either case and say why.
 2. **Check for overlap.** Read every tenet in `docs/tenets.md`. If an existing tenet already
    covers the principle, propose strengthening its text instead of adding a new one, and stop
    unless the user insists.
@@ -64,7 +64,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-fw-new-opinion or docs/guidance.md and stop.
+- A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-internal-new-opinion or docs/guidance.md and stop.
 - Tenets are few. Before adding one, check whether an existing tenet already covers it; if so, strengthen that tenet's text instead.
 - Write the feature file before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything.
 - Read every opinion and every guidance item against the new tenet and fix what conflicts. A tenet that existing content contradicts is not yet true.

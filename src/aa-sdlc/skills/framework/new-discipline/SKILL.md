@@ -7,7 +7,7 @@ aa:
   guidance_sets: [every-step, framework-authoring]
 ---
 
-# /aa-fw-new-discipline
+# /aa-internal-new-discipline
 
 Adds one discipline and everything that lets it be reviewed and installed on day one: its
 definition, at least one step with all of that step's plumbing, and its listing everywhere

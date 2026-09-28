@@ -10,8 +10,8 @@ Disciplines and codes: `business-analysis` (ba), `product-management` (pd), `ux-
 (dev), `testing` (qa), `security` (sec), `documentation` (doc), `release-management` (rel),
 `operations` (ops), `support` (sup), `project-management` (pm). A step's command is
 `/aa-<code>-<step>`; the framework skills live under `fw/`: `health`, `init`, `extend`, and the
-authoring commands `new-opinion`, `new-tenet`, `new-discipline`, `new-process`, `new-step`,
-which run only in the aa-sdlc repository.
+authoring steps `new-opinion`, `new-tenet`, `new-discipline`, `new-process`, `new-step`,
+which run only in the aa-sdlc repository and so are internal: `/aa-internal-<step>`.
 
 A step's own guidance lives inside its skill; the guidance sets every step shares live once in
 `aa-guidance/sets/`, one file per set, installed beside the skills and named by each skill that

@@ -46,10 +46,14 @@ func TestInit_LaysDownConfigFoldersStubsDecisionsAndCommands(t *testing.T) {
 		o.TicketURL = "https://example.atlassian.net/jira/software/projects/AA"
 	})
 
-	for _, rel := range []string{config.FileName, "docs", "features", "scripts", "src", "tests/integration", "tests/e2e", "docs/decisions/TEMPLATE.md", "docs/decisions/0001-adopt-aa-sdlc.md", "initialize.ps1", "build.ps1", "test.ps1", "pack.ps1", ".claude/commands/aa-fw-health.md", ".claude/skills/aa-fw-health/SKILL.md"} {
+	for _, rel := range []string{config.FileName, "docs", "features", "scripts", "src", "tests/integration", "tests/e2e", "docs/decisions/TEMPLATE.md", "docs/decisions/0001-adopt-aa-sdlc.md", "initialize.ps1", "build.ps1", "test.ps1", "pack.ps1", ".claude/commands/aa-fw-health.md", ".claude/skills/aa-fw-health/SKILL.md", ".claude/skills/aa-internal-new-step/SKILL.md"} {
 		if _, err := os.Stat(filepath.Join(dir, rel)); err != nil {
 			t.Errorf("expected %s to exist: %v", rel, err)
 		}
+	}
+	// An internal step is named for "internal", not for its discipline (decision record 0017)
+	if _, err := os.Stat(filepath.Join(dir, ".claude/skills/aa-fw-new-step")); err == nil {
+		t.Error("internal step new-step was installed under its discipline code as aa-fw-new-step")
 	}
 	cfg, err := config.Load(filepath.Join(dir, config.FileName))
 	if err != nil || cfg == nil {

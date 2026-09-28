@@ -39,6 +39,7 @@ type Step struct {
 	Name       string `yaml:"name"`
 	Discipline string `yaml:"discipline"`
 	Command    string `yaml:"command"`
+	Internal   bool   `yaml:"internal"`
 	Summary    string `yaml:"summary"`
 	Anchor     string `yaml:"anchor"`
 }
@@ -172,6 +173,10 @@ func Skills() ([]Skill, error) {
 // command, and each installed skill's reference to it is rewritten to the scope's path
 // (decision record 0012).
 const SharedGuidanceDir = "aa-guidance"
+
+// InternalCode takes the place of the discipline code in the name of an internal step, one meant
+// to be run only in the aa-sdlc repository: its skill and command are aa-internal-<step>.
+const InternalCode = "internal"
 
 // SourceGuidancePath is how the source skills refer to the shared sets; it resolves from the
 // framework repository's root and is rewritten on install.

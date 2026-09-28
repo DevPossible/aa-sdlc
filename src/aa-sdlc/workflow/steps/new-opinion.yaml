@@ -1,7 +1,8 @@
 id: new-opinion
 name: Add an opinion
 discipline: framework
-command: /aa-fw-new-opinion
+command: /aa-internal-new-opinion
+internal: true
 summary: >
   Add a new opinion to the framework and put every piece of plumbing in place for it: the
   opinion entry, the requirements and guidance it implies, the scenarios that make it

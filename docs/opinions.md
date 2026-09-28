@@ -648,4 +648,4 @@ them, outside the tiers a change must pass.
 
 ## Candidates
 
-None at present. Propose one with `/aa-fw-new-opinion`.
+None at present. Propose one with `/aa-internal-new-opinion`.

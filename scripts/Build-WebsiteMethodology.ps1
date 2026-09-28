@@ -58,12 +58,16 @@ $disciplines = Read-YamlFolder (Join-Path -Path $workflow -ChildPath 'discipline
 $steps = Read-YamlFolder (Join-Path -Path $workflow -ChildPath 'steps')
 $processes = Read-YamlFolder (Join-Path -Path $workflow -ChildPath 'processes')
 $sets = Read-YamlFolder (Join-Path -Path $workflow -ChildPath 'guidance-sets')
+# Internal steps are run only in the aa-sdlc repository, so the site neither lists nor counts them
+$internalSteps = @($steps.Keys | Where-Object { $steps[$_].internal })
+foreach ($sid in $internalSteps) { $steps.Remove($sid) }
+foreach ($d in $disciplines.Values) { $d.steps = @(@($d.steps) | Where-Object { $_ -notin $internalSteps }) }
 $guidanceText = @{}
 foreach ($m in [regex]::Matches((Get-Content -Path (Join-Path -Path $repo -ChildPath 'docs' -AdditionalChildPath 'guidance.md') -Raw), '\| (G-\d+) \| (.+?) \| (.+?) \| (.+?) \|')) {
     $guidanceText[$m.Groups[1].Value] = $m.Groups[2].Value
 }
 # Step skills only: the shared aa-guidance folder is a skill folder in shape, not a step (decision record 0012)
-$skillCount = (Get-ChildItem -Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc', 'skills') -Recurse -Filter 'SKILL.md' | Where-Object { $_.Directory.Name -ne 'aa-guidance' } | Measure-Object).Count
+$skillCount = (Get-ChildItem -Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc', 'skills') -Recurse -Filter 'SKILL.md' | Where-Object { $_.Directory.Name -ne 'aa-guidance' -and $_.Directory.Name -notin $internalSteps } | Measure-Object).Count
 $featureFiles = Get-ChildItem -Path (Join-Path -Path $repo -ChildPath 'features') -Recurse -Filter '*.feature'
 $scenarioCount = ($featureFiles | Select-String -Pattern '^\s*Scenario' | Measure-Object).Count
 $opinionCount = ([regex]::Matches((Get-Content -Path (Join-Path -Path $repo -ChildPath 'docs' -AdditionalChildPath 'opinions.md') -Raw), '^\*\*(O-\d+) ', 'Multiline')).Count

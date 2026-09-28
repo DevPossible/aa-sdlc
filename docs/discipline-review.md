@@ -24,7 +24,7 @@ Every discipline in SDLC order: its role and bounded responsibilities, its comma
 
 ## 0. Framework
 
-**Code:** `fw` | **Id:** `framework` | **Commands:** `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-whatsnext`, `/aa-fw-extend`, `/aa-fw-new-opinion`, `/aa-fw-new-tenet`, `/aa-fw-new-discipline`, `/aa-fw-new-process`, `/aa-fw-new-step`
+**Code:** `fw` | **Id:** `framework` | **Commands:** `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-whatsnext`, `/aa-fw-extend`, `/aa-internal-new-opinion`, `/aa-internal-new-tenet`, `/aa-internal-new-discipline`, `/aa-internal-new-process`, `/aa-internal-new-step`
 
 ### Role
 
@@ -59,11 +59,11 @@ The framework's own work: bootstrapping a project, checking that the environment
 | `/aa-fw-init` | Bootstrap a project | none | Bootstrapped project |
 | `/aa-fw-whatsnext` | Find what is next | none | Next-step recommendation |
 | `/aa-fw-extend` | Create an extension | optional | Extension |
-| `/aa-fw-new-opinion` | Add an opinion | none | Opinion entry |
-| `/aa-fw-new-tenet` | Add a tenet | none | Tenet entry |
-| `/aa-fw-new-discipline` | Add a discipline | none | Discipline definition |
-| `/aa-fw-new-process` | Add a process | none | Process definition |
-| `/aa-fw-new-step` | Add a step | none | Step definition |
+| `/aa-internal-new-opinion` | Add an opinion | none | Opinion entry |
+| `/aa-internal-new-tenet` | Add a tenet | none | Tenet entry |
+| `/aa-internal-new-discipline` | Add a discipline | none | Discipline definition |
+| `/aa-internal-new-process` | Add a process | none | Process definition |
+| `/aa-internal-new-step` | Add a step | none | Step definition |
 
 ### `/aa-fw-health`
 
@@ -214,7 +214,7 @@ Walk the user from a need the framework does not cover to a valid, installable e
 
 *Requires: R-04, R-02, R-07, R-22, R-05 | Tenets: T-01, T-02, T-11, T-12*
 
-### `/aa-fw-new-opinion`
+### `/aa-internal-new-opinion`
 
 Add a new opinion to the framework and put every piece of plumbing in place for it: the opinion entry, the requirements and guidance it implies, the scenarios that make it checkable, the documents that list it, and the decision that records it. Runs only in the aa-sdlc repository.
 
@@ -256,7 +256,7 @@ Add a new opinion to the framework and put every piece of plumbing in place for 
 
 *Requires: R-04, R-05, R-16, R-31 | Tenets: T-01, T-08, T-11, T-12, T-13*
 
-### `/aa-fw-new-tenet`
+### `/aa-internal-new-tenet`
 
 Add a new tenet to the framework: the principle itself, the scenarios that show it in action, the citations from every discipline and step it governs, and a consistency pass over the opinions and guidance that must now agree with it. Runs only in the aa-sdlc repository.
 
@@ -290,7 +290,7 @@ Add a new tenet to the framework: the principle itself, the scenarios that show 
   - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
   - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
   - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
-- A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-fw-new-opinion or docs/guidance.md and stop.
+- A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-internal-new-opinion or docs/guidance.md and stop.
 - Tenets are few. Before adding one, check whether an existing tenet already covers it; if so, strengthen that tenet's text instead.
 - Write the feature file before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything.
 - Read every opinion and every guidance item against the new tenet and fix what conflicts. A tenet that existing content contradicts is not yet true.
@@ -298,7 +298,7 @@ Add a new tenet to the framework: the principle itself, the scenarios that show 
 
 *Requires: R-04, R-05, R-16, R-31 | Tenets: T-08, T-12*
 
-### `/aa-fw-new-discipline`
+### `/aa-internal-new-discipline`
 
 Add a new discipline with everything it needs to be real: its definition with bounded responsibilities and a unique code, at least one step with its command, skill scaffold, and scenarios, its place in the design and vocabulary, and a regenerated discipline review. Runs only in the aa-sdlc repository.
 
@@ -314,7 +314,7 @@ Add a new discipline with everything it needs to be real: its definition with bo
   - Has purpose, owns, does_not_own, hands_off_to, steps, tenets, and a code no other discipline uses
   - Every neighbouring discipline whose boundary changed has its own does_not_own or hands_off_to updated
 - **Steps, skills, and scenarios** in workflow/steps/, src/aa-sdlc/skills/<id>/, features/<id>/
-  - At least one step, each created as /aa-fw-new-step would create it
+  - At least one step, each created as /aa-internal-new-step would create it
   - A skills subfolder with a README naming the discipline and its code
 - **Documents and review** in docs/design.md 3.1 table and decision log; docs/vocabulary.md; docs/plan-discipline-review.md; docs/discipline-review.md
   - Listed in the disciplines table with id, code, and kind of work, and in the vocabulary's discipline list
@@ -340,7 +340,7 @@ Add a new discipline with everything it needs to be real: its definition with bo
 
 *Requires: R-04, R-05, R-16, R-31 | Tenets: T-08, T-13*
 
-### `/aa-fw-new-process`
+### `/aa-internal-new-process`
 
 Add a new process: an ordered set of existing or new steps toward a goal, with its process-level guidance and exit condition, its scenarios, and its place in the design. Runs only in the aa-sdlc repository.
 
@@ -353,7 +353,7 @@ Add a new process: an ordered set of existing or new steps toward a goal, with i
 
 - **Process definition** in src/aa-sdlc/workflow/processes/<id>.yaml
   - Has id, name, summary, ordered steps that all exist, process guidance ids, and an exit condition
-  - Steps that did not exist were created with /aa-fw-new-step first
+  - Steps that did not exist were created with /aa-internal-new-step first
 - **Scenarios and documents** in features/framework/<process>.feature; docs/design.md 3.2 and decision log; docs/discipline-review.md
   - The feature shows the process run end to end and shows any single step run alone (T-03)
   - The design names it if it is a core process; the decision log records it; the review regenerates; the unit tier passes
@@ -377,7 +377,7 @@ Add a new process: an ordered set of existing or new steps toward a goal, with i
 
 *Requires: R-04, R-05, R-16, R-31 | Tenets: T-03, T-08*
 
-### `/aa-fw-new-step`
+### `/aa-internal-new-step`
 
 Add a new step to an existing discipline with all of its plumbing: the step definition, the command, the skill scaffold, the scenarios, its guidance and requirements, its place in any process, and the documents that list it. Runs only in the aa-sdlc repository.
 

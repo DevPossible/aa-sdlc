@@ -5,11 +5,12 @@
     Validates the workflow data: disciplines, steps, processes, and guidance sets.
 .DESCRIPTION
     Checks every discipline lists only steps that exist and belong to it, every step names an
-    existing discipline and is listed by it, every command equals /aa-<code>-<id>, every process
-    lists only existing steps, every guidance set names only defined ids, and every guidance,
-    requirement, tenet, and opinion id cited in the workflow (directly or through a guidance set)
-    is defined in docs/. A step may not cite superseded guidance, nor repeat an id that one of
-    its sets already supplies. Returns the list of problems; empty means valid.
+    existing discipline and is listed by it, every command equals /aa-<code>-<id> (or
+    /aa-internal-<id> for an internal step), every process lists only existing steps, every
+    guidance set names only defined ids, and every guidance, requirement, tenet, and opinion id
+    cited in the workflow (directly or through a guidance set) is defined in docs/. A step may
+    not cite superseded guidance, nor repeat an id that one of its sets already supplies.
+    Returns the list of problems; empty means valid.
 .PARAMETER WorkflowRoot
     Path to the workflow folder. Defaults to src/aa-sdlc/workflow relative to the repo root.
 .PARAMETER DocsRoot
@@ -113,6 +114,7 @@ foreach ($id in $disciplines.Keys) {
 
 $codes = @($disciplines.Values | ForEach-Object { $_.code })
 $codes | Group-Object | Where-Object Count -gt 1 | ForEach-Object { $problems.Add("discipline code '$($_.Name)' used more than once") }
+if ('internal' -in $codes) { $problems.Add("discipline code 'internal' is reserved for internal steps") }
 
 foreach ($id in $steps.Keys) {
     $s = $steps[$id]
@@ -124,7 +126,9 @@ foreach ($id in $steps.Keys) {
     if (-not $disciplines.ContainsKey($s.discipline)) { $problems.Add("step ${id}: unknown discipline '$($s.discipline)'") }
     else {
         if ($id -notin @($disciplines[$s.discipline].steps)) { $problems.Add("step ${id}: not listed in discipline '$($s.discipline)'") }
-        $expected = "/aa-$($disciplines[$s.discipline].code)-$id"
+        # An internal step, used only in the aa-sdlc repository, trades the code for "internal"
+        $prefix = if ($s.internal) { 'internal' } else { $disciplines[$s.discipline].code }
+        $expected = "/aa-$prefix-$id"
         if ($s.command -ne $expected) { $problems.Add("step ${id}: command '$($s.command)' should be '$expected'") }
     }
     $fromSets = @{ guidance = @(); requires = @() }

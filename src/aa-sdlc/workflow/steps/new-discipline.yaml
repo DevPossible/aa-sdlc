@@ -1,7 +1,8 @@
 id: new-discipline
 name: Add a discipline
 discipline: framework
-command: /aa-fw-new-discipline
+command: /aa-internal-new-discipline
+internal: true
 summary: >
   Add a new discipline with everything it needs to be real: its definition with bounded
   responsibilities and a unique code, at least one step with its command, skill scaffold, and
@@ -21,7 +22,7 @@ artifacts:
   - name: Steps, skills, and scenarios
     location: workflow/steps/, src/aa-sdlc/skills/<id>/, features/<id>/
     acceptance:
-      - At least one step, each created as /aa-fw-new-step would create it
+      - At least one step, each created as /aa-internal-new-step would create it
       - A skills subfolder with a README naming the discipline and its code
   - name: Documents and review
     location: docs/design.md 3.1 table and decision log; docs/vocabulary.md; docs/plan-discipline-review.md; docs/discipline-review.md

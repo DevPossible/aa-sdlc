@@ -37,7 +37,7 @@ Feature: Small, cohesive commits, made by the user
   @G-40 @F-041-04
   Scenario: A framework authoring command ends staged
     Given I am in the aa-sdlc repository
-    When "/aa-fw-new-opinion" finishes its checks
+    When "/aa-internal-new-opinion" finishes its checks
     Then every changed file is staged as one change set
     And the proposed commit message is presented
     And the command does not commit unless the user asked it to in this invocation

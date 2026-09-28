@@ -53,6 +53,8 @@ id: implement                      # equals the skill folder name and the comman
 name: Implement a ticket
 discipline: development            # one of the discipline ids; its code supplies the middle segment
 command: /aa-dev-implement         # /aa-<code>-<id>; derivable, stated for readability
+internal: false                    # true only for a step run in the aa-sdlc repository alone;
+                                   # its command is then /aa-internal-<id> and the website skips it
 summary: >
   Build what the anchor ticket asks for, with the tests that prove it, on a branch that
   references the ticket.
@@ -88,6 +90,9 @@ Field rules:
   `guidance_inline: [ "..." ]` until it is promoted to an ID.
 - `artifacts[].acceptance` is the acceptance criteria from the methodology, reworded to be
   checkable. Feature files hold the behaviour; this holds the deliverable.
+- `internal: true` marks a step that runs only in the aa-sdlc repository. Its command is
+  `/aa-internal-<id>` instead of `/aa-<code>-<id>`, and the website neither lists nor counts it
+  (decision record 0017). Omit it otherwise.
 
 ### Guidance set
 

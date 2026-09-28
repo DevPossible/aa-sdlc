@@ -10,7 +10,8 @@
     "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
     "name": { "type": "string", "minLength": 1 },
     "discipline": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
-    "command": { "type": "string", "pattern": "^/aa-[a-z]{2,3}-[a-z][a-z0-9-]*$" },
+    "command": { "type": "string", "pattern": "^/aa-([a-z]{2,3}|internal)-[a-z][a-z0-9-]*$" },
+    "internal": { "type": "boolean" },
     "summary": { "type": "string", "minLength": 1 },
     "anchor": { "type": "string", "enum": ["required", "optional", "none"] },
     "methodology": {

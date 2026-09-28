@@ -96,8 +96,9 @@ Every discipline has a short code, two characters where a natural one exists and
 readability wins (`dev`, `sec`, `doc`, `rel`, `ops`, `sup`). The code is the middle segment of
 every command in that discipline: `/aa-qa-generate-tests`, `/aa-dev-implement`,
 `/aa-rel-release`. The framework itself has the code `fw`, so its own commands are
-`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-whatsnext`, `/aa-fw-extend`, and the authoring commands `/aa-fw-new-*`: the rule has no exceptions. Plugins reuse
-the code of the discipline they extend.
+`/aa-fw-health`, `/aa-fw-init`, `/aa-fw-whatsnext`, and `/aa-fw-extend`. The one exception is an
+internal step, run only in the aa-sdlc repository: the authoring commands are `/aa-internal-new-*`
+(decision record 0017). Plugins reuse the code of the discipline they extend.
 
 Fourteen is deliberately more than a small team has people for. A discipline is a kind of
 work, not a headcount (T-13): a solo developer on a personal project and a fifteen-person team
@@ -285,7 +286,9 @@ Notes on the merges and additions:
   `/aa-dev-implement`, `generate-tests` in Testing is `/aa-qa-generate-tests`. Typing `/aa-qa-`
   lists everything Testing can do.
 - The framework's own commands use the code `fw`: `/aa-fw-health`, `/aa-fw-init`,
-  `/aa-fw-extend`. Typing `/aa-fw-` lists everything the framework does for itself.
+  `/aa-fw-extend`. Typing `/aa-fw-` lists everything the framework does for a project.
+- A step that only works in the aa-sdlc repository is internal and uses `internal` in place of
+  the code: `/aa-internal-new-step`. The website does not list internal steps.
 - Every command accepts a ticket ID as its anchor. If none is given, the command asks for one or,
   when no ticket system is in scope, proceeds with a local artifact and says so.
 - Commands are thin: they name the skill to load and the arguments. Behaviour lives in the skill.
@@ -528,6 +531,7 @@ row it supersedes; the superseded row gains only a "Superseded by" note.
 | 61 | 2026-09-27 | Opinion O-26: tickets are one of five kinds (epic, story, task, bug, spike) and move through one life cycle (New, Refined, Planned, In progress, In review, Accepted, Done), each move made by the step that produces its evidence; the project config maps kinds and states to the ticket system's names (R-41, G-51, G-52) | A state that means the same everywhere can be read by steps and reports without guessing, and a state only a step can set is evidence, not an impression; the mapping keeps the tool's own words (T-01) |
 | 62 | 2026-09-27 | Opinion O-27: every knowledge base has six top-level sections (Overview, Requirements, Architecture, Operations, Releases, Guides); pages explain and index while feature files and decision records stay the truth; superseded pages are marked and linked, never deleted (R-42, G-53) | Anyone arriving knows where to look; maintain-docs and whatsnext can find what a change should have updated; kept pages keep history |
 | 63 | 2026-09-27 | Releases publish from GitHub Actions on the mirror when `version.json` changes on `main`: tests on three operating systems, Windows binaries signed by Azure Trusted Signing through an OIDC-federated app, npm trusted publishing with provenance, platform packages under `@devpossible`, prereleases on their own dist-tag (decision record 0016) | The origin's runners do not run; long-lived npm tokens are revoked; OIDC on both sides leaves no secret to leak or expire |
+| 64 | 2026-09-28 | Steps that author the framework (`new-opinion`, `new-tenet`, `new-discipline`, `new-process`, `new-step`) are internal: `internal: true` in the step data makes the command `/aa-internal-<step>`, and the website neither lists nor counts them; `extend` stays `/aa-fw-extend` (decision record 0017) | They only work in the aa-sdlc repository, so consumers should not see them beside the framework's own commands |
 
 ## 12. Open questions
 

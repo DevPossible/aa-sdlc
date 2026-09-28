@@ -7,7 +7,7 @@ aa:
   guidance_sets: [every-step, framework-authoring]
 ---
 
-# /aa-fw-new-step
+# /aa-internal-new-step
 
 Adds one step to an existing discipline. A step is a definition, a command, a skill, scenarios,
 guidance, and requirements, listed by its discipline and any process it belongs to. This skill

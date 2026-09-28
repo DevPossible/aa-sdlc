@@ -63,7 +63,8 @@ ship unchanged to every target.
 The user-facing entry point that invokes a skill. Thin, target-neutral in source, rendered per
 target by the installer. Named `/aa-<code>-<step>` on every target, where `<code>` is the
 discipline's short code: `/aa-dev-implement`, `/aa-qa-generate-tests`. The framework's own
-commands use the code `fw`: `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`.
+commands use the code `fw`: `/aa-fw-health`, `/aa-fw-init`, `/aa-fw-extend`. An internal step,
+run only in the aa-sdlc repository, uses `internal` in place of the code: `/aa-internal-new-step`.
 
 **Discipline code**
 A two or three character code for each discipline, used as the middle segment of its commands:

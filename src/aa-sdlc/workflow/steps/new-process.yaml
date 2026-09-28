@@ -1,7 +1,8 @@
 id: new-process
 name: Add a process
 discipline: framework
-command: /aa-fw-new-process
+command: /aa-internal-new-process
+internal: true
 summary: >
   Add a new process: an ordered set of existing or new steps toward a goal, with its
   process-level guidance and exit condition, its scenarios, and its place in the design.
@@ -15,7 +16,7 @@ artifacts:
     location: src/aa-sdlc/workflow/processes/<id>.yaml
     acceptance:
       - Has id, name, summary, ordered steps that all exist, process guidance ids, and an exit condition
-      - Steps that did not exist were created with /aa-fw-new-step first
+      - Steps that did not exist were created with /aa-internal-new-step first
   - name: Scenarios and documents
     location: features/framework/<process>.feature; docs/design.md 3.2 and decision log; docs/discipline-review.md
     acceptance:

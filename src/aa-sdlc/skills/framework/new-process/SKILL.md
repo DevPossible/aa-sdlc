@@ -7,7 +7,7 @@ aa:
   guidance_sets: [every-step, framework-authoring]
 ---
 
-# /aa-fw-new-process
+# /aa-internal-new-process
 
 Adds one process. A process is an ordering of steps toward a goal, described and never
 enforced (T-03): every step in it still runs alone.

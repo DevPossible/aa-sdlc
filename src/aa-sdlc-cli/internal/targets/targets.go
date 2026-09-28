@@ -580,9 +580,10 @@ func corePrefixes() []string {
 	if err != nil {
 		return nil
 	}
-	out := []string{content.SharedGuidanceDir}
+	out := []string{content.SharedGuidanceDir, "aa-" + content.InternalCode + "-"}
 	for _, d := range ds {
-		// skills and commands are aa-<code>-<step>; a discipline agent is aa-<code>.<suffix>
+		// skills and commands are aa-<code>-<step>, or aa-internal-<step> for an internal step; a
+		// discipline agent is aa-<code>.<suffix>
 		out = append(out, "aa-"+d.Code+"-", "aa-"+d.Code+".")
 	}
 	return out
@@ -594,7 +595,8 @@ type coreSkill struct {
 	files       map[string][]byte
 }
 
-// coreSkills names every skill in the package aa-<discipline code>-<step>.
+// coreSkills names every skill in the package aa-<discipline code>-<step>, or aa-internal-<step>
+// for an internal step.
 func coreSkills() ([]coreSkill, error) {
 	steps, err := content.Steps()
 	if err != nil {
@@ -622,7 +624,11 @@ func coreSkills() ([]coreSkill, error) {
 		if !ok {
 			return nil, fmt.Errorf("step %s names unknown discipline %s", step.ID, step.Discipline)
 		}
-		out = append(out, coreSkill{name: fmt.Sprintf("aa-%s-%s", d.Code, step.ID), description: oneLine(step.Summary), files: sk.Files})
+		code := d.Code
+		if step.Internal {
+			code = content.InternalCode
+		}
+		out = append(out, coreSkill{name: fmt.Sprintf("aa-%s-%s", code, step.ID), description: oneLine(step.Summary), files: sk.Files})
 	}
 	return out, nil
 }

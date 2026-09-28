@@ -54,7 +54,8 @@ repository, plus `update` and `plugin`. The work itself happens inside your agen
 `/aa-<code>-<step>` commands, where the code is the discipline: `/aa-dev-implement`,
 `/aa-qa-generate-tests`, `/aa-rel-release`. The framework's own code is `fw`: `/aa-fw-health`,
 `/aa-fw-init`, and `/aa-fw-extend`, which walks you through building an extension when the
-framework needs to know about your stack, your process, or your agent.
+framework needs to know about your stack, your process, or your agent. Commands that author the
+framework itself are `/aa-internal-*` and only work in this repository.
 
 ## What it will be
 

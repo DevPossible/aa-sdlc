@@ -7,7 +7,7 @@ aa:
   guidance_sets: [every-step, framework-authoring]
 ---
 
-# /aa-fw-new-opinion
+# /aa-internal-new-opinion
 
 Adds one opinion and everything that makes it real. An opinion nothing depends on is a slogan;
 this skill traces the stance forward into requirements, guidance, scenarios, and documents, and

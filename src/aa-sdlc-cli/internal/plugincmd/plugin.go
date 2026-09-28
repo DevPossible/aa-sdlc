@@ -423,6 +423,9 @@ func validate(p *content.Plugin) error {
 			return fmt.Errorf("plugin %s is refused: its name is the core discipline code %q, so its skills would be named like core skills", p.Name, d.Code)
 		}
 	}
+	if p.Name == content.InternalCode {
+		return fmt.Errorf("plugin %s is refused: its name is %q, which names the core internal skills", p.Name, content.InternalCode)
+	}
 	if "aa-"+p.Name == content.SharedGuidanceDir || strings.HasPrefix(content.SharedGuidanceDir, "aa-"+p.Name+"-") {
 		return fmt.Errorf("plugin %s is refused: its name collides with the core %s folder", p.Name, content.SharedGuidanceDir)
 	}
