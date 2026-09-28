@@ -124,6 +124,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-26, R-39 | not applicable | recorded above: no deployed system, no environments |
 | R-29 | not applicable | no user interface |
 | R-30 | met where applicable | root scripts and this document; no environments to template, no migrations, no manual operations |
+| R-40 | not applicable | added 2026-09-27, after this baseline: godog executes the `@cli` feature files themselves and the `@agent` and `@health` features are reviewed contracts, so no separate test names their scenario ids (recorded under Test tiers) |
 | R-34 | not applicable | no architecture document; `architect` has not run |
 | R-36 | not applicable | the only ecosystem is PowerShell modules, which have no manifest or lock file here |
 | R-37 | not applicable | no automated tests exist yet to run twice |
