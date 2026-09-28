@@ -94,3 +94,16 @@ Feature: aa init bootstraps a repository
     When I run "aa init"
     Then the shared guidance sets are installed at project scope with no command
     And every installed skill at project scope points at the guidance sets by their project-scope path
+
+  @F-006-14
+  Scenario: The project instruction file points at the framework
+    Given Codex is a configured target
+    When I run "aa init" and name a ticket project
+    Then AGENTS.md at the repository root has an AA-SDLC block naming the ticket project and "/aa-fw-whatsnext"
+    And any text already in AGENTS.md outside the block is kept
+
+  @F-006-15
+  Scenario: Re-running replaces the block, never duplicates it
+    Given AGENTS.md already has an AA-SDLC block
+    When I run "aa init" again
+    Then AGENTS.md has exactly one AA-SDLC block

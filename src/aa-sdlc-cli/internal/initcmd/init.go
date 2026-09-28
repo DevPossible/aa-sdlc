@@ -175,23 +175,40 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 		}
 	}
 
-	// 6. Project-scope skills and commands for each detected target.
+	// 6. Project-scope skills and commands for the harnesses the config names, or, when it names
+	// none, the ones detected (decision record 0014).
 	home := opts.Home
 	if home == "" {
 		home, _ = os.UserHomeDir()
 	}
-	found := targets.Detect(home, dir)
-	if len(found) == 0 {
-		report("  no supported agent target detected (supported: %s); run aa setup after installing one", targetNames(targets.Supported))
+	chosen, _, err := targets.ByID(existing.Targets)
+	if err != nil {
+		return err
 	}
-	for _, t := range found {
-		switch t.ID {
-		case targets.ClaudeCode.ID:
-			res, err := targets.InstallClaudeCode(dir, ".claude/skills")
+	if len(chosen) == 0 {
+		chosen, _ = targets.Detect(home, dir)
+	}
+	if len(chosen) == 0 {
+		report("  no supported agent target detected (supported: %s); run aa setup after installing one", strings.Join(targets.SupportedNames(), ", "))
+	} else {
+		scope := targets.ProjectScope(dir)
+		res, err := targets.Install(scope, chosen)
+		if err != nil {
+			return err
+		}
+		targets.ReportInstall(out, scope, chosen, res)
+
+		// 7. The instruction file each harness reads points at the framework; only the marked
+		// block is ours, and it is replaced, never duplicated.
+		body := instructionBlock(existing)
+		for _, file := range targets.InstructionFiles(chosen) {
+			changed, err := targets.WriteInstructionBlock(dir, file, body)
 			if err != nil {
 				return err
 			}
-			report("  %s: %d skills and %d commands installed at project scope", t.Name, res.Skills, res.Commands)
+			if changed {
+				report("  %s: AA-SDLC block written (the rest of the file is left as it was)", file)
+			}
 		}
 	}
 
@@ -260,12 +277,28 @@ func isDir(p string) bool {
 	return err == nil && info.IsDir()
 }
 
-func targetNames(ts []targets.Target) string {
-	names := make([]string, len(ts))
-	for i, t := range ts {
-		names[i] = t.Name
+// instructionBlock is what aa init keeps in the project's instruction files: enough for an agent
+// arriving cold to know the project follows AA-SDLC, where its work and knowledge live, and where
+// to start.
+func instructionBlock(cfg *config.Config) string {
+	ticket := "not yet recorded; /aa-fw-init will ask"
+	if cfg.Conventions.Ticket.Project != "" {
+		ticket = cfg.Conventions.Ticket.Project
+		if cfg.Conventions.Ticket.URL != "" {
+			ticket += " (" + cfg.Conventions.Ticket.URL + ")"
+		}
 	}
-	return strings.Join(names, ", ")
+	knowledge := "not yet recorded; /aa-fw-init will ask"
+	if cfg.Conventions.Knowledge.Space != "" || cfg.Conventions.Knowledge.URL != "" {
+		knowledge = strings.TrimSpace(cfg.Conventions.Knowledge.Space + " " + cfg.Conventions.Knowledge.URL)
+	}
+	return "## AA-SDLC\n\n" +
+		"This repository follows the AA-SDLC software life cycle (https://aasdlc.com). Its conventions are in\n" +
+		"`aa.config.yaml`, its requirements are the feature files, and every step is a skill with an\n" +
+		"`/aa-` command.\n\n" +
+		"- Ticket project: " + ticket + "\n" +
+		"- Knowledge base: " + knowledge + "\n" +
+		"- Not sure what to do? Run `/aa-fw-whatsnext`. To check the setup, run `/aa-fw-health`.\n"
 }
 
 // commitMsgHook is the git commit-msg hook aa init writes: the subject must be a Conventional

@@ -1,16 +1,11 @@
 # Target: Claude Code
 
-How AA-SDLC installs into Claude Code. Until the `aa` CLI exists, this repository carries a
-manual project-scope install of its own framework commands under `.claude/commands/`.
+Claude Code's row in [../targets.yaml](../targets.yaml) is the only one verified in the harness
+itself. It reads skills from `.claude/skills/` (project scope) or `~/.claude/skills/` (user
+scope), and commands from `.claude/commands/`: a thin file per skill that reads the skill and
+passes `$ARGUMENTS`. It supports hooks (`.claude/settings.json`) and subagents
+(`.claude/agents/`); the framework ships neither yet (decision records 0014 and 0015).
 
-| AA-SDLC | Claude Code |
-|---------|-------------|
-| skill `skills/<discipline>/<step>/SKILL.md` | `.claude/skills/aa-<code>-<step>/SKILL.md` (project scope) or `~/.claude/skills/...` (user scope) |
-| command `/aa-<code>-<step>` | `.claude/commands/aa-<code>-<step>.md`: a thin file that reads the skill and passes `$ARGUMENTS` |
-| hooks | `.claude/settings.json` hooks; supported (R-15 met) |
-| subagents | `.claude/agents/`; supported |
-
-A command file contains only a description and one line pointing at the skill, so behaviour
-lives in the skill and the command is target-specific glue. Claude Code discovers
-`.claude/commands/` from the folder it is opened in, so these commands are available when
-Claude Code is started in the aa-sdlc repository.
+This repository carries a project-scope install of its own framework commands under
+`.claude/commands/`, which read the source skills directly, so they are available when Claude Code
+is started in the aa-sdlc repository.

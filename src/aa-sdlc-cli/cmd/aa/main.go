@@ -12,6 +12,7 @@ import (
 	"aasdlc.com/aa/internal/initcmd"
 	"aasdlc.com/aa/internal/plugincmd"
 	"aasdlc.com/aa/internal/setupcmd"
+	"aasdlc.com/aa/internal/uninstallcmd"
 	"aasdlc.com/aa/internal/updatecmd"
 	"aasdlc.com/aa/internal/version"
 )
@@ -29,13 +30,16 @@ func stdinIsTerminal() bool {
 const usage = `aa: the AA-SDLC command line
 
 Usage:
-  aa setup   [-org <repository>] [-team <name>]     bootstrap this machine: install skills and commands for every detected agent at user scope
+  aa setup   [-org <repository>] [-team <name>] [-targets <id,...>]
+                                                    bootstrap this machine: install skills and commands for every agent harness found, or those named, at user scope
   aa init    [-path <dir>] [-ticket-project <key>] [-ticket-url <url>] [-knowledge-space <key>] [-knowledge-url <url>] [-shell pwsh|sh] [-yes]
                                                     bootstrap a repository, then hand off to /aa-fw-health and /aa-fw-init in your agent
   aa update  [-path <dir>]                          bring everything setup and init installed up to this package version, at user scope and in this repository
   aa plugin  install <name|path> | update [<name>] | list | remove <name> [-scope project|user] [-path <dir>]
                                                     manage tech-stack, tool, and process packs at a scope; a plugin adds skills
                                                     that attach to the life cycle and never changes core (add is another name for install)
+  aa uninstall -targets <id,...> | -all [-scope user|project] [-path <dir>]
+                                                    remove the framework from the harnesses named, keeping the others working
   aa version                                        print the package version, commit, and build date
 
 Health is not a CLI verb: run /aa-fw-health inside your agent, because the probes that matter
@@ -64,10 +68,17 @@ func run(args []string) int {
 		fs := flag.NewFlagSet("setup", flag.ContinueOnError)
 		org := fs.String("org", "", "organisation config repository to layer over core")
 		team := fs.String("team", "", "team subfolder in the organisation repository")
+		targetList := fs.String("targets", "", "comma-separated harness ids to install into (default: every one found, as a checklist when interactive)")
+		interactive := fs.Bool("interactive", false, "offer the checklist even when stdin is not a terminal (used by tests)")
 		if err := fs.Parse(args[1:]); err != nil {
 			return 2
 		}
-		if err := setupcmd.Run(setupcmd.Options{OrgRepository: *org, Team: *team, Home: home, UserConfigPath: userConfig}, os.Stdout); err != nil {
+		var chosen []string
+		if *targetList != "" {
+			chosen = strings.Split(*targetList, ",")
+		}
+		o := setupcmd.Options{OrgRepository: *org, Team: *team, Home: home, UserConfigPath: userConfig, Targets: chosen, Interactive: stdinIsTerminal() || *interactive, In: os.Stdin}
+		if err := setupcmd.Run(o, os.Stdout); err != nil {
 			fmt.Fprintln(os.Stderr, "aa setup:", err)
 			return 1
 		}
@@ -102,6 +113,26 @@ func run(args []string) int {
 		}
 		if err := updatecmd.Run(updatecmd.Options{Path: *path, Home: home, UserConfigPath: userConfig}, os.Stdout); err != nil {
 			fmt.Fprintln(os.Stderr, "aa update:", err)
+			return 1
+		}
+		return 0
+	case "uninstall":
+		fs := flag.NewFlagSet("uninstall", flag.ContinueOnError)
+		targetList := fs.String("targets", "", "comma-separated harness ids to remove the framework from")
+		all := fs.Bool("all", false, "remove the framework from every harness at the scope")
+		scope := fs.String("scope", "user", "user or project")
+		path := fs.String("path", "", "repository for project scope (default: the current directory)")
+		interactive := fs.Bool("interactive", false, "offer the checklist even when stdin is not a terminal (used by tests)")
+		if err := fs.Parse(args[1:]); err != nil {
+			return 2
+		}
+		var chosen []string
+		if *targetList != "" {
+			chosen = strings.Split(*targetList, ",")
+		}
+		o := uninstallcmd.Options{Scope: *scope, Path: *path, Targets: chosen, All: *all, Interactive: stdinIsTerminal() || *interactive, In: os.Stdin, Home: home, UserConfigPath: userConfig}
+		if err := uninstallcmd.Run(o, os.Stdout); err != nil {
+			fmt.Fprintln(os.Stderr, "aa uninstall:", err)
 			return 1
 		}
 		return 0

@@ -502,6 +502,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return w.writeFixtureSkill("load", "aa:\n  attaches_to: [soak-test]\n")
 	})
 	sc.Step(`^the reason names the unknown step$`, func() error { return w.errContains(`"soak-test"`) })
+	registerHarnessSteps(sc, w)
 	sc.Step(`^I run "aa plugin remove <plugin>"$`, func() error { return w.run(w.project, "", "plugin", "remove", "fixture") })
 	sc.Step(`^its skills and commands are removed from that scope$`, func() error {
 		if _, err := os.Stat(filepath.Join(w.project, ".claude", "skills", "aa-fixture-notes")); err == nil {

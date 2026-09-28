@@ -48,10 +48,10 @@ func Install(nameOrPath string, opts Options, out io.Writer) error {
 	if err := validate(p); err != nil {
 		return err
 	}
-	if _, err := targets.RemovePluginClaudeCode(ctx.scopeDir, p.Name); err != nil {
+	if _, err := targets.RemovePlugin(ctx.target, p.Name); err != nil {
 		return err
 	}
-	res, err := targets.InstallPluginClaudeCode(ctx.scopeDir, *p, ctx.skillRef)
+	res, err := targets.InstallPlugin(ctx.target, ctx.harnesses, *p)
 	if err != nil {
 		return err
 	}
@@ -59,7 +59,7 @@ func Install(nameOrPath string, opts Options, out io.Writer) error {
 	if err := config.Write(ctx.cfgPath, ctx.cfg, ctx.header); err != nil {
 		return err
 	}
-	fmt.Fprintf(out, "aa plugin install %s %s: %d skills and %d commands installed at %s scope (%s); %s records the plugin\n", p.Name, p.Version, res.Skills, res.Commands, ctx.scope, filepath.Join(ctx.scopeDir, ".claude"), ctx.cfgPath)
+	fmt.Fprintf(out, "aa plugin install %s %s: %d skills and %d commands installed at %s scope (%s); %s records the plugin\n", p.Name, p.Version, res.Skills, res.Commands, ctx.scope, strings.Join(res.Plan.SkillDirs, ", "), ctx.cfgPath)
 	if len(p.Requires) > 0 {
 		fmt.Fprintf(out, "  the plugin declares requirements %s; /aa-fw-health will probe them\n", strings.Join(p.Requires, ", "))
 	}
@@ -106,14 +106,14 @@ func (ctx *scopeContext) update(ref config.PluginRef, out io.Writer) error {
 	if err := validate(p); err != nil {
 		return err
 	}
-	before := pluginFiles(ctx.scopeDir, p.Name)
-	if _, err := targets.RemovePluginClaudeCode(ctx.scopeDir, p.Name); err != nil {
+	before := pluginFiles(ctx.target, p.Name)
+	if _, err := targets.RemovePlugin(ctx.target, p.Name); err != nil {
 		return err
 	}
-	if _, err := targets.InstallPluginClaudeCode(ctx.scopeDir, *p, ctx.skillRef); err != nil {
+	if _, err := targets.InstallPlugin(ctx.target, ctx.harnesses, *p); err != nil {
 		return err
 	}
-	added, changed, removed := diff(before, pluginFiles(ctx.scopeDir, p.Name))
+	added, changed, removed := diff(before, pluginFiles(ctx.target, p.Name))
 	ctx.record(config.PluginRef{Name: p.Name, Version: p.Version, Source: ctx.sourceFor(source)})
 	switch {
 	case ref.Version != p.Version:
@@ -141,7 +141,7 @@ func Remove(name string, opts Options, out io.Writer) error {
 	if err != nil {
 		return err
 	}
-	removed, err := targets.RemovePluginClaudeCode(ctx.scopeDir, name)
+	removed, err := targets.RemovePlugin(ctx.target, name)
 	if err != nil {
 		return err
 	}
@@ -222,14 +222,15 @@ func listScope(out io.Writer, label string, refs []config.PluginRef) {
 }
 
 type scopeContext struct {
-	scope    string
-	scopeDir string
-	skillRef string
-	cfgPath  string
-	cfg      *config.Config
-	header   string
-	home     string
-	userPath string
+	scope     string
+	scopeDir  string
+	target    targets.Scope
+	harnesses []targets.Spec
+	cfgPath   string
+	cfg       *config.Config
+	header    string
+	home      string
+	userPath  string
 }
 
 // record adds or replaces the plugin's entry in the scope's config.
@@ -318,7 +319,15 @@ func resolve(opts Options) (*scopeContext, error) {
 		if project == nil {
 			return nil, fmt.Errorf("%s is not initialised; run aa init first or use -scope user", projDir)
 		}
-		return &scopeContext{scope: scope, scopeDir: projDir, skillRef: ".claude/skills", cfgPath: filepath.Join(projDir, config.FileName), cfg: project,
+		user, err := config.Load(userPath)
+		if err != nil {
+			return nil, err
+		}
+		harnesses, err := harnessesFor(project, user, home, projDir)
+		if err != nil {
+			return nil, err
+		}
+		return &scopeContext{scope: scope, scopeDir: projDir, target: targets.ProjectScope(projDir), harnesses: harnesses, cfgPath: filepath.Join(projDir, config.FileName), cfg: project,
 			header: "aa.config.yaml (project scope), written by aa init. See https://aasdlc.com and docs/formats.md.\nconventions.ticket.project is the ONE ticket project this repository maps to (O-09).\nEdit freely; aa init never overwrites this file.", home: home, userPath: userPath}, nil
 	case "user":
 		user, err := config.Load(userPath)
@@ -328,7 +337,11 @@ func resolve(opts Options) (*scopeContext, error) {
 		if user == nil {
 			return nil, errors.New("no user config; run aa setup first")
 		}
-		return &scopeContext{scope: scope, scopeDir: home, skillRef: "~/.claude/skills", cfgPath: userPath, cfg: user,
+		harnesses, err := harnessesFor(user, user, home, "")
+		if err != nil {
+			return nil, err
+		}
+		return &scopeContext{scope: scope, scopeDir: home, target: targets.UserScope(home), harnesses: harnesses, cfgPath: userPath, cfg: user,
 			header: "aa.config.yaml (user scope), written by aa setup.\nTargets and the package version installed; an organisation repository layers enterprise and team scopes over core.", home: home, userPath: userPath}, nil
 	default:
 		return nil, fmt.Errorf("unknown scope %q; use project or user", scope)
@@ -462,15 +475,33 @@ func validate(p *content.Plugin) error {
 }
 
 // pluginFiles hashes the installed files of one plugin at a scope.
-func pluginFiles(dir, plugin string) map[string]string {
+func pluginFiles(scope targets.Scope, plugin string) map[string]string {
 	prefix := "aa-" + plugin + "-"
 	out := map[string]string{}
-	for p, h := range targets.SnapshotClaudeCode(dir) {
-		if strings.HasPrefix(strings.Split(p, "/")[2], prefix) {
+	for p, h := range targets.Snapshot(scope) {
+		if strings.HasPrefix(scope.EntryName(p), prefix) {
 			out[p] = h
 		}
 	}
 	return out
+}
+
+// harnessesFor returns the harnesses a scope installs into: the ones its config names, else the
+// user config's, else the ones detected.
+func harnessesFor(cfg, user *config.Config, home, repo string) ([]targets.Spec, error) {
+	var ids []string
+	if cfg != nil {
+		ids = cfg.Targets
+	}
+	if len(ids) == 0 && user != nil {
+		ids = user.Targets
+	}
+	found, _, err := targets.ByID(ids)
+	if err != nil || len(found) > 0 {
+		return found, err
+	}
+	detected, _ := targets.Detect(home, repo)
+	return detected, nil
 }
 
 func diff(before, after map[string]string) (added, changed, removed []string) {

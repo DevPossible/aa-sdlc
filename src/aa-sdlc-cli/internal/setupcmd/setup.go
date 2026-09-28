@@ -1,6 +1,6 @@
 // Package setupcmd implements aa setup: bootstrap the machine by installing the skills and
-// commands for every detected agent target at user scope and writing the user config
-// (features/cli/setup.feature, design 7.1).
+// commands for every chosen agent harness at user scope and writing the user config
+// (features/cli/setup.feature, design 7.1, decision record 0014).
 package setupcmd
 
 import (
@@ -22,6 +22,9 @@ type Options struct {
 	UserConfigPath string // override for tests; default <home>/.aa/aa.config.yaml
 	OrgRepository  string // organisation config repository to layer over core (path or URL)
 	Team           string // team subfolder in the organisation repository
+	Targets        []string
+	Interactive    bool      // prompts are allowed: offer the harnesses as a checklist
+	In             io.Reader // where checklist answers come from; default os.Stdin
 	Now            func() time.Time
 }
 
@@ -29,6 +32,9 @@ type Options struct {
 func Run(opts Options, out io.Writer) error {
 	if opts.Now == nil {
 		opts.Now = time.Now
+	}
+	if opts.In == nil {
+		opts.In = os.Stdin
 	}
 	home := opts.Home
 	if home == "" {
@@ -45,27 +51,6 @@ func Run(opts Options, out io.Writer) error {
 	report := func(format string, a ...any) { fmt.Fprintf(out, format+"\n", a...) }
 	report("aa setup (package %s)", version.Version)
 
-	found := targets.Detect(home, "")
-	if len(found) == 0 {
-		names := make([]string, len(targets.Supported))
-		for i, t := range targets.Supported {
-			names[i] = t.Name
-		}
-		report("  no supported agent target found on this machine; supported: %s", strings.Join(names, ", "))
-	}
-	var installed []string
-	for _, t := range found {
-		switch t.ID {
-		case targets.ClaudeCode.ID:
-			res, err := targets.InstallClaudeCode(home, "~/.claude/skills")
-			if err != nil {
-				return err
-			}
-			report("  %s: %d skills and %d commands installed at user scope (%s)", t.Name, res.Skills, res.Commands, filepath.Join(home, ".claude"))
-			installed = append(installed, t.ID)
-		}
-	}
-
 	existing, err := config.Load(userPath)
 	if err != nil {
 		return err
@@ -74,10 +59,33 @@ func Run(opts Options, out io.Writer) error {
 	if existing != nil {
 		user = existing
 	}
-	for _, id := range installed {
-		if !contains(user.Targets, id) {
-			user.Targets = append(user.Targets, id)
+
+	detected, unsupported := targets.Detect(home, "")
+	chosen, err := choose(opts, detected, user.Targets, out)
+	if err != nil {
+		return err
+	}
+	if len(chosen) == 0 {
+		report("  no supported agent target found on this machine; supported: %s", strings.Join(targets.SupportedNames(), ", "))
+	} else {
+		scope := targets.UserScope(home)
+		res, err := targets.Install(scope, chosen)
+		if err != nil {
+			return err
 		}
+		targets.ReportInstall(out, scope, chosen, res)
+		// A harness no longer chosen loses the framework, as aa uninstall would remove it.
+		if removed := targets.RemoveExcept(scope, res.Plan); len(removed) > 0 {
+			report("  removed the framework from folders no chosen harness reads: %d entries", len(removed))
+		}
+	}
+	for _, t := range unsupported {
+		report("  %s: not installed: %s", t.Name, t.Reason)
+	}
+
+	user.Targets = nil
+	for _, t := range chosen {
+		user.Targets = append(user.Targets, t.ID)
 	}
 	if opts.OrgRepository != "" || opts.Team != "" {
 		if user.Organisation == nil {
@@ -96,6 +104,9 @@ func Run(opts Options, out io.Writer) error {
 		return err
 	}
 	report("  wrote %s", userPath)
+	if len(user.Plugins) > 0 {
+		report("  user-scope plugins: run aa update to reinstall them for the chosen harnesses")
+	}
 	if user.Organisation != nil && user.Organisation.Repository != "" {
 		report("  organisation repository: %s (enterprise and team scopes are read from it when it is a local path)", user.Organisation.Repository)
 	}
@@ -104,11 +115,63 @@ func Run(opts Options, out io.Writer) error {
 	return nil
 }
 
-func contains(list []string, x string) bool {
-	for _, y := range list {
-		if y == x {
-			return true
+// choose settles the harnesses to install into. Named targets win; otherwise every harness
+// detected or already recorded is chosen, and an interactive run offers them as a checklist.
+func choose(opts Options, detected []targets.Spec, recorded []string, out io.Writer) ([]targets.Spec, error) {
+	if len(opts.Targets) > 0 {
+		found, unknown, err := targets.ByID(opts.Targets)
+		if err != nil {
+			return nil, err
+		}
+		if len(unknown) > 0 {
+			return nil, fmt.Errorf("no supported target named %s; run aa setup -targets with ids from: %s", strings.Join(unknown, ", "), supportedIDs())
+		}
+		return found, nil
+	}
+	ticked := map[string]bool{}
+	for _, t := range detected {
+		ticked[t.ID] = true
+	}
+	previous, _, err := targets.ByID(recorded)
+	if err != nil {
+		return nil, err
+	}
+	for _, t := range previous {
+		ticked[t.ID] = true
+	}
+	all, err := targets.All()
+	if err != nil {
+		return nil, err
+	}
+	var supported []targets.Spec
+	for _, t := range all {
+		if t.Supported() {
+			supported = append(supported, t)
 		}
 	}
-	return false
+	if opts.Interactive {
+		found := map[string]bool{}
+		for _, t := range detected {
+			found[t.ID] = true
+		}
+		targets.Checklist("Install into these agent harnesses? Enter numbers to tick or untick, then Enter to continue.", supported, ticked, found, opts.In, out)
+	}
+	var chosen []targets.Spec
+	for _, t := range supported {
+		if ticked[t.ID] {
+			chosen = append(chosen, t)
+		}
+	}
+	return chosen, nil
+}
+
+func supportedIDs() string {
+	all, _ := targets.All()
+	var ids []string
+	for _, t := range all {
+		if t.Supported() {
+			ids = append(ids, t.ID)
+		}
+	}
+	return strings.Join(ids, ", ")
 }

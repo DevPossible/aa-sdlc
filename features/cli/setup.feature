@@ -48,3 +48,38 @@ Feature: aa setup bootstraps the machine
     When I run "aa setup"
     Then the shared guidance sets are installed at user scope with no command
     And every installed skill at user scope points at the guidance sets by their user-scope path
+
+  @F-008-08
+  Scenario: Install into every harness found
+    Given Claude Code, Codex, and Gemini CLI are installed on this machine
+    When I run "aa setup"
+    Then it lists all three as installed at user scope
+    And the skills are written once to the Claude Code skills folder and once to the shared agents skills folder
+    And Gemini CLI gets its commands in its own command format
+    And the user config records all three targets
+
+  @F-008-09
+  Scenario: Choose the harnesses explicitly
+    Given Claude Code and Codex are installed on this machine
+    When I run "aa setup -targets codex"
+    Then only Codex is installed
+    And the user config records only codex
+
+  @F-008-10
+  Scenario: Pick from a checklist
+    Given Claude Code and Codex are installed on this machine
+    When I run "aa setup" interactively and untick Claude Code
+    Then only Codex is installed
+
+  @F-008-11
+  Scenario: A harness that would see a skill twice is named
+    Given Claude Code and Codex are installed on this machine
+    And Cursor is installed on this machine
+    When I run "aa setup"
+    Then it names Cursor as reading the skills from more than one folder
+
+  @F-008-12
+  Scenario: A harness that cannot load skills is named, not installed into
+    Given Aider is installed on this machine
+    When I run "aa setup"
+    Then it says Aider has no skills support and installs nothing for it

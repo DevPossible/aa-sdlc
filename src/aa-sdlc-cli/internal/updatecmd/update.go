@@ -53,19 +53,17 @@ func Run(opts Options, out io.Writer) error {
 	if user == nil {
 		report("  no user config at %s; run aa setup first", userPath)
 	} else {
-		for _, t := range user.Targets {
-			if t != targets.ClaudeCode.ID {
-				continue
-			}
-			before := targets.SnapshotClaudeCode(home)
-			res, err := targets.InstallClaudeCode(home, "~/.claude/skills")
-			if err != nil {
+		chosen, unknown, err := targets.ByID(user.Targets)
+		if err != nil {
+			return err
+		}
+		for _, id := range unknown {
+			report("  user config names target %q, which this package does not support; skipped", id)
+		}
+		if len(chosen) > 0 {
+			if err := refresh(targets.UserScope(home), chosen, out); err != nil {
 				return err
 			}
-			removed := targets.RemoveStaleClaudeCode(home, before, res.Written)
-			added, changed := diff(before, targets.SnapshotClaudeCode(home))
-			report("  user scope (%s): %d added, %d changed, %d removed", targets.ClaudeCode.Name, len(added), len(changed), len(removed))
-			listFiles(out, added, changed, removed)
 		}
 		user.Install = &config.Install{Version: version.Version, Updated: opts.Now().UTC().Format(time.RFC3339)}
 		if err := config.Write(userPath, user, "aa.config.yaml (user scope), written by aa setup and aa update."); err != nil {
@@ -96,22 +94,45 @@ func Run(opts Options, out io.Writer) error {
 		report("  no project config in %s; project scope skipped", dir)
 		return nil
 	}
-	if !isDir(filepath.Join(dir, ".claude")) {
+	scope := targets.ProjectScope(dir)
+	if len(targets.Snapshot(scope)) == 0 {
 		report("  %s has no project-scope install; nothing to update there", dir)
 		return nil
 	}
-	before := targets.SnapshotClaudeCode(dir)
-	res, err := targets.InstallClaudeCode(dir, ".claude/skills")
+	ids := project.Targets
+	if len(ids) == 0 && user != nil {
+		ids = user.Targets
+	}
+	chosen, _, err := targets.ByID(ids)
 	if err != nil {
 		return err
 	}
-	removed := targets.RemoveStaleClaudeCode(dir, before, res.Written)
-	added, changed := diff(before, targets.SnapshotClaudeCode(dir))
-	report("  project scope (%s): %d added, %d changed, %d removed; config, documents, and feature files untouched", targets.ClaudeCode.Name, len(added), len(changed), len(removed))
-	listFiles(out, added, changed, removed)
+	if len(chosen) == 0 {
+		chosen, _ = targets.Detect(home, dir)
+	}
+	if err := refresh(scope, chosen, out); err != nil {
+		return err
+	}
+	report("  config, documents, and feature files untouched")
 	if len(project.Plugins) > 0 {
 		return plugincmd.Update("", plugincmd.Options{Scope: "project", Path: dir, Home: home, UserConfigPath: userPath}, out)
 	}
+	return nil
+}
+
+// refresh reinstalls the package for the harnesses at a scope, removes core files the package or
+// the chosen harnesses no longer need, and reports what changed.
+func refresh(scope targets.Scope, chosen []targets.Spec, out io.Writer) error {
+	before := targets.Snapshot(scope)
+	res, err := targets.Install(scope, chosen)
+	if err != nil {
+		return err
+	}
+	removed := targets.RemoveStale(scope, before, res.Written)
+	added, changed := diff(before, targets.Snapshot(scope))
+	targets.ReportInstall(out, scope, chosen, res)
+	fmt.Fprintf(out, "  %s scope: %d added, %d changed, %d removed\n", scope.Name, len(added), len(changed), len(removed))
+	listFiles(out, added, changed, removed)
 	return nil
 }
 

@@ -19,9 +19,10 @@ remedy.
 
 ## Procedure
 
-1. **Find the install.** Locate the installed content package: in Claude Code, `.claude/skills/`
-   at project scope and `~/.claude/skills/` at user scope; in the aa-sdlc repository itself,
-   `src/aa-sdlc/`. Under it, find `skills/`, `workflow/guidance-sets/`, `requirements/`, and
+1. **Find the install.** Locate the installed content package: the harnesses the project and
+   user configs name under `targets:`, and the skill folders each reads (for example
+   `.claude/skills/` or `.agents/skills/` in the repository, `~/.claude/skills/` or
+   `~/.agents/skills/` at user scope); in the aa-sdlc repository itself, `src/aa-sdlc/`. Under it, find `skills/`, `workflow/guidance-sets/`, `requirements/`, and
    `build-info.json` if present. Record the target, the scope or scopes found, the package
    version and commit, and whether a newer package version is known. If nothing is installed,
    say so and stop after reporting the environment.
