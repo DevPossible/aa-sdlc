@@ -6,7 +6,7 @@ aa:
   step: whatsnext
   guidance_sets: [every-step]
   guidance: [G-04]
-  requires: [R-01, R-02, R-03, R-07, R-40]
+  requires: [R-01, R-02, R-03, R-07, R-40, R-41]
 ---
 
 # /aa-fw-whatsnext
@@ -67,9 +67,10 @@ broken: there is no point choosing the next ticket while the last change broke t
    `/aa-doc-maintain-docs`, naming the pages. If no knowledge base is reachable, say this layer
    was not checked.
 5. **The next ticket.** Read the current iteration in the ticket system (O-03) and take the
-   highest-priority ticket not done. Its state chooses the command: not refined is
-   `/aa-rf-refine-ticket`; refined but without a confirmed plan is `/aa-ip-plan-implementation`;
-   planned is `/aa-dev-implement`; built but not accepted is `/aa-ba-uat`. With no current
+   highest-priority ticket not done. Its life-cycle state (O-26), read through the project config's
+   mapping, chooses the command: New is `/aa-rf-refine-ticket`; Refined is
+   `/aa-ip-plan-implementation`; Planned is `/aa-dev-implement`; In review with its change merged
+   is `/aa-ba-uat`; Accepted is `/aa-rel-prepare-release`. With no current
    iteration, recommend `/aa-pm-plan-iteration`; with an empty backlog, `/aa-pd-prioritise`, or
    `/aa-pd-define-outcome` if there is no outcome to prioritise against.
 6. **Nothing found.** If every layer passes, say so, and recommend `/aa-pm-retrospective` if an
@@ -102,7 +103,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - A gap is major when it breaks a required requirement, an opinion on the default branch, or work already started. Anything smaller is not reported; the command answers one question, what to do next, not what could be better.
 - Take the foundation layer from /aa-fw-health's required-and-unmet findings rather than probing requirements again; health owns requirement checks, and this step owns choosing among them.
 - Recommend the step that closes the gap, named as its command with its arguments, such as /aa-qa-generate-tests with the ticket id. Where no command fits, say plainly what to do.
-- Choose the next ticket from the current iteration in priority order, and let its state choose the command. Unrefined is /aa-rf-refine-ticket; refined without a confirmed plan is /aa-ip-plan-implementation; planned is /aa-dev-implement. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
+- Choose the next ticket from the current iteration in priority order, and let its life-cycle state (O-26) choose the command. New is /aa-rf-refine-ticket; Refined is /aa-ip-plan-implementation; Planned is /aa-dev-implement; In review with its change merged is /aa-ba-uat; Accepted is /aa-rel-prepare-release. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
 - Change nothing. Read the folder, the tickets, and the pages; do not create, edit, commit, transition, or install anything, even to make a check possible.
 - When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.
 

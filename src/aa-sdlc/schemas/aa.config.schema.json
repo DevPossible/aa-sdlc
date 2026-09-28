@@ -23,7 +23,19 @@
             "project": { "type": "string", "minLength": 1, "description": "The one ticket system project or group this repository maps to (O-09)." },
             "url": { "type": "string", "format": "uri" },
             "pattern": { "type": "string", "minLength": 1, "description": "Regular expression for a ticket id (R-08)." },
-            "tag": { "type": "string", "minLength": 1 }
+            "tag": { "type": "string", "minLength": 1 },
+            "kinds": {
+              "type": "object",
+              "description": "The framework's ticket kinds, as the ticket system names them (O-26).",
+              "propertyNames": { "enum": ["epic", "story", "task", "bug", "spike"] },
+              "additionalProperties": { "type": "string", "minLength": 1 }
+            },
+            "states": {
+              "type": "object",
+              "description": "The framework's ticket life cycle, as the ticket system names it (O-26).",
+              "propertyNames": { "enum": ["new", "refined", "planned", "in-progress", "in-review", "accepted", "done"] },
+              "additionalProperties": { "type": "string", "minLength": 1 }
+            }
           }
         },
         "knowledge": {
@@ -31,7 +43,13 @@
           "additionalProperties": false,
           "properties": {
             "space": { "type": "string", "minLength": 1, "description": "The knowledge repository for this project (O-04)." },
-            "url": { "type": "string", "format": "uri" }
+            "url": { "type": "string", "format": "uri" },
+            "sections": {
+              "type": "object",
+              "description": "The knowledge base's six top-level sections, as the space names them (O-27).",
+              "propertyNames": { "enum": ["overview", "requirements", "architecture", "operations", "releases", "guides"] },
+              "additionalProperties": { "type": "string", "minLength": 1 }
+            }
           }
         },
         "branch": {

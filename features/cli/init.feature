@@ -107,3 +107,9 @@ Feature: aa init bootstraps a repository
     Given AGENTS.md already has an AA-SDLC block
     When I run "aa init" again
     Then AGENTS.md has exactly one AA-SDLC block
+
+  @F-006-16
+  Scenario: The ticket life cycle and knowledge base sections are recorded
+    When I run "aa init"
+    Then the project config maps the ticket kinds and life-cycle states, starting from the framework's own names
+    And the project config maps the knowledge base sections, starting from the framework's own names

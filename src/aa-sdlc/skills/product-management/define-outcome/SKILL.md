@@ -5,8 +5,8 @@ aa:
   discipline: product-management
   step: define-outcome
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-16, G-35, G-41]
-  requires: [R-29, R-32]
+  guidance: [G-16, G-35, G-41, G-52]
+  requires: [R-29, R-32, R-41]
 ---
 
 # /aa-pd-define-outcome
@@ -69,6 +69,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
 - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
 - Say what is out of scope in the same place, so refinement does not have to guess.

@@ -5,8 +5,8 @@ aa:
   discipline: implementation-planning
   step: plan-implementation
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-08, G-16, G-23, G-28, G-31, G-32, G-43]
-  requires: [R-05, R-16, R-23, R-27, R-34]
+  guidance: [G-08, G-16, G-23, G-28, G-31, G-32, G-43, G-51]
+  requires: [R-05, R-16, R-23, R-27, R-34, R-41]
 ---
 
 # /aa-ip-plan-implementation
@@ -75,6 +75,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
 - Check the ticket against the repository first. If the feature files or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
 - Plan the tests with the steps. A step with no test is a step you cannot know is done.

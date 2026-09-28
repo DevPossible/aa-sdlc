@@ -5,8 +5,8 @@ aa:
   discipline: technical-analysis
   step: decide
   guidance_sets: [every-step, anchored-step, repository-write]
-  guidance: [G-16, G-41, G-43]
-  requires: [R-03, R-06, R-32, R-34]
+  guidance: [G-16, G-41, G-43, G-53]
+  requires: [R-03, R-06, R-32, R-34, R-42]
 ---
 
 # /aa-ta-decide
@@ -72,6 +72,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
 - Record the losing options with the same care as the winner; the next person will ask about them first.
 - Write it when it happens. A decision reconstructed a month later is a story, not a record.

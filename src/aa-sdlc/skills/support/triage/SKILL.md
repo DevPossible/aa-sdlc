@@ -5,7 +5,8 @@ aa:
   discipline: support
   step: triage
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-16]
+  guidance: [G-16, G-52]
+  requires: [R-41]
 ---
 
 # /aa-sup-triage
@@ -75,6 +76,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Severity is impact, priority is order. Do not let a loud reporter set either.
 - Ask for what is missing once, precisely. A ticket that cannot be reproduced from its content goes back with the exact questions.
 - Check for duplicates before creating. Search by symptom, not by the reporter's title.

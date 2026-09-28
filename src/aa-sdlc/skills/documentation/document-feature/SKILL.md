@@ -5,8 +5,8 @@ aa:
   discipline: documentation
   step: document-feature
   guidance_sets: [every-step, anchored-step, repository-write]
-  guidance: [G-37]
-  requires: [R-03, R-06, R-16, R-30]
+  guidance: [G-37, G-53]
+  requires: [R-03, R-06, R-16, R-30, R-42]
 ---
 
 # /aa-doc-document-feature
@@ -74,6 +74,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Write from the scenarios, verify against the software. The scenarios say what should happen; run the feature to confirm the documentation is describing what does.
 - Document the unhappy path. Users read documentation when something went wrong.
 - Never duplicate a scenario in prose. Link to it, or embed it; two copies drift.

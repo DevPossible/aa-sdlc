@@ -30,7 +30,7 @@ another's truth.
 
 The framework builds on source control, a ticket system, and a knowledge repository, and it
 owns no state of its own because those three already hold it (T-04). Each repository maps to
-exactly one ticket project.
+exactly one ticket project, and every knowledge base has the same structure.
 
 **O-02 All good development uses source control.**
 *The stance:* every project is under source control from its first file, with a remote, and
@@ -85,6 +85,25 @@ recording the mapping anywhere but the project config.
 different products should be split, or should treat the ticket project as the product's and
 link outward.
 *Requirements:* R-02, R-07, R-22. *Guidance:* G-27.
+
+**O-27 The knowledge base has one structure.**
+*The stance:* every project's knowledge base space has the same six top-level sections: Overview
+(the outcome, the roadmap, the glossary), Requirements (one page per feature file, named with its
+feature id), Architecture (the design, and an index of the decision records), Operations
+(environments, runbooks, observability), Releases (one page per release), and Guides (for the
+people who use the software and for the people who build it). The pages explain and index; the
+feature files remain the truth for requirements (T-12) and the decision records the truth for
+decisions (O-18). A superseded page is marked as such and links to what replaced it; it is never
+deleted. The project config maps each section to the space's own page name where they differ.
+*Why:* a person or an agent arriving at the knowledge base knows where to look before reading
+anything; `maintain-docs` and `/aa-fw-whatsnext` can find the page a change should have updated;
+and a superseded page that is kept keeps the history a deleted one loses.
+*Rejected:* a page tree per author; a space organised by team or by sprint; requirements or
+decisions whose only copy is a page; deleting outdated pages; pages that copy what the repository
+already holds.
+*Would change our mind:* a kind of project knowledge that fits none of the six sections in several
+real projects; it would become a seventh section here, not a local folder.
+*Requirements:* R-03, R-42. *Guidance:* G-53.
 
 ---
 
@@ -239,8 +258,9 @@ exception, which is precisely why the exception must be recorded.
 
 ## Tickets
 
-A ticket carries the thinking behind its size, and a ticket that has waited is checked against
-the repository as it is now before work starts on it.
+Every ticket is one of five kinds and moves through one life cycle, moved by the steps that
+produce the evidence. A ticket carries the thinking behind its size, and a ticket that has waited
+is checked against the repository as it is now before work starts on it.
 
 **O-10 A size is grounded in implementation thinking.**
 *The stance:* no unit of work carries a size or an effort estimate that is not backed by
@@ -290,6 +310,29 @@ before every iteration regardless of whether anything it touches changed.
 *Would change our mind:* nothing foreseeable. A repository where nothing merges between
 refinement and start passes the check trivially and pays nothing for it.
 *Requirements:* R-01, R-02, R-05, R-16, R-27. *Guidance:* G-31, G-32.
+
+**O-26 Tickets follow one hierarchy and one life cycle.**
+*The stance:* every ticket is one of five kinds, and every ticket moves through the same seven
+states. An epic is an outcome (`define-outcome`); a story is one behaviour a user can observe,
+with its scenarios in a feature file (`plan-work`); a task is a buildable piece of a story's plan
+(`breakdown-tasks`); a bug is behaviour that contradicts a scenario (`triage`); a spike is a
+time-boxed question (`spike`). The states are New, Refined, Planned, In progress, In review,
+Accepted, and Done, and a ticket moves only when the step that produces the evidence for the new
+state runs and writes that evidence on the ticket: `refine-ticket` makes it Refined,
+`plan-implementation` Planned, `implement` In progress, `finish-branch` In review, `uat`
+Accepted, and `release` Done. The project config maps each kind and state to the name the ticket
+system uses, once, so the framework says what a state means and the tool keeps its own words
+(T-01).
+*Why:* a state that means the same thing in every project can be read by a step, a report, or
+`/aa-fw-whatsnext` without guessing, and a state only a step can set is evidence rather than an
+impression of progress. Five kinds are enough to say whether a ticket is an outcome, a behaviour,
+a piece of work, a defect, or a question, which is all the steps need to know.
+*Rejected:* a workflow per team; states named after who holds the ticket ("with QA"); moving
+tickets by hand to show progress; states no step produces; labels standing in for states;
+renaming the ticket system's own states to match the framework's.
+*Would change our mind:* a step that needs a distinction the seven states cannot express, shown
+in a real project; the state would be added here and mapped, not invented per team.
+*Requirements:* R-02, R-41. *Guidance:* G-51, G-52.
 
 ---
 

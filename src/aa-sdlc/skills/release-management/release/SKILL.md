@@ -5,8 +5,8 @@ aa:
   discipline: release-management
   step: release
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-04, G-13, G-14, G-47]
-  requires: [R-01, R-20, R-38]
+  guidance: [G-04, G-13, G-14, G-47, G-51, G-53]
+  requires: [R-01, R-20, R-38, R-41, R-42]
 ---
 
 # /aa-rel-release
@@ -73,6 +73,8 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-14** Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user.
 - **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Ask before you deploy, every time, unless the user granted this deployment in advance. Production is the irreversible step (G-13).
 - Use the pipeline, not your hands. A deployment done outside the pipeline is unrecorded and unrepeatable.
 - Verify before you announce. The release is not done when the pipeline is green; it is done when the checks pass in production.

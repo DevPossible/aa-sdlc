@@ -5,8 +5,8 @@ aa:
   discipline: technical-analysis
   step: spike
   guidance_sets: [every-step, anchored-step, repository-write]
-  guidance: [G-04, G-23, G-41]
-  requires: [R-32]
+  guidance: [G-04, G-23, G-41, G-52]
+  requires: [R-32, R-41]
 ---
 
 # /aa-ta-spike
@@ -73,6 +73,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Write the question before the code. A spike without a question becomes a prototype without a purpose.
 - Stop at the time box. Report what you have; an unanswered question with evidence is more useful than a late answer.
 - Never let spike code become the implementation by accident. If it is good enough to keep, that is a decision to record and a ticket to implement properly.

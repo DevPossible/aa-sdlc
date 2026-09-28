@@ -23,13 +23,13 @@ artifacts:
     acceptance:
       - The ticket moves to the state the project uses for "in review" or "done", with the merge request linked
 guidance_sets: [every-step, anchored-step, code-change]
-guidance: [G-13, G-14, G-29]
+guidance: [G-13, G-14, G-29, G-51]
 guidance_inline:
   - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
   - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
   - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
   - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
   - Never commit the remaining changes yourself. Stage them, present them, and report that the branch waits on the user's commit (O-17).
-requires: [R-11, R-24]
+requires: [R-11, R-24, R-41]
 tenets: [T-06, T-07]
 opinions: [O-14, O-17, O-19, O-21]

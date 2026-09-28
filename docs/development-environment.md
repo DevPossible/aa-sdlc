@@ -100,6 +100,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-28 | unmet | 14 of the last 15 commits parse against the configured pattern; fea5773 does not | accepted: history is not rewritten; every commit since conforms |
 | R-31 | unmet | 17 commits before 2026-09-22 carry an agent attribution trailer; fea5773 bundles nine concerns | accepted: history is not rewritten; the rule has held since O-17 |
 | R-33 | unmet | no commit on the default branch references a ticket | first ticket-anchored work after the connector is authorised |
+| R-41 | unmet | added 2026-09-27, after this baseline: `aa.config.yaml` has no ticket kind or state mapping, and the ticket project cannot be read to check one (R-02) | `/aa-fw-init` once the connector is authorised; `aa init` writes the default mapping for new projects |
 
 ### Everything else
 
@@ -125,6 +126,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-29 | not applicable | no user interface |
 | R-30 | met where applicable | root scripts and this document; no environments to template, no migrations, no manual operations |
 | R-40 | not applicable | added 2026-09-27, after this baseline: godog executes the `@cli` feature files themselves and the `@agent` and `@health` features are reviewed contracts, so no separate test names their scenario ids (recorded under Test tiers) |
+| R-42 | unmet (recommended) | added 2026-09-27, after this baseline: the knowledge base space cannot be read until the connector is authorised (R-03) |
 | R-34 | not applicable | no architecture document; `architect` has not run |
 | R-36 | not applicable | the only ecosystem is PowerShell modules, which have no manifest or lock file here |
 | R-37 | not applicable | no automated tests exist yet to run twice |

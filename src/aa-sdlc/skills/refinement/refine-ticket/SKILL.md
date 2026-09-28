@@ -5,8 +5,8 @@ aa:
   discipline: refinement
   step: refine-ticket
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-16, G-18, G-28, G-31]
-  requires: [R-16, R-23, R-27]
+  guidance: [G-16, G-18, G-28, G-31, G-51]
+  requires: [R-16, R-23, R-27, R-41]
 ---
 
 # /aa-rf-refine-ticket
@@ -68,6 +68,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
 - Size from the thinking, not the title. Before putting a number on it, write on the ticket what changes, what is unknown, and what could go wrong, at a depth that matches the stakes; a sentence for a small change, a full plan-implementation for a large one (O-10).
 - A ticket with an unanswered question that changes the scope is not ready, however small it looks.

@@ -5,8 +5,8 @@ aa:
   discipline: technical-analysis
   step: architect
   guidance_sets: [every-step, anchored-step, repository-write]
-  guidance: [G-16, G-23, G-41, G-43]
-  requires: [R-03, R-06, R-32, R-34]
+  guidance: [G-16, G-23, G-41, G-43, G-53]
+  requires: [R-03, R-06, R-32, R-34, R-42]
 ---
 
 # /aa-ta-architect
@@ -84,6 +84,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
 - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-41).
 - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.

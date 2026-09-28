@@ -59,11 +59,11 @@ as feature files under [`features/`](../features/).
 The framework is opinionated, and its **opinions** are stated up front in
 [opinions.md](opinions.md), in seven groups with the ids listed there and in the README. The
 three systems: source control, a ticket system, and a knowledge repository hold the state, one
-ticket project per repository. The shape of a repository: one layout, four root scripts, three
+ticket project per repository, one structure for every knowledge base. The shape of a repository: one layout, four root scripts, three
 test tiers, everything needed to build and operate it versioned. Requirements: Gherkin is the
 source of truth, goals before mock-ups, the simplest design that meets the scenarios. Tickets:
-a size is grounded in implementation thinking, a waiting ticket is re-checked against the
-repository. Commits and history: Conventional Commits, small, made by the user, traceable, with
+five kinds and one life cycle moved by the steps, a size is grounded in implementation thinking,
+a waiting ticket is re-checked against the repository. Commits and history: Conventional Commits, small, made by the user, traceable, with
 dependencies changed through the package manager. The delivery path: every pipeline step runs
 locally, end-to-end tests run against containers, one artifact is promoted, environment
 settings live apart from functional ones. Practice: Development proves and Testing goes
@@ -525,6 +525,8 @@ row it supersedes; the superseded row gains only a "Superseded by" note.
 | 58 | 2026-09-27 | Install into every harness the user picks, from one table of targets as data: skills into the fewest folders that reach every chosen target, command files only where a target needs them, a marked block in the project instruction file, harness hooks opt-in (decision record 0014) | Most harnesses now read `SKILL.md` skills, many from `.agents/skills`; per-harness Go adapters would differ mostly in paths, and writing every folder shows dual-reading harnesses each skill twice |
 | 59 | 2026-09-27 | One subagent per discipline, generated from the workflow data and guidance sets and rendered per harness; each skill hands a named part to it and does that part itself where no subagent exists (decision record 0015) | Independence between disciplines (review, testing, security) is worth a separate context; generating the agents keeps them from drifting from the guidance, and the inline fallback keeps every step complete on every harness |
 | 60 | 2026-09-27 | The CLI gains `aa uninstall`, the reverse of setup and init: the user picks the harnesses (by `-targets`, `-all`, or a checklist), the remaining ones are reinstalled first, and only the framework's files and the instruction-file block are removed; `aa setup` with fewer harnesses removes the framework from the ones dropped (decision record 0014) | Installing into many harnesses needs a way back that is as selective as the way in, and that never leaves a remaining harness without skills because it shared a folder with one removed |
+| 61 | 2026-09-27 | Opinion O-26: tickets are one of five kinds (epic, story, task, bug, spike) and move through one life cycle (New, Refined, Planned, In progress, In review, Accepted, Done), each move made by the step that produces its evidence; the project config maps kinds and states to the ticket system's names (R-41, G-51, G-52) | A state that means the same everywhere can be read by steps and reports without guessing, and a state only a step can set is evidence, not an impression; the mapping keeps the tool's own words (T-01) |
+| 62 | 2026-09-27 | Opinion O-27: every knowledge base has six top-level sections (Overview, Requirements, Architecture, Operations, Releases, Guides); pages explain and index while feature files and decision records stay the truth; superseded pages are marked and linked, never deleted (R-42, G-53) | Anyone arriving knows where to look; maintain-docs and whatsnext can find what a change should have updated; kept pages keep history |
 
 ## 12. Open questions
 

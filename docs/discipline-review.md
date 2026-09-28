@@ -131,7 +131,7 @@ Run health, then work through the unmet requirements that need judgement, fixing
 - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
 - The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01).
 
-*Requires: R-04, R-07, R-14, R-15 | Tenets: T-06, T-11*
+*Requires: R-04, R-07, R-14, R-15, R-41, R-42 | Tenets: T-06, T-11*
 
 ### `/aa-fw-whatsnext`
 
@@ -169,11 +169,11 @@ Review the working folder, and the ticket system and knowledge base it links to,
 - A gap is major when it breaks a required requirement, an opinion on the default branch, or work already started. Anything smaller is not reported; the command answers one question, what to do next, not what could be better.
 - Take the foundation layer from /aa-fw-health's required-and-unmet findings rather than probing requirements again; health owns requirement checks, and this step owns choosing among them.
 - Recommend the step that closes the gap, named as its command with its arguments, such as /aa-qa-generate-tests with the ticket id. Where no command fits, say plainly what to do.
-- Choose the next ticket from the current iteration in priority order, and let its state choose the command. Unrefined is /aa-rf-refine-ticket; refined without a confirmed plan is /aa-ip-plan-implementation; planned is /aa-dev-implement. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
+- Choose the next ticket from the current iteration in priority order, and let its life-cycle state (O-26) choose the command. New is /aa-rf-refine-ticket; Refined is /aa-ip-plan-implementation; Planned is /aa-dev-implement; In review with its change merged is /aa-ba-uat; Accepted is /aa-rel-prepare-release. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
 - Change nothing. Read the folder, the tickets, and the pages; do not create, edit, commit, transition, or install anything, even to make a check possible.
 - When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.
 
-*Requires: R-04, R-01, R-02, R-03, R-07, R-40 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19*
+*Requires: R-04, R-01, R-02, R-03, R-07, R-40, R-41 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19*
 
 ### `/aa-fw-extend`
 
@@ -490,11 +490,12 @@ Write down what an initiative is meant to achieve and how we will know. Produces
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
 - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
 - Say what is out of scope in the same place, so refinement does not have to guess.
 
-*Requires: R-04, R-02, R-07, R-22, R-29, R-32 | Tenets: T-04, T-07 | Opinions: O-15, O-18*
+*Requires: R-04, R-02, R-07, R-22, R-29, R-32, R-41 | Tenets: T-04, T-07 | Opinions: O-15, O-18*
 
 ### `/aa-pd-prioritise`
 
@@ -705,11 +706,12 @@ Close the gaps. Turn draft scenarios into complete, unambiguous, testable ones; 
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-49** Give every feature a stable id tag (@F-nnn) and every scenario one derived from it (@F-nnn-nn), assigned once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
 - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.
 - Trace every change. When a scenario changes, the ticket's acceptance criteria and the page follow (T-12); never edit the ticket first.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-16, R-29 | Tenets: T-07, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.2*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-16, R-29, R-42 | Tenets: T-07, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.2*
 
 ### `/aa-ba-uat`
 
@@ -744,11 +746,12 @@ Confirm with the people who asked for it that what was built is what they meant.
   - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
   - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature file.
 - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
 - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
 
-*Requires: R-04, R-02, R-07, R-22, R-16, R-17 | Tenets: T-06, T-07, T-12 | Methodology: phase 5 step 5.2*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-17, R-41 | Tenets: T-06, T-07, T-12 | Methodology: phase 5 step 5.2*
 
 ## 3. UX Design
 
@@ -950,11 +953,12 @@ Decide the shape of the system for an epic or initiative: components, boundaries
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
 - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-41).
 - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-32, R-34 | Tenets: T-01, T-04 | Opinions: O-04, O-18, O-20 | Methodology: phase 1 step 1.4*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-32, R-34, R-42 | Tenets: T-01, T-04 | Opinions: O-04, O-18, O-20 | Methodology: phase 1 step 1.4*
 
 ### `/aa-ta-decide`
 
@@ -994,11 +998,12 @@ Record one significant technical decision: the context, the options, the choice,
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
 - Record the losing options with the same care as the winner; the next person will ask about them first.
 - Write it when it happens. A decision reconstructed a month later is a story, not a record.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-32, R-34 | Tenets: T-04 | Opinions: O-04, O-18, O-20*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-32, R-34, R-42 | Tenets: T-04 | Opinions: O-04, O-18, O-20*
 
 ### `/aa-ta-spike`
 
@@ -1039,11 +1044,12 @@ Resolve a technical unknown with a time-boxed investigation that produces an ans
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Write the question before the code. A spike without a question becomes a prototype without a purpose.
 - Stop at the time box. Report what you have; an unanswered question with evidence is more useful than a late answer.
 - Never let spike code become the implementation by accident. If it is good enough to keep, that is a decision to record and a ticket to implement properly.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-32 | Tenets: T-07 | Opinions: O-18*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-32, R-41 | Tenets: T-07 | Opinions: O-18*
 
 ## 5. Security
 
@@ -1290,11 +1296,12 @@ Turn an epic and its feature files into stories and tasks in the ticket system, 
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Split by scenario, not by layer. A story that delivers one scenario end to end can be tested; a "backend story" and a "frontend story" cannot until both are done.
 - Keep the epic's outcome on every story. A story that cannot say which outcome it serves is either mis-filed or unnecessary.
 - Do not invent requirements while splitting. A gap found here goes back to Business Analysis as a question, not forward as a guess.
 
-*Requires: R-04, R-02, R-07, R-22, R-16, R-23 | Tenets: T-04, T-08, T-12*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-23, R-41 | Tenets: T-04, T-08, T-12*
 
 ### `/aa-rf-refine-ticket`
 
@@ -1332,11 +1339,12 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
 - Size from the thinking, not the title. Before putting a number on it, write on the ticket what changes, what is unknown, and what could go wrong, at a depth that matches the stakes; a sentence for a small change, a full plan-implementation for a large one (O-10).
 - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
 
-*Requires: R-04, R-02, R-07, R-22, R-16, R-23, R-27 | Tenets: T-04, T-07 | Opinions: O-10, O-13*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-23, R-27, R-41 | Tenets: T-04, T-07 | Opinions: O-10, O-13*
 
 ## 7. Project Management
 
@@ -1565,6 +1573,7 @@ Before building a ticket, write down how: which files and components change, in 
 - **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
 - Check the ticket against the repository first. If the feature files or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
 - Plan the tests with the steps. A step with no test is a step you cannot know is done.
@@ -1573,7 +1582,7 @@ Before building a ticket, write down how: which files and components change, in 
 - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
 - Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
 
-*Requires: R-04, R-02, R-07, R-22, R-05, R-16, R-23, R-27, R-34 | Tenets: T-06, T-07 | Opinions: O-10, O-13, O-20*
+*Requires: R-04, R-02, R-07, R-22, R-05, R-16, R-23, R-27, R-34, R-41 | Tenets: T-06, T-07 | Opinions: O-10, O-13, O-20*
 
 ### `/aa-ip-breakdown-tasks`
 
@@ -1605,10 +1614,11 @@ When a confirmed plan is too large to build as one change, split it into tasks o
   - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
   - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - A task is done when its test passes and its change is committed, not when its code exists.
 - Keep tasks at a size where the first commit is an hour away, not a day.
 
-*Requires: R-04, R-02, R-07, R-22 | Tenets: T-07*
+*Requires: R-04, R-02, R-07, R-22, R-41 | Tenets: T-07*
 
 ## 9. Development
 
@@ -1772,6 +1782,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - **G-49** Give every feature a stable id tag (@F-nnn) and every scenario one derived from it (@F-nnn-nn), assigned once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
 - Control what varies. Inject or freeze time, seed randomness, own the test data, and fake or containerise external dependencies; a test with a sleep or a live call in it is not finished (O-23).
@@ -1782,7 +1793,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16).
 - Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-26, R-27, R-34, R-39, R-13 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-26, R-27, R-34, R-39, R-13, R-41 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1941,13 +1952,14 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-14** Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user.
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
 - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
 - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
 - Never commit the remaining changes yourself. Stage them, present them, and report that the branch waits on the user's commit (O-17).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-24 | Tenets: T-06, T-07 | Opinions: O-14, O-17, O-19, O-21*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-24, R-41 | Tenets: T-06, T-07 | Opinions: O-14, O-17, O-19, O-21*
 
 ### `/aa-dev-optimize`
 
@@ -2336,11 +2348,12 @@ Write or update the user-facing and developer-facing documentation for a ticket,
   - **G-40** Never commit unless the user asked for that commit. Stage the change, write the message, present the staged diff summary and the message, and stop; a request to implement, fix, finish, or run a step is not a request to commit, and the commit is made under the user's identity with no agent attribution.
   - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Write from the scenarios, verify against the software. The scenarios say what should happen; run the feature to confirm the documentation is describing what does.
 - Document the unhappy path. Users read documentation when something went wrong.
 - Never duplicate a scenario in prose. Link to it, or embed it; two copies drift.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-16, R-30 | Tenets: T-12, T-13 | Opinions: O-16*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-16, R-30, R-42 | Tenets: T-12, T-13 | Opinions: O-16*
 
 ### `/aa-doc-maintain-docs`
 
@@ -2381,11 +2394,12 @@ Audit the documentation and knowledge base for drift from the feature files and 
   - **G-42** Before making a change, name what it is for: the ticket, the scenario it satisfies, or the decision record or page that explains it, and put that reference where the change lives: the branch, the commit footer, the merge request, and the artifact. A change that cannot name its purpose is a ticket to create first or work not to do; in review, a hunk that traces to nothing is a finding.
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Start from the feature files and walk outward. They are the truth; every page and document is checked against them, never the reverse.
 - Delete confidently. Documentation for something that no longer exists is worse than none; remove it and say so in the report.
 - A contradiction between a page and a scenario is a conflict to surface, not a page to quietly fix (T-12).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-16, R-30 | Tenets: T-12 | Opinions: O-16 | Methodology: phase 6 step 6.5*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-03, R-06, R-16, R-30, R-42 | Tenets: T-12 | Opinions: O-16 | Methodology: phase 6 step 6.5*
 
 ## 12. Release Management
 
@@ -2504,12 +2518,14 @@ Deploy a prepared release to production using the pipeline Operations provides, 
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-14** Never use a bypass flag on a hook, check, or protected branch. If a gate blocks, fix the cause or tell the user.
 - **G-47** Build the release artifact once, from one commit, give it an immutable identity, and promote that same identity through every environment; supply environment configuration at deploy time from the committed templates (O-16), never by rebuilding. Record the identity on the release, roll back to a previous identity rather than a rebuilt tag, and verify in each environment that the running identity is the one deployed.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Ask before you deploy, every time, unless the user granted this deployment in advance. Production is the irreversible step (G-13).
 - Use the pipeline, not your hands. A deployment done outside the pipeline is unrecorded and unrepeatable.
 - Verify before you announce. The release is not done when the pipeline is green; it is done when the checks pass in production.
 - If verification fails, the default is rollback, not investigation in production.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-20, R-38 | Tenets: T-06, T-07 | Opinions: O-24 | Methodology: phase 4 step 4.3*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-20, R-38, R-41, R-42 | Tenets: T-06, T-07 | Opinions: O-24 | Methodology: phase 4 step 4.3*
 
 ### `/aa-rel-rollback`
 
@@ -2864,11 +2880,12 @@ Take an incoming incident, defect report, or request and turn it into a ticket w
   - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
   - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Severity is impact, priority is order. Do not let a loud reporter set either.
 - Ask for what is missing once, precisely. A ticket that cannot be reproduced from its content goes back with the exact questions.
 - Check for duplicates before creating. Search by symptom, not by the reporter's title.
 
-*Requires: R-04, R-02, R-07, R-22 | Tenets: T-04, T-13 | Methodology: phase 6 step 6.1*
+*Requires: R-04, R-02, R-07, R-22, R-41 | Tenets: T-04, T-13 | Methodology: phase 6 step 6.1*
 
 ### `/aa-sup-respond-incident`
 

@@ -17,11 +17,11 @@ artifacts:
       - Names the success metric, its current value, and the target
       - Names who benefits and what they can do afterwards that they cannot do now
 guidance_sets: [every-step, anchored-step]
-guidance: [G-16, G-35, G-41]
+guidance: [G-16, G-35, G-41, G-52]
 guidance_inline:
   - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
   - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
   - Say what is out of scope in the same place, so refinement does not have to guess.
-requires: [R-29, R-32]
+requires: [R-29, R-32, R-41]
 tenets: [T-04, T-07]
 opinions: [O-15, O-18]

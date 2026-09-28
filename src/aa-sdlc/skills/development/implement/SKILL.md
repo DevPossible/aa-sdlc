@@ -5,8 +5,8 @@ aa:
   discipline: development
   step: implement
   guidance_sets: [every-step, anchored-step, code-change, test-writing]
-  guidance: [G-05, G-17, G-20, G-30, G-32, G-43, G-48, G-49]
-  requires: [R-26, R-27, R-34, R-39, R-13]
+  guidance: [G-05, G-17, G-20, G-30, G-32, G-43, G-48, G-49, G-51]
+  requires: [R-26, R-27, R-34, R-39, R-13, R-41]
 ---
 
 # /aa-dev-implement
@@ -87,6 +87,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - **G-49** Give every feature a stable id tag (@F-nnn) and every scenario one derived from it (@F-nnn-nn), assigned once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
+- **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
 - Control what varies. Inject or freeze time, seed randomness, own the test data, and fake or containerise external dependencies; a test with a sleep or a live call in it is not finished (O-23).

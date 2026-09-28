@@ -18,10 +18,10 @@ artifacts:
       - Every story can be finished in one iteration by one person or agent
       - Dependencies between stories are recorded as links, not prose
 guidance_sets: [every-step, anchored-step]
-guidance: [G-18, G-19, G-28]
+guidance: [G-18, G-19, G-28, G-52]
 guidance_inline:
   - Split by scenario, not by layer. A story that delivers one scenario end to end can be tested; a "backend story" and a "frontend story" cannot until both are done.
   - Keep the epic's outcome on every story. A story that cannot say which outcome it serves is either mis-filed or unnecessary.
   - Do not invent requirements while splitting. A gap found here goes back to Business Analysis as a question, not forward as a guess.
-requires: [R-16, R-23]
+requires: [R-16, R-23, R-41]
 tenets: [T-04, T-08, T-12]

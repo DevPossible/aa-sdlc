@@ -5,7 +5,8 @@ aa:
   discipline: implementation-planning
   step: breakdown-tasks
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-08]
+  guidance: [G-08, G-52]
+  requires: [R-41]
 ---
 
 # /aa-ip-breakdown-tasks
@@ -64,6 +65,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-08** Before any multi-step change, write the plan and get it confirmed; one concern per commit and one ticket per branch is G-39.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - A task is done when its test passes and its change is committed, not when its code exists.
 - Keep tasks at a size where the first commit is an hour away, not a day.
 

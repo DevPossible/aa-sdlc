@@ -6,7 +6,7 @@ aa:
   step: init
   guidance_sets: [every-step]
   guidance: [G-13, G-50]
-  requires: [R-07, R-14, R-15]
+  requires: [R-07, R-14, R-15, R-41, R-42]
 ---
 
 # /aa-fw-init
@@ -46,18 +46,23 @@ down as the first proposals (config, folders, root script stubs), with consent.
    one from a published baseline (G-50). If they choose nothing, record that no analyser is
    known for the language in the development environment configuration so health reports it as
    not applicable (O-21).
-5. **For a technology with no skill in scope**, name the technology and list the tech-stack
+5. **Match the ticket life cycle and the knowledge base to the framework** (O-26, O-27). Read
+   the ticket project's issue types and workflow states and propose how each framework kind and
+   state maps to them (R-41), for the user to confirm; record the mapping in the project config.
+   Read the knowledge base space's top-level pages and offer to create any of the six sections
+   that is missing, or to map it to an existing page (R-42); create nothing without consent.
+6. **For a technology with no skill in scope**, name the technology and list the tech-stack
    plugins that would cover it; the user chooses (R-13).
-6. **Map before you create.** If the repository already has an equivalent of a conventional
+7. **Map before you create.** If the repository already has an equivalent of a conventional
    folder or script under another name, propose the mapping in the project config rather than a
    second copy (O-05).
-7. **Leave stubs honest.** A root script stub says in its first lines exactly what it must do
+8. **Leave stubs honest.** A root script stub says in its first lines exactly what it must do
    when filled in, and exits non-zero until it is.
-8. **List what cannot be fixed here** with the requirement, what depends on it, and the remedy
+9. **List what cannot be fixed here** with the requirement, what depends on it, and the remedy
    the user must perform outside the agent. Do not attempt those.
-9. **Run `/aa-fw-health` again** and report what changed and what remains, requirement by
+10. **Run `/aa-fw-health` again** and report what changed and what remains, requirement by
    requirement.
-10. **Stage and present.** Stage every file you created or changed as one change set and present
+11. **Stage and present.** Stage every file you created or changed as one change set and present
     the summary with a Conventional Commit message such as `chore(aa): bootstrap the project`.
     Commit only if the user asked for the commit (O-17, G-40). No attribution trailers.
 

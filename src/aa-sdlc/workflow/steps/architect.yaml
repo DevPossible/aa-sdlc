@@ -27,11 +27,11 @@ artifacts:
       - Every technology choice has a decision record
       - Constraints imposed on Development and Operations are explicit
 guidance_sets: [every-step, anchored-step, repository-write]
-guidance: [G-16, G-23, G-41, G-43]
+guidance: [G-16, G-23, G-41, G-43, G-53]
 guidance_inline:
   - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
   - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-41).
   - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.
-requires: [R-03, R-06, R-32, R-34]
+requires: [R-03, R-06, R-32, R-34, R-42]
 tenets: [T-01, T-04]
 opinions: [O-04, O-18, O-20]

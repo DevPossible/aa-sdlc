@@ -161,9 +161,30 @@ conventions:
     url: https://tickets.example.com/projects/ABC   # where it lives; the agent finds a connector for it (T-05)
     pattern: "[A-Z]+-\\d+"          # how a ticket id looks; used in tags, branches, commits
     tag: "@{id}"                    # how a scenario is tagged with its ticket
+    kinds:                          # the framework's ticket kinds, as the ticket system names them (O-26)
+      epic: Epic
+      story: Story
+      task: Task
+      bug: Bug
+      spike: Spike
+    states:                         # the framework's life cycle, as the ticket system names it (O-26)
+      new: To Do
+      refined: Ready for dev
+      planned: Planned
+      in-progress: In Progress
+      in-review: In Review
+      accepted: Accepted
+      done: Done
   knowledge:
     space: "ABC"                    # the knowledge repository for this project (O-04)
     url: https://wiki.example.com/spaces/ABC
+    sections:                       # the six top-level sections, as the space names them (O-27)
+      overview: Overview
+      requirements: Requirements
+      architecture: Architecture
+      operations: Operations
+      releases: Releases
+      guides: Guides
   branch:
     pattern: "{type}/{id}-{slug}"
   commit:

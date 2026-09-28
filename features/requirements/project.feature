@@ -461,3 +461,31 @@ Feature: Project requirements
     When "/aa-fw-health" probes R-40
     Then those scenarios are reported as not applicable, citing the configuration
     And the remaining scenarios are counted as usual
+
+  @R-41 @required @O-26 @F-065-60
+  Scenario: The ticket kinds and states are mapped to the ticket system
+    Given the project config maps every ticket kind and life-cycle state
+    And reading the ticket project finds each mapped issue type and workflow state
+    When "/aa-fw-health" probes R-41
+    Then R-41 is reported as met
+
+  @R-41 @required @O-26 @F-065-61
+  Scenario: A mapped state does not exist in the ticket system
+    Given the project config maps the state In review to a name the ticket project's workflow does not have
+    When "/aa-fw-health" probes R-41
+    Then R-41 is reported as unmet
+    And the report names the state and the missing name
+    And the remedy is "/aa-fw-init", which matches the mapping to the ticket system with the user
+
+  @R-42 @recommended @O-27 @F-065-62
+  Scenario: The knowledge base has the six sections
+    Given the project's knowledge base space has a top-level page for each section, by its own name or its mapped name
+    When "/aa-fw-health" probes R-42
+    Then R-42 is reported as met
+
+  @R-42 @recommended @O-27 @F-065-63
+  Scenario: A section is missing from the knowledge base
+    Given the project's knowledge base space has no Operations section under any mapped name
+    When "/aa-fw-health" probes R-42
+    Then R-42 is reported as unmet
+    And the remedy is "/aa-fw-init", which offers to create the missing sections

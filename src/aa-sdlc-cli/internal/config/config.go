@@ -41,12 +41,18 @@ type Ticket struct {
 	URL     string `yaml:"url,omitempty"`
 	Pattern string `yaml:"pattern,omitempty"`
 	Tag     string `yaml:"tag,omitempty"`
+	// Kinds and States map the framework's ticket kinds and life cycle to the ticket system's
+	// own names (O-26, R-41).
+	Kinds  map[string]string `yaml:"kinds,omitempty"`
+	States map[string]string `yaml:"states,omitempty"`
 }
 
 // Knowledge names the knowledge repository (O-04).
 type Knowledge struct {
 	Space string `yaml:"space,omitempty"`
 	URL   string `yaml:"url,omitempty"`
+	// Sections maps the six top-level sections to the space's own page names (O-27, R-42).
+	Sections map[string]string `yaml:"sections,omitempty"`
 }
 
 // Branch is the branch naming pattern.
@@ -128,7 +134,13 @@ func Defaults() Config {
 	return Config{
 		Version: 1,
 		Conventions: Conventions{
-			Ticket: Ticket{Pattern: `[A-Z]+-\d+`, Tag: "@{id}"},
+			Ticket: Ticket{Pattern: `[A-Z]+-\d+`, Tag: "@{id}",
+				Kinds:  map[string]string{"epic": "Epic", "story": "Story", "task": "Task", "bug": "Bug", "spike": "Spike"},
+				States: map[string]string{"new": "New", "refined": "Refined", "planned": "Planned", "in-progress": "In progress", "in-review": "In review", "accepted": "Accepted", "done": "Done"},
+			},
+			Knowledge: Knowledge{
+				Sections: map[string]string{"overview": "Overview", "requirements": "Requirements", "architecture": "Architecture", "operations": "Operations", "releases": "Releases", "guides": "Guides"},
+			},
 			Branch: Branch{Pattern: "{type}/{id}-{slug}"},
 			Commit: Commit{Pattern: "{type}({scope}): {subject}\n\n{id}", Types: append([]string(nil), DefaultCommitTypes...)},
 		},
@@ -245,6 +257,9 @@ func mergeConventions(a, b Conventions) Conventions {
 	a.Ticket.Tag = pick(a.Ticket.Tag, b.Ticket.Tag)
 	a.Knowledge.Space = pick(a.Knowledge.Space, b.Knowledge.Space)
 	a.Knowledge.URL = pick(a.Knowledge.URL, b.Knowledge.URL)
+	a.Ticket.Kinds = mergeMap(a.Ticket.Kinds, b.Ticket.Kinds)
+	a.Ticket.States = mergeMap(a.Ticket.States, b.Ticket.States)
+	a.Knowledge.Sections = mergeMap(a.Knowledge.Sections, b.Knowledge.Sections)
 	a.Branch.Pattern = pick(a.Branch.Pattern, b.Branch.Pattern)
 	a.Commit.Pattern = pick(a.Commit.Pattern, b.Commit.Pattern)
 	if len(b.Commit.Types) > 0 {
@@ -316,6 +331,23 @@ func union(a, b []string) []string {
 	for _, x := range b {
 		if x != "" && !contains(out, x) {
 			out = append(out, x)
+		}
+	}
+	return out
+}
+
+// mergeMap merges per key: a later scope's non-empty name replaces an earlier one.
+func mergeMap(a, b map[string]string) map[string]string {
+	if len(b) == 0 {
+		return a
+	}
+	out := map[string]string{}
+	for k, v := range a {
+		out[k] = v
+	}
+	for k, v := range b {
+		if v != "" {
+			out[k] = v
 		}
 	}
 	return out

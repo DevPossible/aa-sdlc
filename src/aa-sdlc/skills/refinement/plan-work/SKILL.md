@@ -5,8 +5,8 @@ aa:
   discipline: refinement
   step: plan-work
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-18, G-19, G-28]
-  requires: [R-16, R-23]
+  guidance: [G-18, G-19, G-28, G-52]
+  requires: [R-16, R-23, R-41]
 ---
 
 # /aa-rf-plan-work
@@ -77,6 +77,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Split by scenario, not by layer. A story that delivers one scenario end to end can be tested; a "backend story" and a "frontend story" cannot until both are done.
 - Keep the epic's outcome on every story. A story that cannot say which outcome it serves is either mis-filed or unnecessary.
 - Do not invent requirements while splitting. A gap found here goes back to Business Analysis as a question, not forward as a guess.

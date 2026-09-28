@@ -83,10 +83,11 @@ Feature: /aa-fw-whatsnext names the one thing to do next
 
     Examples:
       | state                            | command                    |
-      | not refined                      | /aa-rf-refine-ticket       |
-      | refined without a confirmed plan | /aa-ip-plan-implementation |
-      | planned                          | /aa-dev-implement          |
-      | built but not accepted           | /aa-ba-uat                 |
+      | New                              | /aa-rf-refine-ticket       |
+      | Refined                          | /aa-ip-plan-implementation |
+      | Planned                          | /aa-dev-implement          |
+      | In review, with its change merged | /aa-ba-uat                |
+      | Accepted                         | /aa-rel-prepare-release    |
 
   @F-045-10
   Scenario: No iteration and no backlog

@@ -159,6 +159,22 @@ func registerHarnessSteps(sc *godog.ScenarioContext, w *world) {
 		return nil
 	})
 
+	// The ticket life cycle and knowledge base sections (O-26, O-27)
+	sc.Step(`^the project config maps the ticket kinds and life-cycle states, starting from the framework's own names$`, func() error {
+		for _, x := range []string{"kinds:", "story: Story", "states:", "in-progress: In progress"} {
+			if err := w.configContains(x); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	sc.Step(`^the project config maps the knowledge base sections, starting from the framework's own names$`, func() error {
+		if err := w.configContains("sections:"); err != nil {
+			return err
+		}
+		return w.configContains("operations: Operations")
+	})
+
 	// Uninstall
 	setUp := func(names ...string) error {
 		if err := install(names...); err != nil {

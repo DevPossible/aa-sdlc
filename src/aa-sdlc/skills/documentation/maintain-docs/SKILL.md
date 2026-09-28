@@ -5,8 +5,8 @@ aa:
   discipline: documentation
   step: maintain-docs
   guidance_sets: [every-step, anchored-step, repository-write]
-  guidance: [G-18, G-37]
-  requires: [R-03, R-06, R-16, R-30]
+  guidance: [G-18, G-37, G-53]
+  requires: [R-03, R-06, R-16, R-30, R-42]
 ---
 
 # /aa-doc-maintain-docs
@@ -77,6 +77,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 - **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
 - **G-37** Commit everything needed to build, deploy, and operate the software with the change that needs it: configuration templates, migrations, scripts, pipeline, infrastructure, container, and alert definitions, runbooks, and the development environment configuration. If a fresh clone plus the documented secrets could not build, deploy, and run the system after your change, something is missing from the repository; find it and commit it.
+- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Start from the feature files and walk outward. They are the truth; every page and document is checked against them, never the reverse.
 - Delete confidently. Documentation for something that no longer exists is worse than none; remove it and say so in the report.
 - A contradiction between a page and a scenario is a conflict to surface, not a page to quietly fix (T-12).

@@ -144,3 +144,22 @@ func TestMerge_LaterScopeRecordsThePluginSource(t *testing.T) {
 		t.Errorf("want one k6 entry with the later scope's source, got %v", got.Plugins)
 	}
 }
+
+func TestMerge_TicketStatesMergePerKey(t *testing.T) {
+	team := &Config{Version: 1, Conventions: Conventions{Ticket: Ticket{States: map[string]string{"new": "To Do", "done": "Closed"}}}}
+	project := &Config{Version: 1, Conventions: Conventions{Ticket: Ticket{States: map[string]string{"done": "Done"}}}}
+	got, err := Merge(team, project)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got.Conventions.Ticket.States["new"] != "To Do" || got.Conventions.Ticket.States["done"] != "Done" {
+		t.Errorf("want per-key merge with the later scope winning, got %v", got.Conventions.Ticket.States)
+	}
+}
+
+func TestDefaults_MapTheLifeCycleAndSections(t *testing.T) {
+	d := Defaults()
+	if len(d.Conventions.Ticket.Kinds) != 5 || len(d.Conventions.Ticket.States) != 7 || len(d.Conventions.Knowledge.Sections) != 6 {
+		t.Errorf("defaults: kinds %v, states %v, sections %v", d.Conventions.Ticket.Kinds, d.Conventions.Ticket.States, d.Conventions.Knowledge.Sections)
+	}
+}
