@@ -378,6 +378,11 @@ $opinionsHtml = $banner + $nl + "<script type=`"application/json`" id=`"opinions
 $formatNames = @{ 'markdown-arguments' = 'Markdown commands'; 'gemini-toml' = 'TOML commands'; 'markdown-braces' = 'Markdown commands' }
 $rows = [System.Text.StringBuilder]::new()
 [void]$rows.Append($banner + $nl)
+# closed by default, the summary naming the first five harnesses so a reader knows what is inside
+$firstFive = Esc ((@($supportedHarnesses) | Select-Object -First 5 | ForEach-Object { $_.name }) -join ', ')
+$moreCount = $supportedHarnesses.Count - 5
+[void]$rows.Append('<details class="harness-details">' + $nl)
+[void]$rows.Append("<summary><span class=`"harness-summary-names`">$firstFive, and $moreCount more</span> <span class=`"harness-summary-hint`">Show where each installs, its commands, and its subagents</span></summary>" + $nl)
 [void]$rows.Append('<div class="table-wrapper">' + $nl)
 [void]$rows.Append('    <table class="styled-table harness-table">' + $nl)
 [void]$rows.Append('        <thead>' + $nl)
@@ -397,7 +402,8 @@ foreach ($h in $harnessTable) {
 }
 [void]$rows.Append('        </tbody>' + $nl)
 [void]$rows.Append('    </table>' + $nl)
-[void]$rows.Append('</div>')
+[void]$rows.Append('</div>' + $nl)
+[void]$rows.Append('</details>')
 $harnessHtml = $rows.ToString()
 
 function Set-Region([string]$html, [string]$name, [string]$body) {
