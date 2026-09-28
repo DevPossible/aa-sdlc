@@ -8,7 +8,7 @@
     project under src/. The integration and e2e tiers run the Pester tests in tests/integration
     and tests/e2e. A tier with nothing to run passes and says so.
 .PARAMETER Tier
-    Which tier to run: unit, integration, e2e, or all (the default).
+    Which tier to run: unit, integration, e2e, or all (the default); harness is opt-in (needs Docker).
 .PARAMETER Filter
     Optional Pester full-name filter (wildcards allowed) applied to every tier that runs Pester.
 .EXAMPLE
@@ -19,7 +19,7 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [ValidateSet('all', 'unit', 'integration', 'e2e')]
+    [ValidateSet('all', 'unit', 'integration', 'e2e', 'harness')]
     [string]$Tier = 'all',
 
     [Parameter()]
@@ -108,5 +108,30 @@ try {
 
     if ($Tier -in 'all', 'e2e') {
         Invoke-PesterTier -Name 'e2e' -Paths @((Join-Path 'tests' 'e2e'))
+    }
+
+    # The harness tier is opt-in, not part of all: it needs Docker and the network. It installs every
+    # agent harness that runs headless on Linux into one image and checks aa against each real install
+    # (tests/harness, decision record 0014). Its report is .build/harness-out/harness-report.json.
+    if ($Tier -eq 'harness') {
+        if (-not (Get-Command docker -ErrorAction SilentlyContinue)) { throw '[harness] Docker is required for the harness tier.' }
+        & ./build.ps1 | Out-Null
+        $linuxDir = Join-Path $PSScriptRoot '.build' 'linux'
+        $outDir = Join-Path $PSScriptRoot '.build' 'harness-out'
+        New-Item -ItemType Directory -Path $linuxDir, $outDir -Force | Out-Null
+        Push-Location (Join-Path 'src' 'aa-sdlc-cli')
+        try {
+            $env:CGO_ENABLED = '0'; $env:GOOS = 'linux'; $env:GOARCH = 'amd64'
+            & go build -trimpath -o (Join-Path $linuxDir 'aa') ./cmd/aa
+            if ($LASTEXITCODE -ne 0) { throw '[harness] go build for linux/amd64 failed.' }
+        } finally {
+            Remove-Item Env:GOOS, Env:GOARCH -ErrorAction SilentlyContinue
+            Pop-Location
+        }
+        & docker build -q -t aa-sdlc-harnesses (Join-Path 'tests' 'harness') | Out-Null
+        if ($LASTEXITCODE -ne 0) { throw '[harness] building the harness image failed.' }
+        & docker run --rm -v "${linuxDir}:/aa:ro" -v "${PSScriptRoot}:/repo:ro" -v "${outDir}:/out" aa-sdlc-harnesses pwsh -NoProfile -File /repo/tests/harness/Test-Harness.ps1
+        if ($LASTEXITCODE -ne 0) { throw "[harness] $LASTEXITCODE harness(es) failed; see .build/harness-out/harness-report.json." }
+        Write-Host '[harness] every installed harness passed.' -ForegroundColor Green
     }
 } finally { Pop-Location }

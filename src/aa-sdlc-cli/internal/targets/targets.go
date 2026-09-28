@@ -25,7 +25,7 @@ type Spec struct {
 	ID       string `yaml:"id"`
 	Name     string `yaml:"name"`
 	Status   string `yaml:"status"`
-	Verified bool   `yaml:"verified"`
+	Verified string `yaml:"verified"` // docs, install, or run
 	Detect   struct {
 		Home    []string `yaml:"home"`
 		Command string   `yaml:"command"`

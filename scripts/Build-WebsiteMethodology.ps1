@@ -295,7 +295,8 @@ $methodology = $sb.ToString()
 $cliVerbs = 'setup, init, update, uninstall, plugin'
 $harnessTable = (ConvertFrom-Yaml (Get-Content -Path (Join-Path -Path $repo -ChildPath 'src' -AdditionalChildPath 'aa-sdlc', 'targets', 'targets.yaml') -Raw)).targets
 $supportedHarnesses = @($harnessTable | Where-Object { $_.status -eq 'supported' })
-$verifiedHarnesses = @($supportedHarnesses | Where-Object { $_.verified })
+$verifiedHarnesses = @($supportedHarnesses | Where-Object { $_.verified -eq 'run' })
+$checkedHarnesses = @($supportedHarnesses | Where-Object { $_.verified -eq 'install' })
 $status = @(
     $banner
     '<div class="status-block">'
@@ -306,7 +307,7 @@ $status = @(
     "        <li><span class=`"status-count`">$tenetCount</span> tenets, <span class=`"status-count`">$opinionCount</span> opinions, <span class=`"status-count`">$requirementCount</span> requirements, each with a stable id</li>"
     "        <li><span class=`"status-count`">$($featureFiles.Count)</span> feature files holding <span class=`"status-count`">$scenarioCount</span> scenarios: the framework&#39;s own requirements, in Gherkin</li>"
     "        <li>The <code>aa</code> command line: verbs <code>$cliVerbs</code>, a native binary packed for six platforms, not yet published</li>"
-    "        <li><span class=`"status-count`">$($supportedHarnesses.Count)</span> agent harnesses supported by the installer: $(Esc (($verifiedHarnesses | ForEach-Object { $_.name }) -join ', ')) verified in the harness itself, the others installed as their documentation describes</li>"
+    "        <li><span class=`"status-count`">$($supportedHarnesses.Count)</span> agent harnesses supported by the installer: $(Esc (($verifiedHarnesses | ForEach-Object { $_.name }) -join ', ')) verified in use, <span class=`"status-count`">$($checkedHarnesses.Count)</span> checked against a real install on Linux, the others installed as their documentation describes</li>"
     '    </ul>'
     '    <p class="muted">Counts are regenerated from the repository; if this block is stale, the framework&#39;s own tests fail.</p>'
     '</div>'
@@ -387,7 +388,7 @@ foreach ($h in $harnessTable) {
         [void]$rows.Append("            <tr><th scope=`"row`">$(Esc $h.name)</th><td>Not supported</td><td colspan=`"3`">$(Esc $h.reason)</td></tr>" + $nl)
         continue
     }
-    $harnessStatus = if ($h.verified) { 'Supported, verified' } else { 'Supported, per its documentation' }
+    $harnessStatus = switch ($h.verified) { 'run' { 'Supported, verified in use' } 'install' { 'Supported, checked on a real install' } default { 'Supported, per its documentation' } }
     $skills = (@($h.skills.user) | Select-Object -First 1) -replace '^', '~/'
     $commands = if ($h.commands) { $formatNames[$h.commands.format] + ' in <code>~/' + (Esc $h.commands.user) + '</code>' } else { 'Each skill is its own command' }
     $subagents = if ($h.agents) { 'Installed' } elseif ($h.subagents) { 'The harness has them; not installed yet' } else { 'No: runs inline' }

@@ -36,6 +36,9 @@ func TestTable_EverySupportedTargetCanBeInstalled(t *testing.T) {
 			}
 			continue
 		}
+		if s.Verified != "docs" && s.Verified != "install" && s.Verified != "run" {
+			t.Errorf("%s: verified is %q; use docs, install, or run", s.ID, s.Verified)
+		}
 		if len(s.Skills.User) == 0 || len(s.Skills.Project) == 0 {
 			t.Errorf("%s has no skill folder at one of the scopes", s.ID)
 		}

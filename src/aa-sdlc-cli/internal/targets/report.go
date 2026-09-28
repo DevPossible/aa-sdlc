@@ -32,8 +32,12 @@ func ReportInstall(out io.Writer, scope Scope, harnesses []Spec, res InstallResu
 			}
 		}
 		line += fmt.Sprintf(" at %s scope", scope.Name)
-		if !t.Verified {
-			line += " (per its documentation; not yet verified in the harness)"
+		switch t.Verified {
+		case "install":
+			line += " (checked against a real install; not yet run in the harness)"
+		case "run":
+		default:
+			line += " (per its documentation; not yet checked against a real install)"
 		}
 		fmt.Fprintln(out, line)
 		if len(reads) > 1 {
