@@ -17,14 +17,16 @@ would rather you know now. The opinions are grouped by what they govern; each li
 group's short form. Full statements, with what each rejects and what would change our mind, are
 in [docs/opinions.md](docs/opinions.md).
 
-- **The three systems** (O-02, O-03, O-04, O-09): source control, a ticket system, and a
-  knowledge repository hold the state; the framework owns none; one repository, one ticket project.
+- **The three systems** (O-02, O-03, O-04, O-09, O-27): source control, a ticket system, and a
+  knowledge repository hold the state; the framework owns none; one repository, one ticket project;
+  every knowledge base has the same six sections.
 - **The shape of a repository** (O-05, O-06, O-07, O-16): one folder layout, four root scripts,
   three test tiers, and everything needed to build and operate the software, versioned.
 - **Requirements** (O-01, O-15, O-20): Gherkin in the repository is the source of truth; goals
   before mock-ups; the simplest design that meets the scenarios.
-- **Tickets** (O-10, O-13): a size is grounded in implementation thinking; a waiting ticket is
-  checked against the repository before work starts.
+- **Tickets** (O-10, O-13, O-26): five kinds and one life cycle, moved by the steps that produce
+  the evidence; a size is grounded in implementation thinking; a waiting ticket is checked
+  against the repository before work starts.
 - **Commits and history** (O-14, O-17, O-19, O-22): Conventional Commits, small and cohesive,
   made by the user, traceable to their purpose; dependencies change through the package manager.
 - **The delivery path** (O-11, O-12, O-24, O-25): every pipeline step runs locally; end-to-end
