@@ -51,6 +51,12 @@ next free id, never renumbers, and pulls the feature files.
 ./scripts/Install-LocalRelease.ps1 -Version 0.1.0-rc.1   # pack, then install that aa binary for this user, no npm; -Uninstall removes it
 ```
 
+To release: set `version.json`, commit it as `chore(release): <version>`, tag that commit
+`v<version>` (annotated), and push the commit and the tag to origin together. The mirror carries
+both to GitHub, where the release workflow publishes to npm as `latest` and creates the GitHub
+Release on the existing tag. A tag made only on GitHub is deleted by the next mirror push, which
+turns its release back into an untagged draft.
+
 ## Workflow data
 
 `src/aa-sdlc/workflow/` (disciplines, steps, processes) is the source of truth for roles,
