@@ -66,7 +66,7 @@ Describe 'Install from the packed npm tarballs' -Skip:(-not $script:havePack) {
     }
 
     It 'aa init lays down a fresh repository and hands off to the agent' {
-        $out = & $script:aa init -path $script:project -ticket-project AA -yes
+        $out = & $script:aa init -path $script:project -targets claude-code -ticket-project AA -yes
         $LASTEXITCODE | Should -Be 0
         ($out -join "`n") | Should -Match '/aa-fw-health'
         foreach ($rel in 'aa.config.yaml', 'docs/decisions/0001-adopt-aa-sdlc.md', 'build.ps1', 'tests/e2e', '.claude/commands/aa-fw-init.md') {
