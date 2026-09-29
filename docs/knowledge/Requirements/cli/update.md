@@ -59,7 +59,8 @@ installed never drift apart.
 | Step | Text |
 | --- | --- |
 | When | "aa update" completes |
-| Then | it lists the skills and commands that were added, changed, or removed |
+| Then | it names each root folder it installs into at each scope, such as USER .claude, with its number of files |
+| And | it counts the files added, changed, and removed in each, without listing them one by one |
 
 ## F-009-04 Update the plugins installed at each scope
 

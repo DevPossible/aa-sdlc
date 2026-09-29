@@ -375,11 +375,18 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		}
 		return nil
 	})
-	sc.Step(`^it lists the skills and commands that were added, changed, or removed$`, func() error {
-		for _, word := range []string{"added", "changed", "removed"} {
-			if err := w.outputContains(word); err != nil {
-				return err
-			}
+	sc.Step(`^it names each root folder it installs into at each scope, such as USER \.claude, with its number of files$`, func() error {
+		if !regexp.MustCompile(`(?m)^  USER \.claude: \d+ files \(`).MatchString(w.out) {
+			return fmt.Errorf("no USER .claude line:\n%s", w.out)
+		}
+		return nil
+	})
+	sc.Step(`^it counts the files added, changed, and removed in each, without listing them one by one$`, func() error {
+		if !regexp.MustCompile(`\d+ added, \d+ changed, \d+ removed\)`).MatchString(w.out) {
+			return fmt.Errorf("no counts:\n%s", w.out)
+		}
+		if strings.Contains(w.out, "SKILL.md") {
+			return fmt.Errorf("files are listed one by one:\n%s", w.out)
 		}
 		return nil
 	})

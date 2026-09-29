@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -52,11 +53,14 @@ func TestUpdate_ReinstallsUserAndProjectScopeAndReportsChanges(t *testing.T) {
 		t.Fatalf("update: %v\n%s", err, out.String())
 	}
 	s := out.String()
-	if !strings.Contains(s, "~ .claude/skills/aa-fw-health/SKILL.md") {
-		t.Errorf("changed skill not reported:\n%s", s)
+	if !regexp.MustCompile(`(?m)^  USER \.claude: \d+ files \(0 added, 1 changed, 1 removed\)$`).MatchString(s) {
+		t.Errorf("the changed skill and the removed stale command should be counted under USER .claude:\n%s", s)
 	}
-	if !strings.Contains(s, "- .claude/commands/aa-fw-obsolete.md") {
-		t.Errorf("stale command not removed and reported:\n%s", s)
+	if !regexp.MustCompile(`(?m)^  PROJECT \.claude: \d+ files \(`).MatchString(s) {
+		t.Errorf("the project scope's root folder should be reported:\n%s", s)
+	}
+	if strings.Contains(s, "SKILL.md") {
+		t.Errorf("files should be counted, not listed:\n%s", s)
 	}
 	if _, err := os.Stat(stale); err == nil {
 		t.Error("stale command still exists")
@@ -120,8 +124,8 @@ func TestUpdate_UpdatesThePluginsAtProjectScope(t *testing.T) {
 	if !strings.Contains(s, "aa plugin update k6: 0.1.0 -> 0.2.0") {
 		t.Errorf("update should update the project's plugins:\n%s", s)
 	}
-	if strings.Contains(s, "- .claude/skills/aa-k6-load") {
-		t.Errorf("plugin files must not be removed as stale core files:\n%s", s)
+	if _, err := os.Stat(filepath.Join(project, ".claude", "skills", "aa-k6-load", "SKILL.md")); err != nil {
+		t.Errorf("plugin files must not be removed as stale core files: %v\n%s", err, s)
 	}
 }
 

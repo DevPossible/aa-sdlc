@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 	"time"
 
 	"aasdlc.com/aa/internal/config"
@@ -138,10 +139,10 @@ func refresh(scope targets.Scope, chosen []targets.Spec, out io.Writer) error {
 		return err
 	}
 	removed := targets.RemoveStale(scope, before, res.Written)
-	added, changed := diff(before, targets.Snapshot(scope))
+	after := targets.Snapshot(scope)
+	added, changed := diff(before, after)
 	targets.ReportInstall(out, scope, chosen, res)
-	fmt.Fprintf(out, "  %s scope: %d added, %d changed, %d removed\n", scope.Name, len(added), len(changed), len(removed))
-	listFiles(out, added, changed, removed)
+	listRoots(out, scope.Name, after, added, changed, removed)
 	return nil
 }
 
@@ -160,15 +161,38 @@ func diff(before, after map[string]string) (added, changed []string) {
 	return added, changed
 }
 
-func listFiles(out io.Writer, added, changed, removed []string) {
+// listRoots prints one line per root folder at the scope, such as USER .claude, with the number
+// of framework files it holds and how many were added, changed, and removed, never the files.
+func listRoots(out io.Writer, scope string, after map[string]string, added, changed, removed []string) {
+	type counts struct{ files, added, changed, removed int }
+	roots := map[string]*counts{}
+	at := func(p string) *counts {
+		r := strings.SplitN(p, "/", 2)[0]
+		if roots[r] == nil {
+			roots[r] = &counts{}
+		}
+		return roots[r]
+	}
+	for p := range after {
+		at(p).files++
+	}
 	for _, p := range added {
-		fmt.Fprintf(out, "    + %s\n", p)
+		at(p).added++
 	}
 	for _, p := range changed {
-		fmt.Fprintf(out, "    ~ %s\n", p)
+		at(p).changed++
 	}
 	for _, p := range removed {
-		fmt.Fprintf(out, "    - %s\n", p)
+		at(p).removed++
+	}
+	names := make([]string, 0, len(roots))
+	for r := range roots {
+		names = append(names, r)
+	}
+	sort.Strings(names)
+	for _, r := range names {
+		c := roots[r]
+		fmt.Fprintf(out, "  %s %s: %d files (%d added, %d changed, %d removed)\n", strings.ToUpper(scope), r, c.files, c.added, c.changed, c.removed)
 	}
 }
 

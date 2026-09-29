@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/cli/update. Do not edit: change the page, then pull it.
-# Checksum: sha256:d6731e99dc05fded04ba3a95bb49366ee85e15c1b4967bef96b4ea921790abbd
+# Checksum: sha256:19f49ad038632a24bd6d08764868743095ac13bae6ffb4897e7dac18a3fdc085
 @cli @F-009
 Feature: aa update brings the install up to the package version
   Everything setup and init installed is updated together, so the CLI and the skills it
@@ -25,7 +25,8 @@ Feature: aa update brings the install up to the package version
   @F-009-03
   Scenario: Report what changed
     When "aa update" completes
-    Then it lists the skills and commands that were added, changed, or removed
+    Then it names each root folder it installs into at each scope, such as USER .claude, with its number of files
+    And it counts the files added, changed, and removed in each, without listing them one by one
 
   @F-009-04
   Scenario: Update the plugins installed at each scope
