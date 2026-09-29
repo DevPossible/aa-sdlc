@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/test-responsibility. Do not edit: change the page, then pull it.
-# Checksum: sha256:5ecafdf0f413fbd4d8b1f1d072a060917365430cf558a98a5211cf921c15e85a
+# Checksum: sha256:dfdeb0f90ce26668e593c18e6c7e69c31a3a4f1b16d1d68321b46be488ac1c32
 @framework @agent @O-08 @T-07 @F-042
 Feature: Development proves the requirement; Testing goes beyond it
   The Development discipline writes the automated tests that show a requirement is met. The
@@ -8,7 +8,7 @@ Feature: Development proves the requirement; Testing goes beyond it
 
   Background:
     Given a project bootstrapped with "aa init"
-    And a ticket with scenarios in a feature file
+    And a ticket linked to scenarios on a feature page
 
   @G-20 @F-042-01
   Scenario: Implementing a ticket includes the tests that prove it
@@ -45,8 +45,8 @@ Feature: Development proves the requirement; Testing goes beyond it
     Given Testing finds behaviour the requirement did not specify
     When "/aa-qa-generate-tests" records the gap
     Then a question is added to the anchor ticket
-    And a new scenario is added to the feature file, marked as pending the answer
-    And the knowledge base page is updated when the answer is decided
+    And a Draft scenario is proposed on its feature page, tagged with the ticket, pending the answer
+    And no feature file is edited; the scenario reaches the repository when it is Approved and pulled
 
   @F-042-06
   Scenario: Neither discipline hides a failure

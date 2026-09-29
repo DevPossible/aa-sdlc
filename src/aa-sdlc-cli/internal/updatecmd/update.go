@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"aasdlc.com/aa/internal/config"
+	"aasdlc.com/aa/internal/initcmd"
 	"aasdlc.com/aa/internal/plugincmd"
 	"aasdlc.com/aa/internal/targets"
 	"aasdlc.com/aa/internal/version"
@@ -111,6 +112,16 @@ func Run(opts Options, out io.Writer) error {
 	if err := refresh(scope, chosen, out); err != nil {
 		return err
 	}
+	// The feature-page scripts the repository keeps for its hook and pipeline (decision record 0019).
+	scripts := "scripts"
+	if f := project.Folders["scripts"]; f != "" {
+		scripts = f
+	}
+	rel := filepath.Join(scripts, initcmd.ScriptsFolder)
+	if err := initcmd.InstallScripts(dir, rel); err != nil {
+		return err
+	}
+	report("  refreshed %s/", filepath.ToSlash(rel))
 	report("  config, documents, and feature files untouched")
 	if len(project.Plugins) > 0 {
 		return plugincmd.Update("", plugincmd.Options{Scope: "project", Path: dir, Home: home, UserConfigPath: userPath}, out)

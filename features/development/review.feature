@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/development/review. Do not edit: change the page, then pull it.
-# Checksum: sha256:21c536257a8c8c7d57e069a26baa3e8ef9af1ca65ac107e630815f2c8d1a540b
+# Checksum: sha256:5503106ebfe4ae664407ee86b95164ae82a2133f871f12d2ec159594b216e0ce
 @agent @development @O-19 @O-20 @O-23 @T-07 @F-014
 Feature: /aa-dev-review reviews a merge request against its purpose
   Review a merge request against its ticket, scenarios, plan, and the project's conventions,
@@ -59,3 +59,10 @@ Feature: /aa-dev-review reviews a merge request against its purpose
     Then it hands the build, the walk through the diff, and the checks of the commits and the proof to the aa-dev subagent
     And it records what the agent returns on the merge request
     And where no subagent is available it does that work itself, reading the change as if it had not written it
+
+  @G-56 @R-46 @F-014-09
+  Scenario: A feature file not pulled from its page is blocking
+    Given the branch has a feature file with no provenance header, a checksum that does not match, or no page that generates it
+    When "/aa-dev-review" runs the feature-file check
+    Then a blocking finding names the feature file
+    And it says to change the page and pull it, never to edit the file

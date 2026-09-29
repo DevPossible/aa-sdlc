@@ -15,29 +15,38 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
-- The anchor ticket and its scenarios in the feature files
+- The anchor ticket and its scenarios, pulled from their feature pages into the feature files (G-54)
 - The confirmed implementation plan and tasks
 - The current code, read before it is changed
-- What changed in the linked feature files and the files the plan names since the ticket was planned (O-13)
+- What changed in the linked feature pages, their feature files, and the files the plan names since the ticket was planned (O-13)
 
 ## Procedure
 
-1. **Anchor and check currency.** Read the ticket, its scenarios, and its confirmed plan. Compare
-   the repository at the revision the ticket records with the head, filtered to the feature
-   files the ticket links and the files the plan names. Record the result on the ticket. If a
-   scenario or a planned file changed, say what and send the question back to refinement or
-   re-run plan-implementation; do not build on a plan the repository has moved under (O-13).
+1. **Anchor and check currency.** Pull the feature pages the ticket links to (G-54): their Approved
+   scenarios into the features folder as feature files with their provenance header. With a
+   documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot
+   <folder> -FeaturesRoot <features>`; with a knowledge base, read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the ticket, its scenarios,
+   and its confirmed plan. Compare the page versions recorded on the ticket with the pages' current
+   versions, and the repository at the revision the ticket records with the head, filtered to the
+   feature files the ticket links and the files the plan names. Record the result on the ticket. If
+   a scenario or a planned file changed, say what and send the question back to refinement or re-run
+   plan-implementation; do not build on a plan the repository or the pages have moved under (O-13).
 2. **Branch.** One ticket, one branch, named per the project convention with the ticket id in it
    (G-09, G-39). Never work on the default branch.
 3. **Build the plan, one step at a time.** For each plan step: write the failing test for the
    scenario first, then the code that passes it. Tests control time, randomness, state, and
    dependencies from the start (O-23); a sleep or a live call is not finished. Run the root
    build and the tiers the step touches and read the output (G-04). When the plan meets reality
-   and loses, stop and update the plan on the ticket before continuing.
+   and loses, stop and update the plan on the ticket before continuing. When a scenario turns out
+   wrong or missing, never edit the feature file: convert the change to the page format with
+   `ConvertTo-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`, propose it on its feature page
+   for its owner to approve, and name it on the ticket; the repository gets it only by pulling
+   the page once it is Approved (G-18).
 4. **Keep the change to the ticket.** Every hunk names the scenario it serves or the reason on
    the ticket; adjacent problems become tickets, not fixes here (O-19). The simplest structure
    that meets the scenarios, nothing for scenarios that do not exist (O-20). A new setting goes
@@ -46,9 +55,12 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    (O-22). The migration, the configuration key, and the runbook ship with the code that needs
    them (O-16).
 5. **Stop at every green.** Format the changed files (G-01), run the build with the lint switch
-   (O-21), stage the change, write a Conventional Commit message with the ticket in the footer
-   (G-33), and present the staged diff and message. Split when the message needs "and" (G-39).
-   Commit only if the user asked for that commit (O-17).
+   (O-21), run the feature-file check (G-56): `scripts/aa-sdlc/Test-FeatureProvenance.ps1
+   -FeaturesRoot <features>`, or `Sync-FeatureFiles.ps1 ... -Check` with a documents-folder
+   knowledge base, and never stage a feature file that fails it. Stage the change, write a
+   Conventional Commit message with the ticket in the footer (G-33), and present the staged diff and
+   message. Split when the message needs "and" (G-39). Commit only if the user asked for that commit
+   (O-17).
 6. **Before saying done.** Every scenario the ticket delivers has passing unit and integration
    tests and a happy-path end-to-end test as the change warrants (G-20). The full build with
    lint and every touched tier pass and are quoted. Nothing was skipped, suppressed, or retried
@@ -63,6 +75,7 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 - Builds with the root build script, and passes it with the lint switch (O-21)
 - Every scenario for the ticket has a passing unit test, integration test, and happy-path end-to-end test, as the change warrants each tier
 - Follows the plan, or the deviation is recorded on the ticket with the reason
+- No feature file was edited by hand; the feature-file check passes (G-56)
 
 **Tests that prove the requirement** in unit tests with the project; integration and happy-path end-to-end tests under tests/. Done when:
 
@@ -72,9 +85,9 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
-- `src/aa-sdlc/skills/aa-guidance/sets/code-change.md`: What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/code-change.md`: What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager, and never let a hand-edited feature file through.
 - `src/aa-sdlc/skills/aa-guidance/sets/test-writing.md`: What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
 
 *For this step:*
@@ -88,11 +101,12 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - **G-49** Give every feature a stable id (F-nnn) and every scenario one derived from it (F-nnn-nn), assigned on its feature page once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
 - **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
-- Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
+- Check the ticket against the repository and the pages before anything else. Compare the page versions recorded on the ticket with the pages' current versions, and diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
 - Write the failing test for the scenario before the code that passes it. Then the code has one job.
 - Control what varies. Inject or freeze time, seed randomness, own the test data, and fake or containerise external dependencies; a test with a sleep or a live call in it is not finished (O-23).
 - Stop at every green. Stage the change, write a Conventional Commit message that names its type and its ticket (O-14), present the staged diff and the message, and wait; commit only if the user asked for that commit (O-17).
 - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
+- Never edit a feature file. A scenario found wrong or missing while building is converted to the page format with ConvertTo-FeaturePage and proposed on its feature page for its owner to approve; the repository gets it only by pulling the page once it is Approved (G-18).
 - Do not widen the change. Adjacent problems become tickets, not fixes on this branch; every hunk on the branch names the ticket, scenario, or decision it serves (O-19).
 - Change a dependency with the package manager, never by editing a version in a file. If the tool refuses, the refusal goes on the ticket; it is not bypassed (O-22).
 - Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16).

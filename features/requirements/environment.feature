@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/requirements/environment. Do not edit: change the page, then pull it.
-# Checksum: sha256:e7d035408ec714351fe64d00457f81df1354a5dd4920a62c4cd6bd476245cd59
+# Checksum: sha256:e33d5345e2831e176990b0a3b134c073d6f054e25863369d4b687e5cef4ff5ec
 @requirements @health @environment @F-064
 Feature: Environment requirements
   What the agent must be able to reach. These are probed by /aa-fw-health and can only be
@@ -35,18 +35,11 @@ Feature: Environment requirements
     And the report says every step will produce local artifacts until one is available
     And the remedy is for the user to install or authorise a connector
 
-  @R-03 @recommended @F-064-05
+  @R-03 @required @F-064-05
   Scenario: A knowledge base is reachable
-    Given the agent has a CLI, MCP server, or connector for a wiki or notes system
+    Given the agent has a CLI, MCP server, or connector for a wiki or notes system, and can read a page under the root the project config names
     When "/aa-fw-health" probes R-03
     Then R-03 is reported as met
-
-  @R-03 @recommended @F-064-06
-  Scenario: No knowledge base is reachable
-    Given the agent has no way to reach a knowledge base
-    When "/aa-fw-health" probes R-03
-    Then R-03 is reported as unmet
-    And the report says decisions will be recorded in the documents folder until one is available
 
   @R-04 @required @F-064-07
   Scenario: Code can be executed
@@ -92,3 +85,18 @@ Feature: Environment requirements
     Then R-45 is reported as unmet
     And the report names the tool, the version found, and the version required
     And the remedy is the root initialize script, or "aa init", which offers to install it
+
+  @R-03 @required @T-12 @F-064-13
+  Scenario: The documents folder is the knowledge base
+    Given no knowledge base is in scope
+    And the documents folder has a knowledge folder in the feature page format
+    And the development environment configuration records that it is the knowledge base
+    When "/aa-fw-health" probes R-03
+    Then R-03 is reported as met, with the documents folder named as the knowledge base
+
+  @R-03 @required @F-064-14
+  Scenario: No knowledge base and no documents-folder fallback
+    Given the agent has no way to reach a knowledge base and the documents folder has no knowledge folder
+    When "/aa-fw-health" probes R-03
+    Then R-03 is reported as unmet
+    And the remedy is "/aa-fw-init", which offers to install a connector or to set up the documents folder's knowledge folder

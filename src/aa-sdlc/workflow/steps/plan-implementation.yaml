@@ -11,7 +11,7 @@ inputs:
   - The ready ticket, its scenarios, and the implementation thinking its size was based on
   - The architecture, decision records, and technical constraints
   - The current code, read, not remembered
-  - What changed in the linked feature files and the code since the ticket was refined (O-13)
+  - What changed in the linked feature pages, their feature files, and the code since the ticket was refined (O-13)
 artifacts:
   - name: Implementation plan
     location: the anchor ticket
@@ -20,12 +20,12 @@ artifacts:
       - Names the risks and unknowns, and how each will be resolved or accepted
       - Says which tiers of test the change touches (O-07)
       - Confirmed by the user or the ticket owner before implement runs
-      - Records the repository revision it was written against (O-13)
+      - Records the repository revision and the feature page versions it was written against (O-13)
 guidance_sets: [every-step, anchored-step]
 guidance: [G-08, G-16, G-23, G-28, G-31, G-32, G-43, G-51]
 guidance_inline:
   - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
-  - Check the ticket against the repository first. If the feature files or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
+  - Check the ticket against the repository and the pages first. If the feature pages, the feature files, or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
   - Plan the tests with the steps. A step with no test is a step you cannot know is done.
   - Plan the smallest change that makes the scenarios pass. A step that adds an option, a generalisation, or a feature no scenario needs comes out of the plan (O-20).
   - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.

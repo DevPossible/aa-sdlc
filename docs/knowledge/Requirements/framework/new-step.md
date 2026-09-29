@@ -30,7 +30,8 @@ its discipline and any process. The command creates all of it or none of it.
 | Then | workflow/steps/<step>.yaml exists with a command equal to /aa-<code>-<step> |
 | And | the discipline's steps list includes it |
 | And | a SKILL.md scaffold exists under the discipline's skills folder with matching frontmatter |
-| And | a feature file exists under features/<discipline>/ |
+| And | a feature page exists under docs/knowledge/Requirements/<discipline>/ |
+| And | its feature file is pulled from it into features/<discipline>/, not written by hand |
 
 ## F-032-02 The id must be unique across disciplines
 

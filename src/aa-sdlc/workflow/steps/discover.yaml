@@ -9,17 +9,18 @@ anchor: required
 inputs:
   - The anchor epic and its outcome
   - "Stakeholder input: a conversation, a transcript, a document, or a session with the user"
-  - Existing system documentation and feature files
+  - Existing system documentation and the project's feature pages
   - Any screenshot or mock-up offered as the request, treated as evidence rather than as the requirement (O-15)
 methodology:
   phase: 1
   steps: ["1.1"]
 artifacts:
   - name: Initial requirements
-    location: the features folder, as draft scenarios tagged with the epic
+    location: the knowledge base, as Draft scenarios on feature pages under the project's Requirements section (in the documents folder where no knowledge base is in scope), tagged with the epic
     acceptance:
       - Every stated need is a scenario or an explicit non-requirement
       - Business objectives and scope boundaries appear in the feature description
+      - Every feature and scenario has its id, and the epic links to each page and its scenario ids
   - name: Question log
     location: the anchor epic, as open questions
     acceptance:
@@ -27,7 +28,7 @@ artifacts:
 guidance_sets: [every-step, anchored-step, repository-write]
 guidance: [G-16, G-18, G-19, G-35, G-49]
 guidance_inline:
-  - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a draft scenario can be wrong in a way everyone can see.
+  - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a Draft scenario on a feature page can be wrong in a way everyone can see, and the repository gets it only once it is Approved.
   - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.
   - Record what was not said. Silence on error cases, permissions, and edge conditions is a question, not an assumption.
   - A picture is a witness, not a specification. When the request arrives as a screenshot or mock-up, write the goals and scenarios it implies, log what it does not show as questions, and let the mock-up be regenerated from the confirmed scenarios later (O-15).

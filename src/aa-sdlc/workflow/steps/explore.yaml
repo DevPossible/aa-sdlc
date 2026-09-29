@@ -15,7 +15,7 @@ artifacts:
     location: the anchor ticket
     acceptance:
       - Records what was tried, what surprised, and what was concluded
-      - Every surprise is a ticket, a question, or a pending scenario
+      - Every surprise is a ticket, a question, or a Draft scenario on its feature page
 guidance_sets: [every-step, anchored-step]
 guidance: [G-18, G-21, G-23]
 guidance_inline:

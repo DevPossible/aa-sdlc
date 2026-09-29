@@ -20,12 +20,12 @@ artifacts:
       - Has stance, why, rejected, would-change-our-mind, and the requirements it cites
       - Listed in the README's up-front opinions list and in the design's opinions sentence
   - name: Implied requirements and guidance
-    location: docs/requirements.md, features/requirements/, docs/guidance.md
+    location: docs/requirements.md, docs/knowledge/Requirements/requirements/, docs/guidance.md
     acceptance:
       - Every capability the opinion assumes is a requirement with met and unmet scenarios
       - Every practice the opinion demands is guidance attached to the steps it applies to
   - name: Decision and scenarios
-    location: docs/design.md decision log; features/framework/ where the opinion changes framework behaviour
+    location: docs/design.md decision log; docs/knowledge/Requirements/framework/ where the opinion changes framework behaviour, with features/ pulled from it
     acceptance:
       - The decision log has a row citing the opinion id
       - The unit test tier passes and the discipline review regenerates

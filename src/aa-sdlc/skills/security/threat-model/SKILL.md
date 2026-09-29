@@ -6,7 +6,7 @@ aa:
   step: threat-model
   guidance_sets: [every-step, anchored-step, repository-write]
   guidance: [G-16, G-18, G-19, G-41]
-  requires: [R-03, R-16, R-32]
+  requires: [R-16, R-32]
 ---
 
 # /aa-sec-threat-model
@@ -15,12 +15,12 @@ Work through what could go wrong with the architecture from an attacker's view, 
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
 - The system architecture and technology stack document
-- The feature files, for data flows and trust boundaries
+- The feature pages the epic links to, pulled as feature files, for data flows and trust boundaries
 - Organisational security standards from the enterprise scope, if any
 
 ## Procedure
@@ -31,10 +31,15 @@ rate and decide), with the epic, its page, and the system architecture, and writ
 the threat model in step 5, saying the findings came from the agent. Otherwise do those steps
 yourself, treating every boundary as an attacker would.
 
-1. **Anchor.** Read the epic and its knowledge base page, the system architecture, the technology
-   stack document, and the feature files (G-22), and note any organisational security standards
-   in scope. Where the architecture does not show a boundary or a data flow that the scenarios
-   imply, record the gap as a question on the epic (G-16) and model what is known.
+1. **Anchor and pull.** Read the epic and pull the feature pages it links to: their Approved
+   scenarios into the features folder, and the page versions recorded on the epic (G-54). For a
+   documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot
+   <folder> -FeaturesRoot <features>`; otherwise read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the epic's knowledge
+   base page, the system architecture, the technology stack document, and the pulled feature
+   files (G-22), and note any organisational security standards in scope. Where the architecture
+   does not show a boundary or a data flow that the scenarios imply, record the gap as a question
+   on the epic (G-16) and model what is known.
 2. **Follow the data.** List the assets worth protecting, starting from what is valuable, and
    trace how each moves through the architecture: every trust boundary it crosses, every store
    it rests in, every integration it passes through. This list is what the model must cover; a
@@ -50,19 +55,24 @@ yourself, treating every boundary as an attacker would.
 5. **Write the threat model** in the knowledge base: assets, boundaries and flows, threats with
    their rating and decision, and the decision records it cites. Link it from the epic and link
    back (G-26).
-6. **Turn every mitigation into a scenario.** Write each as a testable scenario in the features
-   folder: a given, a hostile action, and an observable outcome such as a rejected request and a
-   logged event. "Validate input" is not a requirement. Tag each scenario with its ticket and
-   name the knowledge base page in the feature description (G-19); the feature file changes
-   first and the tooling carries it to the ticket and the page (G-18).
+6. **Turn every mitigation into a scenario on a feature page.** Write each as a testable Draft
+   scenario on the feature page it belongs to, under the project's own knowledge root, or on a
+   new page in the Requirements section where none fits (G-53, G-55): a given, a hostile action,
+   and an observable outcome such as a rejected request and a logged event. "Validate input" is
+   not a requirement. Leave the id cell empty and assign ids on the page (G-49); for a
+   documents-folder knowledge base run `scripts/aa-sdlc/Add-FeatureId.ps1 -KnowledgeRoot
+   <folder>`. Tag each scenario with its ticket and link the ticket to the page (G-19). Never
+   write the feature file by hand; the scenario reaches the repository when the page's owner
+   approves it and the page is pulled (G-18).
 7. **Raise a ticket for each mitigation** in the configured ticket project, as a child of the
    epic, linked to its scenario (G-27, G-26). Each is something a person or an agent can build
    and a test can verify.
 8. **Update the epic and present the change.** Record on the epic what was produced, the tickets
-   raised, the risks accepted, and what remains (G-12). Stage the new feature files and any
-   decision records that live in the repository, write a Conventional Commit message naming the
-   epic (G-33), present the staged diff and the message, and stop; commit only if the user asked
-   for that commit (O-17, G-40).
+   raised, the risks accepted, the scenarios awaiting approval, and what remains (G-12). Stage
+   the changed pages where the knowledge base is the documents folder and any decision records
+   that live in the repository, write a Conventional Commit message naming the epic (G-33),
+   present the staged diff and the message, and stop; commit only if the user asked for that
+   commit (O-17, G-40).
 
 ## Artifacts
 
@@ -71,7 +81,7 @@ yourself, treating every boundary as an attacker would.
 - Every trust boundary and data flow in the architecture is considered
 - Every threat is rated and has a decision: mitigate, accept, or transfer, with a reason
 
-**Security requirements** in the features folder as scenarios, and the backlog as tickets. Done when:
+**Security requirements** in the feature pages in the knowledge base as scenarios, and the backlog as tickets. Done when:
 
 - Every mitigation is a scenario a test can verify and a ticket someone can build
 
@@ -79,8 +89,8 @@ yourself, treating every boundary as an attacker would.
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 - `src/aa-sdlc/skills/aa-guidance/sets/repository-write.md`: What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
 
 *For this step:*

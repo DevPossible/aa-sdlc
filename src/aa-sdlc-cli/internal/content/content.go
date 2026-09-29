@@ -122,6 +122,28 @@ type Skill struct {
 	Files      map[string][]byte // path relative to the skill folder -> content
 }
 
+// Scripts returns the helper scripts a project keeps in its own scripts folder, so a hook and a
+// pipeline can run them without the aa CLI (decision record 0019): file name -> content.
+func Scripts() (map[string][]byte, error) {
+	root := FS()
+	entries, err := fs.ReadDir(root, "scripts")
+	if err != nil {
+		return nil, fmt.Errorf("reading scripts: %w", err)
+	}
+	out := map[string][]byte{}
+	for _, e := range entries {
+		if e.IsDir() {
+			continue
+		}
+		b, err := fs.ReadFile(root, path.Join("scripts", e.Name()))
+		if err != nil {
+			return nil, err
+		}
+		out[e.Name()] = b
+	}
+	return out, nil
+}
+
 // Skills returns every skill in the package (skills/<discipline>/<step>/SKILL.md and siblings).
 func Skills() ([]Skill, error) {
 	root := FS()

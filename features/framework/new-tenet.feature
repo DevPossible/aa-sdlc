@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/new-tenet. Do not edit: change the page, then pull it.
-# Checksum: sha256:d017836d4588e68a4ac5548bdb0cb8023000e6a193313a2afcfb6f63736c9f7a
+# Checksum: sha256:19bc60088e50e16e74c8cd0a91909912da1b70af552a31598f4a2bc4f7954251
 @framework @agent @fw @F-033
 Feature: /aa-internal-new-tenet adds a tenet and makes existing content agree with it
   Tenets are few and govern everything. Adding one means showing it in action and checking
@@ -13,7 +13,8 @@ Feature: /aa-internal-new-tenet adds a tenet and makes existing content agree wi
     When I run "/aa-internal-new-tenet" with a principle and its reasoning
     Then docs/tenets.md gains an entry with the next T-nn id
     And the grouping sentence and every tenet range in the docs are updated
-    And a feature file shows the principle applied in at least three situations
+    And a feature page under docs/knowledge/Requirements/framework/ shows the principle applied in at least three situations
+    And its feature file is pulled from it into features/, not written by hand
 
   @F-033-02
   Scenario: Redirect what is not a tenet

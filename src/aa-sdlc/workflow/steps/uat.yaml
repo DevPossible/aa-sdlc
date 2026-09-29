@@ -8,7 +8,7 @@ summary: >
   gap.
 anchor: required
 inputs:
-  - The feature files for the ticket or release
+  - The feature files for the ticket or release, freshly pulled from their feature pages
   - A deployed environment the stakeholder can use
   - The tests Development and Testing wrote, as evidence
 methodology:
@@ -16,7 +16,7 @@ methodology:
   steps: ["5.2"]
 artifacts:
   - name: UAT test cases
-    location: the features folder, as the scenarios themselves, plus a walkthrough order on the ticket
+    location: the pulled feature files, as the scenarios themselves, plus a walkthrough order on the ticket
     acceptance:
       - Every scenario for the ticket is covered by the walkthrough
   - name: UAT results report
@@ -27,7 +27,7 @@ artifacts:
 guidance_sets: [every-step, anchored-step]
 guidance: [G-18, G-51]
 guidance_inline:
-  - Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature file.
+  - Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature page.
   - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
   - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
 requires: [R-16, R-17, R-41, R-43]

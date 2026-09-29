@@ -1,6 +1,6 @@
 # Guidance set `anchored-step`
 
-What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 Generated from `src/aa-sdlc/workflow/guidance-sets/anchored-step.yaml` and `docs/guidance.md` by `scripts/Sync-SkillGuidance.ps1`; do not edit by hand.
 
@@ -9,3 +9,4 @@ Generated from `src/aa-sdlc/workflow/guidance-sets/anchored-step.yaml` and `docs
 - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
 - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
 - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+- **G-54** Begin every step that anchors on a ticket by pulling the feature pages the ticket links to: their Approved scenarios into the features folder, each file with its provenance header, and the page versions recorded on the ticket. Work only from freshly pulled feature files; a feature file that differs from its page is not the requirement.

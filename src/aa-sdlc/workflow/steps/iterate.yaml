@@ -29,6 +29,6 @@ guidance_inline:
   - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
   - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
   - Close the loop. Where feedback came from a ticket, comment on it with the decision.
-requires: [R-03, R-32]
+requires: [R-32]
 tenets: [T-04, T-07]
 opinions: [O-18]

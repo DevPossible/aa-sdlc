@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/new-step. Do not edit: change the page, then pull it.
-# Checksum: sha256:f3a16d4d073349d699ae3603ac9df1d06be6c289b8731a470c28092d495347d3
+# Checksum: sha256:273440e485839bb97d16c1a3ced6842c50f4267f87aeaace6946c24bcbd333bd
 @framework @agent @fw @F-032
 Feature: /aa-internal-new-step adds a step with all of its plumbing
   A step is a definition, a command, a skill, scenarios, guidance, and requirements, listed by
@@ -14,7 +14,8 @@ Feature: /aa-internal-new-step adds a step with all of its plumbing
     Then workflow/steps/<step>.yaml exists with a command equal to /aa-<code>-<step>
     And the discipline's steps list includes it
     And a SKILL.md scaffold exists under the discipline's skills folder with matching frontmatter
-    And a feature file exists under features/<discipline>/
+    And a feature page exists under docs/knowledge/Requirements/<discipline>/
+    And its feature file is pulled from it into features/<discipline>/, not written by hand
 
   @F-032-02
   Scenario: The id must be unique across disciplines

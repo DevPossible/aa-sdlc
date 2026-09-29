@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/development/fix-bug. Do not edit: change the page, then pull it.
-# Checksum: sha256:bd88b318e4c2b3bb85311baaed5f4893ab5e547766e4639223e7c017eac1cc34
+# Checksum: sha256:f0c71ee5764156da5f1ae9bc09b7694e0fc02ed2a13449f6df8e6440e00a1cfa
 @agent @development @O-23 @T-12 @F-011
 Feature: /aa-dev-fix-bug reproduces a defect before fixing its cause
   Reproduce a reported defect with a failing test, find the cause, fix the cause, and prove it
@@ -31,12 +31,6 @@ Feature: /aa-dev-fix-bug reproduces a defect before fixing its cause
     And the full tier it lives in passes
     And no existing test was weakened, skipped, or retried
 
-  @F-011-04
-  Scenario: A defect no scenario covers gets a scenario
-    Given the defect violates behaviour no scenario states
-    When "/aa-dev-fix-bug" fixes it
-    Then a scenario is added to the feature file with the fix
-
   @F-011-05
   Scenario: An intermittent test is controlled, not retried
     Given the defect is a test that fails one run in five
@@ -49,3 +43,11 @@ Feature: /aa-dev-fix-bug reproduces a defect before fixing its cause
     When the fix passes its proof
     Then it is staged with a fix-typed Conventional Commit message naming the ticket
     And no commit is made unless the user asked for that commit
+
+  @G-18 @F-011-07
+  Scenario: A defect no scenario covers gets a scenario proposed on its page
+    Given the defect violates behaviour no scenario states
+    When "/aa-dev-fix-bug" fixes it
+    Then a Draft scenario is proposed on its feature page for its owner to approve
+    And the ticket names the scenario and records it as pending approval
+    And no feature file is edited; the scenario reaches the repository when it is Approved and pulled

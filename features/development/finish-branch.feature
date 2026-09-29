@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/development/finish-branch. Do not edit: change the page, then pull it.
-# Checksum: sha256:dc7f03918358325bde24218374177b98a4784f5454f07cd5f52eb7fa55737177
+# Checksum: sha256:3688e5bb121efc9a61bcaf31110a97b6eafec700a1123a1b6ae6ef2e1b22c1d1
 @agent @development @O-14 @O-17 @O-21 @F-010
 Feature: /aa-dev-finish-branch takes a branch from green to merged
   Format changed files, bring the branch up to date, run the full suite, open or update the
@@ -50,3 +50,10 @@ Feature: /aa-dev-finish-branch takes a branch from green to merged
     When "/aa-dev-finish-branch" reaches it
     Then it does not use a bypass flag
     And it fixes the cause or tells the user, and stops at the open request
+
+  @G-56 @R-46 @F-010-07
+  Scenario: A feature file not pulled from its page blocks the merge
+    Given the branch has a feature file with no provenance header, a checksum that does not match, or no page that generates it
+    When "/aa-dev-finish-branch" runs the feature-file check
+    Then it quotes the check's output and reports the feature file as blocking the merge
+    And it says to change the page and pull it, never to edit the file

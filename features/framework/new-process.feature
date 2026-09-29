@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/new-process. Do not edit: change the page, then pull it.
-# Checksum: sha256:e5347707fba70f90a037069d7910b722b5113d745b43ad732e46346876fc6d91
+# Checksum: sha256:38b3946b6a23043ed54abe6f46dcae44a55ad0effd6032738b981a80336791e2
 @framework @agent @fw @T-03 @F-031
 Feature: /aa-internal-new-process adds a described, never enforced, process
   A process is an ordering of steps toward a goal. Every step in it still runs alone.
@@ -11,7 +11,8 @@ Feature: /aa-internal-new-process adds a described, never enforced, process
   Scenario: Add a process from existing steps
     When I run "/aa-internal-new-process" with a goal and an ordered list of existing steps
     Then workflow/processes/<id>.yaml exists with the steps in order, process guidance, and an exit condition
-    And a feature file shows the process run end to end and any step run alone
+    And a feature page under docs/knowledge/Requirements/framework/ shows the process run end to end and any step run alone
+    And its feature file is pulled from it into features/, not written by hand
 
   @F-031-02
   Scenario: Missing steps are created first

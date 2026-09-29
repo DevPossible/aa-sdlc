@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/requirements/tooling. Do not edit: change the page, then pull it.
-# Checksum: sha256:ea7505fcbf9d70d9a84d3fb696711c646939c1b46f056c5133dc76b6546a82a1
+# Checksum: sha256:7bfad25bd4b1d86687270c2ebbcbacffe04ea51ec3956293761755d5e0c47b00
 @requirements @health @tooling @T-01 @F-066
 Feature: Tooling requirements
   What the project must supply. The framework names the category and the project, or a
@@ -291,3 +291,17 @@ Feature: Tooling requirements
     Then R-17 is reported as unmet
     And the report says feature files remain the source of truth but are not yet executable tests
     And the remedy is for the user or a tech-stack plugin to supply one
+
+  @R-47 @recommended @T-12 @O-11 @F-066-37
+  Scenario: The feature-file check runs before a commit and in the pipeline
+    Given the repository's pre-commit hook runs the feature-file check
+    And the root build script runs it with its lint switch
+    When "/aa-fw-health" probes R-47
+    Then R-47 is reported as met
+
+  @R-47 @recommended @T-12 @F-066-38
+  Scenario: The feature-file check does not run
+    Given no pre-commit hook or build step runs the feature-file check
+    When "/aa-fw-health" probes R-47
+    Then R-47 is reported as unmet
+    And the remedy is "aa init", which writes the hook, and "/aa-dev-setup-environment", which adds the check to the build script

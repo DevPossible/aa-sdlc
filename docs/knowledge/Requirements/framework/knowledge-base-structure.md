@@ -3,12 +3,14 @@
 | Feature | F-084 |
 | --- | --- |
 | Name | The knowledge base has one structure |
-| Tags | @framework @agent @O-27 @T-12 |
+| Tags | @framework @agent @O-27 @T-12 @T-14 |
 | File | knowledge-base-structure |
 
-Every project's knowledge base space has six top-level sections: Overview, Requirements,
-Architecture, Operations, Releases, and Guides. Pages explain and index; feature files and
-decision records stay the source of truth. Superseded pages are marked and linked, never deleted.
+Every project's knowledge base has six top-level sections under the project's own root:
+Overview, Requirements, Architecture, Operations, Releases, and Guides. The feature pages under
+Requirements are the source of truth for requirements, and the repository's feature files are
+pulled from them; decision records stay in the repository and the other pages explain and
+index. Superseded pages are marked and linked, never deleted.
 
 ## Background
 
@@ -28,9 +30,9 @@ decision records stay the source of truth. Superseded pages are marked and linke
 | Step | Text |
 | --- | --- |
 | When | "/aa-ba-refine-requirements" writes the page for a feature |
-| Then | the page is under the Requirements section |
+| Then | the page is under the Requirements section of the project's own root |
 | And | its title names the feature and its feature id |
-| And | it links to the feature file, which names the page |
+| And | the feature file pulled from it names the page and its version in its provenance header |
 
 ## F-084-02 A decision is indexed, not copied
 
@@ -77,3 +79,19 @@ decision records stay the source of truth. Superseded pages are marked and linke
 | Given | the knowledge base has no Releases section |
 | When | "/aa-fw-init" runs |
 | Then | it offers to create the Releases section, and creates it only with the user's consent |
+
+## F-084-05 In a shared space, the sections are under the project's own root
+
+| Scenario | F-084-05 |
+| --- | --- |
+| Name | In a shared space, the sections are under the project's own root |
+| Kind | Scenario |
+| Tags | @T-14 @G-55 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a knowledge base space shared with other projects |
+| When | "/aa-fw-init" creates the sections with the user's consent |
+| Then | they are created under the project's own root page |
+| And | no other project's page and nothing in the space's structure is changed |

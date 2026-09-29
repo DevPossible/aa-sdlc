@@ -7,18 +7,18 @@ summary: >
   technical constraints they must live within; link every scenario to its ticket and page.
 anchor: required
 inputs:
-  - Draft scenarios and the question log from discover
+  - Draft scenarios on their feature pages and the question log from discover
   - Answers from stakeholders
   - Technical constraints from Technical Analysis and Security, if available
 methodology:
   phase: 1
   steps: ["1.2"]
 artifacts:
-  - name: Feature files
-    location: the features folder
+  - name: Feature pages
+    location: the knowledge base under the project's Requirements section (in the documents folder where no knowledge base is in scope)
     acceptance:
       - Every scenario has concrete Given, When, Then steps with no "should work correctly"
-      - Every scenario is tagged with its ticket; every feature names its knowledge base page
+      - Every scenario the stakeholder confirmed is Approved and tagged with its ticket; the ticket links to the page and the scenario ids
       - Ambiguities are resolved or recorded as open questions on the ticket
   - name: Technical constraints document
     location: the knowledge base, linked from the epic
@@ -29,7 +29,8 @@ guidance: [G-16, G-18, G-19, G-35, G-49, G-53]
 guidance_inline:
   - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
   - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.
-  - Trace every change. When a scenario changes, the ticket's acceptance criteria and the page follow (T-12); never edit the ticket first.
-requires: [R-03, R-16, R-29, R-42]
+  - Trace every change. Change the scenario on its feature page first; the ticket's acceptance criteria follow the page and the repository gets the change by pulling it (T-12). Never edit the ticket first, and never edit a feature file.
+  - A scenario is Approved when the stakeholder confirms it, not when it reads well. Until then it stays Draft on the page and never reaches the repository.
+requires: [R-16, R-29, R-42]
 tenets: [T-07, T-12]
 opinions: [O-01, O-15]

@@ -3,12 +3,12 @@ name: Maintain documentation
 discipline: documentation
 command: /aa-doc-maintain-docs
 summary: >
-  Audit the documentation and knowledge base for drift from the feature files and the code,
-  fix what is wrong, and raise tickets for what needs an owner. Recurring; each run anchors on a
-  maintenance ticket.
+  Audit the feature files, the documentation, and the knowledge base for drift from the feature
+  pages and the code, fix what is wrong, and raise tickets for what needs an owner. Recurring;
+  each run anchors on a maintenance ticket.
 anchor: required
 inputs:
-  - The feature files, the knowledge base, and the documents folder
+  - The project's feature pages and other pages under its knowledge root, the feature files, and the documents folder
   - Changes merged since the last audit
 methodology:
   phase: 6
@@ -17,7 +17,8 @@ artifacts:
   - name: Up-to-date documentation
     location: wherever it lives; changes on a branch linked to the ticket
     acceptance:
-      - Every feature file has a knowledge base page that matches it (T-12)
+      - Every feature file was pulled from its feature page, is unedited, and is current with the page (T-12, R-46)
+      - Every Approved scenario is linked to a ticket (G-19)
       - No documented behaviour contradicts a scenario or the running software
   - name: Documentation health report
     location: the knowledge base
@@ -26,9 +27,10 @@ artifacts:
 guidance_sets: [every-step, anchored-step, repository-write]
 guidance: [G-18, G-37, G-53]
 guidance_inline:
-  - Start from the feature files and walk outward. They are the truth; every page and document is checked against them, never the reverse.
+  - Start from the feature pages and walk outward. They are the truth; every feature file, page, and document is checked against them, never the reverse.
   - Delete confidently. Documentation for something that no longer exists is worse than none; remove it and say so in the report.
-  - A contradiction between a page and a scenario is a conflict to surface, not a page to quietly fix (T-12).
-requires: [R-03, R-06, R-16, R-30, R-42]
+  - A contradiction between a document and a scenario is a conflict to surface, not something to quietly fix; a scenario changes only on its page, with its owner's approval (T-12).
+  - Audit only what is this project's, the pages under its knowledge root and the tickets its filter selects; a problem in a shared space or another project's page is named for its owner, not changed (T-14).
+requires: [R-06, R-16, R-30, R-42]
 tenets: [T-12]
 opinions: [O-16]

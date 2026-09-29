@@ -45,8 +45,8 @@ $s = ConvertFrom-Yaml (Get-Content -Path $stepFile -Raw)
 function Format-IdList([object[]]$items) { if ($items) { '[' + (($items | Where-Object { $_ }) -join ', ') + ']' } else { '[]' } }
 $oneLine = ($s.summary -replace '\s+', ' ').Trim()
 $anchorText = switch ($s.anchor) {
-    'required' { 'Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).' }
-    'optional' { 'A ticket is optional here. When one is given, read it, its linked scenarios, and its page first (G-22) and write the outcome back to it; when none is, produce the artifacts locally and say so.' }
+    'required' { 'Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).' }
+    'optional' { 'A ticket is optional here. When one is given, read it and its page and pull the feature pages it links to first (G-22, G-54) and write the outcome back to it; when none is, produce the artifacts locally and say so.' }
     default { 'No ticket anchor. This command runs against the install or the repository, not a unit of work.' }
 }
 

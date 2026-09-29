@@ -28,6 +28,6 @@ guidance: [G-04, G-47]
 guidance_inline:
   - Compare, do not glance. Compute before-and-after for each metric over a stated window; a dashboard that "looks fine" is not evidence.
   - Validation is read-only. Never change production to make a check pass; a failing check is an incident or a rollback.
-requires: [R-03, R-38]
+requires: [R-38]
 tenets: [T-07, T-10]
 opinions: [O-24]

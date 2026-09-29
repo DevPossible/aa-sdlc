@@ -6,7 +6,7 @@ aa:
   step: decide
   guidance_sets: [every-step, anchored-step, repository-write]
   guidance: [G-16, G-41, G-43, G-53]
-  requires: [R-03, R-06, R-32, R-34, R-42]
+  requires: [R-06, R-32, R-34, R-42]
 ---
 
 # /aa-ta-decide
@@ -15,7 +15,7 @@ Record one significant technical decision: the context, the options, the choice,
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -63,8 +63,8 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 - `src/aa-sdlc/skills/aa-guidance/sets/repository-write.md`: What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
 
 *For this step:*
@@ -72,7 +72,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
-- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
+- **G-53** Put each knowledge base page under the project's own root, in the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
 - Record the losing options with the same care as the winner; the next person will ask about them first.
 - Write it when it happens. A decision reconstructed a month later is a story, not a record.

@@ -15,7 +15,7 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -24,8 +24,13 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
-1. **Anchor.** Read the ticket, the branch, and the project's branch, commit, and merge
-   conventions from the config.
+1. **Anchor.** Pull the feature pages the ticket links to (G-54): their Approved scenarios into the
+   features folder as feature files with their provenance header. With a documents-folder knowledge
+   base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot <folder> -FeaturesRoot
+   <features>`; with a knowledge base, read each page and convert it with `ConvertFrom-FeaturePage`
+   from `scripts/aa-sdlc/AaFeatures.psm1`. Read the ticket, the branch, and the project's branch,
+   commit, and merge conventions from the config. If the pull changed a feature file, the
+   requirement moved under the branch: say what on the ticket before going further.
 2. **Check the history on the branch.** Every commit is a Conventional Commit with the ticket in
    its footer, one concern each (G-33, G-39). If one is not, say which and how to split or
    reword it; never rewrite history the user did not ask you to rewrite.
@@ -36,8 +41,13 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    or merge). Resolve conflicts honestly; a conflict that changes behaviour goes on the ticket.
 5. **Prove the whole thing.** Format only the files this branch changed (G-01). Run the root
    build with the lint switch and the full test suite, every tier, not just the one you worked
-   in, and quote the output (G-04). A failing pipeline stage is reproduced locally with the
-   same script before anything else is done (G-29). Nothing is skipped or suppressed (G-06).
+   in, and quote the output (G-04). Run the feature-file check (G-56):
+   `scripts/aa-sdlc/Test-FeatureProvenance.ps1 -FeaturesRoot <features>` for any knowledge base,
+   or `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot <folder> -FeaturesRoot <features>
+   -Check` for a documents-folder one, and quote its output; a feature file that fails it blocks
+   the merge until its page is changed and pulled. A failing pipeline stage is reproduced
+   locally with the same script before anything else is done (G-29). Nothing is skipped or
+   suppressed (G-06).
 6. **Open or update the merge request.** Title and description reference the ticket and
    summarise the change and the tests that prove it. Link the request from the ticket and the
    ticket from the request (G-26).
@@ -54,6 +64,7 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 - Title and description reference the ticket and summarise the change and its tests; every commit on the branch references the ticket (O-19)
 - Changed files are formatted; unrelated files are untouched (G-01); the root build passes with the lint switch (O-21)
 - Full test suite passes on the branch as it will be merged
+- The feature-file check passes on the branch as it will be merged; every feature file was pulled from its page (G-56)
 - Every commit on the branch is a Conventional Commit with a type from the project config (O-14), one cohesive change each, made by the user (O-17)
 
 **Ticket transition** in the ticket system. Done when:
@@ -64,9 +75,9 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
-- `src/aa-sdlc/skills/aa-guidance/sets/code-change.md`: What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/code-change.md`: What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager, and never let a hand-edited feature file through.
 
 *For this step:*
 
@@ -76,6 +87,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
 - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
+- Run the feature-file check before opening or merging the request. A feature file that fails it blocks the merge; change the page and pull it, never edit the file (G-56).
 - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
 - Never commit the remaining changes yourself. Stage them, present them, and report that the branch waits on the user's commit (O-17).

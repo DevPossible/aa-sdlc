@@ -375,3 +375,38 @@ func TestInit_NoToolsRecordedPointsAtTheAgent(t *testing.T) {
 		t.Errorf("want the hand-off for a project with no tools recorded:\n%s", out)
 	}
 }
+
+func TestInit_WritesTheFeaturePageScriptsTheKnowledgeFolderAndThePreCommitHook(t *testing.T) {
+	dir := t.TempDir()
+	if err := exec.Command("git", "-C", dir, "init", "-q").Run(); err != nil {
+		t.Skip("git not available")
+	}
+	out := runInit(t, dir, nil)
+	for _, rel := range []string{"scripts/aa-sdlc/AaFeatures.psm1", "scripts/aa-sdlc/Test-FeatureProvenance.ps1", "scripts/aa-sdlc/Sync-FeatureFiles.ps1", "docs/knowledge/Requirements"} {
+		if _, err := os.Stat(filepath.Join(dir, rel)); err != nil {
+			t.Errorf("expected %s: %v\n%s", rel, err, out)
+		}
+	}
+	hook, err := os.ReadFile(filepath.Join(dir, ".git", "hooks", "pre-commit"))
+	if err != nil || !strings.Contains(string(hook), "scripts/aa-sdlc/Test-FeatureProvenance.ps1") || !strings.Contains(string(hook), `-FeaturesRoot "features"`) {
+		t.Errorf("want a pre-commit hook running the feature-file check, got %v:\n%s", err, hook)
+	}
+}
+
+func TestInit_LeavesAPreCommitHookItDidNotWrite(t *testing.T) {
+	dir := t.TempDir()
+	if err := exec.Command("git", "-C", dir, "init", "-q").Run(); err != nil {
+		t.Skip("git not available")
+	}
+	mine := filepath.Join(dir, ".git", "hooks", "pre-commit")
+	if err := os.WriteFile(mine, []byte("#!/bin/sh\necho mine\n"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	out := runInit(t, dir, nil)
+	if b, _ := os.ReadFile(mine); string(b) != "#!/bin/sh\necho mine\n" {
+		t.Error("aa init overwrote a pre-commit hook it did not write")
+	}
+	if !strings.Contains(out, "is not ours; add scripts/aa-sdlc/Test-FeatureProvenance.ps1 to it") {
+		t.Errorf("want the user told to add the check:\n%s", out)
+	}
+}

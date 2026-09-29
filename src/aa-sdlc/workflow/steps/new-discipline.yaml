@@ -20,7 +20,7 @@ artifacts:
       - Has purpose, owns, does_not_own, hands_off_to, steps, tenets, and a code no other discipline uses
       - Every neighbouring discipline whose boundary changed has its own does_not_own or hands_off_to updated
   - name: Steps, skills, and scenarios
-    location: workflow/steps/, src/aa-sdlc/skills/<id>/, features/<id>/
+    location: workflow/steps/, src/aa-sdlc/skills/<id>/, docs/knowledge/Requirements/<id>/ with features/<id>/ pulled from it
     acceptance:
       - At least one step, each created as /aa-internal-new-step would create it
       - A skills subfolder with a README naming the discipline and its code

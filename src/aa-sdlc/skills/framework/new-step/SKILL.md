@@ -47,7 +47,8 @@ stop and say so.
    skill's Guidance section is written by `scripts/Sync-SkillGuidance.ps1` from these lists;
    run it rather than typing guidance text into the skill.
 5. **Add requirements** the guidance implies as rows in `docs/requirements.md` with met and
-   unmet scenarios in `features/requirements/`, if they do not already exist.
+   unmet scenarios on the matching page under `docs/knowledge/Requirements/requirements/`, if
+   they do not already exist.
 6. **List it.** Add the id to `steps:` in `src/aa-sdlc/workflow/disciplines/<discipline>.yaml`
    and, if it belongs to a process, at the right position in
    `src/aa-sdlc/workflow/processes/<process>.yaml`.
@@ -55,11 +56,14 @@ stop and say so.
    `name` equal to the id, a one-sentence `description`, and an `aa:` block whose `requires`
    equals the step's `requires` and whose `guidance` equals the step's `guidance`. Body: a
    heading with the command, the precondition, inputs to gather, a numbered procedure that
-   begins with reading the anchor ticket when anchor is required and ends with updating it,
+   begins with reading the anchor ticket and pulling the feature pages it links to (G-54) when
+   anchor is required and ends with updating it,
    the artifacts and their locations, and a report section. Cite guidance by id.
-8. **Write the scenarios** at `features/<discipline>/<id>.feature`, tagged with the
-   discipline and step: the command run with an anchor, run without one if anchor is
-   optional, producing each artifact, and reporting a failure faithfully.
+8. **Write the feature page** at `docs/knowledge/Requirements/<discipline>/<id>.md`, tagged
+   with the discipline and step: the command run with an anchor, run without one if anchor is
+   optional, producing each artifact, and reporting a failure faithfully. Leave the new id
+   cells empty and run `./scripts/Add-FeatureId.ps1`, which assigns the `F` ids and pulls
+   `features/`; never write the feature file by hand (G-18).
 9. **Update the design** if the step traces to the methodology: add a row to the step map in
    `docs/design.md` section 4. Update the command count for the discipline in
    `docs/plan-discipline-review.md`.
@@ -74,7 +78,7 @@ stop and say so.
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
 - `src/aa-sdlc/skills/aa-guidance/sets/framework-authoring.md`: What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
 
 *For this step:*
@@ -82,7 +86,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - Name the step by the work, in the imperative, unique across all disciplines: implement, not development-work; fix-bug, not bugfix. The id is the last segment of the command and the skill folder name, so it cannot change later.
 - Guidance names categories, never tools (T-01). If the step needs a tool category, declare the requirement and cite it; if it needs a specific tool, the step belongs in a plugin.
 - Promote guidance to an id only when a second step shares it; otherwise keep it inline on the step. Do not create G-nn ids speculatively.
-- Check every anchor: a step with anchor required must read the ticket first (G-22) and update it last (G-12); write both into the skill body.
+- Check every anchor: a step with anchor required must read the ticket and pull the feature pages it links to first (G-22, G-54) and update it last (G-12); write both into the skill body.
 - Run the validator before regenerating the review; a step the validator rejects is not added.
 
 ## Report

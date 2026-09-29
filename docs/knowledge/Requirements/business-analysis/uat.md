@@ -28,9 +28,9 @@ change, never a note that fades.
 
 | Step | Text |
 | --- | --- |
-| Given | the ticket records the revision it was built against |
+| Given | the ticket records the revision and the page versions it was built against |
 | When | "/aa-ba-uat" starts |
-| Then | it compares that revision with the head for the linked feature files |
+| Then | it pulls the linked feature pages and compares them with the revision and page versions the ticket records |
 | And | a scenario that changed since is noted on the ticket before the walkthrough |
 
 ## F-005-02 The walkthrough covers every scenario
@@ -62,7 +62,7 @@ change, never a note that fades.
 | Given | the stakeholder asks to see something the scenario does not state |
 | When | "/aa-ba-uat" walks the scenario |
 | Then | the Given, When, Then are walked as written |
-| And | the request is recorded as a question on the ticket for the feature file, not as a demo step |
+| And | the request is recorded as a question on the ticket for the feature page, not as a demo step |
 
 ## F-005-04 Acceptance is recorded by name
 
@@ -108,7 +108,7 @@ change, never a note that fades.
 | --- | --- |
 | Given | the software does what a scenario says but the stakeholder meant something else |
 | When | "/aa-ba-uat" records the result |
-| Then | the gap is raised as a question on the ticket and changed in the feature file first |
+| Then | the gap is raised as a question on the ticket and written as a Draft scenario on its feature page first |
 | And | it is not recorded as a failure of the build |
 
 ## F-005-07 The results report is on the ticket and linked from the page
@@ -125,4 +125,4 @@ change, never a note that fades.
 | When | "/aa-ba-uat" finishes |
 | Then | the UAT results report is on the anchor ticket |
 | And | the knowledge base page links to it and it links back |
-| And | any changed feature file is staged and presented, not committed |
+| And | any feature page it changed in the documents folder is staged and presented, not committed |

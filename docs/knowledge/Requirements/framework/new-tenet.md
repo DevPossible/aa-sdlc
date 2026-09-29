@@ -29,7 +29,8 @@ that nothing already written contradicts it.
 | When | I run "/aa-internal-new-tenet" with a principle and its reasoning |
 | Then | docs/tenets.md gains an entry with the next T-nn id |
 | And | the grouping sentence and every tenet range in the docs are updated |
-| And | a feature file shows the principle applied in at least three situations |
+| And | a feature page under docs/knowledge/Requirements/framework/ shows the principle applied in at least three situations |
+| And | its feature file is pulled from it into features/, not written by hand |
 
 ## F-033-02 Redirect what is not a tenet
 

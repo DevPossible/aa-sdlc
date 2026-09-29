@@ -15,7 +15,7 @@ finds into a scenario. Each has a job the other cannot do.
 | Step | Text |
 | --- | --- |
 | Given | a project bootstrapped with "aa init" |
-| And | a ticket with scenarios in a feature file |
+| And | a ticket linked to scenarios on a feature page |
 
 ## F-042-01 Implementing a ticket includes the tests that prove it
 
@@ -97,8 +97,8 @@ finds into a scenario. Each has a job the other cannot do.
 | Given | Testing finds behaviour the requirement did not specify |
 | When | "/aa-qa-generate-tests" records the gap |
 | Then | a question is added to the anchor ticket |
-| And | a new scenario is added to the feature file, marked as pending the answer |
-| And | the knowledge base page is updated when the answer is decided |
+| And | a Draft scenario is proposed on its feature page, tagged with the ticket, pending the answer |
+| And | no feature file is edited; the scenario reaches the repository when it is Approved and pulled |
 
 ## F-042-06 Neither discipline hides a failure
 

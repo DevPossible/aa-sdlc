@@ -6,7 +6,7 @@ aa:
   step: test-strategy
   guidance_sets: [every-step, anchored-step]
   guidance: [G-16, G-21]
-  requires: [R-03, R-16]
+  requires: [R-16]
 ---
 
 # /aa-qa-test-strategy
@@ -15,20 +15,24 @@ For an epic or release, decide what will be tested at which tier, what will be a
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
-- The feature files and architecture for the scope
+- The feature pages for the scope, pulled as feature files, and the architecture
 - The risk view from Security and Technical Analysis
 - Existing suites and their coverage
 
 ## Procedure
 
-1. **Anchor.** Read the epic or release ticket, every feature file in its scope, its knowledge
-   base page, and the architecture it will run on. Read the risk view from Security and
-   Technical Analysis and the existing suites. Note the head revision the strategy is written
-   against so a later run can tell what changed.
+1. **Anchor and pull.** Read the epic or release ticket and pull the feature pages in its scope:
+   their Approved scenarios into the features folder, and the page versions recorded on the
+   ticket (G-54). For a documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1
+   -KnowledgeRoot <folder> -FeaturesRoot <features>`; otherwise read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read every pulled feature
+   file, the ticket's knowledge base page, and the architecture it will run on. Read the risk
+   view from Security and Technical Analysis and the existing suites. Note the head revision and
+   the page versions the strategy is written against so a later run can tell what changed.
 2. **Inventory what is already proven.** For every scenario in scope, list the tests that exist
    for it and the tier each lives in; these are what Development owes for the requirement
    (O-08). Write the table down. The strategy starts where those tests stop (G-21).
@@ -66,13 +70,13 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
+- **G-21** Start from the scenarios pulled from the feature pages, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a Draft scenario proposed on its feature page, never in the feature file.
 - Push tests down. Prove it at the lowest tier that can observe it; end-to-end tests are for what only end-to-end can see.
 - Name the risks the requirement does not mention. Concurrency, data volume, partial failure, and permissions rarely appear in scenarios and usually appear in incidents.
 

@@ -622,3 +622,35 @@ tech-stack plugin, supplies the tool. /aa-fw-health detects presence; it never r
 | Then | R-17 is reported as unmet |
 | And | the report says feature files remain the source of truth but are not yet executable tests |
 | And | the remedy is for the user or a tech-stack plugin to supply one |
+
+## F-066-37 The feature-file check runs before a commit and in the pipeline
+
+| Scenario | F-066-37 |
+| --- | --- |
+| Name | The feature-file check runs before a commit and in the pipeline |
+| Kind | Scenario |
+| Tags | @R-47 @recommended @T-12 @O-11 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the repository's pre-commit hook runs the feature-file check |
+| And | the root build script runs it with its lint switch |
+| When | "/aa-fw-health" probes R-47 |
+| Then | R-47 is reported as met |
+
+## F-066-38 The feature-file check does not run
+
+| Scenario | F-066-38 |
+| --- | --- |
+| Name | The feature-file check does not run |
+| Kind | Scenario |
+| Tags | @R-47 @recommended @T-12 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | no pre-commit hook or build step runs the feature-file check |
+| When | "/aa-fw-health" probes R-47 |
+| Then | R-47 is reported as unmet |
+| And | the remedy is "aa init", which writes the hook, and "/aa-dev-setup-environment", which adds the check to the build script |

@@ -8,7 +8,7 @@ summary: >
 anchor: required
 inputs:
   - The deployed or locally running feature
-  - The scenarios and the prototype
+  - The scenarios, freshly pulled from their feature pages, and the prototype
 methodology:
   phase: 5
 artifacts:

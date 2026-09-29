@@ -15,21 +15,27 @@ Before building a ticket, write down how: which files and components change, in 
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
 - The ready ticket, its scenarios, and the implementation thinking its size was based on
 - The architecture, decision records, and technical constraints
 - The current code, read, not remembered
-- What changed in the linked feature files and the code since the ticket was refined (O-13)
+- What changed in the linked feature pages, their feature files, and the code since the ticket was refined (O-13)
 
 ## Procedure
 
-1. **Anchor and check currency.** Read the ticket, its scenarios, and the implementation thinking
-   its size was based on. Compare the repository at the revision the ticket was refined against
-   with the head, filtered to the linked feature files and the code the ticket touches, and say
-   what changed and whether the scenarios still hold before planning against them (O-13).
+1. **Anchor and check currency.** Pull the feature pages the ticket links to (G-54): their
+   Approved scenarios into the features folder as feature files with their provenance header.
+   With a documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1
+   -KnowledgeRoot <folder> -FeaturesRoot <features>`; with a knowledge base, read each page and
+   convert it with `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the
+   ticket, its scenarios, and the implementation thinking its size was based on. Compare the
+   page versions recorded on the ticket with the pages' current versions, and the repository at
+   the revision the ticket was refined against with the head, filtered to the linked feature
+   files and the code the ticket touches; say what changed and whether the scenarios still hold
+   before planning against them, and record the current page versions on the ticket (O-13).
 2. **Read the code you will change.** The actual files, the architecture, the decision records,
    and the technical constraints; a plan written from the diagram alone will meet the real code
    and lose.
@@ -43,7 +49,8 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 4. **Check the size against the plan.** If the plan reveals more than the sizing reasoning saw,
    revise the size on the ticket and say why (O-10). If the plan is longer than the change, the
    ticket is too big: hand it back to refinement to split.
-5. **Record the revision** the plan was written against, on the ticket (G-31).
+5. **Record the revision and the page versions** the plan was written against, on the ticket
+   (G-31, G-54).
 6. **Present the plan for confirmation** by the user or the ticket owner. Implementation does
    not start on an unconfirmed plan; if it changes, the change is on the ticket, not in a
    conversation.
@@ -57,14 +64,14 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 - Names the risks and unknowns, and how each will be resolved or accepted
 - Says which tiers of test the change touches (O-07)
 - Confirmed by the user or the ticket owner before implement runs
-- Records the repository revision it was written against (O-13)
+- Records the repository revision and the feature page versions it was written against (O-13)
 
 ## Guidance
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 
@@ -77,7 +84,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Read the code you will change before planning the change. A plan written from the architecture diagram alone will meet the real code and lose.
-- Check the ticket against the repository first. If the feature files or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
+- Check the ticket against the repository and the pages first. If the feature pages, the feature files, or the code moved since refinement, say what changed and whether the scenarios still hold before planning against them (O-13).
 - Plan the tests with the steps. A step with no test is a step you cannot know is done.
 - Plan the smallest change that makes the scenarios pass. A step that adds an option, a generalisation, or a feature no scenario needs comes out of the plan (O-20).
 - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.

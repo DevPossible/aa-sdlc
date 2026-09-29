@@ -43,6 +43,20 @@ down as the first proposals (config, folders, root script stubs), with consent.
      the mapping anyway and name the remedy. The mapping is never blocked on the connector (T-10).
    - If the user asks for a new ticket project, create it with consent and configure it as step
      3 describes before reporting it ready.
+   - Ask whether the ticket project and the knowledge base serve other projects, products,
+     repositories, or teams (T-14, G-55). Where the ticket project is shared, agree with the
+     user a query in the ticket system's own language that selects this project's tickets,
+     confirm through the connector what it selects, and record it as
+     `conventions.ticket.filter`.
+   - Ask for the project's own root page in the knowledge base, or offer to create one with
+     consent, and record it as `conventions.knowledge.root`. In a space shared with others the
+     root is the project's page, never the space itself.
+   - Where no knowledge base is in scope and the user declines a connector, offer the documents
+     folder's knowledge folder as the knowledge base (R-03). With consent, create
+     `docs/knowledge/Requirements/` if `aa init` did not, record the folder as
+     `conventions.knowledge.root`, and record in the development environment configuration
+     that it is the knowledge base. Say that its pages are in the knowledge base's own format,
+     so moving to a knowledge base later is an upload of those pages.
 3. **Check the ticket project now, before anything else** (O-26, R-41, R-43). As soon as a
    connector reaches the project, read its issue types, its workflow states and the moves
    between them, the parent links it allows, and its board. A project that cannot carry the life
@@ -56,7 +70,9 @@ down as the first proposals (config, folders, root script stubs), with consent.
      default workflow usually has too few states.
    - Propose each missing state, move, parent link, or board place as one line, naming the step
      that would stumble without it. With consent, make the change through the connector where
-     the user may administer the project. Where they may not, list the changes for the
+     the user may administer the project and the workflow and board are this project's alone.
+     Where they may not, or the workflow or board is shared with others, change nothing without
+     its owner's consent (T-14, G-55): list the changes for the workflow's owner or the
      project's administrator in the ticket system's own words and record what could be mapped.
    - Probe R-41 and R-43 again and say whether the project is ready. Recommend no discipline
      step while either is unmet, unless the user accepts the gap.
@@ -88,21 +104,32 @@ down as the first proposals (config, folders, root script stubs), with consent.
      the same way (O-06, R-19).
    - Run its check. If it is missing or too old on this machine, propose the install command as
      one line and run it only with consent, then check it again.
-7. **Match the knowledge base to the framework** (O-27). Read the knowledge base space's
-   top-level pages and offer to create any of the six sections that is missing, or to map it to
-   an existing page (R-42); create nothing without consent.
-8. **For a technology with no skill in scope**, name the technology and list the tech-stack
+7. **Match the knowledge base to the framework** (O-27, T-14). Read the pages under the
+   project's root, not the whole space, and offer to create any of the six sections that is
+   missing beneath the root, or to map it to an existing page under the root (R-42); create
+   nothing without consent, and never move, rename, or restructure a page outside the root.
+8. **Move requirements that exist only as feature files onto pages** (T-12, R-46). Where the
+   repository's requirements were written as feature files before this project used pages, the
+   files carry no provenance header and no page is their source. Offer, with consent, to seed
+   the pages from them with `scripts/aa-sdlc/ConvertTo-KnowledgePages.ps1`; to upload the
+   pages under the root's Requirements section, or keep them in the documents folder's
+   knowledge folder where that is the knowledge base; to link each story to the pages its
+   scenarios came from; and to pull the feature files back from the pages so each carries its
+   provenance header. Then run `scripts/aa-sdlc/Test-FeatureProvenance.ps1` over the features
+   folder and quote the result. If the user declines, leave the files as they are and list
+   R-46 as unmet.
+9. **For a technology with no skill in scope**, name the technology and list the tech-stack
    plugins that would cover it; the user chooses (R-13).
-9. **Map before you create.** If the repository already has an equivalent of a conventional
-   folder or script under another name, propose the mapping in the project config rather than a
-   second copy (O-05).
-10. **Leave stubs honest.** A root script stub says in its first lines exactly what it must do
+10. **Map before you create.** If the repository already has an equivalent of a conventional
+    folder or script under another name, propose the mapping in the project config rather than
+    a second copy (O-05).
+11. **Leave stubs honest.** A root script stub says in its first lines exactly what it must do
     when filled in, and exits non-zero until it is.
-11. **List what cannot be fixed here** with the requirement, what depends on it, and the remedy
+12. **List what cannot be fixed here** with the requirement, what depends on it, and the remedy
     the user must perform outside the agent. Do not attempt those.
-12. **Run `/aa-fw-health` again** and report what changed and what remains, requirement by
+13. **Run `/aa-fw-health` again** and report what changed and what remains, requirement by
     requirement.
-13. **Stage and present.** Stage every file you created or changed as one change set and present
+14. **Stage and present.** Stage every file you created or changed as one change set and present
     the summary with a Conventional Commit message such as `chore(aa): bootstrap the project`.
     Commit only if the user asked for the commit (O-17, G-40). No attribution trailers.
 
@@ -110,7 +137,7 @@ down as the first proposals (config, folders, root script stubs), with consent.
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
 
 *For this step:*
 
@@ -120,10 +147,10 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - Never choose a tool for the project. When a language has no formatter or a technology has no skill, name the gap and list what is available in the project's scope or as plugins; the user chooses (T-01).
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
 - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
-- The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01).
+- The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01). Record this project's ticket filter where the ticket project is shared and its own root page in the knowledge base (T-14); with no knowledge base in scope, offer the documents folder's knowledge folder in the same page format.
 - Survey only what the repository cannot answer. Infer the stack from what is there; when the repository is blank or leaves it open, ask what is being built, in which languages and frameworks at which versions, for which platforms, deployed where, and built by which pipeline, and record the answers so no one is asked twice.
 - Record every tool with the command that checks it and the command that installs it on each platform, and put the install in the root initialize script, so the next machine gets the same tools without this conversation.
-- Check the ticket project the moment it is confirmed, before anything else. Read its workflow, the moves between states, the parent links, and the board, and hold them to R-41 and R-43; propose each missing piece with the step that would stumble on it, make it with consent where the user may administer the project, and otherwise list it for the administrator. A project that cannot carry the life cycle is found hours later, in the middle of other work, when it is not checked first.
+- Check the ticket project the moment it is confirmed, before anything else. Read its workflow, the moves between states, the parent links, and the board, and hold them to R-41 and R-43; propose each missing piece with the step that would stumble on it, make it with consent where the user may administer the project and the workflow is this project's alone, and otherwise list it for the administrator or the shared workflow's owner (T-14). A project that cannot carry the life cycle is found hours later, in the middle of other work, when it is not checked first.
 
 ## Report
 
@@ -131,4 +158,6 @@ The second health report, then: what was proposed and accepted, what was propose
 declined, what was recorded as not applicable and why, and what remains for the user. If a
 connector was looked for, say which system, whether one was found, and whether it was usable.
 Say whether the ticket project can carry the life cycle (R-41, R-43), and list any change still
-waiting on its administrator.
+waiting on its administrator or a shared workflow's owner. Name the ticket filter and the
+knowledge root recorded, or say that the documents folder is the knowledge base, and say
+whether the feature files were seeded as pages and pulled back (R-46).

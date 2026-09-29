@@ -29,6 +29,6 @@ guidance_inline:
   - Generate the notes from the record, then edit for the reader. Group commits by type and ticket (O-14); tickets and commits say what changed, a person says what it means.
   - Never mark a checklist item done on someone's word. Link the test run, the approval, the scan.
   - A release with an unexplained change in it is not ready. Every commit since the last tag traces to a ticket or gets one.
-requires: [R-01, R-03, R-05, R-11, R-20, R-28, R-33, R-38]
+requires: [R-01, R-05, R-11, R-20, R-28, R-33, R-38]
 tenets: [T-06, T-07]
 opinions: [O-14, O-19, O-24]

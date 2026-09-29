@@ -1,21 +1,23 @@
-# F-017 /aa-doc-maintain-docs audits documentation against the feature files
+# F-017 /aa-doc-maintain-docs audits feature files and documentation against the feature pages
 
 | Feature | F-017 |
 | --- | --- |
-| Name | /aa-doc-maintain-docs audits documentation against the feature files |
-| Tags | @agent @documentation @O-16 |
+| Name | /aa-doc-maintain-docs audits feature files and documentation against the feature pages |
+| Tags | @agent @documentation @O-16 @T-12 |
 | File | maintain-docs |
 
-Walk from the feature files outward to the knowledge base and the documents folder, fix
-what has drifted, delete what describes something that no longer exists, surface
-contradictions as conflicts, and report what was checked, fixed, and ticketed.
+Walk from the feature pages outward: check that every feature file in the repository was
+pulled from its page, unedited, and is current with it, then check the rest of the
+documentation against the pages, the code, and the running software. Fix what has drifted,
+delete what describes something that no longer exists, surface contradictions as conflicts,
+and report what was checked, fixed, and ticketed.
 
 ## Background
 
 | Step | Text |
 | --- | --- |
 | Given | a project bootstrapped with "aa init" |
-| And | a maintenance ticket and a previous documentation health report naming the revision it audited |
+| And | a maintenance ticket and a previous documentation health report naming the revision and page versions it audited |
 
 ## F-017-01 The scope is the changes since the last audit
 
@@ -30,8 +32,8 @@ contradictions as conflicts, and report what was checked, fixed, and ticketed.
 | --- | --- |
 | When | "/aa-doc-maintain-docs" starts |
 | Then | it computes the range of changes merged since the revision the last report audited |
-| And | it lists the feature files, code, and documents changed in that range |
-| And | it records the head revision this audit is made against |
+| And | it lists the feature pages, feature files, code, and documents changed in that range |
+| And | it records the head revision and the page versions this audit is made against |
 
 ## F-017-02 A page behind its feature file is fixed from the feature file
 
@@ -40,7 +42,7 @@ contradictions as conflicts, and report what was checked, fixed, and ticketed.
 | Name | A page behind its feature file is fixed from the feature file |
 | Kind | Scenario |
 | Tags |  |
-| Status | Approved |
+| Status | Retired |
 
 | Step | Text |
 | --- | --- |
@@ -49,21 +51,21 @@ contradictions as conflicts, and report what was checked, fixed, and ticketed.
 | Then | the page is updated to match the feature file |
 | And | the fix is listed in the health report |
 
-## F-017-03 A page that states what no scenario states is a conflict
+## F-017-03 A document that states what no scenario states is a conflict
 
 | Scenario | F-017-03 |
 | --- | --- |
-| Name | A page that states what no scenario states is a conflict |
+| Name | A document that states what no scenario states is a conflict |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
 
 | Step | Text |
 | --- | --- |
-| Given | a knowledge base page describes behaviour no scenario in its feature file states |
+| Given | a knowledge base page or a document describes behaviour no scenario on the feature pages states |
 | When | "/aa-doc-maintain-docs" compares them |
-| Then | a question naming the page and the behaviour is on the ticket |
-| And | neither the feature file nor the page is changed to hide the difference |
+| Then | a question naming the document and the behaviour is on the ticket |
+| And | neither the feature page nor the document is changed to hide the difference |
 
 ## F-017-04 Documentation for something that no longer exists is deleted
 
@@ -109,7 +111,7 @@ contradictions as conflicts, and report what was checked, fixed, and ticketed.
 | Step | Text |
 | --- | --- |
 | When | "/aa-doc-maintain-docs" finishes |
-| Then | a health report in the knowledge base lists the revision range, what was checked, fixed, deleted, ticketed, and not checked |
+| Then | a health report in the knowledge base lists the revision range and page versions, what was checked, fixed, deleted, ticketed, and not checked |
 | And | the report is linked from the ticket |
 
 ## F-017-07 Fixes are staged on a branch and presented, never committed
@@ -127,3 +129,53 @@ contradictions as conflicts, and report what was checked, fixed, and ticketed.
 | Then | the documentation changes are on a branch that references the ticket |
 | And | they are staged as one change set with a Conventional Commit message naming the ticket |
 | And | no commit is made unless the user asked for that commit |
+
+## F-017-08 A feature file behind its page is pulled again
+
+| Scenario | F-017-08 |
+| --- | --- |
+| Name | A feature file behind its page is pulled again |
+| Kind | Scenario |
+| Tags | @R-46 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a feature page changed and the feature file pulled from it did not |
+| When | "/aa-doc-maintain-docs" checks the feature files against their pages |
+| Then | the feature file is brought up to date by pulling the page |
+| And | the page is not changed to match the feature file |
+| And | the fix is listed in the health report |
+
+## F-017-09 A feature file edited by hand is restored from its page
+
+| Scenario | F-017-09 |
+| --- | --- |
+| Name | A feature file edited by hand is restored from its page |
+| Kind | Scenario |
+| Tags | @G-18 @R-46 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a feature file with no provenance header or a checksum that no longer matches |
+| When | "/aa-doc-maintain-docs" runs the feature-file check |
+| Then | the check's output is quoted in the health report |
+| And | the feature file is restored by pulling its page |
+| And | a change the edit meant is proposed on the page for its owner to approve |
+
+## F-017-10 A feature file no page generates is a conflict
+
+| Scenario | F-017-10 |
+| --- | --- |
+| Name | A feature file no page generates is a conflict |
+| Kind | Scenario |
+| Tags | @T-12 @R-46 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a feature file that no feature page generates |
+| When | "/aa-doc-maintain-docs" runs the feature-file check |
+| Then | a question naming the feature file is on the ticket |
+| And | the feature file is neither absorbed into a page nor deleted without its owner's word |

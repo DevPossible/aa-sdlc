@@ -6,7 +6,7 @@ aa:
   step: architect
   guidance_sets: [every-step, anchored-step, repository-write]
   guidance: [G-16, G-23, G-41, G-43, G-53]
-  requires: [R-03, R-06, R-32, R-34, R-42]
+  requires: [R-06, R-32, R-34, R-42]
 ---
 
 # /aa-ta-architect
@@ -15,20 +15,24 @@ Decide the shape of the system for an epic or initiative: components, boundaries
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
-- The feature files and technical constraints document
+- The feature pages the epic links to, pulled as feature files, and the technical constraints document
 - The existing architecture and decision records
 - Organisational standards from the enterprise or team scope
 
 ## Procedure
 
-1. **Anchor.** Read the epic, its feature files, the technical constraints document, the existing
-   architecture and decision records, and any organisational standards in scope (G-22). Where
-   the feature files are thin or contradict each other, write the questions on the epic (G-16)
-   rather than architecting around a guess.
+1. **Anchor and pull.** Read the epic and pull the feature pages it links to: their Approved
+   scenarios into the features folder, and the page versions recorded on the epic (G-54). For a
+   documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot
+   <folder> -FeaturesRoot <features>`; otherwise read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the pulled feature
+   files, the technical constraints document, the existing architecture and decision records,
+   and any organisational standards in scope (G-22). Where the scenarios are thin or contradict
+   each other, write the questions on the epic (G-16) rather than architecting around a guess.
 2. **Trace the scenarios.** List every scenario and what it needs: the data it creates or reads,
    the boundaries it crosses, the integrations it touches. This list is what the architecture
    must satisfy, and nothing more (O-20).
@@ -74,8 +78,8 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 - `src/aa-sdlc/skills/aa-guidance/sets/repository-write.md`: What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
 
 *For this step:*
@@ -84,7 +88,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
-- **G-53** Put each knowledge base page under the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
+- **G-53** Put each knowledge base page under the project's own root, in the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
 - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
 - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-41).
 - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.

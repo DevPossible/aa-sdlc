@@ -14,7 +14,7 @@ Walk the user from a need the framework does not cover to a valid, installable e
 
 ## Anchor
 
-A ticket is optional here. When one is given, read it, its linked scenarios, and its page first (G-22) and write the outcome back to it; when none is, produce the artifacts locally and say so.
+A ticket is optional here. When one is given, read it and its page and pull the feature pages it links to first (G-22, G-54) and write the outcome back to it; when none is, produce the artifacts locally and say so.
 
 ## Inputs
 
@@ -44,7 +44,10 @@ A ticket is optional here. When one is given, read it, its linked scenarios, and
    of the framework authoring commands in the aa-sdlc repository.
 4. **Write the feature file first.** Capture the extension's behaviour as scenarios in its own
    features folder, tagged with the framework ids they realise, before any skill text is
-   written (T-12). The scenarios are what the skill is checked against.
+   written (T-12). The scenarios are what the skill is checked against. A pack or an adapter
+   ships its feature files inside its package. A project skill is a requirement of this
+   project, so write its scenarios on a feature page under the project's knowledge root and
+   pull the feature file from it (G-18).
 5. **Scaffold the extension** in the location its kind names: plugins/<name>/ for a pack, the
    project's skills location for a project skill, targets/<name>/ for an adapter. Write the
    manifest (its `kind` is `tech-stack`, `tool`, or `process`) and, for each step it extends, a
@@ -78,8 +81,8 @@ A ticket is optional here. When one is given, read it, its linked scenarios, and
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 

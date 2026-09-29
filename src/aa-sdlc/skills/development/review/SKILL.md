@@ -15,26 +15,39 @@ Review a merge request against its ticket, its scenarios, its plan, and the proj
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
 - The merge request and its diff
-- The ticket, scenarios, and implementation plan
+- The ticket, its scenarios pulled from their feature pages, and the implementation plan
+- The feature files on the branch
 - The build and test results for the branch
 
 ## Procedure
 
 **Hand the independent part to a separate context where you can** (decision record 0015). If this
-harness can run the `aa-dev` subagent, give it steps 2 to 5 (run it, walk the diff, check the
-commits, check the proof), with the ticket, its scenarios, its plan, and the branch, and record what
-it returns in step 6, saying the findings came from the agent. Otherwise do those steps yourself,
-reading the change as if you had not written it.
+harness can run the `aa-dev` subagent, give it steps 2 to 5 (run it and the feature-file check, walk
+the diff, check the commits, check the proof), with the ticket, its scenarios, its plan, and the
+branch, and record what it returns in step 6, saying the findings came from the agent. Otherwise do
+those steps yourself, reading the change as if you had not written it.
 
-1. **Read the purpose before the diff.** The ticket, its scenarios, and its plan. A diff
-   reviewed without its purpose is proofread, not reviewed.
+1. **Read the purpose before the diff.** Pull the feature pages the ticket links to (G-54): their
+   Approved scenarios into the features folder as feature files with their provenance header.
+   With a documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1
+   -KnowledgeRoot <folder> -FeaturesRoot <features>`; with a knowledge base, read each page and
+   convert it with `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the
+   ticket, its scenarios, and its plan. A diff reviewed without its purpose is proofread, not
+   reviewed. A scenario whose page moved on since the branch pulled it is a finding: the branch
+   was built against a requirement that is no longer the one agreed.
 2. **Run it yourself.** Build and test the branch with the root scripts, lint switch included,
-   and keep the output; do not trust a green badge you did not see produced (G-04).
+   and keep the output; do not trust a green badge you did not see produced (G-04). Run the
+   feature-file check on the branch (G-56): `scripts/aa-sdlc/Test-FeatureProvenance.ps1
+   -FeaturesRoot <features>` for any knowledge base, or `scripts/aa-sdlc/Sync-FeatureFiles.ps1
+   -KnowledgeRoot <folder> -FeaturesRoot <features> -Check` for a documents-folder one, and
+   quote its output. A feature file that fails it, with no provenance header, a checksum that
+   does not match, or no page that generates it, is a blocking finding: the fix is to change the
+   page and pull it, never to edit the file.
 3. **Walk the diff hunk by hunk** and ask of each what it is for. A hunk that traces to no
    scenario of the ticket and no stated reason is a finding (O-19). Structure that serves no
    scenario, an abstraction with one implementation, an option nobody sets, is a finding
@@ -64,14 +77,15 @@ reading the change as if you had not written it.
 - A manifest changed without its lock file, or a lock file edited by hand, is a blocking finding (O-22)
 - A test that depends on order, real time, unseeded randomness, shared state, or a live dependency, or a retry added to a test, is a blocking finding (O-23)
 - A setting in the wrong place, an endpoint in the application configuration or a timeout in an environment file, is a finding (O-25)
+- A feature file that fails the feature-file check (no provenance header, a checksum mismatch, or no page that generates it) is a blocking finding; the fix is to change the page and pull it (G-56)
 - The review says what it did not check
 
 ## Guidance
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 
@@ -86,6 +100,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
 - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
 - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
+- Run the feature-file check on the branch every time. A feature file with no provenance header, a checksum that does not match, or no page that generates it was not pulled from the knowledge base; it blocks the change until the page is changed and pulled (G-56).
 - Blocking findings are about correctness, security, and the requirement. Style is the formatter's and linter's job, never a review comment (O-21); if a style issue reached review, the finding is that the tools did not run.
 - Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).
 - Report faithfully: "approved" means every scenario has a passing test that you saw run.

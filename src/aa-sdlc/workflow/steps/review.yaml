@@ -8,7 +8,8 @@ summary: >
 anchor: required
 inputs:
   - The merge request and its diff
-  - The ticket, scenarios, and implementation plan
+  - The ticket, its scenarios pulled from their feature pages, and the implementation plan
+  - The feature files on the branch
   - The build and test results for the branch
 artifacts:
   - name: Review findings
@@ -20,12 +21,14 @@ artifacts:
       - A manifest changed without its lock file, or a lock file edited by hand, is a blocking finding (O-22)
       - A test that depends on order, real time, unseeded randomness, shared state, or a live dependency, or a retry added to a test, is a blocking finding (O-23)
       - A setting in the wrong place, an endpoint in the application configuration or a timeout in an environment file, is a finding (O-25)
+      - A feature file that fails the feature-file check (no provenance header, a checksum mismatch, or no page that generates it) is a blocking finding; the fix is to change the page and pull it (G-56)
       - The review says what it did not check
 guidance_sets: [every-step, anchored-step]
 guidance: [G-04, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48]
 guidance_inline:
   - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
   - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
+  - Run the feature-file check on the branch every time. A feature file with no provenance header, a checksum that does not match, or no page that generates it was not pulled from the knowledge base; it blocks the change until the page is changed and pulled (G-56).
   - Blocking findings are about correctness, security, and the requirement. Style is the formatter's and linter's job, never a review comment (O-21); if a style issue reached review, the finding is that the tools did not run.
   - Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).
   - "Report faithfully: \"approved\" means every scenario has a passing test that you saw run."

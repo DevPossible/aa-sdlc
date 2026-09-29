@@ -166,6 +166,8 @@ conventions:
     url: https://tickets.example.com/projects/ABC   # where it lives; the agent finds a connector for it (T-05)
     pattern: "[A-Z]+-\\d+"          # how a ticket id looks; used in tags, branches, commits
     tag: "@{id}"                    # how a scenario is tagged with its ticket
+    filter: "component = Orders"    # where the ticket project is shared (T-14): selects this project's tickets,
+                                    # in the ticket system's own query language
     kinds:                          # the framework's ticket kinds, as the ticket system names them (O-26)
       epic: Epic
       story: Story
@@ -183,7 +185,9 @@ conventions:
   knowledge:
     space: "ABC"                    # the knowledge repository for this project (O-04)
     url: https://wiki.example.com/spaces/ABC
-    sections:                       # the six top-level sections, as the space names them (O-27)
+    root: "Order Tracking"          # the project's own page, under which its sections live (T-14, R-42);
+                                    # the knowledge folder where the documents folder is the knowledge base
+    sections:                       # the six sections under the root, as the project names them (O-27)
       overview: Overview
       requirements: Requirements
       architecture: Architecture
@@ -203,6 +207,7 @@ folders:                            # only needed when a repo does not use the c
   source: src
   tests: tests
   decisions: docs/decisions         # numbered, immutable decision records (O-18); a knowledge base location may be named instead
+  knowledge: docs/knowledge         # the knowledge base, in the knowledge base's page format, where none is in scope (T-12, R-03)
 stack:                              # what /aa-fw-init inferred or the user answered in its survey (R-44)
   description: Order tracking web API for the warehouse team
   languages: [csharp 13, typescript 5.6]

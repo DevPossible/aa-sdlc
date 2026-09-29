@@ -33,10 +33,12 @@ exist; otherwise stop and say so.
 2. **Check for overlap.** Read every tenet in `docs/tenets.md`. If an existing tenet already
    covers the principle, propose strengthening its text instead of adding a new one, and stop
    unless the user insists.
-3. **Write the feature file first.** Create `features/framework/<slug>.feature` tagged
-   `@framework @T-nn` (using the next id) with at least three scenarios showing the principle
-   applied in concrete situations. If you cannot write three, the principle is too abstract to
-   govern anything; say so.
+3. **Write the feature page first.** Create `docs/knowledge/Requirements/framework/<slug>.md`
+   in the format of `docs/formats.md` section 4, tagged `@framework @T-nn` (using the next id),
+   with at least three scenarios showing the principle applied in concrete situations. Leave
+   the new id cells empty and run `./scripts/Add-FeatureId.ps1`, which assigns the `F` ids and
+   pulls `features/`. If you cannot write three, the principle is too abstract to govern
+   anything; say so.
 4. **Take the next id** from `docs/tenets.md` and **add the entry** after the last tenet, in
    this shape: a bold one-line statement, then one paragraph of reasoning. Update the sentence
    near the top that groups tenets by purpose so it includes the new one.
@@ -59,14 +61,14 @@ exist; otherwise stop and say so.
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
 - `src/aa-sdlc/skills/aa-guidance/sets/framework-authoring.md`: What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
 
 *For this step:*
 
 - A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-internal-new-opinion or docs/guidance.md and stop.
 - Tenets are few. Before adding one, check whether an existing tenet already covers it; if so, strengthen that tenet's text instead.
-- Write the feature file before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything.
+- Write the feature page before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything.
 - Read every opinion and every guidance item against the new tenet and fix what conflicts. A tenet that existing content contradicts is not yet true.
 - Ids are permanent. Take the next T-nn; never renumber.
 

@@ -111,3 +111,19 @@ user's; gates are never bypassed.
 | When | "/aa-dev-finish-branch" reaches it |
 | Then | it does not use a bypass flag |
 | And | it fixes the cause or tells the user, and stops at the open request |
+
+## F-010-07 A feature file not pulled from its page blocks the merge
+
+| Scenario | F-010-07 |
+| --- | --- |
+| Name | A feature file not pulled from its page blocks the merge |
+| Kind | Scenario |
+| Tags | @G-56 @R-46 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the branch has a feature file with no provenance header, a checksum that does not match, or no page that generates it |
+| When | "/aa-dev-finish-branch" runs the feature-file check |
+| Then | it quotes the check's output and reports the feature file as blocking the merge |
+| And | it says to change the page and pull it, never to edit the file |

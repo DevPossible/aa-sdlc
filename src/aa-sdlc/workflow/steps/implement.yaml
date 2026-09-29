@@ -7,10 +7,10 @@ summary: >
   references the ticket, following the confirmed plan.
 anchor: required
 inputs:
-  - The anchor ticket and its scenarios in the feature files
+  - The anchor ticket and its scenarios, pulled from their feature pages into the feature files (G-54)
   - The confirmed implementation plan and tasks
   - The current code, read before it is changed
-  - What changed in the linked feature files and the files the plan names since the ticket was planned (O-13)
+  - What changed in the linked feature pages, their feature files, and the files the plan names since the ticket was planned (O-13)
 methodology:
   phase: 2
   steps: ["2.2", "2.3", "2.4"]
@@ -21,6 +21,7 @@ artifacts:
       - Builds with the root build script, and passes it with the lint switch (O-21)
       - Every scenario for the ticket has a passing unit test, integration test, and happy-path end-to-end test, as the change warrants each tier
       - Follows the plan, or the deviation is recorded on the ticket with the reason
+      - No feature file was edited by hand; the feature-file check passes (G-56)
   - name: Tests that prove the requirement
     location: unit tests with the project; integration and happy-path end-to-end tests under tests/
     acceptance:
@@ -28,11 +29,12 @@ artifacts:
 guidance_sets: [every-step, anchored-step, code-change, test-writing]
 guidance: [G-05, G-17, G-20, G-30, G-32, G-43, G-48, G-49, G-51]
 guidance_inline:
-  - Check the ticket against the repository before anything else. Diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
+  - Check the ticket against the repository and the pages before anything else. Compare the page versions recorded on the ticket with the pages' current versions, and diff from the recorded revision to the head, filtered to the feature files and the files the plan names; record the result on the ticket, and send a conflict back to refinement rather than building on it (O-13).
   - Write the failing test for the scenario before the code that passes it. Then the code has one job.
   - Control what varies. Inject or freeze time, seed randomness, own the test data, and fake or containerise external dependencies; a test with a sleep or a live call in it is not finished (O-23).
   - Stop at every green. Stage the change, write a Conventional Commit message that names its type and its ticket (O-14), present the staged diff and the message, and wait; commit only if the user asked for that commit (O-17).
   - When the plan meets reality and loses, stop and update the plan on the ticket before continuing. Do not improvise silently.
+  - Never edit a feature file. A scenario found wrong or missing while building is converted to the page format with ConvertTo-FeaturePage and proposed on its feature page for its owner to approve; the repository gets it only by pulling the page once it is Approved (G-18).
   - Do not widen the change. Adjacent problems become tickets, not fixes on this branch; every hunk on the branch names the ticket, scenario, or decision it serves (O-19).
   - Change a dependency with the package manager, never by editing a version in a file. If the tool refuses, the refusal goes on the ticket; it is not bypassed (O-22).
   - "Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16)."

@@ -72,7 +72,7 @@ with the test now passing, on a branch that references the ticket.
 | Name | A defect no scenario covers gets a scenario |
 | Kind | Scenario |
 | Tags |  |
-| Status | Approved |
+| Status | Retired |
 
 | Step | Text |
 | --- | --- |
@@ -110,3 +110,20 @@ with the test now passing, on a branch that references the ticket.
 | When | the fix passes its proof |
 | Then | it is staged with a fix-typed Conventional Commit message naming the ticket |
 | And | no commit is made unless the user asked for that commit |
+
+## F-011-07 A defect no scenario covers gets a scenario proposed on its page
+
+| Scenario | F-011-07 |
+| --- | --- |
+| Name | A defect no scenario covers gets a scenario proposed on its page |
+| Kind | Scenario |
+| Tags | @G-18 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the defect violates behaviour no scenario states |
+| When | "/aa-dev-fix-bug" fixes it |
+| Then | a Draft scenario is proposed on its feature page for its owner to approve |
+| And | the ticket names the scenario and records it as pending approval |
+| And | no feature file is edited; the scenario reaches the repository when it is Approved and pulled |

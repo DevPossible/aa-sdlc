@@ -27,7 +27,8 @@ A process is an ordering of steps toward a goal. Every step in it still runs alo
 | --- | --- |
 | When | I run "/aa-internal-new-process" with a goal and an ordered list of existing steps |
 | Then | workflow/processes/<id>.yaml exists with the steps in order, process guidance, and an exit condition |
-| And | a feature file shows the process run end to end and any step run alone |
+| And | a feature page under docs/knowledge/Requirements/framework/ shows the process run end to end and any step run alone |
+| And | its feature file is pulled from it into features/, not written by hand |
 
 ## F-031-02 Missing steps are created first
 

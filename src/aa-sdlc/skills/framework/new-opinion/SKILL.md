@@ -55,9 +55,9 @@ Ask for anything missing before writing:
    `README.md` opinions list and to the group's sentence in `docs/design.md` section 2.
 5. **Create implied requirements.** For each capability the stance assumes, add a row to the
    right table in `docs/requirements.md` with the next `R-nn`, then add a met scenario and an
-   unmet scenario to the matching file under `features/requirements/`, tagged `@R-nn`, the
-   level, and `@O-nn`. If `aa init` should lay it down, add a scenario to
-   `features/cli/init.feature`.
+   unmet scenario to the matching page under `docs/knowledge/Requirements/requirements/`,
+   tagged `@R-nn`, the level, and `@O-nn`. If `aa init` should lay it down, add a scenario to
+   `docs/knowledge/Requirements/cli/init.md`. Leave each new id cell empty.
 6. **Create implied guidance.** For each practice the stance demands, add a row to
    `docs/guidance.md` with the next `G-nn`, then cite it from every step it applies to by
    editing that step's `guidance:` list in `src/aa-sdlc/workflow/steps/<step>.yaml`. Add the
@@ -65,8 +65,11 @@ Ask for anything missing before writing:
    so every affected skill carries the new text verbatim; the unit tier fails until it does.
 7. **Update the config format** in `docs/formats.md` if the stance needs a new
    `aa.config.yaml` key, with a comment citing `O-nn`.
-8. **Write the scenarios** for the opinion in action: `features/framework/<slug>.feature`,
-   tagged `@O-nn`, at least three scenarios, each with a Then step.
+8. **Write the feature page** for the opinion in action:
+   `docs/knowledge/Requirements/framework/<slug>.md`, tagged `@O-nn`, at least three scenarios,
+   each with a Then step, in the format of `docs/formats.md` section 4. Leave the new id cells
+   empty and run `./scripts/Add-FeatureId.ps1`, which assigns the `F` ids and pulls `features/`
+   from the pages; never edit a feature file by hand (G-18).
 9. **Log the decision.** Add the next row to the decision log in `docs/design.md`, citing
    `O-nn` and the ids it created.
 10. **Verify.** Run `./test.ps1 -Tier unit`; fix every problem it reports. Run
@@ -80,7 +83,7 @@ Ask for anything missing before writing:
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
 - `src/aa-sdlc/skills/aa-guidance/sets/framework-authoring.md`: What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
 
 *For this step:*

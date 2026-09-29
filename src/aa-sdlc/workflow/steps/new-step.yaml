@@ -24,11 +24,11 @@ artifacts:
       - Frontmatter name equals the step id, description is present, and aa.requires equals the step's requires
       - Body cites the step's guidance by id and states the artifacts and their locations
   - name: Scenarios
-    location: features/<discipline>/<step>.feature
+    location: docs/knowledge/Requirements/<discipline>/<step>.md, with features/ pulled from it
     acceptance:
       - Tagged with the discipline and step; shows the command run with an anchor, without one where anchor is optional, and reporting a failure faithfully
   - name: Documents and review
-    location: docs/guidance.md for promoted guidance; docs/requirements.md and features/requirements/ for new requirements; docs/design.md; docs/discipline-review.md
+    location: docs/guidance.md for promoted guidance; docs/requirements.md and docs/knowledge/Requirements/requirements/ for new requirements; docs/design.md; docs/discipline-review.md
     acceptance:
       - New shared guidance has an id; new requirements have scenarios; the design's step map is updated if the step traces to the methodology
       - The review regenerates and the unit tier passes
@@ -37,6 +37,6 @@ guidance_inline:
   - "Name the step by the work, in the imperative, unique across all disciplines: implement, not development-work; fix-bug, not bugfix. The id is the last segment of the command and the skill folder name, so it cannot change later."
   - "Guidance names categories, never tools (T-01). If the step needs a tool category, declare the requirement and cite it; if it needs a specific tool, the step belongs in a plugin."
   - "Promote guidance to an id only when a second step shares it; otherwise keep it inline on the step. Do not create G-nn ids speculatively."
-  - "Check every anchor: a step with anchor required must read the ticket first (G-22) and update it last (G-12); write both into the skill body."
+  - "Check every anchor: a step with anchor required must read the ticket and pull the feature pages it links to first (G-22, G-54) and update it last (G-12); write both into the skill body."
   - "Run the validator before regenerating the review; a step the validator rejects is not added."
 tenets: [T-01, T-08, T-11, T-12]

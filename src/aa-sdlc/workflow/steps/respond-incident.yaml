@@ -28,6 +28,6 @@ guidance_inline:
   - Contain first, diagnose second. Rollback, feature flag, or scale before root cause.
   - Write the timeline as you go. A timeline reconstructed afterwards is fiction with timestamps.
   - Say what you know and what you do not, at a stated cadence. Silence during an incident is the worst status update.
-requires: [R-03, R-33]
+requires: [R-33]
 tenets: [T-06, T-07]
 opinions: [O-19]

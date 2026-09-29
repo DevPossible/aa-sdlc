@@ -7,7 +7,7 @@ summary: >
   criteria checkable, size agreed, dependencies clear, questions answered or owned.
 anchor: required
 inputs:
-  - The ticket and its linked scenarios
+  - The ticket and its linked scenarios on their feature pages
   - Open questions on the ticket
   - The team's definition of ready from the project config or knowledge base
 artifacts:
@@ -17,7 +17,7 @@ artifacts:
       - Meets every item of the definition of ready, or says which item it does not and why it proceeds anyway
       - Acceptance criteria are the scenarios, not a restatement of them
       - Size is recorded with the implementation thinking that grounds it, and cites it
-      - Records the repository revision the scenarios were checked against (O-13)
+      - Records the repository revision and the feature page versions the scenarios were checked against (O-13, G-54)
 guidance_sets: [every-step, anchored-step]
 guidance: [G-16, G-18, G-28, G-31, G-51]
 guidance_inline:

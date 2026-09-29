@@ -15,18 +15,23 @@ Use the built software the way a user would and record where the interaction fai
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
 - The deployed or locally running feature
-- The scenarios and the prototype
+- The scenarios, freshly pulled from their feature pages, and the prototype
 
 ## Procedure
 
 1. **Anchor and check currency.** Read the anchor ticket, its linked scenarios, its page, and
-   the prototype (G-22). Compare the feature files at head with the revision the ticket records
-   (O-13) and note on the ticket any scenario that changed after the prototype was made, so a
+   the prototype (G-22). Pull the feature pages the ticket links to: their Approved scenarios
+   into the features folder and the page versions onto the ticket (G-54), with
+   `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot <folder> -FeaturesRoot <features>` for a
+   documents-folder knowledge base, or by reading each page and converting it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Compare the pulled feature
+   files and page versions with the revision and versions the ticket records (O-13) and note on
+   the ticket any scenario that changed after the prototype was made, so a
    difference between them is not mistaken for a finding. Confirm the deployed or locally
    running feature is the build the ticket names.
 2. **Follow the scenario literally first.** For each scenario with a user interface, do exactly
@@ -39,11 +44,12 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    what happened, and the severity, with a capture as evidence where it helps (T-07).
 5. **Distinguish defect from design.** "It does not do what the scenario says" is a defect for
    Development. "The scenario was wrong" is a requirement change for Business Analysis, raised
-   as a question on the ticket and changed in the feature file first, then the mock-up (G-36).
+   as a question on the ticket and proposed on the scenario's feature page for its owner to
+   approve, then the mock-up (G-18, G-36); never edit a feature file.
    Behaviour the mock-up shows that no scenario states is a question, not a defect.
 6. **Raise the tickets.** Every finding with severity above cosmetic becomes a ticket in the
-   configured ticket project, linked to this one (G-27). Cosmetic findings are listed on the
-   page.
+   configured ticket project, linked to this one (G-27, G-55). Cosmetic findings are listed on
+   the page.
 7. **Update the ticket.** Record the usability findings on the anchor ticket and the knowledge
    base page, linked both ways (G-26), with the tickets raised, what was not exercised, and what
    remains (G-12). Then report.
@@ -59,8 +65,8 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 

@@ -1,9 +1,11 @@
 # Generated from the knowledge base page Requirements/business-analysis/discover. Do not edit: change the page, then pull it.
-# Checksum: sha256:a75112febc76291b8de20963e4799ef2f87da28590feae4f629cb2163b236c96
+# Checksum: sha256:71eed82b23bc1a3ad87351e7b720fd67f2de1cf9784d31d24e9bdad1c05123b5
 @agent @business-analysis @O-01 @O-15 @F-003
 Feature: /aa-ba-discover captures what stakeholders need as draft scenarios
-  Capture stakeholder input as draft Gherkin scenarios in the features folder from the first
-  pass, tagged with the epic, with a question log on the epic for everything not yet answered.
+  Capture stakeholder input as Draft scenarios on feature pages in the knowledge base from the
+  first pass, tagged with the epic, with a question log on the epic for everything not yet
+  answered. No feature file is written; the repository gets a scenario by pulling its page once
+  the scenario is Approved.
   A screenshot or mock-up that arrives as the request is treated as evidence, not as the
   requirement.
 
@@ -14,9 +16,10 @@ Feature: /aa-ba-discover captures what stakeholders need as draft scenarios
   @F-003-01
   Scenario: Needs are written as Gherkin from the first pass
     When "/aa-ba-discover" captures the stated needs
-    Then each need is a draft scenario in a feature file in the features folder
+    Then each need is a Draft scenario on a feature page under the project's Requirements section
     And each scenario is tagged with the epic
-    And the feature description states the business objectives, the scope boundaries, and the knowledge base page
+    And the feature description states the business objectives and the scope boundaries
+    And no feature file is written
 
   @F-003-02
   Scenario: A screenshot is a witness, not a specification
@@ -43,21 +46,28 @@ Feature: /aa-ba-discover captures what stakeholders need as draft scenarios
 
   @F-003-05
   Scenario: An existing scenario is not written twice
-    Given an existing feature file already states one of the needs
+    Given an existing feature page already states one of the needs
     When "/aa-ba-discover" captures the needs
     Then the existing scenario is linked from the epic
     And no duplicate scenario is written
 
   @F-003-06
   Scenario: A requirement found only in the ticket is a conflict
-    Given the epic description states a requirement that no feature file contains
+    Given the epic description states a requirement that no feature page contains
     When "/aa-ba-discover" checks where the truth lives
     Then it raises the requirement as a conflict on the epic
     And it does not absorb it silently
 
   @F-003-07
-  Scenario: The feature files are staged and presented, never committed
+  Scenario: The pages are linked and presented, never committed
     When "/aa-ba-discover" finishes
-    Then the epic links to the feature file and the page, and the page links back
-    And the new and changed feature files are staged with a Conventional Commit message
+    Then the epic links to each feature page and its scenario ids, and each page links back
+    And where the pages are in the documents folder, the new and changed pages are staged with a Conventional Commit message
     And no commit is made unless the user asked for that commit
+
+  @G-18 @F-003-08
+  Scenario: A requirement found only in a feature file is a conflict
+    Given a feature file in the repository states a requirement that no feature page generates
+    When "/aa-ba-discover" checks where the truth lives
+    Then it raises the requirement as a conflict on the epic
+    And it does not absorb it into a page silently

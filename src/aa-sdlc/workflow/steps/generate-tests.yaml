@@ -5,7 +5,7 @@ command: /aa-qa-generate-tests
 summary: >
   Start from the scenarios and the tests Development wrote, then apply general testing
   strategies to find and test what the requirement did not say. Every gap becomes a question
-  on the ticket and a scenario in the feature file.
+  on the ticket and a Draft scenario on the feature page.
 anchor: required
 inputs:
   - The ticket's scenarios and the tests already written for them
@@ -21,16 +21,16 @@ artifacts:
       - Adds tests for boundaries, state transitions, error and recovery paths, concurrency, and realistic interaction sequences where relevant
       - Does not duplicate Development's tests
   - name: Gaps as scenarios and questions
-    location: the features folder and the anchor ticket
+    location: the feature pages in the knowledge base and the anchor ticket
     acceptance:
-      - Every behaviour found that the requirement did not specify is a question on the ticket and a pending scenario in the feature file
+      - Every behaviour found that the requirement did not specify is a question on the ticket and a Draft scenario proposed on its feature page
 guidance_sets: [every-step, anchored-step, repository-write, test-writing]
 guidance: [G-07, G-18, G-19, G-21, G-49]
 guidance_inline:
   - Read Development's tests first and say what they cover. Your job starts where theirs stops.
   - Test the seams. The boundaries between components, between tiers, and between the system and its dependencies are where the requirement was vaguest.
   - Every test you add runs alone and in any order with the same result. Control time, randomness, state, and dependencies; never lean on another test having run first (O-23).
-  - A pending scenario is a real scenario with a tag saying it awaits an answer. Do not leave gaps as comments in test code.
+  - A Draft scenario on the feature page is a real scenario awaiting an answer; it reaches the repository only when its owner approves it. Do not leave gaps as comments in test code, and never add them to a feature file (G-18).
 requires: [R-16, R-17, R-40]
 tenets: [T-07, T-12]
 opinions: [O-08, O-23]

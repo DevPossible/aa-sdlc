@@ -18,7 +18,7 @@ artifacts:
       - Has id, name, summary, ordered steps that all exist, process guidance ids, and an exit condition
       - Steps that did not exist were created with /aa-internal-new-step first
   - name: Scenarios and documents
-    location: features/framework/<process>.feature; docs/design.md 3.2 and decision log; docs/discipline-review.md
+    location: docs/knowledge/Requirements/framework/<process>.md, with features/ pulled from it; docs/design.md 3.2 and decision log; docs/discipline-review.md
     acceptance:
       - The feature shows the process run end to end and shows any single step run alone (T-03)
       - The design names it if it is a core process; the decision log records it; the review regenerates; the unit tier passes

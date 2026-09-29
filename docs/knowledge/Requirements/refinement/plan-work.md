@@ -1,21 +1,22 @@
-# F-058 /aa-rf-plan-work turns an epic and its feature files into stories
+# F-058 /aa-rf-plan-work turns an epic and its feature pages into stories
 
 | Feature | F-058 |
 | --- | --- |
-| Name | /aa-rf-plan-work turns an epic and its feature files into stories |
+| Name | /aa-rf-plan-work turns an epic and its feature pages into stories |
 | Tags | @agent @refinement |
 | File | plan-work |
 
 Break an epic into stories and tasks in the ticket system, split by scenario rather than by
-layer, each small enough to finish in one iteration, each linked to exactly the scenarios it
-delivers, with dependencies as links and gaps sent back as questions.
+layer, each small enough to finish in one iteration, each linked to the feature page it
+delivers from and naming exactly the scenario ids it delivers, with dependencies as links and
+gaps sent back as questions.
 
 ## Background
 
 | Step | Text |
 | --- | --- |
 | Given | a project bootstrapped with "aa init" |
-| And | an epic with an outcome, feature files, an architecture, and a priority |
+| And | an epic with an outcome, feature pages, an architecture, and a priority |
 
 ## F-058-01 Every scenario reaches exactly one story
 
@@ -29,8 +30,8 @@ delivers, with dependencies as links and gaps sent back as questions.
 | Step | Text |
 | --- | --- |
 | When | "/aa-rf-plan-work" creates the stories |
-| Then | every scenario in the epic's feature files is linked to exactly one story |
-| And | every story is a child of the epic and links back to the scenarios it delivers |
+| Then | every Approved scenario on the epic's feature pages is linked to exactly one story |
+| And | every story is a child of the epic, links to the feature page it delivers from, and names the scenario ids it delivers |
 
 ## F-058-02 Stories are split by scenario, not by layer
 
@@ -74,7 +75,7 @@ delivers, with dependencies as links and gaps sent back as questions.
 
 | Step | Text |
 | --- | --- |
-| Given | the feature files say nothing about what happens when an upload fails |
+| Given | the feature pages say nothing about what happens when an upload fails |
 | When | "/aa-rf-plan-work" notices |
 | Then | a question is added to the epic for Business Analysis |
 | And | no story invents the missing behaviour |
@@ -123,3 +124,35 @@ delivers, with dependencies as links and gaps sent back as questions.
 | When | "/aa-rf-plan-work" sizes a story |
 | Then | the story first records what changes, what is unknown, and what could go wrong |
 | And | a number wanted before that thinking exists is given as a labelled range and not recorded as the size |
+
+## F-058-08 A Draft scenario is a question, not a story
+
+| Scenario | F-058-08 |
+| --- | --- |
+| Name | A Draft scenario is a question, not a story |
+| Kind | Scenario |
+| Tags | @G-16 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a feature page of the epic has a Draft scenario |
+| When | "/aa-rf-plan-work" lists the work |
+| Then | no story delivers the Draft scenario |
+| And | a question on the epic asks Business Analysis to settle it |
+
+## F-058-09 Ticket tags reach the feature files only by pulling
+
+| Scenario | F-058-09 |
+| --- | --- |
+| Name | Ticket tags reach the feature files only by pulling |
+| Kind | Scenario |
+| Tags | @G-18 @G-19 @G-54 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| When | "/aa-rf-plan-work" has created the stories |
+| Then | each scenario a story delivers carries the story's ticket tag on its feature page |
+| And | the pages are pulled again, so the feature files carry the tags |
+| And | no tag is added to a feature file by hand |

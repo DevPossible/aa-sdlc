@@ -6,9 +6,10 @@
 | Tags | @agent @business-analysis @O-01 @O-15 |
 | File | refine-requirements |
 
-Close the gaps in the draft scenarios: apply stakeholder answers to the feature file first,
-split scenarios that describe two outcomes, make every step observable, tag every scenario
-with its ticket, and record the technical constraints the scenarios must live within.
+Close the gaps in the Draft scenarios: apply stakeholder answers to the feature page first,
+split scenarios that describe two outcomes, make every step observable, approve what the
+stakeholder confirms and tag it with its ticket, pull the Approved scenarios into the
+repository, and record the technical constraints the scenarios must live within.
 
 ## Background
 
@@ -17,11 +18,11 @@ with its ticket, and record the technical constraints the scenarios must live wi
 | Given | a project bootstrapped with "aa init" |
 | And | a ticket with draft scenarios, a question log, and answers from stakeholders |
 
-## F-004-01 An answer changes the feature file first
+## F-004-01 An answer changes the feature page first
 
 | Scenario | F-004-01 |
 | --- | --- |
-| Name | An answer changes the feature file first |
+| Name | An answer changes the feature page first |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -30,9 +31,10 @@ with its ticket, and record the technical constraints the scenarios must live wi
 | --- | --- |
 | Given | a question in the log has been answered |
 | When | "/aa-ba-refine-requirements" applies the answer |
-| Then | the scenario in the feature file is changed first |
-| And | the ticket's acceptance criteria and the page follow from the feature file |
-| And | the ticket is not edited before the feature file |
+| Then | the scenario on its feature page is changed first |
+| And | the ticket's acceptance criteria follow from the page |
+| And | the ticket is not edited before the page |
+| And | no feature file is edited |
 
 ## F-004-02 Two outcomes become two scenarios
 
@@ -76,9 +78,9 @@ with its ticket, and record the technical constraints the scenarios must live wi
 
 | Step | Text |
 | --- | --- |
-| When | "/aa-ba-refine-requirements" finishes a feature file |
-| Then | every scenario is tagged with its ticket |
-| And | the feature description names its knowledge base page |
+| When | "/aa-ba-refine-requirements" finishes a feature page |
+| Then | every Approved scenario is tagged with its ticket |
+| And | the ticket links to the feature page and the ids of its scenarios |
 
 ## F-004-05 An unanswered question stays open with an owner
 
@@ -129,11 +131,11 @@ with its ticket, and record the technical constraints the scenarios must live wi
 | And | the document is linked from the epic |
 | And | a constraint that contradicts a scenario is a question on the ticket |
 
-## F-004-08 The feature files are staged and presented, never committed
+## F-004-08 The changes are staged and presented, never committed
 
 | Scenario | F-004-08 |
 | --- | --- |
-| Name | The feature files are staged and presented, never committed |
+| Name | The changes are staged and presented, never committed |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -141,5 +143,22 @@ with its ticket, and record the technical constraints the scenarios must live wi
 | Step | Text |
 | --- | --- |
 | When | "/aa-ba-refine-requirements" finishes |
-| Then | the changed feature files are staged with a Conventional Commit message |
+| Then | the pulled feature files, and the changed pages where they are in the documents folder, are staged with a Conventional Commit message |
 | And | no commit is made unless the user asked for that commit |
+
+## F-004-09 Only what the stakeholder confirmed is Approved and pulled
+
+| Scenario | F-004-09 |
+| --- | --- |
+| Name | Only what the stakeholder confirmed is Approved and pulled |
+| Kind | Scenario |
+| Tags | @G-19 @G-54 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a feature page with one scenario the stakeholder confirmed and one still in question |
+| When | "/aa-ba-refine-requirements" finishes the page |
+| Then | the confirmed scenario is Approved and tagged with its ticket |
+| And | the scenario still in question stays Draft |
+| And | the page is pulled, so only the Approved scenario reaches the features folder |

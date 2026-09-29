@@ -41,6 +41,13 @@ fixes LF line endings for every text file so the convention check does not fight
 | `scripts/Sync-SkillGuidance.ps1` | this repository | Regenerates the shared set files in `src/aa-sdlc/skills/aa-guidance/sets/` and every skill's Guidance section from the workflow data and `docs/guidance.md` (decision record 0012). Run after editing guidance, a guidance set, or a step's guidance; `scripts/Test-SkillGuidance.ps1` in the unit tier fails until you do. |
 | `semantic-compressor` skill (v2.0.0, vendored) | `.claude/skills/semantic-compressor/`, invoked as `/semantic-compressor` in a Claude Code session on this repository | Fail-closed compression of skill or agent Markdown. For contributed or plugin prose, not the generated core skills, which measured at a 1.01 ratio (decision record 0011). Use `--min-word-ratio 1.1`, list guidance lines under `security_rules` in the inventory, and run `./test.ps1 -Tier unit` after any apply. Never installed for consumers: it sits outside `src/aa-sdlc/`. |
 
+## Knowledge base (R-03)
+
+The knowledge base for this repository's requirements is the documents folder's knowledge
+folder, `docs/knowledge/`, in the knowledge base page format (T-12, decision record 0019). The
+feature pages under `docs/knowledge/Requirements/` are the source of truth, and `features/` is
+pulled from them by `./scripts/Add-FeatureId.ps1`.
+
 ## Secrets (G-38)
 
 None. This repository holds no credentials and needs none to build, test, or pack. The ticket
@@ -104,6 +111,8 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-43 | unmet | added 2026-09-28, after this baseline: the ticket project's workflow, moves, parent links, and board cannot be read until the connector is authorised (R-02) | `/aa-fw-init` once the connector is authorised |
 | R-44 | unmet | added 2026-09-28, after this baseline: `aa.config.yaml` records no `stack` or `tools` yet | `/aa-fw-init` records them: PowerShell 7, Git, Go, Pester, powershell-yaml, and the Gherkin runner the tests use |
 | R-45 | unmet | added 2026-09-28, after this baseline: nothing to check until R-44 lists the tools; `./initialize.ps1` installs today's set | same |
+| R-46 | met | added 2026-09-28: every file under `features/` is pulled from `docs/knowledge/Requirements/` with a provenance header; the unit tier runs `Sync-FeatureFiles.ps1 -Check` | none |
+| R-47 | unmet (recommended) | added 2026-09-28: the unit tier and the release workflow run the check, but no local pre-commit hook does | `aa init` in a clone writes the hook |
 
 ### Everything else
 

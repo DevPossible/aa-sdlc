@@ -6,7 +6,7 @@ aa:
   step: performance-test
   guidance_sets: [every-step, anchored-step, repository-write, test-writing]
   guidance: [G-30]
-  requires: [R-03, R-25]
+  requires: [R-25]
 ---
 
 # /aa-qa-performance-test
@@ -15,7 +15,7 @@ Establish how the system behaves under expected and peak load against stated tar
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -24,12 +24,17 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
-1. **Anchor and check the targets.** Read the ticket, its scenarios, the technical constraints,
-   and its knowledge base page. Write down every performance target as a number with its
-   condition: the load, the data volume, and the percentile it applies to. A target with no
-   number is a question to the ticket owner on the ticket, and nothing is run against it until
-   it has one; "fast" is not a target. If the ticket records a revision, compare it with the
-   head for the linked feature files and record what changed (O-13).
+1. **Anchor, pull, and check the targets.** Read the ticket and pull the feature pages it links
+   to: their Approved scenarios into the features folder, and the page versions recorded on the
+   ticket (G-54). For a documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1
+   -KnowledgeRoot <folder> -FeaturesRoot <features>`; otherwise read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the pulled scenarios,
+   the technical constraints, and the ticket's knowledge base page. Write down every performance
+   target as a number with its condition: the load, the data volume, and the percentile it
+   applies to. A target with no number is a question to the ticket owner on the ticket, and
+   nothing is run against it until it has one; "fast" is not a target. If the ticket records a
+   revision or page versions, compare them with the head and the pages now, and record what
+   changed (O-13).
 2. **Stand up the environment and record it before measuring.** Start the system and its
    dependencies from the repository's container definitions where the stack allows, otherwise
    in the production-like environment the ticket names (O-12, G-30). Record the machine class,
@@ -73,8 +78,8 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 - `src/aa-sdlc/skills/aa-guidance/sets/repository-write.md`: What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
 - `src/aa-sdlc/skills/aa-guidance/sets/test-writing.md`: What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
 

@@ -43,6 +43,9 @@ type Ticket struct {
 	URL     string `yaml:"url,omitempty"`
 	Pattern string `yaml:"pattern,omitempty"`
 	Tag     string `yaml:"tag,omitempty"`
+	// Filter selects this project's tickets where the ticket project is shared with others
+	// (T-14): a query in the ticket system's own language, such as a component or label.
+	Filter string `yaml:"filter,omitempty"`
 	// Kinds and States map the framework's ticket kinds and life cycle to the ticket system's
 	// own names (O-26, R-41).
 	Kinds  map[string]string `yaml:"kinds,omitempty"`
@@ -53,6 +56,10 @@ type Ticket struct {
 type Knowledge struct {
 	Space string `yaml:"space,omitempty"`
 	URL   string `yaml:"url,omitempty"`
+	// Root is the project's own page in the space, under which its six sections live; in a
+	// space shared with other projects it is not the space itself (T-14, R-42). Where the
+	// documents folder is the knowledge base, it is the knowledge folder.
+	Root string `yaml:"root,omitempty"`
 	// Sections maps the six top-level sections to the space's own page names (O-27, R-42).
 	Sections map[string]string `yaml:"sections,omitempty"`
 }
@@ -179,6 +186,7 @@ func Defaults() Config {
 			"source":    "src",
 			"tests":     "tests",
 			"decisions": "docs/decisions",
+			"knowledge": "docs/knowledge",
 		},
 	}
 }
@@ -304,6 +312,8 @@ func mergeConventions(a, b Conventions) Conventions {
 	a.Ticket.URL = pick(a.Ticket.URL, b.Ticket.URL)
 	a.Ticket.Pattern = pick(a.Ticket.Pattern, b.Ticket.Pattern)
 	a.Ticket.Tag = pick(a.Ticket.Tag, b.Ticket.Tag)
+	a.Ticket.Filter = pick(a.Ticket.Filter, b.Ticket.Filter)
+	a.Knowledge.Root = pick(a.Knowledge.Root, b.Knowledge.Root)
 	a.Knowledge.Space = pick(a.Knowledge.Space, b.Knowledge.Space)
 	a.Knowledge.URL = pick(a.Knowledge.URL, b.Knowledge.URL)
 	a.Ticket.Kinds = mergeMap(a.Ticket.Kinds, b.Ticket.Kinds)

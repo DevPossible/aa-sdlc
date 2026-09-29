@@ -15,20 +15,25 @@ Confirm with the people who asked for it that what was built is what they meant.
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
-- The feature files for the ticket or release
+- The feature files for the ticket or release, freshly pulled from their feature pages
 - A deployed environment the stakeholder can use
 - The tests Development and Testing wrote, as evidence
 
 ## Procedure
 
 1. **Anchor and check currency.** Read the anchor ticket, its linked scenarios, and its page
-   (G-22). Compare the feature files at head with the revision the ticket records they were
-   built against (O-13); a scenario that changed since is noted on the ticket before the
-   walkthrough, so what is accepted is what was built. Confirm that the deployed environment the
+   (G-22). Pull the feature pages the ticket links to: their Approved scenarios into the
+   features folder and the page versions onto the ticket (G-54), with
+   `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot <folder> -FeaturesRoot <features>` for a
+   documents-folder knowledge base, or by reading each page and converting it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Compare the pulled feature
+   files and page versions with the revision and versions the ticket records they were built
+   against (O-13); a scenario that changed since is noted on the ticket before the walkthrough,
+   so what is accepted is what was built. Confirm that the deployed environment the
    stakeholder can use is running the build the ticket names.
 2. **Assemble the evidence.** Read the tests Development and Testing wrote for the scenarios and
    their most recent results. A scenario with no passing automated test is still walked through,
@@ -39,22 +44,23 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 4. **Walk the scenario, not the demo.** For each scenario, take the stakeholder through the
    Given, When, Then as written against the deployed environment and observe the result. If
    they want something else, that is a requirement change: it is recorded as a question on the
-   ticket and goes through the feature file (G-18), never through the ticket alone.
+   ticket and goes through the feature page (G-18), never through the ticket alone.
 5. **Record acceptance by name.** Mark each scenario accepted or not, by whom and on what date,
    with the gap described where not. "UAT passed" is not evidence (T-07).
 6. **Turn every gap into work.** A scenario not met is a new ticket for Development, linked to
    this one. A scenario met but not what was meant is a new requirement, raised as a question
-   and changed in the feature file first (G-18), not a failure of the build. No gap is left as a
-   note that fades.
+   and written as a Draft scenario on its feature page, under the project's own root, before
+   anything else changes (G-18, G-55); it is not a failure of the build. Never edit a feature
+   file. No gap is left as a note that fades.
 7. **Update the ticket.** Write the UAT results report on the anchor ticket, linked from the
    knowledge base page and back (G-26), with what was accepted, what was not, the tickets
-   raised, and what remains (G-12). Where this step changed a feature file, stage it and present
-   the summary with a Conventional Commit message; commit only if the user asked for that
-   commit (O-17, G-40). Then report.
+   raised, and what remains (G-12). Where this step changed a feature page in the documents
+   folder, stage it and present the summary with a Conventional Commit message; commit only if
+   the user asked for that commit (O-17, G-40). Then report.
 
 ## Artifacts
 
-**UAT test cases** in the features folder, as the scenarios themselves, plus a walkthrough order on the ticket. Done when:
+**UAT test cases** in the pulled feature files, as the scenarios themselves, plus a walkthrough order on the ticket. Done when:
 
 - Every scenario for the ticket is covered by the walkthrough
 
@@ -67,14 +73,14 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 
 - **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
 - **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
-- Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature file.
+- Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature page.
 - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
 - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
 

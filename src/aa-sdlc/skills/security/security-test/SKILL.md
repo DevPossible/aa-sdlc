@@ -15,7 +15,7 @@ Test the built system for the weaknesses the threat model and common weakness cl
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -32,11 +32,15 @@ security scenarios, and write what it returns as the results in step 6, saying t
 from the agent. Otherwise do those steps yourself, working from the threat model rather than from
 what the code was meant to do.
 
-1. **Anchor.** Read the ticket, the threat model, the security scenarios in the feature files,
-   and the controls the organisation requires or the existing compliance report (G-22). Note
-   which environment holds the built system. If it is production, stop: no security test runs
-   there without written permission on the ticket (G-13); prefer a production-like environment
-   and record which one was used.
+1. **Anchor and pull.** Read the ticket and pull the feature pages it links to: their Approved
+   scenarios into the features folder, and the page versions recorded on the ticket (G-54). For
+   a documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot
+   <folder> -FeaturesRoot <features>`; otherwise read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the threat model, the
+   security scenarios in the pulled feature files, and the controls the organisation requires or
+   the existing compliance report (G-22). Note which environment holds the built system. If it
+   is production, stop: no security test runs there without written permission on the ticket
+   (G-13); prefer a production-like environment and record which one was used.
 2. **Plan against the model first, the checklist second.** From the threat model, list each
    security scenario and the test that proves it; then add the common weakness classes that
    matter everywhere. Every planned test names the scenario or the class it covers, so a
@@ -77,8 +81,8 @@ what the code was meant to do.
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 

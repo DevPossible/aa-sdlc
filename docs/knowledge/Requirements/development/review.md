@@ -138,3 +138,19 @@ run it yourself, and record findings where the author will see them.
 | Then | it hands the build, the walk through the diff, and the checks of the commits and the proof to the aa-dev subagent |
 | And | it records what the agent returns on the merge request |
 | And | where no subagent is available it does that work itself, reading the change as if it had not written it |
+
+## F-014-09 A feature file not pulled from its page is blocking
+
+| Scenario | F-014-09 |
+| --- | --- |
+| Name | A feature file not pulled from its page is blocking |
+| Kind | Scenario |
+| Tags | @G-56 @R-46 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the branch has a feature file with no provenance header, a checksum that does not match, or no page that generates it |
+| When | "/aa-dev-review" runs the feature-file check |
+| Then | a blocking finding names the feature file |
+| And | it says to change the page and pull it, never to edit the file |

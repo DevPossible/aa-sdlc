@@ -15,7 +15,7 @@ Improve the performance of existing code against a measured baseline: profile, c
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -24,11 +24,16 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
-1. **Anchor and check currency.** Read the ticket: the target metric, the baseline from
-   performance-test with the method and environment that produced it, the linked scenarios, and
-   the knowledge base page. If the ticket records a revision, compare it with the head for the
-   code the baseline was measured on and the linked feature files, and record what changed
-   (O-13). No numeric baseline or target means stop and get one; "slow" is not a target.
+1. **Anchor and check currency.** Pull the feature pages the ticket links to (G-54): their Approved
+   scenarios into the features folder as feature files with their provenance header. With a
+   documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot
+   <folder> -FeaturesRoot <features>`; with a knowledge base, read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the ticket: the target
+   metric, the baseline from performance-test with the method and environment that produced it, the
+   linked scenarios, and the knowledge base page. If the ticket records a revision, compare it with
+   the head for the code the baseline was measured on and the linked feature files, and the page
+   versions it records with the pages' current versions, and record what changed (O-13). No numeric
+   baseline or target means stop and get one; "slow" is not a target.
 2. **Reproduce the baseline before changing anything.** Run the recorded method yourself at the
    head, with the same data volume and load profile, and record the number with the environment
    (G-05, T-07). If it does not reproduce within the noise of the method, that is the first
@@ -48,9 +53,12 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 7. **Repeat, one change per measurement,** until the target is met or the profile has nothing
    left worth its cost. Record every round on the ticket. If the target cannot be met, say so
    with the numbers and raise a ticket for what would be needed.
-8. **Stage and present.** Format the changed files (G-01), stage the change, write a perf-typed
-   Conventional Commit message with the ticket in the footer (G-33), present the staged diff
-   and the message, and stop. Commit only if the user asked for that commit (O-17, G-40).
+8. **Stage and present.** Format the changed files (G-01), run the feature-file check (G-56):
+   `scripts/aa-sdlc/Test-FeatureProvenance.ps1 -FeaturesRoot <features>`, or `Sync-FeatureFiles.ps1
+   ... -Check` with a documents-folder knowledge base; an optimisation never changes a feature file.
+   Stage the change, write a perf-typed Conventional Commit message with the ticket in the footer
+   (G-33), present the staged diff and the message, and stop. Commit only if the user asked for that
+   commit (O-17, G-40).
 9. **Write the optimisation implementation report on the ticket:** the baseline, each change
    with its before and after measurement, the method and environment, the test output, and the
    branch, linked both ways (G-12, G-26). Then report.
@@ -66,9 +74,9 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
-- `src/aa-sdlc/skills/aa-guidance/sets/code-change.md`: What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/code-change.md`: What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager, and never let a hand-edited feature file through.
 
 *For this step:*
 

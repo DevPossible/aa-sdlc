@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"aasdlc.com/aa/internal/config"
+	"aasdlc.com/aa/internal/content"
 	"aasdlc.com/aa/internal/targets"
 	"aasdlc.com/aa/internal/tools"
 )
@@ -148,6 +149,13 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 	for _, key := range []string{"documents", "features", "scripts", "source", "tests"} {
 		mkdirReport(dir, folders[key], report)
 	}
+	// The knowledge base in the documents folder, for a project with none in scope; its pages use
+	// the knowledge base's format, so moving them into one later is an upload (T-12, R-03).
+	knowledge := folders["knowledge"]
+	if knowledge == "" {
+		knowledge = filepath.Join(folders["documents"], "knowledge")
+	}
+	mkdirReport(dir, filepath.Join(knowledge, "Requirements"), report)
 	mkdirReport(dir, filepath.Join(folders["tests"], "integration"), report)
 	mkdirReport(dir, filepath.Join(folders["tests"], "e2e"), report)
 	decisions := folders["decisions"]
@@ -181,6 +189,25 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 			if err := os.WriteFile(hookPath, []byte(commitMsgHook(types)), 0o755); err == nil {
 				report("  wrote .git/hooks/commit-msg (Conventional Commit subject, no agent attribution)")
 			}
+		}
+	}
+
+	// 5c. The feature-page scripts, kept in the repository so the pre-commit hook and the pipeline
+	// run them without the aa CLI, and a pre-commit hook that refuses a feature file not pulled
+	// from its page (T-12, R-46, R-47). Never overwrites a hook the project already has.
+	scriptsDir := filepath.Join(folders["scripts"], ScriptsFolder)
+	if err := InstallScripts(dir, scriptsDir); err != nil {
+		return err
+	}
+	report("  wrote %s/ (feature pages: pull, check, seed, assign ids)", filepath.ToSlash(scriptsDir))
+	if isDir(hooksDir) {
+		hookPath := filepath.Join(hooksDir, "pre-commit")
+		if _, err := os.Stat(hookPath); err != nil {
+			if err := os.WriteFile(hookPath, []byte(preCommitHook(filepath.ToSlash(scriptsDir), filepath.ToSlash(folders["features"]))), 0o755); err == nil {
+				report("  wrote .git/hooks/pre-commit (feature files must be pulled from their pages)")
+			}
+		} else if b, _ := os.ReadFile(hookPath); !strings.Contains(string(b), preCommitMarker) {
+			report("  .git/hooks/pre-commit exists and is not ours; add %s/Test-FeatureProvenance.ps1 to it (R-47)", filepath.ToSlash(scriptsDir))
 		}
 	}
 
@@ -423,6 +450,47 @@ func instructionBlock(cfg *config.Config) string {
 		"- Not sure what to do? Run `/aa-fw-whatsnext`. To check the setup, run `/aa-fw-health`.\n"
 }
 
+// ScriptsFolder is the folder under the project's scripts folder that holds the framework's
+// helper scripts; aa update refreshes it.
+const ScriptsFolder = "aa-sdlc"
+
+// InstallScripts writes the package's helper scripts to rel under the repository, replacing what
+// is there: they are the framework's, and aa update keeps them current.
+func InstallScripts(repo, rel string) error {
+	files, err := content.Scripts()
+	if err != nil {
+		return err
+	}
+	target := filepath.Join(repo, rel)
+	if err := os.MkdirAll(target, 0o755); err != nil {
+		return err
+	}
+	for name, b := range files {
+		if err := os.WriteFile(filepath.Join(target, name), b, 0o644); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+const preCommitMarker = "aa-sdlc: feature files are pulled"
+
+// preCommitHook refuses a commit when a feature file was not pulled from its knowledge base page
+// or was edited since (R-47). It needs PowerShell; without it the check is skipped with a warning.
+func preCommitHook(scripts, features string) string {
+	return `#!/bin/sh
+# ` + preCommitMarker + ` from knowledge base pages and never edited by hand (T-12, R-47).
+# Written by aa init; the same check runs in the pipeline through the build script's lint switch.
+command -v pwsh >/dev/null 2>&1 || { echo "aa-sdlc: pwsh not found; feature-file check skipped" >&2; exit 0; }
+problems=$(pwsh -NoProfile -NonInteractive -File "` + scripts + `/Test-FeatureProvenance.ps1" -FeaturesRoot "` + features + `")
+if [ -n "$problems" ]; then
+  echo "$problems" >&2
+  echo "aa-sdlc: change the knowledge base page and pull it instead of editing a feature file" >&2
+  exit 1
+fi
+`
+}
+
 // commitMsgHook is the git commit-msg hook aa init writes: the subject must be a Conventional
 // Commit with one of the project's types (O-14, R-28), and the message may not carry an
 // attribution trailer naming an agent (O-17, R-31). It is a plain POSIX shell script so it
@@ -461,14 +529,14 @@ func stubs(shell string) []stub {
 	if shell == "sh" {
 		return []stub{
 			{"initialize.sh", shStub("initialize", "Bootstrap a fresh clone: install every tool aa.config.yaml lists under tools that is missing or too old, with its install command for this platform (via the package manager, never by hand), create local folders, seed data if any. Safe to run repeatedly. (O-06, R-19, R-45)")},
-			{"build.sh", shStub("build", "Build every project in this repository from a fresh clone. Accept --lint to run the formatter in check mode and each configured linter and fail on a finding (O-21, R-35). Languages with no known linter: <fill in>. (O-06, R-10)")},
+			{"build.sh", shStub("build", "Build every project in this repository from a fresh clone. Accept --lint to run the formatter in check mode, each configured linter, and the feature-file check (pwsh scripts/aa-sdlc/Test-FeatureProvenance.ps1), and fail on a finding (O-21, R-35, R-47). Languages with no known linter: <fill in>. (O-06, R-10)")},
 			{"test.sh", shStub("test", "Run the tests by tier: --tier unit|integration|e2e|all (default all), --filter <name>. Run even with zero tests. (O-06, O-07, R-11)")},
 			{"pack.sh", shStub("pack", "Produce the distributable artifacts into .dist/ after build and test, built once with an immutable identity (O-06, O-24, R-20)")},
 		}
 	}
 	return []stub{
 		{"initialize.ps1", pwshStub("initialize", "Bootstrap a fresh clone: install every tool aa.config.yaml lists under tools that is missing or too old, with its install command for this platform (via the package manager, never by hand), create local folders, seed data if any. Safe to run repeatedly. (O-06, R-19, R-45)", "")},
-		{"build.ps1", pwshStub("build", "Build every project in this repository from a fresh clone. With -Lint, run the formatter in check mode and each configured linter and fail on a finding (O-21, R-35). Languages with no known linter: <fill in>. (O-06, R-10)", "[switch]$Lint")},
+		{"build.ps1", pwshStub("build", "Build every project in this repository from a fresh clone. With -Lint, run the formatter in check mode, each configured linter, and scripts/aa-sdlc/Test-FeatureProvenance.ps1, and fail on a finding (O-21, R-35, R-47). Languages with no known linter: <fill in>. (O-06, R-10)", "[switch]$Lint")},
 		{"test.ps1", pwshStub("test", "Run the tests by tier (unit, integration, e2e, all) with an optional -Filter. Run even with zero tests. (O-06, O-07, R-11)", "[ValidateSet('all','unit','integration','e2e')][string]$Tier = 'all', [string]$Filter")},
 		{"pack.ps1", pwshStub("pack", "Produce the distributable artifacts into .dist/ after build and test, built once with an immutable identity (O-06, O-24, R-20)", "")},
 	}

@@ -57,7 +57,13 @@ remedy.
    name that exists proves nothing if two life-cycle states share it or no move reaches it. To
    check the project's tools (R-44, R-45), read `stack` and `tools` in the project config, find a
    tool for every category each language needs, and run each tool's check command, comparing the
-   version it prints with the one listed. A file that exists proves nothing on its own. Time-box any probe that could hang; a probe that cannot complete
+   version it prints with the one listed. To check the feature files (R-46), run
+   `scripts/aa-sdlc/Test-FeatureProvenance.ps1` over the features folder, and where the
+   documents folder is the knowledge base, run `scripts/aa-sdlc/Sync-FeatureFiles.ps1` with
+   its check switch; neither changes anything. Every probe of the ticket system or the knowledge base reads only this project's:
+   its tickets through `conventions.ticket.filter` and its pages under
+   `conventions.knowledge.root`, never the whole ticket project or space (T-14, G-55). A file
+   that exists proves nothing on its own. Time-box any probe that could hang; a probe that cannot complete
    is unmet with the reason, never silently skipped. Where a probe would change anything, do
    not perform it: report unmet and name the remedy.
 6. **Classify.** Each id is exactly one of **met**, **unmet**, **not applicable** (with the
@@ -71,7 +77,7 @@ remedy.
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
 
 *For this step:*
 

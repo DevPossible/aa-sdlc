@@ -19,7 +19,7 @@ artifacts:
       - The introductory sentence that groups tenets by purpose is updated to include it
       - The design's tenet range and any list of tenets elsewhere are updated
   - name: Scenarios
-    location: features/framework/<tenet-slug>.feature
+    location: docs/knowledge/Requirements/framework/<tenet-slug>.md, with features/ pulled from it
     acceptance:
       - Tagged with the tenet id; shows the principle applied in at least three concrete situations
   - name: Citations and consistency
@@ -32,7 +32,7 @@ guidance_sets: [every-step, framework-authoring]
 guidance_inline:
   - "A tenet is framework-level or it is not a tenet. If the statement is about how to do a step, it is guidance; if it is a choice among alternatives, it is an opinion. Redirect it to /aa-internal-new-opinion or docs/guidance.md and stop."
   - "Tenets are few. Before adding one, check whether an existing tenet already covers it; if so, strengthen that tenet's text instead."
-  - "Write the feature file before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything."
+  - "Write the feature page before the tenet text. If you cannot show the principle applied in three situations, it is too abstract to govern anything."
   - "Read every opinion and every guidance item against the new tenet and fix what conflicts. A tenet that existing content contradicts is not yet true."
   - "Ids are permanent. Take the next T-nn; never renumber."
 tenets: [T-08, T-12]

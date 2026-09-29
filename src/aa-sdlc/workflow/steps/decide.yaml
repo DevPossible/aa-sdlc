@@ -22,6 +22,6 @@ guidance_inline:
   - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
   - Record the losing options with the same care as the winner; the next person will ask about them first.
   - Write it when it happens. A decision reconstructed a month later is a story, not a record.
-requires: [R-03, R-06, R-32, R-34, R-42]
+requires: [R-06, R-32, R-34, R-42]
 tenets: [T-04]
 opinions: [O-04, O-18, O-20]

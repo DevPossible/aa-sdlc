@@ -8,7 +8,7 @@ summary: >
   will not be tested and why.
 anchor: required
 inputs:
-  - The feature files and architecture for the scope
+  - The feature pages for the scope, pulled as feature files, and the architecture
   - The risk view from Security and Technical Analysis
   - Existing suites and their coverage
 artifacts:
@@ -23,6 +23,6 @@ guidance: [G-16, G-21]
 guidance_inline:
   - Push tests down. Prove it at the lowest tier that can observe it; end-to-end tests are for what only end-to-end can see.
   - Name the risks the requirement does not mention. Concurrency, data volume, partial failure, and permissions rarely appear in scenarios and usually appear in incidents.
-requires: [R-03, R-16]
+requires: [R-16]
 tenets: [T-07]
 opinions: [O-23]

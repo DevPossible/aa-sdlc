@@ -6,8 +6,10 @@
 | Tags | @agent @business-analysis @O-01 @O-15 |
 | File | discover |
 
-Capture stakeholder input as draft Gherkin scenarios in the features folder from the first
-pass, tagged with the epic, with a question log on the epic for everything not yet answered.
+Capture stakeholder input as Draft scenarios on feature pages in the knowledge base from the
+first pass, tagged with the epic, with a question log on the epic for everything not yet
+answered. No feature file is written; the repository gets a scenario by pulling its page once
+the scenario is Approved.
 A screenshot or mock-up that arrives as the request is treated as evidence, not as the
 requirement.
 
@@ -30,9 +32,10 @@ requirement.
 | Step | Text |
 | --- | --- |
 | When | "/aa-ba-discover" captures the stated needs |
-| Then | each need is a draft scenario in a feature file in the features folder |
+| Then | each need is a Draft scenario on a feature page under the project's Requirements section |
 | And | each scenario is tagged with the epic |
-| And | the feature description states the business objectives, the scope boundaries, and the knowledge base page |
+| And | the feature description states the business objectives and the scope boundaries |
+| And | no feature file is written |
 
 ## F-003-02 A screenshot is a witness, not a specification
 
@@ -95,7 +98,7 @@ requirement.
 
 | Step | Text |
 | --- | --- |
-| Given | an existing feature file already states one of the needs |
+| Given | an existing feature page already states one of the needs |
 | When | "/aa-ba-discover" captures the needs |
 | Then | the existing scenario is linked from the epic |
 | And | no duplicate scenario is written |
@@ -111,16 +114,16 @@ requirement.
 
 | Step | Text |
 | --- | --- |
-| Given | the epic description states a requirement that no feature file contains |
+| Given | the epic description states a requirement that no feature page contains |
 | When | "/aa-ba-discover" checks where the truth lives |
 | Then | it raises the requirement as a conflict on the epic |
 | And | it does not absorb it silently |
 
-## F-003-07 The feature files are staged and presented, never committed
+## F-003-07 The pages are linked and presented, never committed
 
 | Scenario | F-003-07 |
 | --- | --- |
-| Name | The feature files are staged and presented, never committed |
+| Name | The pages are linked and presented, never committed |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -128,6 +131,22 @@ requirement.
 | Step | Text |
 | --- | --- |
 | When | "/aa-ba-discover" finishes |
-| Then | the epic links to the feature file and the page, and the page links back |
-| And | the new and changed feature files are staged with a Conventional Commit message |
+| Then | the epic links to each feature page and its scenario ids, and each page links back |
+| And | where the pages are in the documents folder, the new and changed pages are staged with a Conventional Commit message |
 | And | no commit is made unless the user asked for that commit |
+
+## F-003-08 A requirement found only in a feature file is a conflict
+
+| Scenario | F-003-08 |
+| --- | --- |
+| Name | A requirement found only in a feature file is a conflict |
+| Kind | Scenario |
+| Tags | @G-18 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a feature file in the repository states a requirement that no feature page generates |
+| When | "/aa-ba-discover" checks where the truth lives |
+| Then | it raises the requirement as a conflict on the epic |
+| And | it does not absorb it into a page silently |

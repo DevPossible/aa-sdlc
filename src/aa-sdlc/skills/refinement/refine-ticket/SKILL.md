@@ -15,23 +15,32 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
-- The ticket and its linked scenarios
+- The ticket and its linked scenarios on their feature pages
 - Open questions on the ticket
 - The team's definition of ready from the project config or knowledge base
 
 ## Procedure
 
-1. **Anchor.** Read the scenarios before the ticket description: the description is what
-   someone thought, the scenarios are what was agreed. Read the open questions and the team's
-   definition of ready from the project config or knowledge base.
-2. **Scenarios linked and complete.** Every scenario the ticket delivers is in a feature file,
-   tagged with the ticket, and concrete enough to test. The acceptance criteria are the
+1. **Anchor.** Pull the feature pages the ticket links to (G-54): their Approved scenarios into
+   the features folder as feature files with their provenance header, and the page versions
+   recorded on the ticket. With a documents-folder knowledge base run
+   `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot <folder> -FeaturesRoot <features>`;
+   with a knowledge base, read each page and convert it with `ConvertFrom-FeaturePage` from
+   `scripts/aa-sdlc/AaFeatures.psm1`. Read only this project's tickets and the pages under its
+   knowledge root (G-55). Read the scenarios before the ticket description: the description is
+   what someone thought, the scenarios are what was agreed. Read the open questions and the
+   team's definition of ready from the project config or knowledge base.
+2. **Scenarios linked and complete.** Every scenario the ticket delivers is Approved on its
+   feature page, tagged there with the ticket, and concrete enough to test, and the ticket links
+   to the page and names the scenario ids (G-19). A scenario still in Draft is not agreed, and
+   the ticket is not ready until its owner approves it. The acceptance criteria are the
    scenarios, never a restatement. A gap found here goes back to Business Analysis as a
-   question on the ticket, never forward as a guess (G-18).
+   question on the ticket, never forward as a guess; a requirement changes on its page, never in
+   the ticket or a feature file (G-18).
 3. **Dependencies and questions.** Dependencies are links to other tickets, not prose. Every
    open question has an answer or an owner (G-16). A ticket with an unanswered question that
    changes the scope is not ready, however small it looks.
@@ -40,8 +49,9 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    sentence for a small change, a request for plan-implementation for a large one. Record the
    size citing that reasoning (O-10). If a number is asked for before the thinking exists, give
    a labelled range and do not record it as the size.
-5. **Record the revision** the scenarios were checked against, so the step that picks the
-   ticket up can see what moved (O-13, G-31).
+5. **Record the revision and the page versions** the scenarios were checked against, so the
+   step that picks the ticket up can see what moved in the repository and on the pages (O-13,
+   G-31, G-54).
 6. **Say whether it is ready.** Either it meets every item of the definition of ready, or the
    ticket says which item it does not and why it proceeds anyway. Neither is hidden.
 7. **Update the ticket** with the outcome and what remains (G-12). Then report.
@@ -53,14 +63,14 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 - Meets every item of the definition of ready, or says which item it does not and why it proceeds anyway
 - Acceptance criteria are the scenarios, not a restatement of them
 - Size is recorded with the implementation thinking that grounds it, and cites it
-- Records the repository revision the scenarios were checked against (O-13)
+- Records the repository revision and the feature page versions the scenarios were checked against (O-13, G-54)
 
 ## Guidance
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 

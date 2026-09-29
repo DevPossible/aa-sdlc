@@ -15,19 +15,24 @@ Reproduce a reported defect with a failing test, find the cause, fix the cause, 
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
 - The defect ticket: symptoms, environment, steps to reproduce, severity
-- The scenario the defect violates, if one exists
+- The scenario the defect violates, if one exists, pulled from its feature page (G-54)
 
 ## Procedure
 
-1. **Anchor and check currency.** Read the defect ticket: symptoms, environment, steps to
-   reproduce, severity, and the scenario it violates if one is named. If the ticket records the
-   revision it was triaged against, compare it with the head for the scenario and the suspected
-   location and note what changed (O-13).
+1. **Anchor and check currency.** Pull the feature pages the ticket links to (G-54): their
+   Approved scenarios into the features folder as feature files with their provenance header.
+   With a documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1
+   -KnowledgeRoot <folder> -FeaturesRoot <features>`; with a knowledge base, read each page and
+   convert it with `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the defect
+   ticket: symptoms, environment, steps to reproduce, severity, and the scenario it violates if
+   one is named. If the ticket records the revision it was triaged against, compare it with the
+   head for the scenario and the suspected location, and the page versions it records with the
+   pages' current versions, and note what changed (O-13).
 2. **Reproduce before touching code.** Write a failing test at the tier where the defect is
    observable, or capture the observation exactly (G-05). If it cannot be reproduced, put what
    was tried on the ticket and hand it back for more information; do not guess.
@@ -36,16 +41,22 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    an intermittent test, the cause is one of time, randomness, shared state, or a live
    dependency; control it. Never add a retry or lengthen a sleep (O-23).
 4. **Fix on a branch that references the ticket** (G-09). One concern: the fix and its test.
-   If the defect violates no scenario, one is missing; add it to the feature file with the fix
-   so the requirement is stated (T-12). If the fix changes a dependency, do it through the
-   package manager, never by editing a version (O-22).
+   If the defect violates no scenario, one is missing: propose it as a Draft scenario on its
+   feature page for its owner to approve, converting it with `ConvertTo-FeaturePage` from
+   `scripts/aa-sdlc/AaFeatures.psm1` if you wrote it as Gherkin, and name it on the ticket. The
+   fix proceeds against it once it is Approved and pulled; until then the ticket records it as
+   pending approval. Never add it to the feature file (G-18, T-12). If the fix changes a
+   dependency, do it through the package manager, never by editing a version (O-22).
 5. **Prove it.** The reproducing test passes; the full tier it lives in passes; no existing test
    was weakened, skipped, or retried (G-06). If the defect was a pipeline failure, run the same
    root script locally with the same arguments and show the same result (G-29). Quote the
    output (G-04).
-6. **Stage and present.** Format the changed files, run the build with the lint switch, stage,
-   write a `fix(<scope>): ...` message with the ticket in the footer (G-33), present, and stop.
-   Commit only if the user asked for that commit (O-17).
+6. **Stage and present.** Format the changed files, run the build with the lint switch, run the
+   feature-file check (G-56): `scripts/aa-sdlc/Test-FeatureProvenance.ps1 -FeaturesRoot
+   <features>`, or `Sync-FeatureFiles.ps1 ... -Check` with a documents-folder knowledge base, and
+   never stage a feature file that fails it. Stage, write a `fix(<scope>): ...` message with the
+   ticket in the footer (G-33), present, and stop. Commit only if the user asked for that commit
+   (O-17).
 7. **Record the cause on the ticket** in one or two sentences, with the test that now guards
    it and links both ways (G-12, G-26). Then report.
 
@@ -59,14 +70,15 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 - Addresses the cause, not the symptom; the ticket says what the cause was
 - No existing test was weakened or skipped to make it pass
+- No feature file was edited by hand; the feature-file check passes (G-56)
 
 ## Guidance
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
-- `src/aa-sdlc/skills/aa-guidance/sets/code-change.md`: What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/code-change.md`: What every step that changes code, configuration, or infrastructure does, on top of repository-write: format changed files, prove with the build and tests, plan before a multi-step change, reference the ticket, commit everything needed to build and operate, let the tools decide style, change dependencies through the package manager, and never let a hand-edited feature file through.
 - `src/aa-sdlc/skills/aa-guidance/sets/test-writing.md`: What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
 
 *For this step:*
@@ -77,7 +89,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-32** Before starting work on a ticket, compare the repository at the revision recorded on the ticket with the current head, list the changes to the linked feature files and to the files the plan names, and record on the ticket whether the scenarios and plan still hold. A conflict goes back to refinement as a question on the ticket; never absorb it silently or start anyway without saying so.
 - No reproduction, no fix. If it cannot be reproduced, the ticket gets what was tried and goes back for more information.
 - Find the cause before touching code. Form a hypothesis, test it, and record the result on the ticket; three hypotheses without evidence means stop and reassess (G-17).
-- If the defect violates no scenario, one is missing. Add it to the feature file with the fix so the requirement is now stated.
+- If the defect violates no scenario, one is missing. Propose it on its feature page for its owner to approve, never in the feature file; the fix proceeds against it once it is Approved, or the ticket names it as pending approval (G-18).
 
 ## Report
 

@@ -15,25 +15,31 @@ Make the requirement visible before it is built. Produces mockups and, where the
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
-- The confirmed scenarios for the ticket or epic; a mock-up is made from them, never before them (O-15)
+- The confirmed (Approved) scenarios for the ticket or epic, pulled from their feature pages; a mock-up is made from them, never before them (O-15)
 - Existing design system or conventions in the project, if any
 - The technical constraints document
 
 ## Procedure
 
 1. **Anchor and check currency.** Read the anchor ticket, its linked scenarios, and its page
-   (G-22). Compare the feature files at head with the revision the ticket records the scenarios
-   were confirmed against (O-13); a scenario that changed since is noted on the ticket and the
-   mock-up is made from the head. Read the project's design system or conventions where they
+   (G-22). Pull the feature pages the ticket links to: their Approved scenarios into the
+   features folder and the page versions onto the ticket (G-54), with
+   `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot <folder> -FeaturesRoot <features>` for a
+   documents-folder knowledge base, or by reading each page and converting it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Compare the page versions
+   with those the ticket records the scenarios were confirmed against (O-13); a scenario that
+   changed since is noted on the ticket and the mock-up is made from the freshly pulled
+   scenarios. Read the project's design system or conventions where they
    exist, and the technical constraints document.
-2. **Scenarios first, always.** If there are no confirmed scenarios behind the request, write or
-   request them and stop here. If the request arrived as a screenshot or mock-up, write the
-   goals and scenarios it implies, log what it does not show as questions on the ticket, and
-   wait for confirmation before drawing (G-35, O-15).
+2. **Scenarios first, always.** If there are no Approved scenarios behind the request, write
+   them as Draft scenarios on the feature page or request them, and stop here. If the request
+   arrived as a screenshot or mock-up, write the goals and scenarios it implies, log what it
+   does not show as questions on the ticket, and wait for confirmation before drawing (G-35,
+   O-15).
 3. **Mock up every scenario with a user interface.** For each, produce at least one mockup
    showing its When and its Then, in the documents folder or the design tool the project uses,
    and name on the mockup the scenarios it renders (G-36). Show the unhappy path: error and
@@ -45,8 +51,9 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    When without help. Polish hides the question the prototype exists to ask.
 6. **Check the mock-ups against the scenarios.** Behaviour a mockup shows that no scenario
    states is a question on the ticket, not a requirement (G-36). Where a stakeholder's reaction
-   changes what the user needs, change the scenario in the feature file first, then the
-   prototype (G-18, T-12).
+   changes what the user needs, propose the change to the scenario on its feature page first,
+   under the project's own root, for its owner to approve, then change the prototype (G-18,
+   G-55, T-12). Never edit a feature file.
 7. **Link and present.** Link every mockup and the prototype from the ticket and the page, and
    back (G-26). Stop and ask before sending anything to an audience outside the project (G-13).
    Update the ticket with what was produced, the questions raised, and what remains (G-12).
@@ -69,8 +76,8 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 - `src/aa-sdlc/skills/aa-guidance/sets/repository-write.md`: What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
 
 *For this step:*
@@ -82,7 +89,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - Prototype the flow, not the pixels. The question a prototype answers is "is this the right interaction", and polish hides that question.
 - Scenarios first, always. If asked for a mock-up with no confirmed scenarios behind it, write or request them first; a mock-up that shows behaviour no scenario states is a question on the ticket, not a requirement (O-15).
 - Show the unhappy path. A mockup that only shows success leaves the error states to be invented at implementation time.
-- Feed changes back through the feature file. If the prototype review changes what the user needs, change the scenario, then the prototype (T-12).
+- Feed changes back through the feature page. If the prototype review changes what the user needs, propose the change to the scenario on its page for its owner to approve, then change the prototype (T-12).
 
 ## Report
 

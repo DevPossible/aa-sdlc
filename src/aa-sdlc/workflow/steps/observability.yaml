@@ -28,6 +28,6 @@ guidance_inline:
   - Alert on what users feel, not on what machines do. Latency and error rate at the edge before CPU in the middle.
   - Every alert has a runbook or it is noise. Write the runbook before enabling the alert.
   - Observability is a requirement on the code. If a scenario cannot be observed in production, raise a ticket for the signal.
-requires: [R-03]
+requires: []
 opinions: [O-16]
 tenets: [T-07]

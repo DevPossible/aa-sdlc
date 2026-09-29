@@ -9,7 +9,7 @@ summary: >
 anchor: required
 inputs:
   - The system architecture and technology stack document
-  - The feature files, for data flows and trust boundaries
+  - The feature pages the epic links to, pulled as feature files, for data flows and trust boundaries
   - Organisational security standards from the enterprise scope, if any
 artifacts:
   - name: Threat model
@@ -18,7 +18,7 @@ artifacts:
       - Every trust boundary and data flow in the architecture is considered
       - "Every threat is rated and has a decision: mitigate, accept, or transfer, with a reason"
   - name: Security requirements
-    location: the features folder as scenarios, and the backlog as tickets
+    location: the feature pages in the knowledge base as scenarios, and the backlog as tickets
     acceptance:
       - Every mitigation is a scenario a test can verify and a ticket someone can build
 guidance_sets: [every-step, anchored-step, repository-write]
@@ -27,6 +27,6 @@ guidance_inline:
   - Follow the data. Start from what is valuable and trace how it moves; threats appear at every boundary it crosses.
   - Accept explicitly. An accepted risk with a named owner and a reason is a decision; an unmentioned risk is a surprise.
   - Make mitigations testable. "Validate input" is not a requirement; "Given a payload over the size limit, then the request is rejected with a logged event" is.
-requires: [R-03, R-16, R-32]
+requires: [R-16, R-32]
 tenets: [T-07, T-11, T-12]
 opinions: [O-18]

@@ -7,21 +7,21 @@ summary: >
   scenarios and its implementation, in the places the project keeps each kind.
 anchor: required
 inputs:
-  - The ticket, its scenarios, and the merged change
+  - The ticket, its feature pages and their scenarios, and the merged change
   - The project's documentation locations from the config or knowledge base
 artifacts:
   - name: Feature documentation
-    location: the documents folder for developer docs; the knowledge base or the project's user documentation location for user docs
+    location: the documents folder for developer docs; the knowledge base's Guides section, around the feature page, or the project's user documentation location for user docs
     acceptance:
       - A user can do what the scenarios describe by following the user documentation
       - A developer can find where the feature lives and how it is tested from the developer documentation
-      - Linked from the ticket and the feature's knowledge base page
+      - Linked from the ticket and the feature page, and restates no scenario the page holds
 guidance_sets: [every-step, anchored-step, repository-write]
 guidance: [G-37, G-53]
 guidance_inline:
   - Write from the scenarios, verify against the software. The scenarios say what should happen; run the feature to confirm the documentation is describing what does.
   - Document the unhappy path. Users read documentation when something went wrong.
-  - Never duplicate a scenario in prose. Link to it, or embed it; two copies drift.
-requires: [R-03, R-06, R-16, R-30, R-42]
+  - Never duplicate a scenario in prose. The feature page holds it; link to the page and write the explanation around it, since two copies drift.
+requires: [R-06, R-16, R-30, R-42]
 tenets: [T-12, T-13]
 opinions: [O-16]

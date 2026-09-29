@@ -15,7 +15,7 @@ Automate the scenarios that can only be proven through the whole system as the u
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -25,9 +25,14 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 ## Procedure
 
-1. **Anchor and check currency.** Read the ticket, its knowledge base page, and the scenarios
-   the test strategy assigns to the end-to-end tier. If the ticket records a revision, compare
-   it with the head for the linked feature files and record what changed (O-13). Read the
+1. **Anchor, pull, and check currency.** Read the ticket and pull the feature pages it links to:
+   their Approved scenarios into the features folder, and the page versions recorded on the
+   ticket (G-54). For a documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1
+   -KnowledgeRoot <folder> -FeaturesRoot <features>`; otherwise read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Then read the pulled
+   scenarios the test strategy assigns to the end-to-end tier. If the ticket records a revision
+   or page versions, compare them with the head and the pages now, and record what changed
+   (O-13). Read the
    happy-path end-to-end tests Development already wrote for those scenarios (O-08); this step
    adds to them and does not repeat them (G-21).
 2. **Start the environment from the repository.** Bring up the system and its dependencies in
@@ -37,13 +42,14 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    with the reason.
 3. **Decide what only end-to-end can see.** For each assigned scenario, say what must be proven
    through the real entry points and what a lower tier already proves. Anything the scenarios
-   do not say about the user's path becomes a question on the ticket and a pending scenario in
-   the feature file (G-21).
+   do not say about the user's path becomes a question on the ticket and a Draft scenario
+   proposed on its feature page, never an edit to the feature file (G-18, G-21).
 4. **Write each test the way a user would act,** on a branch that references the ticket (G-39).
    Drive the system through its real entry points and never reach into internals to make a
    test pass. Every test creates the data it needs and cleans it up, controls time and
    randomness, and runs alone and in any order with the same result (O-23, G-46). Each test
-   lives under the end-to-end folder and is tagged with the scenario it proves (G-25).
+   lives under the end-to-end folder and is tagged with the id of the scenario it proves (G-25,
+   G-49).
 5. **Where a user interface exists, build the visual regression suite** in the same folder. The
    baselines are versioned beside the tests, captured from the containerised environment so
    they are stable, and any change to a baseline appears in the staged diff for review rather
@@ -53,9 +59,9 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
    fails intermittently is quarantined with a ticket the same day and is never wrapped in a
    retry (G-06). Tear the environment down afterwards.
 7. **Stage and present.** Stage the tests, the baselines, any container definition changes, and
-   the feature file changes as one change set with a Conventional Commit message naming the
-   ticket (G-33, G-39), present the staged diff and the message, and stop. Commit only if the
-   user asked for that commit (O-17, G-40).
+   the page changes where the knowledge base is the documents folder, as one change set with a
+   Conventional Commit message naming the ticket (G-33, G-39), present the staged diff and the
+   message, and stop. Commit only if the user asked for that commit (O-17, G-40).
 8. **Update the ticket** with which scenarios now have end-to-end tests, which tests depend on
    a shared environment and why, which tests are quarantined and under what ticket, and what
    remains, linked both ways (G-12, G-26). Then report.
@@ -75,14 +81,14 @@ Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowl
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 - `src/aa-sdlc/skills/aa-guidance/sets/repository-write.md`: What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
 - `src/aa-sdlc/skills/aa-guidance/sets/test-writing.md`: What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
 
 *For this step:*
 
-- **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
+- **G-21** Start from the scenarios pulled from the feature pages, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a Draft scenario proposed on its feature page, never in the feature file.
 - **G-30** Run the end-to-end tier against the system and its dependencies started in containers from definitions committed to the repository, so it runs the same way on any machine and in the pipeline. Reach a shared environment only for a dependency that cannot be containerised, and record which tests depend on it.
 - **G-49** Give every feature a stable id (F-nnn) and every scenario one derived from it (F-nnn-nn), assigned on its feature page once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
 - Drive the system the way a user does, through its real entry points; do not reach into internals to make a test pass.

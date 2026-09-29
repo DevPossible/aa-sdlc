@@ -81,12 +81,12 @@ established from inside the agent.
 | --- | --- |
 | Name | A knowledge base is reachable |
 | Kind | Scenario |
-| Tags | @R-03 @recommended |
+| Tags | @R-03 @required |
 | Status | Approved |
 
 | Step | Text |
 | --- | --- |
-| Given | the agent has a CLI, MCP server, or connector for a wiki or notes system |
+| Given | the agent has a CLI, MCP server, or connector for a wiki or notes system, and can read a page under the root the project config names |
 | When | "/aa-fw-health" probes R-03 |
 | Then | R-03 is reported as met |
 
@@ -96,8 +96,8 @@ established from inside the agent.
 | --- | --- |
 | Name | No knowledge base is reachable |
 | Kind | Scenario |
-| Tags | @R-03 @recommended |
-| Status | Approved |
+| Tags | @R-03 @required |
+| Status | Retired |
 
 | Step | Text |
 | --- | --- |
@@ -204,3 +204,36 @@ established from inside the agent.
 | Then | R-45 is reported as unmet |
 | And | the report names the tool, the version found, and the version required |
 | And | the remedy is the root initialize script, or "aa init", which offers to install it |
+
+## F-064-13 The documents folder is the knowledge base
+
+| Scenario | F-064-13 |
+| --- | --- |
+| Name | The documents folder is the knowledge base |
+| Kind | Scenario |
+| Tags | @R-03 @required @T-12 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | no knowledge base is in scope |
+| And | the documents folder has a knowledge folder in the feature page format |
+| And | the development environment configuration records that it is the knowledge base |
+| When | "/aa-fw-health" probes R-03 |
+| Then | R-03 is reported as met, with the documents folder named as the knowledge base |
+
+## F-064-14 No knowledge base and no documents-folder fallback
+
+| Scenario | F-064-14 |
+| --- | --- |
+| Name | No knowledge base and no documents-folder fallback |
+| Kind | Scenario |
+| Tags | @R-03 @required |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the agent has no way to reach a knowledge base and the documents folder has no knowledge folder |
+| When | "/aa-fw-health" probes R-03 |
+| Then | R-03 is reported as unmet |
+| And | the remedy is "/aa-fw-init", which offers to install a connector or to set up the documents folder's knowledge folder |

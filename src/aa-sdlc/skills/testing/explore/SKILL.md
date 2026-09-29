@@ -15,7 +15,7 @@ A time-boxed session using the system with a charter and a testing lens (boundar
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket, its linked scenarios, and its knowledge base page before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -30,11 +30,15 @@ at the time box, sort the surprises), with the ticket, the charter, and the scen
 and write what it returns as the session notes in step 6, saying the findings came from the agent.
 Otherwise do those steps yourself, keeping to the charter and the time box.
 
-1. **Anchor and fix the charter.** Read the ticket, the scenarios for the area, and its
-   knowledge base page. Write the charter on the ticket before touching the system: the area,
-   the lens (boundaries, states, errors, interruptions, roles), and the time box (G-23). If any
-   of the three is missing, ask. Read what the existing tests already prove for the area (O-08)
-   so the session spends its time on what they do not.
+1. **Anchor, pull, and fix the charter.** Read the ticket and pull the feature pages it links
+   to: their Approved scenarios into the features folder, and the page versions recorded on the
+   ticket (G-54). For a documents-folder knowledge base run `scripts/aa-sdlc/Sync-FeatureFiles.ps1
+   -KnowledgeRoot <folder> -FeaturesRoot <features>`; otherwise read each page and convert it with
+   `ConvertFrom-FeaturePage` from `scripts/aa-sdlc/AaFeatures.psm1`. Read the pulled scenarios
+   for the area. Write the charter on the ticket before touching the system: the area, the lens
+   (boundaries, states, errors, interruptions, roles), and the time box (G-23). If any of the
+   three is missing, ask. Read what the existing tests already prove for the area (O-08) so the
+   session spends its time on what they do not.
 2. **Start the system as it runs.** Prefer the repository's container definitions (O-12) so that
    any surprise can be reproduced later. Record the revision and the configuration under test
    at the top of the session notes (T-07).
@@ -47,32 +51,33 @@ Otherwise do those steps yourself, keeping to the charter and the time box.
    never extend a session silently (G-23).
 5. **Sort every surprise.** Behaviour that contradicts a scenario is a defect ticket in the
    configured project, with the steps to reproduce it, linked to this ticket (G-27). Behaviour
-   no scenario states is a question on the ticket and a pending scenario in the feature file,
-   changed there first (G-18, G-21). Anything unclear is a question. Nothing stays only a note.
+   no scenario states is a question on the ticket and a Draft scenario proposed on its feature
+   page under the project's knowledge root, never an edit to the feature file (G-18, G-21,
+   G-55). Anything unclear is a question. Nothing stays only a note.
 6. **Write the session notes on the ticket:** the charter, the environment, what was tried, what
    surprised, and what was concluded, with a link to every ticket and scenario raised (G-12,
-   G-24, G-26). If a feature file was changed, stage it and present it with a Conventional
-   Commit message; commit only if the user asked for that commit (O-17, G-40). Then report,
-   naming what the charter did not reach (G-15).
+   G-24, G-26). If a page in a documents-folder knowledge base was changed, stage it and
+   present it with a Conventional Commit message; commit only if the user asked for that commit
+   (O-17, G-40). Then report, naming what the charter did not reach (G-15).
 
 ## Artifacts
 
 **Session notes** in the anchor ticket. Done when:
 
 - Records what was tried, what surprised, and what was concluded
-- Every surprise is a ticket, a question, or a pending scenario
+- Every surprise is a ticket, a question, or a Draft scenario on its feature page
 
 ## Guidance
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
-- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 
 - **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
-- **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
+- **G-21** Start from the scenarios pulled from the feature pages, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a Draft scenario proposed on its feature page, never in the feature file.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - Follow the charter until the time box, then follow the most interesting surprise. Both halves matter.
 - Interrupt things. Cancel midway, lose the connection, double-submit, go back; the scenarios almost never say what should happen.

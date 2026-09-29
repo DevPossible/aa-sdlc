@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/business-analysis/uat. Do not edit: change the page, then pull it.
-# Checksum: sha256:1952d01005ee72ebcb045b65c462459fecd25722019c73cb802fb21772d016df
+# Checksum: sha256:8105441d39a4baf89d7d1646189a93f367c4e765bf9fdcec45feafdc6c590a86
 @agent @business-analysis @T-07 @T-12 @F-005
 Feature: /aa-ba-uat confirms with stakeholders that what was built is what they meant
   Walk stakeholders through the scenarios as written against the deployed software, record
@@ -12,9 +12,9 @@ Feature: /aa-ba-uat confirms with stakeholders that what was built is what they 
 
   @F-005-01
   Scenario: The scenarios are checked against the build before the walkthrough
-    Given the ticket records the revision it was built against
+    Given the ticket records the revision and the page versions it was built against
     When "/aa-ba-uat" starts
-    Then it compares that revision with the head for the linked feature files
+    Then it pulls the linked feature pages and compares them with the revision and page versions the ticket records
     And a scenario that changed since is noted on the ticket before the walkthrough
 
   @F-005-02
@@ -28,7 +28,7 @@ Feature: /aa-ba-uat confirms with stakeholders that what was built is what they 
     Given the stakeholder asks to see something the scenario does not state
     When "/aa-ba-uat" walks the scenario
     Then the Given, When, Then are walked as written
-    And the request is recorded as a question on the ticket for the feature file, not as a demo step
+    And the request is recorded as a question on the ticket for the feature page, not as a demo step
 
   @F-005-04
   Scenario: Acceptance is recorded by name
@@ -47,7 +47,7 @@ Feature: /aa-ba-uat confirms with stakeholders that what was built is what they 
   Scenario: A met scenario that is not what was meant is a requirement change
     Given the software does what a scenario says but the stakeholder meant something else
     When "/aa-ba-uat" records the result
-    Then the gap is raised as a question on the ticket and changed in the feature file first
+    Then the gap is raised as a question on the ticket and written as a Draft scenario on its feature page first
     And it is not recorded as a failure of the build
 
   @F-005-07
@@ -55,4 +55,4 @@ Feature: /aa-ba-uat confirms with stakeholders that what was built is what they 
     When "/aa-ba-uat" finishes
     Then the UAT results report is on the anchor ticket
     And the knowledge base page links to it and it links back
-    And any changed feature file is staged and presented, not committed
+    And any feature page it changed in the documents folder is staged and presented, not committed

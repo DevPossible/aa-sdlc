@@ -30,6 +30,6 @@ guidance_inline:
   - Measure first, then ask. Present the numbers before opinions so the discussion is about causes, not impressions.
   - Three changes, not thirty. An improvement backlog nobody works is a complaint log.
   - Check the last retrospective's changes first. If they were not done, that is the first finding.
-requires: [R-03, R-32]
+requires: [R-32]
 tenets: [T-07, T-13]
 opinions: [O-18]
