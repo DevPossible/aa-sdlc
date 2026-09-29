@@ -6,7 +6,7 @@ aa:
   step: setup-environment
   guidance_sets: [every-step, anchored-step, code-change]
   guidance: [G-29, G-30, G-38, G-48, G-50]
-  requires: [R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-39, R-13]
+  requires: [R-11, R-18, R-19, R-44, R-45, R-20, R-21, R-24, R-25, R-26, R-39, R-13]
 ---
 
 # /aa-dev-setup-environment

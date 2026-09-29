@@ -20,11 +20,11 @@ func TestUpdate_ReinstallsUserAndProjectScopeAndReportsChanges(t *testing.T) {
 	}
 	userPath := filepath.Join(home, ".aa", config.FileName)
 	var out bytes.Buffer
-	if err := setupcmd.Run(setupcmd.Options{Home: home, UserConfigPath: userPath}, &out); err != nil {
+	if err := setupcmd.Run(setupcmd.Options{Run: present, Home: home, UserConfigPath: userPath}, &out); err != nil {
 		t.Fatal(err)
 	}
 	project := t.TempDir()
-	if err := initcmd.Run(initcmd.Options{Path: project, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
+	if err := initcmd.Run(initcmd.Options{Run: present, Path: project, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
 		t.Fatal(err)
 	}
 
@@ -88,11 +88,11 @@ func TestUpdate_UpdatesThePluginsAtProjectScope(t *testing.T) {
 	}
 	userPath := filepath.Join(home, ".aa", config.FileName)
 	var out bytes.Buffer
-	if err := setupcmd.Run(setupcmd.Options{Home: home, UserConfigPath: userPath}, &out); err != nil {
+	if err := setupcmd.Run(setupcmd.Options{Run: present, Home: home, UserConfigPath: userPath}, &out); err != nil {
 		t.Fatal(err)
 	}
 	project := t.TempDir()
-	if err := initcmd.Run(initcmd.Options{Path: project, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
+	if err := initcmd.Run(initcmd.Options{Run: present, Path: project, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
 		t.Fatal(err)
 	}
 	plugin := filepath.Join(t.TempDir(), "k6")
@@ -121,3 +121,7 @@ func TestUpdate_UpdatesThePluginsAtProjectScope(t *testing.T) {
 		t.Errorf("plugin files must not be removed as stale core files:\n%s", s)
 	}
 }
+
+// present stands in for a machine where every tool is installed, so no test runs a real check
+// or installer.
+func present(string) (string, error) { return "99.0.0", nil }

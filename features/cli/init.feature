@@ -149,3 +149,24 @@ Feature: aa init bootstraps a repository
     When I run "aa init" again
     Then it installs for those targets without asking
     And it says to edit the project config's targets, or run "aa uninstall -scope project", to change them
+
+  @F-006-22
+  Scenario: Check the tools the project lists
+    Given the project config lists tools with check commands
+    When I run "aa init"
+    Then it runs each check and reports each tool as found with its version, too old, or missing
+    And a tool with no check command is left to "/aa-fw-health" in the agent
+
+  @F-006-23
+  Scenario: Install a missing project tool only with explicit consent
+    Given the project config lists a missing tool with an install command for this platform
+    When I run "aa init" interactively
+    Then it shows the exact install command and runs it only if I agree
+    And "-yes" alone never runs an install command from a project config
+    And with no install command for this platform it says to run the root initialize script
+
+  @F-006-24
+  Scenario: A blank repository is surveyed in the agent
+    Given the repository has no code to infer a stack from
+    When I run "aa init"
+    Then it says "/aa-fw-init" will ask what the project is and which tools it needs

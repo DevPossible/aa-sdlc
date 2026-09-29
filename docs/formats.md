@@ -203,6 +203,31 @@ folders:                            # only needed when a repo does not use the c
   source: src
   tests: tests
   decisions: docs/decisions         # numbered, immutable decision records (O-18); a knowledge base location may be named instead
+stack:                              # what /aa-fw-init inferred or the user answered in its survey (R-44)
+  description: Order tracking web API for the warehouse team
+  languages: [csharp 13, typescript 5.6]
+  frameworks: [aspnetcore 9, react 19]
+  platforms: [linux containers]
+  deploy: Azure Container Apps
+  pipeline: GitHub Actions
+  containers: true                  # the e2e tier runs in containers locally (R-25, R-26)
+tools:                              # one entry per tool the project uses (R-44); aa init and health check each (R-45)
+  - name: PowerShell
+    category: shell                 # shell, source-control, build, package-manager, formatter, static-analysis,
+                                    # feature-runner, container-runtime, ticket-connector, knowledge-connector
+    version: "7.4"                  # minimum
+    check: pwsh --version           # prints the version; omitted for a connector the agent loads
+    install:                        # per platform, through its package manager; the initialize script runs these
+      windows: winget install --id Microsoft.PowerShell --exact --source winget
+      macos: brew install --cask powershell
+    docs: https://aka.ms/powershell # where to get it on a platform with no install command
+  - name: .NET SDK
+    category: build
+    language: csharp
+    version: "9.0"
+    check: dotnet --version
+    install:
+      windows: winget install --id Microsoft.DotNet.SDK.9 --exact --source winget
 organisation:
   repository: https://git.example.com/platform/aa-config   # set at user or enterprise scope
 ```
@@ -213,6 +238,8 @@ Merge rules:
 - `plugins` and `targets`: union, in scope order. A scope can exclude an inherited plugin only
   by listing it under `plugins_exclude`.
 - Maps (`conventions`, `folders`): deep merge, later scope wins per key.
+- `tools`: one entry per name; a later scope's entry replaces an earlier one. `stack`: the later
+  scope's replaces the earlier one.
 - `version` must match across scopes; the CLI refuses to merge mismatched versions.
 - A project config with no `folders` block means the conventional names are in use.
 

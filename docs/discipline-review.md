@@ -113,6 +113,9 @@ Run health, then work through the unmet requirements that need judgement, fixing
 
 - **Bootstrapped project** in the repository root and the project config
   - The ticket project was checked against R-41 and R-43 as soon as it was confirmed, before any other fix
+  - The stack is recorded in the project config, inferred from the repository or answered by the user in a survey
+  - Every category the framework and the stack prescribe has a tool recorded under tools, chosen by the user, or is recorded as having none
+  - Every recorded tool is installed on this machine at its minimum version, or its install was declined and is listed
   - Every fixable unmet requirement was proposed and, if agreed, fixed
   - Every unfixable unmet requirement is listed with its remedy
   - A second health report shows what changed and what remains
@@ -132,9 +135,11 @@ Run health, then work through the unmet requirements that need judgement, fixing
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
 - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
 - The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01).
+- Survey only what the repository cannot answer. Infer the stack from what is there; when the repository is blank or leaves it open, ask what is being built, in which languages and frameworks at which versions, for which platforms, deployed where, and built by which pipeline, and record the answers so no one is asked twice.
+- Record every tool with the command that checks it and the command that installs it on each platform, and put the install in the root initialize script, so the next machine gets the same tools without this conversation.
 - Check the ticket project the moment it is confirmed, before anything else. Read its workflow, the moves between states, the parent links, and the board, and hold them to R-41 and R-43; propose each missing piece with the step that would stumble on it, make it with consent where the user may administer the project, and otherwise list it for the administrator. A project that cannot carry the life cycle is found hours later, in the middle of other work, when it is not checked first.
 
-*Requires: R-04, R-07, R-14, R-15, R-41, R-42, R-43 | Tenets: T-06, T-11*
+*Requires: R-04, R-07, R-14, R-15, R-41, R-42, R-43, R-44, R-45 | Tenets: T-06, T-11*
 
 ### `/aa-fw-whatsnext`
 
@@ -1726,7 +1731,7 @@ Make a fresh clone buildable and testable: fill in the root scripts, configure t
 - Whatever the pipeline will run, make it a script here first. A step that only works on the pipeline runner is a defect (O-11).
 - The fresh clone is the test. If it needs a file from your machine, a page from the wiki, or a value from your head, commit the template and document the source (O-16).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-18, R-19, R-20, R-21, R-24, R-25, R-26, R-39, R-13 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16, O-17, O-21, O-22, O-25 | Methodology: phase 2 step 2.1*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-18, R-19, R-44, R-45, R-20, R-21, R-24, R-25, R-26, R-39, R-13 | Tenets: T-01, T-07 | Opinions: O-05, O-06, O-07, O-11, O-12, O-16, O-17, O-21, O-22, O-25 | Methodology: phase 2 step 2.1*
 
 ### `/aa-dev-implement`
 

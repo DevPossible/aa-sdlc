@@ -89,3 +89,10 @@ Feature: /aa-fw-health reports every declared requirement
     When "/aa-fw-health" probes the ticket system
     Then it reads the project's workflow, its moves, its parent links, and its board
     And a mapping whose names all exist but whose workflow cannot carry the life cycle is unmet
+
+  @R-44 @R-45 @F-001-13
+  Scenario: The project's tools are probed on this machine
+    Given the project config lists tools with check commands
+    When "/aa-fw-health" probes R-44 and R-45
+    Then it reports each prescribed category with the tool chosen for it, or the gap
+    And it runs each check command and reports the version found against the version required

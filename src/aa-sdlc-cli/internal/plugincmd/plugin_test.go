@@ -50,10 +50,10 @@ func setUp(t *testing.T) fixture {
 		t.Fatal(err)
 	}
 	var out bytes.Buffer
-	if err := setupcmd.Run(setupcmd.Options{Home: f.home, UserConfigPath: f.userPath, OrgRepository: f.org}, &out); err != nil {
+	if err := setupcmd.Run(setupcmd.Options{Run: present, Home: f.home, UserConfigPath: f.userPath, OrgRepository: f.org}, &out); err != nil {
 		t.Fatal(err)
 	}
-	if err := initcmd.Run(initcmd.Options{Path: f.project, Yes: true, Targets: []string{"claude-code"}, Home: f.home, UserConfigPath: f.userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
+	if err := initcmd.Run(initcmd.Options{Run: present, Path: f.project, Yes: true, Targets: []string{"claude-code"}, Home: f.home, UserConfigPath: f.userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
 		t.Fatal(err)
 	}
 	return f
@@ -279,3 +279,7 @@ func TestPlugin_UpdateOfAPluginNotInstalledIsAnError(t *testing.T) {
 		t.Fatalf("want a not-installed error, got %v", err)
 	}
 }
+
+// present stands in for a machine where every tool is installed, so no test runs a real check
+// or installer.
+func present(string) (string, error) { return "99.0.0", nil }

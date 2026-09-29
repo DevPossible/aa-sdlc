@@ -75,3 +75,18 @@ Feature: Environment requirements
     And the report names e2e-tests and setup-environment as depending on it
     And the report says the e2e tier will run against whatever the test script can reach until one is available
     And the remedy is for the user to install a container runtime
+
+  @R-45 @required @O-11 @F-064-11
+  Scenario: The project's tools are installed on this machine
+    Given every tool the project config lists with a check command
+    When "/aa-fw-health" runs each check command
+    Then each prints a version at or above the one listed
+    And R-45 is reported as met
+
+  @R-45 @required @O-11 @F-064-12
+  Scenario: A tool is missing or too old
+    Given the project config lists PowerShell at 7.4 and this machine has 5.1
+    When "/aa-fw-health" probes R-45
+    Then R-45 is reported as unmet
+    And the report names the tool, the version found, and the version required
+    And the remedy is the root initialize script, or "aa init", which offers to install it

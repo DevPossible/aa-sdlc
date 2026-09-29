@@ -102,6 +102,8 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-33 | unmet | no commit on the default branch references a ticket | first ticket-anchored work after the connector is authorised |
 | R-41 | unmet | added 2026-09-27, after this baseline: `aa.config.yaml` has no ticket kind or state mapping, and the ticket project cannot be read to check one (R-02) | `/aa-fw-init` once the connector is authorised; `aa init` writes the default mapping for new projects |
 | R-43 | unmet | added 2026-09-28, after this baseline: the ticket project's workflow, moves, parent links, and board cannot be read until the connector is authorised (R-02) | `/aa-fw-init` once the connector is authorised |
+| R-44 | unmet | added 2026-09-28, after this baseline: `aa.config.yaml` records no `stack` or `tools` yet | `/aa-fw-init` records them: PowerShell 7, Git, Go, Pester, powershell-yaml, and the Gherkin runner the tests use |
+| R-45 | unmet | added 2026-09-28, after this baseline: nothing to check until R-44 lists the tools; `./initialize.ps1` installs today's set | same |
 
 ### Everything else
 

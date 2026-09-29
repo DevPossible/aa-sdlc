@@ -2,6 +2,7 @@ package initcmd
 
 import (
 	"bytes"
+	"errors"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -10,6 +11,7 @@ import (
 	"time"
 
 	"aasdlc.com/aa/internal/config"
+	"aasdlc.com/aa/internal/tools"
 )
 
 func fixedNow() time.Time { return time.Date(2026, 9, 22, 12, 0, 0, 0, time.UTC) }
@@ -28,7 +30,7 @@ func runInit(t *testing.T, dir string, extra func(*Options)) string {
 	if err := os.MkdirAll(filepath.Join(home, ".claude"), 0o755); err != nil { // Claude Code is "installed"
 		t.Fatal(err)
 	}
-	opts := Options{Path: dir, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: filepath.Join(home, ".aa", config.FileName), Now: fixedNow}
+	opts := Options{Run: present, Path: dir, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: filepath.Join(home, ".aa", config.FileName), Now: fixedNow}
 	if extra != nil {
 		extra(&opts)
 	}
@@ -137,7 +139,7 @@ func TestInit_LayersScopesIntoProjectConfig(t *testing.T) {
 	must(config.Write(userPath, &config.Config{Version: 1, Scope: "user", Organisation: &config.Organisation{Repository: org, Team: "web"}}, "u"))
 
 	var out bytes.Buffer
-	must(Run(Options{Path: dir, Yes: true, Home: home, UserConfigPath: userPath, Now: fixedNow, TicketProject: "AA"}, strings.NewReader(""), &out))
+	must(Run(Options{Run: present, Path: dir, Yes: true, Home: home, UserConfigPath: userPath, Now: fixedNow, TicketProject: "AA"}, strings.NewReader(""), &out))
 	cfg, _ := config.Load(filepath.Join(dir, config.FileName))
 	if len(cfg.Plugins) != 1 || cfg.Plugins[0].Name != "ent-plugin" {
 		t.Errorf("enterprise plugin not layered: %v", cfg.Plugins)
@@ -247,7 +249,7 @@ func TestInit_AsksWhichHarnessesTheRepositoryGets(t *testing.T) {
 	home, userPath := harnessHome(t)
 	dir := t.TempDir()
 	// Decline git init; then offered: 1 Claude Code, 2 Gemini CLI, neither ticked; tick Claude Code.
-	out := initHarnesses(t, dir, Options{Interactive: true, Home: home, UserConfigPath: userPath}, "n\n1\n\n")
+	out := initHarnesses(t, dir, Options{Run: present, Interactive: true, Home: home, UserConfigPath: userPath}, "n\n1\n\n")
 
 	if !strings.Contains(out, "Which agent harnesses should this repository have?") || strings.Contains(out, "Windsurf") {
 		t.Errorf("want a checklist of the harnesses found on this machine only:\n%s", out)
@@ -269,7 +271,7 @@ func TestInit_WithNobodyToAskKeepsOnlyTheRepositorysOwnHarnesses(t *testing.T) {
 	home, userPath := harnessHome(t)
 
 	empty := t.TempDir()
-	out := initHarnesses(t, empty, Options{Home: home, UserConfigPath: userPath}, "")
+	out := initHarnesses(t, empty, Options{Run: present, Home: home, UserConfigPath: userPath}, "")
 	for _, d := range []string{".claude", ".gemini", ".windsurf"} {
 		if _, err := os.Stat(filepath.Join(empty, d)); err == nil {
 			t.Errorf("%s was created though nobody chose it", d)
@@ -283,7 +285,7 @@ func TestInit_WithNobodyToAskKeepsOnlyTheRepositorysOwnHarnesses(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join(withClaude, ".claude"), 0o755); err != nil {
 		t.Fatal(err)
 	}
-	initHarnesses(t, withClaude, Options{Yes: true, Home: home, UserConfigPath: userPath}, "")
+	initHarnesses(t, withClaude, Options{Run: present, Yes: true, Home: home, UserConfigPath: userPath}, "")
 	if _, err := os.Stat(filepath.Join(withClaude, ".gemini")); err == nil {
 		t.Error(".gemini was created though the repository only has .claude")
 	}
@@ -295,8 +297,8 @@ func TestInit_WithNobodyToAskKeepsOnlyTheRepositorysOwnHarnesses(t *testing.T) {
 func TestInit_RecordedHarnessesAreNotAskedAgain(t *testing.T) {
 	home, userPath := harnessHome(t)
 	dir := t.TempDir()
-	initHarnesses(t, dir, Options{Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath}, "")
-	out := initHarnesses(t, dir, Options{Interactive: true, Home: home, UserConfigPath: userPath}, "n\n2\n\n")
+	initHarnesses(t, dir, Options{Run: present, Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath}, "")
+	out := initHarnesses(t, dir, Options{Run: present, Interactive: true, Home: home, UserConfigPath: userPath}, "n\n2\n\n")
 	if strings.Contains(out, "Which agent harnesses") || !strings.Contains(out, "harnesses from "+config.FileName+": Claude Code") {
 		t.Errorf("want the recorded harnesses used without asking:\n%s", out)
 	}
@@ -308,8 +310,68 @@ func TestInit_RecordedHarnessesAreNotAskedAgain(t *testing.T) {
 func TestInit_UnknownTargetIsRefused(t *testing.T) {
 	home, userPath := harnessHome(t)
 	var out bytes.Buffer
-	err := Run(Options{Path: t.TempDir(), Targets: []string{"nope"}, Home: home, UserConfigPath: userPath, Now: fixedNow}, strings.NewReader(""), &out)
+	err := Run(Options{Run: present, Path: t.TempDir(), Targets: []string{"nope"}, Home: home, UserConfigPath: userPath, Now: fixedNow}, strings.NewReader(""), &out)
 	if err == nil || !strings.Contains(err.Error(), "nope") {
 		t.Errorf("want an error naming the unknown target, got %v", err)
+	}
+}
+
+// present stands in for a machine where every tool is installed, so no test runs a real check
+// or installer.
+func present(string) (string, error) { return "99.0.0", nil }
+
+// projectWithTool is a repository whose project config lists one tool that is not installed, with
+// an install command for this platform, and a runner that records what it ran.
+func projectWithTool(t *testing.T) (dir string, ran *[]string, run func(string) (string, error)) {
+	t.Helper()
+	dir = t.TempDir()
+	cfg := &config.Config{Version: 1, Scope: "project", Targets: []string{"claude-code"}, Tools: []config.Tool{{
+		Name: "Formatter", Category: "formatter", Language: "csharp", Version: "1.0",
+		Check: "fmt-check --version", Install: map[string]string{tools.Platform(): "fmt-install"},
+	}}}
+	if err := config.Write(filepath.Join(dir, config.FileName), cfg, "test"); err != nil {
+		t.Fatal(err)
+	}
+	var commands []string
+	return dir, &commands, func(command string) (string, error) {
+		commands = append(commands, command)
+		if command == "fmt-check --version" {
+			return "", errors.New("not found")
+		}
+		return "99.0.0", nil
+	}
+}
+
+func TestInit_YesNeverRunsAProjectsInstallCommand(t *testing.T) {
+	dir, ran, run := projectWithTool(t)
+	out := runInit(t, dir, func(o *Options) { o.Run = run })
+	for _, c := range *ran {
+		if c == "fmt-install" {
+			t.Fatalf("-yes ran an install command from the project config:\n%s", out)
+		}
+	}
+	if !strings.Contains(out, "Formatter: missing (needs 1.0 or newer)") {
+		t.Errorf("want the missing tool reported:\n%s", out)
+	}
+}
+
+func TestInit_InstallsAProjectToolWhenTheUserAgrees(t *testing.T) {
+	dir, ran, run := projectWithTool(t)
+	home, userPath := harnessHome(t)
+	// decline git init, then agree to the install
+	initHarnesses(t, dir, Options{Run: run, Interactive: true, Home: home, UserConfigPath: userPath}, "n\ny\n")
+	installed := false
+	for _, c := range *ran {
+		installed = installed || c == "fmt-install"
+	}
+	if !installed {
+		t.Errorf("the agreed install did not run: %v", *ran)
+	}
+}
+
+func TestInit_NoToolsRecordedPointsAtTheAgent(t *testing.T) {
+	out := runInit(t, t.TempDir(), nil)
+	if !strings.Contains(out, "/aa-fw-init infers the stack, or asks what the project is") {
+		t.Errorf("want the hand-off for a project with no tools recorded:\n%s", out)
 	}
 }

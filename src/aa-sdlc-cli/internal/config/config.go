@@ -23,6 +23,8 @@ type Config struct {
 	PluginsExclude []string          `yaml:"plugins_exclude,omitempty"`
 	Conventions    Conventions       `yaml:"conventions,omitempty"`
 	Folders        map[string]string `yaml:"folders,omitempty"`
+	Stack          *Stack            `yaml:"stack,omitempty"`
+	Tools          []Tool            `yaml:"tools,omitempty"`
 	Organisation   *Organisation     `yaml:"organisation,omitempty"`
 	Install        *Install          `yaml:"install,omitempty"`
 }
@@ -65,6 +67,32 @@ type Commit struct {
 	Pattern string   `yaml:"pattern,omitempty"`
 	Types   []string `yaml:"types,omitempty"`
 	Scopes  []string `yaml:"scopes,omitempty"`
+}
+
+// Stack is what /aa-fw-init inferred about the project, or what the user answered in its survey
+// when the repository could not say (R-44).
+type Stack struct {
+	Description string   `yaml:"description,omitempty"`
+	Languages   []string `yaml:"languages,omitempty"`
+	Frameworks  []string `yaml:"frameworks,omitempty"`
+	Platforms   []string `yaml:"platforms,omitempty"`
+	Deploy      string   `yaml:"deploy,omitempty"`
+	Pipeline    string   `yaml:"pipeline,omitempty"`
+	Containers  bool     `yaml:"containers,omitempty"`
+}
+
+// Tool is one tool the project uses (R-44): the category the framework or the stack prescribes
+// it for, the language it serves where it serves one, the minimum version, the command that
+// prints its version, and the command that installs it per platform (windows, macos, linux).
+// A tool with no check, such as a connector the agent loads, is probed in the agent.
+type Tool struct {
+	Name     string            `yaml:"name"`
+	Category string            `yaml:"category"`
+	Language string            `yaml:"language,omitempty"`
+	Version  string            `yaml:"version,omitempty"`
+	Check    string            `yaml:"check,omitempty"`
+	Install  map[string]string `yaml:"install,omitempty"`
+	Docs     string            `yaml:"docs,omitempty"`
 }
 
 // Organisation points at the enterprise and team scopes.
@@ -224,6 +252,10 @@ func Merge(cfgs ...*Config) (*Config, error) {
 			}
 		}
 		out.Conventions = mergeConventions(out.Conventions, c.Conventions)
+		out.Tools = mergeTools(out.Tools, c.Tools)
+		if c.Stack != nil {
+			out.Stack = c.Stack
+		}
 		if c.Organisation != nil {
 			if out.Organisation == nil {
 				out.Organisation = &Organisation{}
@@ -248,6 +280,23 @@ func Merge(cfgs ...*Config) (*Config, error) {
 		out.Folders = nil
 	}
 	return out, nil
+}
+
+// mergeTools keeps one entry per tool name; a later scope's entry replaces an earlier one.
+func mergeTools(a, b []Tool) []Tool {
+	out := append([]Tool(nil), a...)
+	for _, t := range b {
+		replaced := false
+		for i := range out {
+			if out[i].Name == t.Name {
+				out[i], replaced = t, true
+			}
+		}
+		if !replaced {
+			out = append(out, t)
+		}
+	}
+	return out
 }
 
 func mergeConventions(a, b Conventions) Conventions {

@@ -54,8 +54,10 @@ remedy.
    build, run the root build script; to check a linter, run the lint switch. To check the ticket
    project's configuration (R-41, R-43), read its issue types, its workflow states and the moves
    between them, the parent links it allows, and its board, and hold them to the life cycle: a
-   name that exists proves nothing if two life-cycle states share it or no move reaches it. A
-   file that exists proves nothing on its own. Time-box any probe that could hang; a probe that cannot complete
+   name that exists proves nothing if two life-cycle states share it or no move reaches it. To
+   check the project's tools (R-44, R-45), read `stack` and `tools` in the project config, find a
+   tool for every category each language needs, and run each tool's check command, comparing the
+   version it prints with the one listed. A file that exists proves nothing on its own. Time-box any probe that could hang; a probe that cannot complete
    is unmet with the reason, never silently skipped. Where a probe would change anything, do
    not perform it: report unmet and name the remedy.
 6. **Classify.** Each id is exactly one of **met**, **unmet**, **not applicable** (with the

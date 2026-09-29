@@ -4,6 +4,7 @@
 package setupcmd
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"os"
@@ -13,6 +14,7 @@ import (
 
 	"aasdlc.com/aa/internal/config"
 	"aasdlc.com/aa/internal/targets"
+	"aasdlc.com/aa/internal/tools"
 	"aasdlc.com/aa/internal/version"
 )
 
@@ -23,8 +25,9 @@ type Options struct {
 	OrgRepository  string // organisation config repository to layer over core (path or URL)
 	Team           string // team subfolder in the organisation repository
 	Targets        []string
-	Interactive    bool      // prompts are allowed: offer the harnesses as a checklist
-	In             io.Reader // where checklist answers come from; default os.Stdin
+	Interactive    bool         // prompts are allowed: offer the harnesses as a checklist
+	In             io.Reader    // where checklist answers come from; default os.Stdin
+	Run            tools.Runner // runs prerequisite checks and installs; default tools.Shell
 	Now            func() time.Time
 }
 
@@ -35,6 +38,12 @@ func Run(opts Options, out io.Writer) error {
 	}
 	if opts.In == nil {
 		opts.In = os.Stdin
+	}
+	// one buffered reader for every answer, so the checklist and the install prompts share it
+	reader := bufio.NewReader(opts.In)
+	opts.In = reader
+	if opts.Run == nil {
+		opts.Run = tools.Shell
 	}
 	home := opts.Home
 	if home == "" {
@@ -50,6 +59,18 @@ func Run(opts Options, out io.Writer) error {
 	}
 	report := func(format string, a ...any) { fmt.Fprintf(out, format+"\n", a...) }
 	report("aa setup (package %s)", version.Version)
+
+	// The framework's own prerequisites on this machine, installed only with consent.
+	report("  prerequisites:")
+	tools.Ensure(tools.Prerequisites("pwsh"), opts.Run, func(question string) bool {
+		if !opts.Interactive {
+			return false
+		}
+		fmt.Fprint(out, question+" [y/N]: ")
+		line, _ := reader.ReadString('\n')
+		answer := strings.TrimSpace(line)
+		return strings.EqualFold(answer, "y") || strings.EqualFold(answer, "yes")
+	}, "", out)
 
 	existing, err := config.Load(userPath)
 	if err != nil {

@@ -90,3 +90,16 @@ Feature: aa setup bootstraps the machine
     When I run "aa setup"
     Then Claude Code gets one subagent per delivery discipline
     And nothing is written for Codex's subagents
+
+  @F-008-14
+  Scenario: Check the framework's own prerequisites
+    When I run "aa setup"
+    Then it checks this machine has a source control client and PowerShell 7 or newer
+    And it reports each as found with its version, too old, or missing
+
+  @F-008-15
+  Scenario: Install a missing prerequisite with consent
+    Given PowerShell 7 is not installed on this machine
+    When I run "aa setup" interactively and agree to install it
+    Then it installs PowerShell with the platform's package manager and checks it again
+    And where the platform has no package manager it knows, it says where to get it instead

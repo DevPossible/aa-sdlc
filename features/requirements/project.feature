@@ -537,3 +537,20 @@ Feature: Project requirements
     When "/aa-fw-health" probes R-43
     Then R-43 is reported as unmet
     And the remedy lists each change for the ticket project's administrator to make
+
+  @R-44 @required @O-21 @F-065-70
+  Scenario: The project names a tool for every category it needs
+    Given the project config lists its tools, each with a category, a minimum version, and a command that checks it
+    And there is a shell for the root scripts, a source control client, and a connector for the ticket system and the knowledge base
+    And for each language in the project there is a build toolchain, a package manager, a formatter, and a static analyser
+    And there is a tool that runs the feature files
+    When "/aa-fw-health" probes R-44
+    Then R-44 is reported as met
+
+  @R-44 @required @O-21 @F-065-71
+  Scenario: A category has no tool
+    Given the project has C# code and the project config lists no formatter for C#
+    When "/aa-fw-health" probes R-44
+    Then R-44 is reported as unmet
+    And the report names the language and the category
+    And the remedy is "/aa-fw-init", which proposes tools for the user to choose from

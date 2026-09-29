@@ -142,7 +142,7 @@ them.
 builds; scripts that assume tools are already installed.
 *Would change our mind:* nothing foreseeable. The shell is the project's choice; the verbs and
 their presence are not.
-*Requirements:* R-10, R-11, R-19, R-20.
+*Requirements:* R-10, R-11, R-19, R-20, R-45.
 
 **O-07 Every repository has unit, integration, and end-to-end tests.**
 *The stance:* three tiers, each with a home in the repository and each selectable from the root
@@ -616,7 +616,7 @@ project because its language has no linter.
 *Would change our mind:* nothing foreseeable. The formatter, the analyser, and the baseline rule
 set for a given language are the project's or a tech-stack plugin's choice (T-01); the opinion is
 that they are configured, committed, and run.
-*Requirements:* R-09, R-12, R-15, R-35. *Guidance:* G-01, G-06, G-44, G-50.
+*Requirements:* R-09, R-12, R-15, R-35, R-44, R-45. *Guidance:* G-01, G-06, G-44, G-50.
 
 **O-23 Tests are deterministic and independent.**
 *The stance:* every test, at every tier, produces the same result every time it runs, alone or

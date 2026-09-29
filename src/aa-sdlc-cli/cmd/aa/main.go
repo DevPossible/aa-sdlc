@@ -31,9 +31,9 @@ const usage = `aa: the AA-SDLC command line
 
 Usage:
   aa setup   [-org <repository>] [-team <name>] [-targets <id,...>]
-                                                    bootstrap this machine: install skills and commands for every agent harness found, or those named, at user scope
+                                                    bootstrap this machine: check Git and PowerShell 7+ and offer to install them, then install skills and commands for every agent harness found, or those named, at user scope
   aa init    [-path <dir>] [-targets <id,...>] [-ticket-project <key>] [-ticket-url <url>] [-knowledge-space <key>] [-knowledge-url <url>] [-shell pwsh|sh] [-yes]
-                                                    bootstrap a repository, then hand off to /aa-fw-health and /aa-fw-init in your agent
+                                                    bootstrap a repository, check the tools it lists and offer to install the missing ones, then hand off to /aa-fw-health and /aa-fw-init in your agent
   aa update  [-path <dir>]                          bring everything setup and init installed up to this package version, at user scope and in this repository
   aa plugin  install <name|path> | update [<name>] | list | remove <name> [-scope project|user] [-path <dir>]
                                                     manage tech-stack, tool, and process packs at a scope; a plugin adds skills

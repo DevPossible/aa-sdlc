@@ -16,6 +16,7 @@ import (
 
 	"aasdlc.com/aa/internal/config"
 	"aasdlc.com/aa/internal/targets"
+	"aasdlc.com/aa/internal/tools"
 )
 
 // Options are the flags aa init accepts.
@@ -25,12 +26,13 @@ type Options struct {
 	TicketURL      string
 	KnowledgeSpace string
 	KnowledgeURL   string
-	Shell          string   // pwsh (default) or sh: the shell for the root script stubs
-	Targets        []string // harness ids to install into at project scope; asked for if empty and interactive
-	Yes            bool     // consent to every proposal without asking
-	Interactive    bool     // stdin is a terminal; prompts are allowed
-	UserConfigPath string   // override for tests; default config.UserPath()
-	Home           string   // override for tests; default the user's home
+	Shell          string       // pwsh (default) or sh: the shell for the root script stubs
+	Targets        []string     // harness ids to install into at project scope; asked for if empty and interactive
+	Yes            bool         // consent to every proposal without asking
+	Interactive    bool         // stdin is a terminal; prompts are allowed
+	UserConfigPath string       // override for tests; default config.UserPath()
+	Home           string       // override for tests; default the user's home
+	Run            tools.Runner // runs tool checks and installs; default tools.Shell
 	Now            func() time.Time
 }
 
@@ -101,7 +103,10 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 		project.Install = nil
 		project.Organisation = nil
 		// The harnesses aa setup found on this machine are not the repository's; step 6 asks.
+		// Tools and the stack from wider scopes are merged in when read, not copied here.
 		project.Targets = nil
+		project.Tools = nil
+		project.Stack = nil
 		// 3. The one ticket project (O-09, R-22): ask unless given.
 		key, url := opts.TicketProject, opts.TicketURL
 		if key == "" && opts.Interactive && !opts.Yes {
@@ -220,7 +225,33 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 		}
 	}
 
-	// 7. Hand off.
+	// 8. Tools on this machine (R-45): the framework's own prerequisites, installed with consent,
+	// then the tools the project config lists. A project's install commands come from a file
+	// anyone can commit to, so they run only when the user agrees to each one; -yes is not enough.
+	if opts.Run == nil {
+		opts.Run = tools.Shell
+	}
+	report("  prerequisites:")
+	tools.Ensure(tools.Prerequisites(shell), opts.Run, func(q string) bool { return consent(opts, reader, out, q) }, "", out)
+	withProject, err := config.Merge(merged, existing)
+	if err != nil {
+		return err
+	}
+	if len(withProject.Tools) == 0 {
+		report("  no project tools recorded yet: /aa-fw-init infers the stack, or asks what the project is when it cannot, and records the tools it needs (R-44)")
+	} else {
+		report("  project tools (%s):", config.FileName)
+		askEach := func(q string) bool {
+			if !opts.Interactive {
+				return false
+			}
+			answer := ask(reader, out, q+" [y/N]: ")
+			return strings.EqualFold(answer, "y") || strings.EqualFold(answer, "yes")
+		}
+		tools.Ensure(withProject.Tools, opts.Run, askEach, "run the root initialize script, which installs the project's tools", out)
+	}
+
+	// 9. Hand off.
 	report("")
 	report("Next, in your agent: run /aa-fw-health, then /aa-fw-init.")
 	return nil
@@ -429,14 +460,14 @@ type stub struct{ name, body string }
 func stubs(shell string) []stub {
 	if shell == "sh" {
 		return []stub{
-			{"initialize.sh", shStub("initialize", "Bootstrap a fresh clone: install the tools this repository needs (via the package manager, never by hand), create local folders, seed data if any. Safe to run repeatedly. (O-06, R-19)")},
+			{"initialize.sh", shStub("initialize", "Bootstrap a fresh clone: install every tool aa.config.yaml lists under tools that is missing or too old, with its install command for this platform (via the package manager, never by hand), create local folders, seed data if any. Safe to run repeatedly. (O-06, R-19, R-45)")},
 			{"build.sh", shStub("build", "Build every project in this repository from a fresh clone. Accept --lint to run the formatter in check mode and each configured linter and fail on a finding (O-21, R-35). Languages with no known linter: <fill in>. (O-06, R-10)")},
 			{"test.sh", shStub("test", "Run the tests by tier: --tier unit|integration|e2e|all (default all), --filter <name>. Run even with zero tests. (O-06, O-07, R-11)")},
 			{"pack.sh", shStub("pack", "Produce the distributable artifacts into .dist/ after build and test, built once with an immutable identity (O-06, O-24, R-20)")},
 		}
 	}
 	return []stub{
-		{"initialize.ps1", pwshStub("initialize", "Bootstrap a fresh clone: install the tools this repository needs (via the package manager, never by hand), create local folders, seed data if any. Safe to run repeatedly. (O-06, R-19)", "")},
+		{"initialize.ps1", pwshStub("initialize", "Bootstrap a fresh clone: install every tool aa.config.yaml lists under tools that is missing or too old, with its install command for this platform (via the package manager, never by hand), create local folders, seed data if any. Safe to run repeatedly. (O-06, R-19, R-45)", "")},
 		{"build.ps1", pwshStub("build", "Build every project in this repository from a fresh clone. With -Lint, run the formatter in check mode and each configured linter and fail on a finding (O-21, R-35). Languages with no known linter: <fill in>. (O-06, R-10)", "[switch]$Lint")},
 		{"test.ps1", pwshStub("test", "Run the tests by tier (unit, integration, e2e, all) with an optional -Filter. Run even with zero tests. (O-06, O-07, R-11)", "[ValidateSet('all','unit','integration','e2e')][string]$Tier = 'all', [string]$Filter")},
 		{"pack.ps1", pwshStub("pack", "Produce the distributable artifacts into .dist/ after build and test, built once with an immutable identity (O-06, O-24, R-20)", "")},
