@@ -91,7 +91,8 @@ function Read-FeatureText {
         }
         if ($line.StartsWith('|')) {
             if ($mode -ne 'examples') { throw "line $($i + 1): step data tables are not supported in a feature page" }
-            $current.Examples.Add((Split-Row $line))
+            # @() keeps a one-cell row an array; the pipeline would unwrap it to a string
+            $current.Examples.Add(@(Split-Row $line))
             continue
         }
         if ($mode -eq 'description') {
@@ -168,10 +169,11 @@ function Read-Table([string[]]$lines, [int]$start) {
     $i = $start
     while ($i -lt $lines.Count -and $lines[$i].Trim() -eq '') { $i++ }
     if ($i -ge $lines.Count -or -not $lines[$i].Trim().StartsWith('|')) { return $null }
-    $header = Split-Row $lines[$i]
+    # @() keeps a one-cell row an array; the pipeline would unwrap it to a string
+    $header = @(Split-Row $lines[$i])
     $i += 2 # header and separator
     $rows = [System.Collections.Generic.List[object]]::new()
-    while ($i -lt $lines.Count -and $lines[$i].Trim().StartsWith('|')) { $rows.Add((Split-Row $lines[$i])); $i++ }
+    while ($i -lt $lines.Count -and $lines[$i].Trim().StartsWith('|')) { $rows.Add(@(Split-Row $lines[$i])); $i++ }
     [pscustomobject]@{ Header = $header; Rows = $rows; Next = $i }
 }
 
@@ -185,7 +187,8 @@ function Read-FeaturePage {
     param([Parameter(Mandatory)][string]$Markdown)
     $lines = $Markdown -replace "`r`n", "`n" -split "`n"
     $i = 0
-    while ($i -lt $lines.Count -and -not ($lines[$i].Trim().StartsWith('|') -and (Split-Row $lines[$i])[0] -eq 'Feature')) { $i++ }
+    # @() so [0] is the first cell of a one-cell row, not its first character
+    while ($i -lt $lines.Count -and -not ($lines[$i].Trim().StartsWith('|') -and @(Split-Row $lines[$i])[0] -eq 'Feature')) { $i++ }
     if ($i -ge $lines.Count) { throw 'not a feature page: no table whose first header is "Feature"' }
     $t = Read-Table $lines $i
     $feature = [ordered]@{ Id = $t.Header[1]; Name = (Get-Field $t 'Name'); Tags = @(Split-Tag (Get-Field $t 'Tags')); File = (Get-Field $t 'File'); Description = [System.Collections.Generic.List[string]]::new(); Background = @(); Scenarios = [System.Collections.Generic.List[object]]::new() }

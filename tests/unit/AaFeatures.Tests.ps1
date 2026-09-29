@@ -39,6 +39,26 @@ Describe 'Feature pages' {
         ($back -split "`n", 3)[2] | Should -Be $feature
     }
 
+    It 'round-trips a single-column Examples table with its cells intact' {
+        $oneColumn = @'
+@F-001
+Feature: Repro
+
+  @F-001-01
+  Scenario Outline: One column
+    Given the engine is <engine>
+
+    Examples:
+      | engine  |
+      | Windows |
+      | Vosk    |
+
+'@ -replace "`r`n", "`n"
+        $page = ConvertTo-FeaturePage -Text $oneColumn -File repro
+        $back = ConvertFrom-FeaturePage -Markdown $page -Source x
+        ($back -split "`n", 3)[2] | Should -Be $oneColumn
+    }
+
     It 'escapes a pipe in step text so the table stays intact' {
         ConvertTo-FeaturePage -Text $feature -File init | Should -Match ([regex]::Escape('aa init -tier unit\|e2e'))
     }
