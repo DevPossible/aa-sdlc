@@ -6,7 +6,7 @@ aa:
   step: triage
   guidance_sets: [every-step, anchored-step]
   guidance: [G-16, G-52]
-  requires: [R-41]
+  requires: [R-41, R-43]
 ---
 
 # /aa-sup-triage

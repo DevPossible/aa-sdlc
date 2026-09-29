@@ -17,7 +17,7 @@ artifacts:
       - The sum of the tasks is the whole plan; nothing is left implicit
 guidance_sets: [every-step, anchored-step]
 guidance: [G-08, G-52]
-requires: [R-41]
+requires: [R-41, R-43]
 guidance_inline:
   - A task is done when its test passes and its change is committed, not when its code exists.
   - Keep tasks at a size where the first commit is an hour away, not a day.

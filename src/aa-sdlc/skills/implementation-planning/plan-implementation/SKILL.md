@@ -6,7 +6,7 @@ aa:
   step: plan-implementation
   guidance_sets: [every-step, anchored-step]
   guidance: [G-08, G-16, G-23, G-28, G-31, G-32, G-43, G-51]
-  requires: [R-05, R-16, R-23, R-27, R-34, R-41]
+  requires: [R-05, R-16, R-23, R-27, R-34, R-41, R-43]
 ---
 
 # /aa-ip-plan-implementation

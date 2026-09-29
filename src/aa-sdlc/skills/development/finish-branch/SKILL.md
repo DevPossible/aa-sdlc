@@ -6,7 +6,7 @@ aa:
   step: finish-branch
   guidance_sets: [every-step, anchored-step, code-change]
   guidance: [G-13, G-14, G-29, G-51]
-  requires: [R-11, R-24, R-41]
+  requires: [R-11, R-24, R-41, R-43]
 ---
 
 # /aa-dev-finish-branch

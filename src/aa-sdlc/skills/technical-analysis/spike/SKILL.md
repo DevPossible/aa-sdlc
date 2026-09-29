@@ -6,7 +6,7 @@ aa:
   step: spike
   guidance_sets: [every-step, anchored-step, repository-write]
   guidance: [G-04, G-23, G-41, G-52]
-  requires: [R-32, R-41]
+  requires: [R-32, R-41, R-43]
 ---
 
 # /aa-ta-spike

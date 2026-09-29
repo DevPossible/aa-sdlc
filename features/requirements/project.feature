@@ -489,3 +489,51 @@ Feature: Project requirements
     When "/aa-fw-health" probes R-42
     Then R-42 is reported as unmet
     And the remedy is "/aa-fw-init", which offers to create the missing sections
+
+  @R-43 @required @O-26 @F-065-64
+  Scenario: The ticket project can carry the life cycle
+    Given the project config maps every ticket kind and life-cycle state (R-41)
+    And reading the ticket project's workflow finds seven distinct states for the seven life-cycle states
+    And the workflow lets a ticket move from each state to the next, and back from In review to In progress
+    And an epic can be the parent of a story and a story the parent of a task
+    And where the ticket system shows the project on a board, every mapped state has a place on it
+    When "/aa-fw-health" probes R-43
+    Then R-43 is reported as met
+
+  @R-43 @required @O-26 @F-065-65
+  Scenario: Two life-cycle states share one workflow state
+    Given the ticket project's workflow has only three states, such as a new board's default
+    And the project config maps Refined and Planned to the same state
+    When "/aa-fw-health" probes R-43
+    Then R-43 is reported as unmet
+    And the report names the life-cycle states that share a workflow state
+    And the remedy is "/aa-fw-init", which proposes the missing states for the ticket project
+
+  @R-43 @required @O-26 @F-065-66
+  Scenario: The workflow cannot make a move a step makes
+    Given the ticket project's workflow has no way to move a ticket from Planned to In progress
+    When "/aa-fw-health" probes R-43
+    Then R-43 is reported as unmet
+    And the report names the move and the step that makes it
+    And the remedy is "/aa-fw-init"
+
+  @R-43 @required @O-26 @F-065-67
+  Scenario: A ticket kind cannot hold its children
+    Given the ticket project cannot make a story the child of an epic
+    When "/aa-fw-health" probes R-43
+    Then R-43 is reported as unmet
+    And the report names the kinds and the missing parent link
+
+  @R-43 @required @O-26 @F-065-68
+  Scenario: The board hides a state
+    Given the ticket project's board has no place for the state In review is mapped to
+    When "/aa-fw-health" probes R-43
+    Then R-43 is reported as unmet
+    And the report names the state a ticket would disappear into
+
+  @R-43 @required @O-26 @T-10 @F-065-69
+  Scenario: The configuration can be read but not changed by this user
+    Given the ticket project is misconfigured and the user cannot administer it
+    When "/aa-fw-health" probes R-43
+    Then R-43 is reported as unmet
+    And the remedy lists each change for the ticket project's administrator to make

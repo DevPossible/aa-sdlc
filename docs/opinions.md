@@ -332,7 +332,7 @@ tickets by hand to show progress; states no step produces; labels standing in fo
 renaming the ticket system's own states to match the framework's.
 *Would change our mind:* a step that needs a distinction the seven states cannot express, shown
 in a real project; the state would be added here and mapped, not invented per team.
-*Requirements:* R-02, R-41. *Guidance:* G-51, G-52.
+*Requirements:* R-02, R-41, R-43. *Guidance:* G-51, G-52.
 
 ---
 

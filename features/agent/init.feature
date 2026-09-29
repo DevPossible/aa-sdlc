@@ -82,3 +82,33 @@ Feature: /aa-fw-init bootstraps what needs judgement
     Then it says nothing in scope reaches that system
     And it records the mapping in the project config anyway
     And the remedy is for the user to install or authorise a connector
+
+  @O-26 @R-41 @R-43 @T-10 @F-002-11
+  Scenario: The ticket project is checked as soon as it is confirmed
+    Given the user has named a ticket project and a connector reaches it
+    When "/aa-fw-init" continues
+    Then before anything else it reads the project's issue types, workflow, and board
+    And it reports every gap R-41 and R-43 find, with the steps that would stumble on each
+    And no discipline step is recommended until the gaps are fixed or the user accepts them
+
+  @O-26 @R-43 @T-06 @F-002-12
+  Scenario: Configure the ticket project with consent
+    Given the ticket project's workflow is missing states, moves, or parent links the life cycle needs
+    When "/aa-fw-init" proposes the changes, one line each, and the user agrees
+    Then it makes them through the connector where the user may administer the project
+    And it records the mapping in the project config
+    And it runs the R-41 and R-43 probes again and reports the result
+
+  @O-26 @R-43 @T-10 @F-002-13
+  Scenario: A ticket project this user cannot configure
+    Given the ticket project needs changes the user is not allowed to make
+    When "/aa-fw-init" continues
+    Then it lists each change for the project's administrator, in the ticket system's words
+    And it records the mapping it could make and says health will report R-43 unmet until then
+
+  @O-26 @R-43 @F-002-14
+  Scenario: A ticket project created during init is configured before it is used
+    Given the user asks "/aa-fw-init" to create the ticket project
+    When it creates the project with consent
+    Then it gives the project the states, moves, kinds, parent links, and board places the life cycle needs
+    And it probes R-41 and R-43 before reporting the project ready

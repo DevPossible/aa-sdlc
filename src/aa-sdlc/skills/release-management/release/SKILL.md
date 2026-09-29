@@ -6,7 +6,7 @@ aa:
   step: release
   guidance_sets: [every-step, anchored-step]
   guidance: [G-04, G-13, G-14, G-47, G-51, G-53]
-  requires: [R-01, R-20, R-38, R-41, R-42]
+  requires: [R-01, R-20, R-38, R-41, R-43, R-42]
 ---
 
 # /aa-rel-release

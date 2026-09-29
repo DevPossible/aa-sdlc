@@ -31,6 +31,6 @@ guidance_inline:
   - Prefer the plan that can be abandoned halfway. Order changes so that stopping after any step leaves the system working.
   - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
   - Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
-requires: [R-05, R-16, R-23, R-27, R-34, R-41]
+requires: [R-05, R-16, R-23, R-27, R-34, R-41, R-43]
 tenets: [T-06, T-07]
 opinions: [O-10, O-13, O-20]

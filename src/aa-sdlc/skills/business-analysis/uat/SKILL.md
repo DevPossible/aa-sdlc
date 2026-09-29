@@ -6,7 +6,7 @@ aa:
   step: uat
   guidance_sets: [every-step, anchored-step]
   guidance: [G-18, G-51]
-  requires: [R-16, R-17, R-41]
+  requires: [R-16, R-17, R-41, R-43]
 ---
 
 # /aa-ba-uat

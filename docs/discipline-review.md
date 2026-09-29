@@ -92,6 +92,7 @@ Aggregate every requirement declared by the installed skills, plugins, and proce
   - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
 - Probe by doing, not by looking. To check the ticket system, read a ticket; to check source control, read the remote; to check the build, run the build script. A configuration file that exists proves nothing.
+- Probe the ticket project's configuration, not only its names. Read its workflow states, the moves between them, the parent links it allows, and its board; a mapping whose names all exist can still leave two life-cycle states on one workflow state or a step with no move to make (R-43).
 - Report not-applicable as its own status. A requirement that cannot apply here (hooks on a target with no hooks) is not a failure and must not look like one.
 - Change nothing. If a probe would need to create, write, or install anything to succeed, report it as unmet and name /aa-fw-init as the remedy.
 - Group the report by kind (environment, project, tooling, coverage) and lead with required-and-unmet.
@@ -111,6 +112,7 @@ Run health, then work through the unmet requirements that need judgement, fixing
 **Artifacts**
 
 - **Bootstrapped project** in the repository root and the project config
+  - The ticket project was checked against R-41 and R-43 as soon as it was confirmed, before any other fix
   - Every fixable unmet requirement was proposed and, if agreed, fixed
   - Every unfixable unmet requirement is listed with its remedy
   - A second health report shows what changed and what remains
@@ -130,8 +132,9 @@ Run health, then work through the unmet requirements that need judgement, fixing
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
 - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
 - The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01).
+- Check the ticket project the moment it is confirmed, before anything else. Read its workflow, the moves between states, the parent links, and the board, and hold them to R-41 and R-43; propose each missing piece with the step that would stumble on it, make it with consent where the user may administer the project, and otherwise list it for the administrator. A project that cannot carry the life cycle is found hours later, in the middle of other work, when it is not checked first.
 
-*Requires: R-04, R-07, R-14, R-15, R-41, R-42 | Tenets: T-06, T-11*
+*Requires: R-04, R-07, R-14, R-15, R-41, R-42, R-43 | Tenets: T-06, T-11*
 
 ### `/aa-fw-whatsnext`
 
@@ -165,7 +168,7 @@ Review the working folder, and the ticket system and knowledge base it links to,
   - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
   - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project and knowledge base), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap.
+- Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project able to carry the life cycle, and the knowledge base), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap.
 - A gap is major when it breaks a required requirement, an opinion on the default branch, or work already started. Anything smaller is not reported; the command answers one question, what to do next, not what could be better.
 - Take the foundation layer from /aa-fw-health's required-and-unmet findings rather than probing requirements again; health owns requirement checks, and this step owns choosing among them.
 - Recommend the step that closes the gap, named as its command with its arguments, such as /aa-qa-generate-tests with the ticket id. Where no command fits, say plainly what to do.
@@ -173,7 +176,7 @@ Review the working folder, and the ticket system and knowledge base it links to,
 - Change nothing. Read the folder, the tickets, and the pages; do not create, edit, commit, transition, or install anything, even to make a check possible.
 - When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.
 
-*Requires: R-04, R-01, R-02, R-03, R-07, R-40, R-41 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19*
+*Requires: R-04, R-01, R-02, R-03, R-07, R-40, R-41, R-43 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19*
 
 ### `/aa-fw-extend`
 
@@ -495,7 +498,7 @@ Write down what an initiative is meant to achieve and how we will know. Produces
 - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
 - Say what is out of scope in the same place, so refinement does not have to guess.
 
-*Requires: R-04, R-02, R-07, R-22, R-29, R-32, R-41 | Tenets: T-04, T-07 | Opinions: O-15, O-18*
+*Requires: R-04, R-02, R-07, R-22, R-29, R-32, R-41, R-43 | Tenets: T-04, T-07 | Opinions: O-15, O-18*
 
 ### `/aa-pd-prioritise`
 
@@ -751,7 +754,7 @@ Confirm with the people who asked for it that what was built is what they meant.
 - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.
 - Record acceptance by name. "Accepted by the product owner on this date" is evidence; "UAT passed" is not.
 
-*Requires: R-04, R-02, R-07, R-22, R-16, R-17, R-41 | Tenets: T-06, T-07, T-12 | Methodology: phase 5 step 5.2*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-17, R-41, R-43 | Tenets: T-06, T-07, T-12 | Methodology: phase 5 step 5.2*
 
 ## 3. UX Design
 
@@ -1049,7 +1052,7 @@ Resolve a technical unknown with a time-boxed investigation that produces an ans
 - Stop at the time box. Report what you have; an unanswered question with evidence is more useful than a late answer.
 - Never let spike code become the implementation by accident. If it is good enough to keep, that is a decision to record and a ticket to implement properly.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-32, R-41 | Tenets: T-07 | Opinions: O-18*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-28, R-31, R-33, R-32, R-41, R-43 | Tenets: T-07 | Opinions: O-18*
 
 ## 5. Security
 
@@ -1301,7 +1304,7 @@ Turn an epic and its feature files into stories and tasks in the ticket system, 
 - Keep the epic's outcome on every story. A story that cannot say which outcome it serves is either mis-filed or unnecessary.
 - Do not invent requirements while splitting. A gap found here goes back to Business Analysis as a question, not forward as a guess.
 
-*Requires: R-04, R-02, R-07, R-22, R-16, R-23, R-41 | Tenets: T-04, T-08, T-12*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-23, R-41, R-43 | Tenets: T-04, T-08, T-12*
 
 ### `/aa-rf-refine-ticket`
 
@@ -1344,7 +1347,7 @@ Bring one ticket to the definition of ready: scenarios linked and complete, acce
 - Size from the thinking, not the title. Before putting a number on it, write on the ticket what changes, what is unknown, and what could go wrong, at a depth that matches the stakes; a sentence for a small change, a full plan-implementation for a large one (O-10).
 - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
 
-*Requires: R-04, R-02, R-07, R-22, R-16, R-23, R-27, R-41 | Tenets: T-04, T-07 | Opinions: O-10, O-13*
+*Requires: R-04, R-02, R-07, R-22, R-16, R-23, R-27, R-41, R-43 | Tenets: T-04, T-07 | Opinions: O-10, O-13*
 
 ## 7. Project Management
 
@@ -1582,7 +1585,7 @@ Before building a ticket, write down how: which files and components change, in 
 - If the plan is longer than the change, the ticket is too big; hand it back to Refinement to split.
 - Check the size against the plan. If the plan reveals more than the sizing reasoning saw, revise the size on the ticket and say why (O-10).
 
-*Requires: R-04, R-02, R-07, R-22, R-05, R-16, R-23, R-27, R-34, R-41 | Tenets: T-06, T-07 | Opinions: O-10, O-13, O-20*
+*Requires: R-04, R-02, R-07, R-22, R-05, R-16, R-23, R-27, R-34, R-41, R-43 | Tenets: T-06, T-07 | Opinions: O-10, O-13, O-20*
 
 ### `/aa-ip-breakdown-tasks`
 
@@ -1618,7 +1621,7 @@ When a confirmed plan is too large to build as one change, split it into tasks o
 - A task is done when its test passes and its change is committed, not when its code exists.
 - Keep tasks at a size where the first commit is an hour away, not a day.
 
-*Requires: R-04, R-02, R-07, R-22, R-41 | Tenets: T-07*
+*Requires: R-04, R-02, R-07, R-22, R-41, R-43 | Tenets: T-07*
 
 ## 9. Development
 
@@ -1793,7 +1796,7 @@ Build what the anchor ticket asks for, with the tests that prove it, on a branch
 - Ship the change with what it needs to run: the migration, the new configuration key in every template, the updated runbook. A change that works on your machine because of a file only you have is not done (O-16).
 - Put each new setting in one place. If its value differs between environments it goes in every environment template; if it does not, it goes in the application configuration once (O-25).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-26, R-27, R-34, R-39, R-13, R-41 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-21, R-37, R-26, R-27, R-34, R-39, R-13, R-41, R-43 | Tenets: T-04, T-07 | Opinions: O-08, O-12, O-13, O-14, O-16, O-17, O-19, O-20, O-21, O-22, O-23, O-25 | Methodology: phase 2 step 2.2, 2.3, 2.4*
 
 ### `/aa-dev-fix-bug`
 
@@ -1959,7 +1962,7 @@ Take a branch from "the tests pass" to merged: format changed files, rebase or m
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
 - Never commit the remaining changes yourself. Stage them, present them, and report that the branch waits on the user's commit (O-17).
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-24, R-41 | Tenets: T-06, T-07 | Opinions: O-14, O-17, O-19, O-21*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-05, R-08, R-09, R-10, R-12, R-28, R-30, R-31, R-33, R-35, R-36, R-11, R-24, R-41, R-43 | Tenets: T-06, T-07 | Opinions: O-14, O-17, O-19, O-21*
 
 ### `/aa-dev-optimize`
 
@@ -2525,7 +2528,7 @@ Deploy a prepared release to production using the pipeline Operations provides, 
 - Verify before you announce. The release is not done when the pipeline is green; it is done when the checks pass in production.
 - If verification fails, the default is rollback, not investigation in production.
 
-*Requires: R-04, R-02, R-07, R-22, R-01, R-20, R-38, R-41, R-42 | Tenets: T-06, T-07 | Opinions: O-24 | Methodology: phase 4 step 4.3*
+*Requires: R-04, R-02, R-07, R-22, R-01, R-20, R-38, R-41, R-43, R-42 | Tenets: T-06, T-07 | Opinions: O-24 | Methodology: phase 4 step 4.3*
 
 ### `/aa-rel-rollback`
 
@@ -2885,7 +2888,7 @@ Take an incoming incident, defect report, or request and turn it into a ticket w
 - Ask for what is missing once, precisely. A ticket that cannot be reproduced from its content goes back with the exact questions.
 - Check for duplicates before creating. Search by symptom, not by the reporter's title.
 
-*Requires: R-04, R-02, R-07, R-22, R-41 | Tenets: T-04, T-13 | Methodology: phase 6 step 6.1*
+*Requires: R-04, R-02, R-07, R-22, R-41, R-43 | Tenets: T-04, T-13 | Methodology: phase 6 step 6.1*
 
 ### `/aa-sup-respond-incident`
 

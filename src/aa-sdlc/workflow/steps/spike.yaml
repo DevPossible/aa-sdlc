@@ -22,6 +22,6 @@ guidance_inline:
   - Write the question before the code. A spike without a question becomes a prototype without a purpose.
   - Stop at the time box. Report what you have; an unanswered question with evidence is more useful than a late answer.
   - Never let spike code become the implementation by accident. If it is good enough to keep, that is a decision to record and a ticket to implement properly.
-requires: [R-32, R-41]
+requires: [R-32, R-41, R-43]
 tenets: [T-07]
 opinions: [O-18]

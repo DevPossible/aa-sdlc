@@ -6,7 +6,7 @@ aa:
   step: implement
   guidance_sets: [every-step, anchored-step, code-change, test-writing]
   guidance: [G-05, G-17, G-20, G-30, G-32, G-43, G-48, G-49, G-51]
-  requires: [R-26, R-27, R-34, R-39, R-13, R-41]
+  requires: [R-26, R-27, R-34, R-39, R-13, R-41, R-43]
 ---
 
 # /aa-dev-implement

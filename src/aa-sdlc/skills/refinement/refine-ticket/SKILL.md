@@ -6,7 +6,7 @@ aa:
   step: refine-ticket
   guidance_sets: [every-step, anchored-step]
   guidance: [G-16, G-18, G-28, G-31, G-51]
-  requires: [R-16, R-23, R-27, R-41]
+  requires: [R-16, R-23, R-27, R-41, R-43]
 ---
 
 # /aa-rf-refine-ticket

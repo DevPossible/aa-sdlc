@@ -51,8 +51,11 @@ remedy.
 5. **Probe each requirement by doing.** Perform the met scenario's `Given` steps with the tools
    you actually have. To check the ticket system, read a ticket by id through whatever CLI, MCP
    server, or connector is in scope; to check source control, read the remote; to check the
-   build, run the root build script; to check a linter, run the lint switch. A file that exists
-   proves nothing on its own. Time-box any probe that could hang; a probe that cannot complete
+   build, run the root build script; to check a linter, run the lint switch. To check the ticket
+   project's configuration (R-41, R-43), read its issue types, its workflow states and the moves
+   between them, the parent links it allows, and its board, and hold them to the life cycle: a
+   name that exists proves nothing if two life-cycle states share it or no move reaches it. A
+   file that exists proves nothing on its own. Time-box any probe that could hang; a probe that cannot complete
    is unmet with the reason, never silently skipped. Where a probe would change anything, do
    not perform it: report unmet and name the remedy.
 6. **Classify.** Each id is exactly one of **met**, **unmet**, **not applicable** (with the
@@ -72,6 +75,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
 - Probe by doing, not by looking. To check the ticket system, read a ticket; to check source control, read the remote; to check the build, run the build script. A configuration file that exists proves nothing.
+- Probe the ticket project's configuration, not only its names. Read its workflow states, the moves between them, the parent links it allows, and its board; a mapping whose names all exist can still leave two life-cycle states on one workflow state or a step with no move to make (R-43).
 - Report not-applicable as its own status. A requirement that cannot apply here (hooks on a target with no hooks) is not a failure and must not look like one.
 - Change nothing. If a probe would need to create, write, or install anything to succeed, report it as unmet and name /aa-fw-init as the remedy.
 - Group the report by kind (environment, project, tooling, coverage) and lead with required-and-unmet.

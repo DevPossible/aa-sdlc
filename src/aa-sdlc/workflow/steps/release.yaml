@@ -30,6 +30,6 @@ guidance_inline:
   - Use the pipeline, not your hands. A deployment done outside the pipeline is unrecorded and unrepeatable.
   - Verify before you announce. The release is not done when the pipeline is green; it is done when the checks pass in production.
   - If verification fails, the default is rollback, not investigation in production.
-requires: [R-01, R-20, R-38, R-41, R-42]
+requires: [R-01, R-20, R-38, R-41, R-43, R-42]
 tenets: [T-06, T-07]
 opinions: [O-24]

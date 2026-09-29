@@ -6,7 +6,7 @@ aa:
   step: define-outcome
   guidance_sets: [every-step, anchored-step]
   guidance: [G-16, G-35, G-41, G-52]
-  requires: [R-29, R-32, R-41]
+  requires: [R-29, R-32, R-41, R-43]
 ---
 
 # /aa-pd-define-outcome

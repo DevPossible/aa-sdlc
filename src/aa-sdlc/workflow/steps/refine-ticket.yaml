@@ -24,6 +24,6 @@ guidance_inline:
   - Read the scenarios before the ticket description. The description is what someone thought; the scenarios are what was agreed.
   - Size from the thinking, not the title. Before putting a number on it, write on the ticket what changes, what is unknown, and what could go wrong, at a depth that matches the stakes; a sentence for a small change, a full plan-implementation for a large one (O-10).
   - A ticket with an unanswered question that changes the scope is not ready, however small it looks.
-requires: [R-16, R-23, R-27, R-41]
+requires: [R-16, R-23, R-27, R-41, R-43]
 tenets: [T-04, T-07]
 opinions: [O-10, O-13]

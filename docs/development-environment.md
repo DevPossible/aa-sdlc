@@ -101,6 +101,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-31 | unmet | 17 commits before 2026-09-22 carry an agent attribution trailer; fea5773 bundles nine concerns | accepted: history is not rewritten; the rule has held since O-17 |
 | R-33 | unmet | no commit on the default branch references a ticket | first ticket-anchored work after the connector is authorised |
 | R-41 | unmet | added 2026-09-27, after this baseline: `aa.config.yaml` has no ticket kind or state mapping, and the ticket project cannot be read to check one (R-02) | `/aa-fw-init` once the connector is authorised; `aa init` writes the default mapping for new projects |
+| R-43 | unmet | added 2026-09-28, after this baseline: the ticket project's workflow, moves, parent links, and board cannot be read until the connector is authorised (R-02) | `/aa-fw-init` once the connector is authorised |
 
 ### Everything else
 

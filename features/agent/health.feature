@@ -82,3 +82,10 @@ Feature: /aa-fw-health reports every declared requirement
     When "/aa-fw-health" reports
     Then each requirement row names the command run, the ticket read, or the file opened
     And a requirement whose probe could not complete is unmet with the reason, never skipped
+
+  @O-26 @R-43 @F-001-12
+  Scenario: The ticket project's configuration is probed, not only its names
+    Given the project config maps the ticket kinds and states
+    When "/aa-fw-health" probes the ticket system
+    Then it reads the project's workflow, its moves, its parent links, and its board
+    And a mapping whose names all exist but whose workflow cannot carry the life cycle is unmet

@@ -6,7 +6,7 @@ aa:
   step: breakdown-tasks
   guidance_sets: [every-step, anchored-step]
   guidance: [G-08, G-52]
-  requires: [R-41]
+  requires: [R-41, R-43]
 ---
 
 # /aa-ip-breakdown-tasks

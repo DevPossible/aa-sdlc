@@ -30,6 +30,6 @@ guidance_inline:
   - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
   - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
   - Never commit the remaining changes yourself. Stage them, present them, and report that the branch waits on the user's commit (O-17).
-requires: [R-11, R-24, R-41]
+requires: [R-11, R-24, R-41, R-43]
 tenets: [T-06, T-07]
 opinions: [O-14, O-17, O-19, O-21]

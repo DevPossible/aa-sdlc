@@ -6,7 +6,7 @@ aa:
   step: whatsnext
   guidance_sets: [every-step]
   guidance: [G-04]
-  requires: [R-01, R-02, R-03, R-07, R-40, R-41]
+  requires: [R-01, R-02, R-03, R-07, R-40, R-41, R-43]
 ---
 
 # /aa-fw-whatsnext
@@ -35,11 +35,12 @@ and report it; do not look further. A later layer cannot be trusted while an ear
 broken: there is no point choosing the next ticket while the last change broke the build.
 
 1. **Foundation.** Is the folder a repository with a remote, an AA-SDLC project config, and a
-   linked ticket project and knowledge base? Take this from `/aa-fw-health`: run it, or read its
-   report if one was produced in this session, and use its required-and-unmet findings. Do not
-   probe requirements again. On an empty folder the gap is the project itself: recommend
-   `aa init`, then `/aa-fw-init` to link the ticket project and the knowledge base. On a
-   repository with a gap health names, recommend `/aa-fw-init` with the requirement ids.
+   linked ticket project that can carry the life cycle (R-41, R-43), and a knowledge base? Take
+   this from `/aa-fw-health`: run it, or read its report if one was produced in this session,
+   and use its required-and-unmet findings. Do not probe requirements again. On an empty folder
+   the gap is the project itself: recommend `aa init`, then `/aa-fw-init` to link the ticket
+   project and the knowledge base. On a repository with a gap health names, recommend
+   `/aa-fw-init` with the requirement ids.
 2. **Work in flight.** Read the working tree, the current branch, and the open merge requests
    (O-02, O-17). Uncommitted changes, or a branch whose work looks complete but is not merged,
    is the gap: recommend `/aa-dev-finish-branch` with the ticket id the branch names. An open
@@ -99,7 +100,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project and knowledge base), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap.
+- Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project able to carry the life cycle, and the knowledge base), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap.
 - A gap is major when it breaks a required requirement, an opinion on the default branch, or work already started. Anything smaller is not reported; the command answers one question, what to do next, not what could be better.
 - Take the foundation layer from /aa-fw-health's required-and-unmet findings rather than probing requirements again; health owns requirement checks, and this step owns choosing among them.
 - Recommend the step that closes the gap, named as its command with its arguments, such as /aa-qa-generate-tests with the ticket id. Where no command fits, say plainly what to do.

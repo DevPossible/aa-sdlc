@@ -22,7 +22,7 @@ artifacts:
       - Duplicates are linked, not created
 guidance_sets: [every-step, anchored-step]
 guidance: [G-16, G-52]
-requires: [R-41]
+requires: [R-41, R-43]
 guidance_inline:
   - Severity is impact, priority is order. Do not let a loud reporter set either.
   - Ask for what is missing once, precisely. A ticket that cannot be reproduced from its content goes back with the exact questions.

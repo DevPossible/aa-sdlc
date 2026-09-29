@@ -6,7 +6,7 @@ aa:
   step: plan-work
   guidance_sets: [every-step, anchored-step]
   guidance: [G-18, G-19, G-28, G-52]
-  requires: [R-16, R-23, R-41]
+  requires: [R-16, R-23, R-41, R-43]
 ---
 
 # /aa-rf-plan-work
