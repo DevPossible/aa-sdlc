@@ -5,7 +5,7 @@ BeforeAll {
     $scripts = Join-Path -Path $PSScriptRoot -ChildPath '..' -AdditionalChildPath '..', 'src', 'aa-sdlc', 'scripts'
     Import-Module (Join-Path -Path $scripts -ChildPath 'AaFeatures.psm1') -Force
 
-    $feature = @'
+    $script:feature = @'
 @cli @T-11 @F-006
 Feature: aa init bootstraps a repository
   Lays down what a repository needs.
@@ -80,11 +80,11 @@ Describe 'Sync-FeatureFiles' {
     BeforeEach {
         $root = Join-Path -Path $TestDrive -ChildPath ([guid]::NewGuid())
         $knowledge = Join-Path -Path $root -ChildPath 'knowledge'
-        $features = Join-Path -Path $root -ChildPath 'features'
+        $script:features = Join-Path -Path $root -ChildPath 'features'
         $pageDir = Join-Path -Path $knowledge -ChildPath 'Requirements' -AdditionalChildPath 'cli'
         New-Item -ItemType Directory -Path $pageDir -Force | Out-Null
         Set-Content -Path (Join-Path $pageDir 'init.md') -Value (ConvertTo-FeaturePage -Text $feature -File init) -NoNewline
-        $sync = Join-Path -Path $scripts -ChildPath 'Sync-FeatureFiles.ps1'
+        $script:sync = Join-Path -Path $scripts -ChildPath 'Sync-FeatureFiles.ps1'
     }
 
     It 'pulls the feature files, after which the check is clean' {
