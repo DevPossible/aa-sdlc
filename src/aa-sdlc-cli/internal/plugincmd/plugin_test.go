@@ -53,7 +53,7 @@ func setUp(t *testing.T) fixture {
 	if err := setupcmd.Run(setupcmd.Options{Home: f.home, UserConfigPath: f.userPath, OrgRepository: f.org}, &out); err != nil {
 		t.Fatal(err)
 	}
-	if err := initcmd.Run(initcmd.Options{Path: f.project, Yes: true, Home: f.home, UserConfigPath: f.userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
+	if err := initcmd.Run(initcmd.Options{Path: f.project, Yes: true, Targets: []string{"claude-code"}, Home: f.home, UserConfigPath: f.userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
 		t.Fatal(err)
 	}
 	return f

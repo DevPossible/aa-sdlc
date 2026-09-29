@@ -24,7 +24,7 @@ func TestUpdate_ReinstallsUserAndProjectScopeAndReportsChanges(t *testing.T) {
 		t.Fatal(err)
 	}
 	project := t.TempDir()
-	if err := initcmd.Run(initcmd.Options{Path: project, Yes: true, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
+	if err := initcmd.Run(initcmd.Options{Path: project, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
 		t.Fatal(err)
 	}
 
@@ -92,7 +92,7 @@ func TestUpdate_UpdatesThePluginsAtProjectScope(t *testing.T) {
 		t.Fatal(err)
 	}
 	project := t.TempDir()
-	if err := initcmd.Run(initcmd.Options{Path: project, Yes: true, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
+	if err := initcmd.Run(initcmd.Options{Path: project, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
 		t.Fatal(err)
 	}
 	plugin := filepath.Join(t.TempDir(), "k6")

@@ -99,16 +99,14 @@ func Run(opts Options, out io.Writer) error {
 		report("  %s has no project-scope install; nothing to update there", dir)
 		return nil
 	}
-	ids := project.Targets
-	if len(ids) == 0 && user != nil {
-		ids = user.Targets
-	}
-	chosen, _, err := targets.ByID(ids)
+	// The repository's harnesses are the ones its config records, or else the ones it already has
+	// folders for; never the ones found on this machine.
+	chosen, _, err := targets.ByID(project.Targets)
 	if err != nil {
 		return err
 	}
 	if len(chosen) == 0 {
-		chosen, _ = targets.Detect(home, dir)
+		chosen = targets.InRepo(dir)
 	}
 	if err := refresh(scope, chosen, out); err != nil {
 		return err

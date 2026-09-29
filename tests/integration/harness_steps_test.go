@@ -127,9 +127,10 @@ func registerHarnessSteps(sc *godog.ScenarioContext, w *world) {
 		if err := os.WriteFile(filepath.Join(w.project, "AGENTS.md"), []byte("# Our project\n\nKeep me.\n"), 0o644); err != nil {
 			return err
 		}
+		w.targets = "codex"
 		return w.run(w.project, "", "setup", "-targets", "codex")
 	})
-	sc.Step(`^I run "aa init" and name a ticket project$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive") })
+	sc.Step(`^I run "aa init" and name a ticket project$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
 	sc.Step(`^AGENTS\.md at the repository root has an AA-SDLC block naming the ticket project and "([^"]*)"$`, func(cmd string) error {
 		for _, s := range []string{"<!-- aa-sdlc:begin -->", "ABC", cmd, "<!-- aa-sdlc:end -->"} {
 			if err := w.fileContains("AGENTS.md", s); err != nil {
@@ -146,7 +147,8 @@ func registerHarnessSteps(sc *godog.ScenarioContext, w *world) {
 		if err := w.run(w.project, "", "setup", "-targets", "codex"); err != nil {
 			return err
 		}
-		return w.run(w.project, "ABC\n", "init", "-interactive")
+		w.targets = "codex"
+		return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets())
 	})
 	sc.Step(`^AGENTS\.md has exactly one AA-SDLC block$`, func() error {
 		b, err := os.ReadFile(filepath.Join(w.project, "AGENTS.md"))

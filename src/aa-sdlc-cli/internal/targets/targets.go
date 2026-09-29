@@ -163,6 +163,35 @@ func Detect(home, repo string) (supported, unsupported []Spec) {
 	return supported, unsupported
 }
 
+// InRepo returns the supported harnesses the repository already has a folder for: the top folder
+// of the harness's preferred project skill folder, such as .claude or .gemini. Many harnesses also
+// read other harnesses' folders, so only the preferred one counts. The shared .agents folder names
+// no harness, and .github holds more than skills, so there the skill folder itself must exist.
+func InRepo(repo string) []Spec {
+	all, err := All()
+	if err != nil {
+		return nil
+	}
+	var out []Spec
+	for _, t := range all {
+		if !t.Supported() || len(t.Skills.Project) == 0 {
+			continue
+		}
+		preferred := t.Skills.Project[0]
+		top := strings.SplitN(preferred, "/", 2)[0]
+		switch top {
+		case ".agents":
+			continue
+		case ".github":
+			top = preferred
+		}
+		if exists(filepath.Join(repo, filepath.FromSlash(top))) {
+			out = append(out, t)
+		}
+	}
+	return out
+}
+
 // Scope is where an install goes: the user's home or a repository.
 type Scope struct {
 	Name    string // "user" or "project"

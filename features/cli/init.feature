@@ -14,7 +14,7 @@ Feature: aa init bootstraps a repository
     Then a project config exists at the project root
     And a documents folder exists
     And a features folder exists
-    And project-scope skills and commands are installed for each detected target
+    And project-scope skills and commands are installed for each harness chosen for this repository
 
   @F-006-02
   Scenario: Initialise a directory by path
@@ -113,3 +113,39 @@ Feature: aa init bootstraps a repository
     When I run "aa init"
     Then the project config maps the ticket kinds and life-cycle states, starting from the framework's own names
     And the project config maps the knowledge base sections, starting from the framework's own names
+
+  @F-006-17
+  Scenario: Ask which harnesses the repository gets
+    Given Claude Code, Gemini CLI, and Qwen Code are found on this machine
+    When I run "aa init" interactively
+    Then it lists only the harnesses found on this machine or already in the repository as a checklist
+    And it ticks only the harnesses the repository already has folders for
+    And project-scope skills and commands are installed only for the harnesses I leave ticked
+    And the project config records exactly those harnesses as its targets
+
+  @F-006-18
+  Scenario: The machine's harnesses are not the repository's
+    Given "aa setup" recorded Claude Code, Gemini CLI, and Windsurf in the user config
+    When I run "aa init" and tick only Claude Code
+    Then no .gemini or .windsurf folder is created in the repository
+    And the project config's targets name only Claude Code
+
+  @F-006-19
+  Scenario: Name the harnesses without being asked
+    When I run "aa init -targets claude-code,codex"
+    Then it does not ask which harnesses to install into
+    And project-scope skills and commands are installed for Claude Code and Codex only
+
+  @F-006-20
+  Scenario: Without anyone to ask, only the harnesses already in the repository
+    Given no terminal is attached and no harness is named
+    When I run "aa init"
+    Then project-scope skills and commands are installed only for harnesses the repository already has folders for
+    And when there are none, it installs none and says how to name them with -targets
+
+  @F-006-21
+  Scenario: A repository that already records its harnesses is not asked again
+    Given the project config names its targets
+    When I run "aa init" again
+    Then it installs for those targets without asking
+    And it says to edit the project config's targets, or run "aa uninstall -scope project", to change them

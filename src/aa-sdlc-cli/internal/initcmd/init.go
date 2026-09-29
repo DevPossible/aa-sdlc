@@ -25,11 +25,12 @@ type Options struct {
 	TicketURL      string
 	KnowledgeSpace string
 	KnowledgeURL   string
-	Shell          string // pwsh (default) or sh: the shell for the root script stubs
-	Yes            bool   // consent to every proposal without asking
-	Interactive    bool   // stdin is a terminal; prompts are allowed
-	UserConfigPath string // override for tests; default config.UserPath()
-	Home           string // override for tests; default the user's home
+	Shell          string   // pwsh (default) or sh: the shell for the root script stubs
+	Targets        []string // harness ids to install into at project scope; asked for if empty and interactive
+	Yes            bool     // consent to every proposal without asking
+	Interactive    bool     // stdin is a terminal; prompts are allowed
+	UserConfigPath string   // override for tests; default config.UserPath()
+	Home           string   // override for tests; default the user's home
 	Now            func() time.Time
 }
 
@@ -90,11 +91,17 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 	if err != nil {
 		return err
 	}
-	if existing == nil {
+	header := "aa.config.yaml (project scope), written by aa init. See https://aasdlc.com and docs/formats.md.\n" +
+		"conventions.ticket.project is the ONE ticket project this repository maps to (O-09).\n" +
+		"Edit freely; aa init never overwrites this file."
+	created := existing == nil
+	if created {
 		project := *merged
 		project.Scope = "project"
 		project.Install = nil
 		project.Organisation = nil
+		// The harnesses aa setup found on this machine are not the repository's; step 6 asks.
+		project.Targets = nil
 		// 3. The one ticket project (O-09, R-22): ask unless given.
 		key, url := opts.TicketProject, opts.TicketURL
 		if key == "" && opts.Interactive && !opts.Yes {
@@ -115,9 +122,6 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 			project.Conventions.Knowledge.Space = opts.KnowledgeSpace
 			project.Conventions.Knowledge.URL = opts.KnowledgeURL
 		}
-		header := "aa.config.yaml (project scope), written by aa init. See https://aasdlc.com and docs/formats.md.\n" +
-			"conventions.ticket.project is the ONE ticket project this repository maps to (O-09).\n" +
-			"Edit freely; aa init never overwrites this file."
 		if err := config.Write(projectPath, &project, header); err != nil {
 			return err
 		}
@@ -175,22 +179,26 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 		}
 	}
 
-	// 6. Project-scope skills and commands for the harnesses the config names, or, when it names
-	// none, the ones detected (decision record 0014).
+	// 6. Project-scope skills and commands for the harnesses named with -targets, or recorded in
+	// the project config, or chosen from those found on this machine or in the repository
+	// (decision record 0014). A project config written by this run records the choice.
 	home := opts.Home
 	if home == "" {
 		home, _ = os.UserHomeDir()
 	}
-	chosen, _, err := targets.ByID(existing.Targets)
+	chosen, err := chooseTargets(opts, existing, home, dir, reader, out)
 	if err != nil {
 		return err
 	}
-	if len(chosen) == 0 {
-		chosen, _ = targets.Detect(home, dir)
+	if created {
+		for _, t := range chosen {
+			existing.Targets = append(existing.Targets, t.ID)
+		}
+		if err := config.Write(projectPath, existing, header); err != nil {
+			return err
+		}
 	}
-	if len(chosen) == 0 {
-		report("  no supported agent target detected (supported: %s); run aa setup after installing one", strings.Join(targets.SupportedNames(), ", "))
-	} else {
+	if len(chosen) > 0 {
 		scope := targets.ProjectScope(dir)
 		res, err := targets.Install(scope, chosen)
 		if err != nil {
@@ -216,6 +224,89 @@ func Run(opts Options, in io.Reader, out io.Writer) error {
 	report("")
 	report("Next, in your agent: run /aa-fw-health, then /aa-fw-init.")
 	return nil
+}
+
+// chooseTargets settles the harnesses this repository gets. Harnesses named with -targets win,
+// then those the project config records. Otherwise the harnesses found on this machine or already
+// in the repository are offered as a checklist with only the repository's own ticked; with nobody
+// to ask, the repository's own are kept.
+func chooseTargets(opts Options, cfg *config.Config, home, dir string, reader *bufio.Reader, out io.Writer) ([]targets.Spec, error) {
+	if len(opts.Targets) > 0 {
+		named, unknown, err := targets.ByID(opts.Targets)
+		if err != nil {
+			return nil, err
+		}
+		if len(unknown) > 0 {
+			return nil, fmt.Errorf("no supported target named %s; run aa init -targets with ids from: %s", strings.Join(unknown, ", "), strings.Join(supportedIDs(), ", "))
+		}
+		return named, nil
+	}
+	if len(cfg.Targets) > 0 {
+		recorded, _, err := targets.ByID(cfg.Targets)
+		if err != nil {
+			return nil, err
+		}
+		fmt.Fprintf(out, "  harnesses from %s: %s (edit its targets, or run aa uninstall -scope project, to change them)\n", config.FileName, targetNames(recorded))
+		return recorded, nil
+	}
+	ticked, found := map[string]bool{}, map[string]bool{}
+	for _, t := range targets.InRepo(dir) {
+		ticked[t.ID] = true
+	}
+	onMachine, _ := targets.Detect(home, "")
+	for _, t := range onMachine {
+		found[t.ID] = true
+	}
+	all, err := targets.All()
+	if err != nil {
+		return nil, err
+	}
+	var offered []targets.Spec
+	for _, t := range all {
+		if ticked[t.ID] || found[t.ID] {
+			offered = append(offered, t)
+		}
+	}
+	if len(offered) == 0 {
+		fmt.Fprintf(out, "  no supported agent harness found on this machine or in the repository (supported: %s); run aa init -targets <id,...> after installing one\n", strings.Join(targets.SupportedNames(), ", "))
+		return nil, nil
+	}
+	if opts.Interactive && !opts.Yes {
+		targets.Checklist("Which agent harnesses should this repository have? Ticked are the ones it already has folders for. Enter numbers to tick or untick, then Enter to continue.", offered, ticked, found, reader, out)
+	}
+	var chosen []targets.Spec
+	for _, t := range offered {
+		if ticked[t.ID] {
+			chosen = append(chosen, t)
+		}
+	}
+	if len(chosen) == 0 {
+		var ids []string
+		for _, t := range offered {
+			ids = append(ids, t.ID)
+		}
+		fmt.Fprintf(out, "  no agent harness chosen for this repository; run aa init -targets <id,...> to add one (found: %s)\n", strings.Join(ids, ", "))
+	}
+	return chosen, nil
+}
+
+func targetNames(ts []targets.Spec) string {
+	var names []string
+	for _, t := range ts {
+		names = append(names, t.Name)
+	}
+	return strings.Join(names, ", ")
+}
+
+func supportedIDs() []string {
+	all, _ := targets.All()
+	var ids []string
+	for _, t := range all {
+		if t.Supported() {
+			ids = append(ids, t.ID)
+		}
+	}
+	return ids
 }
 
 func consent(opts Options, reader *bufio.Reader, out io.Writer, question string) bool {

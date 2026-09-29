@@ -31,3 +31,10 @@ Feature: aa update brings the install up to the package version
     When I run "aa update"
     Then the plugin is reinstalled from the source the config records for it
     And the plugin's files are not reported as stale core files
+
+  @F-009-05
+  Scenario: A repository keeps its own harnesses
+    Given the project config names no targets
+    And "aa setup" installed into more harnesses on this machine than the repository has folders for
+    When I run "aa update" inside the repository
+    Then project scope is refreshed only for the harnesses the repository already has folders for

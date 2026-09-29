@@ -32,7 +32,7 @@ const usage = `aa: the AA-SDLC command line
 Usage:
   aa setup   [-org <repository>] [-team <name>] [-targets <id,...>]
                                                     bootstrap this machine: install skills and commands for every agent harness found, or those named, at user scope
-  aa init    [-path <dir>] [-ticket-project <key>] [-ticket-url <url>] [-knowledge-space <key>] [-knowledge-url <url>] [-shell pwsh|sh] [-yes]
+  aa init    [-path <dir>] [-targets <id,...>] [-ticket-project <key>] [-ticket-url <url>] [-knowledge-space <key>] [-knowledge-url <url>] [-shell pwsh|sh] [-yes]
                                                     bootstrap a repository, then hand off to /aa-fw-health and /aa-fw-init in your agent
   aa update  [-path <dir>]                          bring everything setup and init installed up to this package version, at user scope and in this repository
   aa plugin  install <name|path> | update [<name>] | list | remove <name> [-scope project|user] [-path <dir>]
@@ -93,9 +93,13 @@ func run(args []string) int {
 		fs.StringVar(&o.KnowledgeURL, "knowledge-url", "", "URL of the knowledge base space")
 		fs.StringVar(&o.Shell, "shell", "pwsh", "shell for the root script stubs: pwsh or sh")
 		fs.BoolVar(&o.Yes, "yes", false, "consent to every proposal without asking")
+		targetList := fs.String("targets", "", "comma-separated harness ids to install into at project scope, instead of being asked")
 		interactive := fs.Bool("interactive", false, "allow prompts even when stdin is not a terminal (used by tests)")
 		if err := fs.Parse(args[1:]); err != nil {
 			return 2
+		}
+		if *targetList != "" {
+			o.Targets = strings.Split(*targetList, ",")
 		}
 		o.Interactive = stdinIsTerminal() || *interactive
 		o.Home = home

@@ -28,7 +28,7 @@ func runInit(t *testing.T, dir string, extra func(*Options)) string {
 	if err := os.MkdirAll(filepath.Join(home, ".claude"), 0o755); err != nil { // Claude Code is "installed"
 		t.Fatal(err)
 	}
-	opts := Options{Path: dir, Yes: true, Home: home, UserConfigPath: filepath.Join(home, ".aa", config.FileName), Now: fixedNow}
+	opts := Options{Path: dir, Yes: true, Targets: []string{"claude-code"}, Home: home, UserConfigPath: filepath.Join(home, ".aa", config.FileName), Now: fixedNow}
 	if extra != nil {
 		extra(&opts)
 	}
@@ -203,5 +203,113 @@ func TestInit_ShStubs(t *testing.T) {
 	b, err := os.ReadFile(filepath.Join(dir, "test.sh"))
 	if err != nil || !strings.HasPrefix(string(b), "#!/bin/sh") {
 		t.Errorf("want a POSIX sh stub: %v", err)
+	}
+}
+
+// harnessHome makes a home where Claude Code and Gemini CLI are "installed", with a user config
+// in which aa setup recorded them and Windsurf. AA_HOME keeps the PATH out of detection.
+func harnessHome(t *testing.T) (home, userPath string) {
+	t.Helper()
+	home = filepath.Join(t.TempDir(), "home")
+	for _, d := range []string{".claude", ".gemini"} {
+		if err := os.MkdirAll(filepath.Join(home, d), 0o755); err != nil {
+			t.Fatal(err)
+		}
+	}
+	t.Setenv("AA_HOME", home)
+	userPath = filepath.Join(home, ".aa", config.FileName)
+	if err := config.Write(userPath, &config.Config{Version: 1, Scope: "user", Targets: []string{"claude-code", "gemini-cli", "windsurf"}}, "test"); err != nil {
+		t.Fatal(err)
+	}
+	return home, userPath
+}
+
+func initHarnesses(t *testing.T, dir string, opts Options, input string) string {
+	t.Helper()
+	opts.Path, opts.Now, opts.TicketProject = dir, fixedNow, "AA"
+	var out bytes.Buffer
+	if err := Run(opts, strings.NewReader(input), &out); err != nil {
+		t.Fatalf("init failed: %v\n%s", err, out.String())
+	}
+	return out.String()
+}
+
+func recordedTargets(t *testing.T, dir string) []string {
+	t.Helper()
+	cfg, err := config.Load(filepath.Join(dir, config.FileName))
+	if err != nil || cfg == nil {
+		t.Fatalf("project config: %v", err)
+	}
+	return cfg.Targets
+}
+
+func TestInit_AsksWhichHarnessesTheRepositoryGets(t *testing.T) {
+	home, userPath := harnessHome(t)
+	dir := t.TempDir()
+	// Decline git init; then offered: 1 Claude Code, 2 Gemini CLI, neither ticked; tick Claude Code.
+	out := initHarnesses(t, dir, Options{Interactive: true, Home: home, UserConfigPath: userPath}, "n\n1\n\n")
+
+	if !strings.Contains(out, "Which agent harnesses should this repository have?") || strings.Contains(out, "Windsurf") {
+		t.Errorf("want a checklist of the harnesses found on this machine only:\n%s", out)
+	}
+	if _, err := os.Stat(filepath.Join(dir, ".claude", "skills", "aa-fw-health", "SKILL.md")); err != nil {
+		t.Errorf("the ticked harness was not installed: %v", err)
+	}
+	for _, d := range []string{".gemini", ".windsurf"} {
+		if _, err := os.Stat(filepath.Join(dir, d)); err == nil {
+			t.Errorf("%s was created for a harness that was not ticked", d)
+		}
+	}
+	if got := recordedTargets(t, dir); len(got) != 1 || got[0] != "claude-code" {
+		t.Errorf("project config targets = %v, want [claude-code]", got)
+	}
+}
+
+func TestInit_WithNobodyToAskKeepsOnlyTheRepositorysOwnHarnesses(t *testing.T) {
+	home, userPath := harnessHome(t)
+
+	empty := t.TempDir()
+	out := initHarnesses(t, empty, Options{Home: home, UserConfigPath: userPath}, "")
+	for _, d := range []string{".claude", ".gemini", ".windsurf"} {
+		if _, err := os.Stat(filepath.Join(empty, d)); err == nil {
+			t.Errorf("%s was created though nobody chose it", d)
+		}
+	}
+	if !strings.Contains(out, "aa init -targets") || len(recordedTargets(t, empty)) != 0 {
+		t.Errorf("want nothing installed or recorded, and the -targets hint:\n%s", out)
+	}
+
+	withClaude := t.TempDir()
+	if err := os.MkdirAll(filepath.Join(withClaude, ".claude"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	initHarnesses(t, withClaude, Options{Yes: true, Home: home, UserConfigPath: userPath}, "")
+	if _, err := os.Stat(filepath.Join(withClaude, ".gemini")); err == nil {
+		t.Error(".gemini was created though the repository only has .claude")
+	}
+	if got := recordedTargets(t, withClaude); len(got) != 1 || got[0] != "claude-code" {
+		t.Errorf("project config targets = %v, want [claude-code]", got)
+	}
+}
+
+func TestInit_RecordedHarnessesAreNotAskedAgain(t *testing.T) {
+	home, userPath := harnessHome(t)
+	dir := t.TempDir()
+	initHarnesses(t, dir, Options{Targets: []string{"claude-code"}, Home: home, UserConfigPath: userPath}, "")
+	out := initHarnesses(t, dir, Options{Interactive: true, Home: home, UserConfigPath: userPath}, "n\n2\n\n")
+	if strings.Contains(out, "Which agent harnesses") || !strings.Contains(out, "harnesses from "+config.FileName+": Claude Code") {
+		t.Errorf("want the recorded harnesses used without asking:\n%s", out)
+	}
+	if _, err := os.Stat(filepath.Join(dir, ".gemini")); err == nil {
+		t.Error(".gemini was created on a re-run")
+	}
+}
+
+func TestInit_UnknownTargetIsRefused(t *testing.T) {
+	home, userPath := harnessHome(t)
+	var out bytes.Buffer
+	err := Run(Options{Path: t.TempDir(), Targets: []string{"nope"}, Home: home, UserConfigPath: userPath, Now: fixedNow}, strings.NewReader(""), &out)
+	if err == nil || !strings.Contains(err.Error(), "nope") {
+		t.Errorf("want an error naming the unknown target, got %v", err)
 	}
 }

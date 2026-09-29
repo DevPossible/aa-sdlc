@@ -29,6 +29,7 @@ type world struct {
 	exit    int
 	config  string // the project config as it was before a step, for later steps
 	plugin  string // a fixture plugin folder created for the scenario
+	targets string // the harnesses aa init is told to install into, as -targets; claude-code unless a step says otherwise
 }
 
 func TestFeatures(t *testing.T) {
@@ -102,15 +103,15 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		}
 		return w.run(w.project, "", "setup", "-org", org)
 	})
-	sc.Step(`^I run "aa init"$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive") })
-	sc.Step(`^I run "aa init" again$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive") })
-	sc.Step(`^"aa init" completes$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive") })
-	sc.Step(`^"aa init" has already been run here$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive") })
+	sc.Step(`^I run "aa init"$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
+	sc.Step(`^I run "aa init" again$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
+	sc.Step(`^"aa init" completes$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
+	sc.Step(`^"aa init" has already been run here$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
 	sc.Step(`^I am in a repository initialised with "aa init"$`, func() error {
-		return w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC")
+		return w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC")
 	})
 	sc.Step(`^I run "aa init -path <dir>"$`, func() error {
-		return w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC", "-path", w.other)
+		return w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC", "-path", w.other)
 	})
 	sc.Step(`^I run "aa health"$`, func() error { return w.run(w.project, "", "health") })
 
@@ -125,7 +126,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return w.exists(w.project, ".claude/skills/aa-fw-health/SKILL.md")
 	})
 	sc.Step(`^<dir> is initialised exactly as the current directory would have been$`, func() error {
-		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+		if err := w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC"); err != nil {
 			return err
 		}
 		a, _ := listFiles(w.project)
@@ -142,7 +143,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		// The generic run answered the ticket prompt; re-run answering "no" to the offer and check it was made.
 		os.RemoveAll(filepath.Join(w.project, ".git"))
 		os.Remove(filepath.Join(w.project, "aa.config.yaml"))
-		if err := w.run(w.project, "n\nABC\n", "init", "-interactive"); err != nil {
+		if err := w.run(w.project, "n\nABC\n", "init", "-interactive", "-targets", w.initTargets()); err != nil {
 			return err
 		}
 		return w.outputContains("Initialise one with git init?")
@@ -151,7 +152,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		if _, err := os.Stat(filepath.Join(w.project, ".git")); err == nil {
 			return errors.New("a repository was initialised without consent")
 		}
-		if err := w.run(w.project, "y\nABC\n", "init", "-interactive"); err != nil {
+		if err := w.run(w.project, "y\nABC\n", "init", "-interactive", "-targets", w.initTargets()); err != nil {
 			return err
 		}
 		return w.exists(w.project, ".git")
@@ -195,7 +196,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		if err := os.WriteFile(p, []byte(edited), 0o644); err != nil {
 			return err
 		}
-		if err := w.run(w.project, "ABC\n", "init", "-interactive"); err != nil {
+		if err := w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()); err != nil {
 			return err
 		}
 		return w.configContains(`MINE-\d+`)
@@ -251,7 +252,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return nil
 	})
 	sc.Step(`^a second repository may record the same project$`, func() error {
-		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC", "-path", w.other); err != nil {
+		if err := w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC", "-path", w.other); err != nil {
 			return err
 		}
 		b, err := os.ReadFile(filepath.Join(w.other, "aa.config.yaml"))
@@ -270,7 +271,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		if err := os.RemoveAll(filepath.Join(w.project, "tests", "e2e")); err != nil {
 			return err
 		}
-		if err := w.run(w.project, "ABC\n", "init", "-interactive"); err != nil {
+		if err := w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()); err != nil {
 			return err
 		}
 		return w.exists(w.project, "tests/e2e")
@@ -314,7 +315,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return nil
 	})
 	sc.Step(`^the enterprise and team plugins and settings from that repository are layered over core$`, func() error {
-		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+		if err := w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC"); err != nil {
 			return err
 		}
 		return w.configContains("ent-plugin")
@@ -425,7 +426,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return nil
 	})
 	sc.Step(`^a plugin is installed at a scope$`, func() error {
-		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+		if err := w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC"); err != nil {
 			return err
 		}
 		w.plugin = w.writeFixturePlugin("fixture", "notes")
@@ -474,7 +475,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return w.exists(w.project, ".claude/skills/aa-fixture-notes/SKILL.md")
 	})
 	sc.Step(`^a plugin whose kind is not tech-stack, tool, or process$`, func() error {
-		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+		if err := w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC"); err != nil {
 			return err
 		}
 		w.plugin = w.writeFixturePlugin("flux", "render")
@@ -482,7 +483,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	})
 	sc.Step(`^the reason names the three kinds$`, func() error { return w.errContains("tech-stack, tool, process") })
 	sc.Step(`^a plugin with a skill that names no core step, process, or requirement$`, func() error {
-		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+		if err := w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC"); err != nil {
 			return err
 		}
 		w.plugin = w.writeFixturePlugin("csharp", "codegen")
@@ -495,7 +496,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return w.errContains("ordinary agent skill")
 	})
 	sc.Step(`^a plugin with a skill that attaches to a step core does not define$`, func() error {
-		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+		if err := w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC"); err != nil {
 			return err
 		}
 		w.plugin = w.writeFixturePlugin("k6", "load")
@@ -522,7 +523,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return w.outputContains("Available")
 	})
 	sc.Step(`^a plugin that redefines a core skill$`, func() error {
-		if err := w.run(w.project, "", "init", "-yes", "-ticket-project", "ABC"); err != nil {
+		if err := w.run(w.project, "", "init", "-yes", "-targets", w.initTargets(), "-ticket-project", "ABC"); err != nil {
 			return err
 		}
 		w.plugin = w.writeFixturePlugin("bad", "implement")
@@ -538,6 +539,14 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 }
 
 // snapshotConfig remembers the project config so a later step can prove it was left alone.
+// initTargets is the -targets value for aa init, which asks otherwise (features/cli/init.feature).
+func (w *world) initTargets() string {
+	if w.targets == "" {
+		return "claude-code"
+	}
+	return w.targets
+}
+
 func (w *world) snapshotConfig() {
 	b, _ := os.ReadFile(filepath.Join(w.project, "aa.config.yaml"))
 	w.config = string(b)

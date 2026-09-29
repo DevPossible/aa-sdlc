@@ -11,7 +11,11 @@ import (
 // Checklist shows harnesses with their ticked state and toggles the numbers the user enters until
 // an empty line or the end of input. found marks harnesses to label as found on this machine.
 func Checklist(prompt string, harnesses []Spec, ticked, found map[string]bool, in io.Reader, out io.Writer) {
-	reader := bufio.NewReader(in)
+	// reuse a caller's buffered reader, so answers it has already buffered are not lost
+	reader, ok := in.(*bufio.Reader)
+	if !ok {
+		reader = bufio.NewReader(in)
+	}
 	for {
 		fmt.Fprintf(out, "  %s\n", prompt)
 		for i, t := range harnesses {
