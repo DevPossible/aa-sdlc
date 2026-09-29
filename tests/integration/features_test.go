@@ -120,9 +120,6 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	sc.Step(`^a documents folder exists$`, func() error { return w.exists(w.project, "docs") })
 	sc.Step(`^a features folder exists$`, func() error { return w.exists(w.project, "features") })
 	sc.Step(`^project-scope skills and commands are installed for each detected target$`, func() error {
-		if err := w.exists(w.project, ".claude/commands/aa-fw-health.md"); err != nil {
-			return err
-		}
 		return w.exists(w.project, ".claude/skills/aa-fw-health/SKILL.md")
 	})
 	sc.Step(`^<dir> is initialised exactly as the current directory would have been$`, func() error {
@@ -288,7 +285,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	// --- setup ---
 	sc.Step(`^it lists every supported agent target found on the machine$`, func() error { return w.outputContains("Claude Code") })
 	sc.Step(`^it installs the skills and commands for each at user scope$`, func() error {
-		return w.exists(w.home, ".claude/commands/aa-fw-health.md")
+		return w.exists(w.home, ".claude/skills/aa-fw-health/SKILL.md")
 	})
 	sc.Step(`^the shared guidance sets are installed at user scope with no command$`, func() error {
 		return w.guidanceInstalled(w.home)
@@ -353,7 +350,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	sc.Step(`^I run "aa update"$`, func() error { w.snapshotConfig(); return w.run(w.project, "", "update") })
 	sc.Step(`^"aa update" completes$`, func() error { w.snapshotConfig(); return w.run(w.project, "", "update") })
 	sc.Step(`^the skills and commands at user scope match the package version$`, func() error {
-		return w.exists(w.home, ".claude/commands/aa-fw-health.md")
+		return w.exists(w.home, ".claude/skills/aa-fw-health/SKILL.md")
 	})
 	sc.Step(`^the user config records the new version$`, func() error {
 		b, err := os.ReadFile(filepath.Join(w.home, ".aa", "aa.config.yaml"))
@@ -366,7 +363,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return nil
 	})
 	sc.Step(`^the project-scope skills and commands match the package version$`, func() error {
-		return w.exists(w.project, ".claude/commands/aa-fw-health.md")
+		return w.exists(w.project, ".claude/skills/aa-fw-health/SKILL.md")
 	})
 	sc.Step(`^project config, documents, and feature files are left as they are$`, func() error {
 		after, err := os.ReadFile(filepath.Join(w.project, "aa.config.yaml"))

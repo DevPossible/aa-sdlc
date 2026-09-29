@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/cli/setup. Do not edit: change the page, then pull it.
-# Checksum: sha256:df484bb0c3a64ddaa226b5c813ea396bab4b8eea2ea89a265dffa217760d3084
+# Checksum: sha256:750ff5f501076ac4c570ac1db4c97a9edf94e83aae50a11e3aabcba2158712e6
 @cli @T-11 @F-008
 Feature: aa setup bootstraps the machine
   The main CLI verb. Run once per machine after installing the package globally. It prepares
@@ -105,3 +105,10 @@ Feature: aa setup bootstraps the machine
     When I run "aa setup" interactively and agree to install it
     Then it installs PowerShell with the platform's package manager and checks it again
     And where the platform has no package manager it knows, it says where to get it instead
+
+  @F-008-16
+  Scenario: Each skill is named for the command that runs it
+    Given Claude Code is installed on this machine
+    When I run "aa setup"
+    Then every installed skill's name is its command, such as aa-fw-health
+    And Claude Code gets no command files, because it runs a skill by its name

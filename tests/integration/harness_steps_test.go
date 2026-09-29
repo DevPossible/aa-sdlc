@@ -68,6 +68,29 @@ func registerHarnessSteps(sc *godog.ScenarioContext, w *world) {
 	sc.Step(`^Claude Code, Codex, and Gemini CLI are installed on this machine$`, func() error { return install("Codex", "Gemini CLI") })
 	sc.Step(`^Claude Code and Codex are installed on this machine$`, func() error { return install("Codex") })
 	sc.Step(`^Cursor is installed on this machine$`, func() error { return install("Cursor") })
+	sc.Step(`^Claude Code is installed on this machine$`, func() error { return install() })
+	sc.Step(`^every installed skill's name is its command, such as aa-fw-health$`, func() error {
+		dirs, err := os.ReadDir(filepath.Join(w.home, ".claude", "skills"))
+		if err != nil {
+			return err
+		}
+		for _, d := range dirs {
+			if !strings.HasPrefix(d.Name(), "aa-") || !d.IsDir() {
+				continue
+			}
+			b, err := os.ReadFile(filepath.Join(w.home, ".claude", "skills", d.Name(), "SKILL.md"))
+			if err != nil {
+				return err
+			}
+			if !strings.Contains(string(b), "\nname: "+d.Name()+"\n") {
+				return fmt.Errorf("%s/SKILL.md is not named %s", d.Name(), d.Name())
+			}
+		}
+		return w.exists(w.home, ".claude/skills/aa-fw-health/SKILL.md")
+	})
+	sc.Step(`^Claude Code gets no command files, because it runs a skill by its name$`, func() error {
+		return absent(w.home, ".claude/commands")
+	})
 	sc.Step(`^Aider is installed on this machine$`, func() error {
 		return os.WriteFile(filepath.Join(w.home, ".aider.conf.yml"), []byte("# aider\n"), 0o644)
 	})
@@ -217,10 +240,7 @@ func registerHarnessSteps(sc *godog.ScenarioContext, w *world) {
 	sc.Step(`^Claude Code and Cursor are installed and set up$`, func() error { return setUp("Cursor") })
 	sc.Step(`^the shared agents skills folder no longer holds any aa- skill$`, func() error { return absent(w.home, ".agents/skills") })
 	sc.Step(`^Claude Code still has every skill and command$`, func() error {
-		if err := w.exists(w.home, ".claude/skills/aa-fw-health/SKILL.md"); err != nil {
-			return err
-		}
-		return w.exists(w.home, ".claude/commands/aa-fw-health.md")
+		return w.exists(w.home, ".claude/skills/aa-fw-health/SKILL.md")
 	})
 	sc.Step(`^the user config records only claude-code$`, func() error { return recordsExactly("claude-code") })
 	sc.Step(`^Cursor's skills are reinstalled in a folder it reads$`, func() error {

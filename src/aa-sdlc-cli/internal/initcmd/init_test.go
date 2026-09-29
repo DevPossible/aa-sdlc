@@ -48,7 +48,7 @@ func TestInit_LaysDownConfigFoldersStubsDecisionsAndCommands(t *testing.T) {
 		o.TicketURL = "https://example.atlassian.net/jira/software/projects/AA"
 	})
 
-	for _, rel := range []string{config.FileName, "docs", "features", "scripts", "src", "tests/integration", "tests/e2e", "docs/decisions/TEMPLATE.md", "docs/decisions/0001-adopt-aa-sdlc.md", "initialize.ps1", "build.ps1", "test.ps1", "pack.ps1", ".claude/commands/aa-fw-health.md", ".claude/skills/aa-fw-health/SKILL.md", ".claude/skills/aa-internal-new-step/SKILL.md"} {
+	for _, rel := range []string{config.FileName, "docs", "features", "scripts", "src", "tests/integration", "tests/e2e", "docs/decisions/TEMPLATE.md", "docs/decisions/0001-adopt-aa-sdlc.md", "initialize.ps1", "build.ps1", "test.ps1", "pack.ps1",".claude/skills/aa-fw-health/SKILL.md", ".claude/skills/aa-internal-new-step/SKILL.md"} {
 		if _, err := os.Stat(filepath.Join(dir, rel)); err != nil {
 			t.Errorf("expected %s to exist: %v", rel, err)
 		}
@@ -78,9 +78,12 @@ func TestInit_LaysDownConfigFoldersStubsDecisionsAndCommands(t *testing.T) {
 	if !strings.Contains(string(b), "$Lint") || !strings.Contains(string(b), "exit 1") {
 		t.Error("build stub must accept -Lint and exit non-zero")
 	}
-	b, _ = os.ReadFile(filepath.Join(dir, ".claude/commands/aa-fw-health.md"))
-	if !strings.Contains(string(b), "Read .claude/skills/aa-fw-health/SKILL.md") {
-		t.Errorf("command must point at the project-scope skill, got:\n%s", b)
+	b, _ = os.ReadFile(filepath.Join(dir, ".claude/skills/aa-fw-health/SKILL.md"))
+	if !strings.Contains(string(b), "\nname: aa-fw-health\n") {
+		t.Errorf("an installed skill must be named for its command, got:\n%s", b)
+	}
+	if _, err := os.Stat(filepath.Join(dir, ".claude/commands")); err == nil {
+		t.Error("Claude Code runs a skill by its name and needs no command files")
 	}
 	if !strings.Contains(out, "/aa-fw-health") || !strings.Contains(out, "/aa-fw-init") {
 		t.Error("init must hand off to the agent commands")

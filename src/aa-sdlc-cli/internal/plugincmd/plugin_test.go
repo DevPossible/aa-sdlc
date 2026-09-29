@@ -66,7 +66,7 @@ func TestPlugin_InstallAtProjectScopeFromOrganisationRepository(t *testing.T) {
 	if err := Install("dotnet", Options{Path: f.project, Home: f.home, UserConfigPath: f.userPath}, &out); err != nil {
 		t.Fatalf("add: %v", err)
 	}
-	for _, rel := range []string{".claude/skills/aa-dotnet-implement-notes/SKILL.md", ".claude/commands/aa-dotnet-test-notes.md"} {
+	for _, rel := range []string{".claude/skills/aa-dotnet-implement-notes/SKILL.md", ".claude/skills/aa-dotnet-test-notes/SKILL.md"} {
 		if _, err := os.Stat(filepath.Join(f.project, rel)); err != nil {
 			t.Errorf("expected %s: %v", rel, err)
 		}

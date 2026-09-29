@@ -28,8 +28,11 @@ func TestUpdate_ReinstallsUserAndProjectScopeAndReportsChanges(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Simulate drift: a stale core command and a changed skill at user scope, and a user edit to the project config.
+	// Simulate drift: a command an earlier release wrote and a changed skill at user scope, and a user edit to the project config.
 	stale := filepath.Join(home, ".claude", "commands", "aa-fw-obsolete.md")
+	if err := os.MkdirAll(filepath.Dir(stale), 0o755); err != nil {
+		t.Fatal(err)
+	}
 	if err := os.WriteFile(stale, []byte("stale"), 0o644); err != nil {
 		t.Fatal(err)
 	}

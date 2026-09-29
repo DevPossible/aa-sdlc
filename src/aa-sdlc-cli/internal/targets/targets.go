@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 
@@ -376,6 +377,7 @@ func Install(scope Scope, harnesses []Spec) (InstallResult, error) {
 			for rel, b := range sk.files {
 				files[rel] = bytes.ReplaceAll(b, []byte(content.SourceGuidancePath), guidancePath)
 			}
+			files["SKILL.md"] = renameSkill(files["SKILL.md"], sk.name)
 			written, err := writeFiles(scope.Dir, filepath.Join(dir, sk.name), files)
 			if err != nil {
 				return res, err
@@ -426,7 +428,13 @@ func InstallPlugin(scope Scope, harnesses []Spec, p content.Plugin) (InstallResu
 	res := InstallResult{Plan: PlanInstall(scope, harnesses)}
 	for _, dir := range res.Plan.SkillDirs {
 		for _, sk := range p.Skills {
-			written, err := writeFiles(scope.Dir, filepath.Join(dir, pluginSkillName(p.Name, sk.Name)), sk.Files)
+			name := pluginSkillName(p.Name, sk.Name)
+			files := map[string][]byte{}
+			for rel, b := range sk.Files {
+				files[rel] = b
+			}
+			files["SKILL.md"] = renameSkill(files["SKILL.md"], name)
+			written, err := writeFiles(scope.Dir, filepath.Join(dir, name), files)
 			if err != nil {
 				return res, err
 			}
@@ -448,6 +456,21 @@ func InstallPlugin(scope Scope, harnesses []Spec, p content.Plugin) (InstallResu
 }
 
 func pluginSkillName(plugin, skill string) string { return fmt.Sprintf("aa-%s-%s", plugin, skill) }
+
+var skillNameLine = regexp.MustCompile(`(?m)^name:.*$`)
+
+// renameSkill sets a SKILL.md's frontmatter name to its installed folder name, because a harness
+// offers a skill as a command under that name, not under the step name the source carries.
+func renameSkill(b []byte, name string) []byte {
+	done := false
+	return skillNameLine.ReplaceAllFunc(b, func(m []byte) []byte {
+		if done {
+			return m
+		}
+		done = true
+		return []byte("name: " + name)
+	})
+}
 
 // RemovePlugin deletes a plugin's skills and commands from every folder any harness reads at
 // this scope and returns what it removed. Core skills are named aa-<discipline code>-<step> and
@@ -578,6 +601,10 @@ func entryName(p string, roots []string) string {
 	return ""
 }
 
+// legacyRoots are folders earlier releases installed into and no harness entry names any more,
+// kept known so an update or uninstall still removes what was left there.
+var legacyRoots = []string{".claude/commands"}
+
 // knownRoots lists every skill and command folder any supported harness reads at this scope,
 // longest first so a nested folder is matched before its parent.
 func knownRoots(scope Scope) []string {
@@ -593,6 +620,7 @@ func knownRoots(scope Scope) []string {
 			dirs = append(dirs, d)
 		}
 		dirs = append(dirs, scope.AgentDirs(t)...)
+		dirs = append(dirs, legacyRoots...)
 		for _, d := range dirs {
 			if !seen[d] {
 				seen[d] = true

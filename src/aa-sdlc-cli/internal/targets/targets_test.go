@@ -65,7 +65,8 @@ func TestPlan_SharedFolderReachesEveryHarnessOnce(t *testing.T) {
 	for _, set := range plan.Commands {
 		formats[set.Format] = set.Dir
 	}
-	if formats[FormatGeminiTOML] != ".gemini/commands" || formats[FormatMarkdownArguments] != ".claude/commands" {
+	// Claude Code runs a skill by its name, so it gets no command files
+	if len(formats) != 1 || formats[FormatGeminiTOML] != ".gemini/commands" {
 		t.Errorf("command folders: got %v", formats)
 	}
 }

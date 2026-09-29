@@ -23,7 +23,6 @@ targets:
     verified: run
     detect: {home: [.claude], command: claude}
     skills: {user: [.claude/skills], project: [.claude/skills]}
-    commands: {format: markdown-arguments, user: .claude/commands, project: .claude/commands}
     instructions: CLAUDE.md
     subagents: true
     agents: {format: markdown, suffix: .md, user: [.claude/agents], project: [.claude/agents]}

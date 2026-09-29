@@ -247,3 +247,19 @@ every agent target on the machine so that any repository can then be initialised
 | When | I run "aa setup" interactively and agree to install it |
 | Then | it installs PowerShell with the platform's package manager and checks it again |
 | And | where the platform has no package manager it knows, it says where to get it instead |
+
+## F-008-16 Each skill is named for the command that runs it
+
+| Scenario | F-008-16 |
+| --- | --- |
+| Name | Each skill is named for the command that runs it |
+| Kind | Scenario |
+| Tags |  |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | Claude Code is installed on this machine |
+| When | I run "aa setup" |
+| Then | every installed skill's name is its command, such as aa-fw-health |
+| And | Claude Code gets no command files, because it runs a skill by its name |

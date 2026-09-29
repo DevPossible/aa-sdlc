@@ -57,11 +57,11 @@ Describe 'Install from the packed npm tarballs' -Skip:(-not $script:havePack) {
         $LASTEXITCODE | Should -Be 2
     }
 
-    It 'aa setup installs user-scope skills and commands and writes the user config' {
+    It 'aa setup installs user-scope skills and writes the user config' {
         $out = & $script:aa setup
         $LASTEXITCODE | Should -Be 0
         ($out -join "`n") | Should -Match 'Claude Code'
-        Join-Path -Path $script:aaHome -ChildPath '.claude' -AdditionalChildPath 'commands', 'aa-fw-health.md' | Should -Exist
+        Join-Path -Path $script:aaHome -ChildPath '.claude' -AdditionalChildPath 'skills', 'aa-fw-health', 'SKILL.md' | Should -Exist
         Join-Path -Path $script:aaHome -ChildPath '.aa' -AdditionalChildPath 'aa.config.yaml' | Should -Exist
     }
 
@@ -69,7 +69,7 @@ Describe 'Install from the packed npm tarballs' -Skip:(-not $script:havePack) {
         $out = & $script:aa init -path $script:project -targets claude-code -ticket-project AA -yes
         $LASTEXITCODE | Should -Be 0
         ($out -join "`n") | Should -Match '/aa-fw-health'
-        foreach ($rel in 'aa.config.yaml', 'docs/decisions/0001-adopt-aa-sdlc.md', 'build.ps1', 'tests/e2e', '.claude/commands/aa-fw-init.md') {
+        foreach ($rel in 'aa.config.yaml', 'docs/decisions/0001-adopt-aa-sdlc.md', 'build.ps1', 'tests/e2e', '.claude/skills/aa-fw-init/SKILL.md') {
             Join-Path -Path $script:project -ChildPath $rel | Should -Exist
         }
     }
