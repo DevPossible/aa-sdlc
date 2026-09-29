@@ -48,7 +48,7 @@ func TestInit_LaysDownConfigFoldersStubsDecisionsAndCommands(t *testing.T) {
 		o.TicketURL = "https://example.atlassian.net/jira/software/projects/AA"
 	})
 
-	for _, rel := range []string{config.FileName, "docs", "features", "scripts", "src", "tests/integration", "tests/e2e", "docs/decisions/TEMPLATE.md", "docs/decisions/0001-adopt-aa-sdlc.md", "initialize.ps1", "build.ps1", "test.ps1", "pack.ps1",".claude/skills/aa-fw-health/SKILL.md", ".claude/skills/aa-internal-new-step/SKILL.md"} {
+	for _, rel := range []string{config.FileName, "docs", "features", "scripts", "src", "tests/integration", "tests/e2e", "docs/decisions/TEMPLATE.md", "docs/decisions/0001-adopt-aa-sdlc.md", "initialize.ps1", "build.ps1", "test.ps1", "pack.ps1", ".claude/skills/aa-fw-health/SKILL.md", ".claude/skills/aa-internal-new-step/SKILL.md"} {
 		if _, err := os.Stat(filepath.Join(dir, rel)); err != nil {
 			t.Errorf("expected %s to exist: %v", rel, err)
 		}
