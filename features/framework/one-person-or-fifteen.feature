@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/one-person-or-fifteen. Do not edit: change the page, then pull it.
+# Checksum: sha256:5c0e90be3174b7edb02b7e3c77609bfba20f21dfa43f82b2366dbe1198d7bbe6
 @framework @agent @T-13 @F-034
 Feature: One person or fifteen, the same framework
   A discipline is a kind of work, not a headcount. A solo developer and a fifteen-person team

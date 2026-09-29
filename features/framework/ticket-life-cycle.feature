@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/ticket-life-cycle. Do not edit: change the page, then pull it.
+# Checksum: sha256:380ef601a0d9f181ecc8ce82bd65b4b1677dd12a8214b8466a7913f514cd88fb
 @framework @agent @O-26 @T-01 @F-085
 Feature: Tickets follow one hierarchy and one life cycle
   Every ticket is an epic, a story, a task, a bug, or a spike, and moves through New, Refined,
@@ -29,13 +31,13 @@ Feature: Tickets follow one hierarchy and one life cycle
     Then the ticket is in the state the config maps <state> to
 
     Examples:
-      | step                        | state       |
-      | /aa-rf-refine-ticket        | Refined     |
-      | /aa-ip-plan-implementation  | Planned     |
-      | /aa-dev-implement           | In progress |
-      | /aa-dev-finish-branch       | In review   |
-      | /aa-ba-uat                  | Accepted    |
-      | /aa-rel-release             | Done        |
+      | step                       | state       |
+      | /aa-rf-refine-ticket       | Refined     |
+      | /aa-ip-plan-implementation | Planned     |
+      | /aa-dev-implement          | In progress |
+      | /aa-dev-finish-branch      | In review   |
+      | /aa-ba-uat                 | Accepted    |
+      | /aa-rel-release            | Done        |
 
   @F-085-04
   Scenario: Tickets are created as one of the five kinds

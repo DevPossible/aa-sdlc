@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/project-management/retrospective. Do not edit: change the page, then pull it.
+# Checksum: sha256:e0057d5188886302d0dc799039be238d72a30f306dc8f5c7173114db24d38fc5
 @agent @project-management @O-18 @T-07 @T-13 @F-056
 Feature: /aa-pm-retrospective turns the record of a period into a few improvements with owners
   Look at what actually happened in an iteration, release, or quarter, using the record rather

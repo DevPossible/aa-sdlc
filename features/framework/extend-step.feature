@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/extend-step. Do not edit: change the page, then pull it.
+# Checksum: sha256:d5c1311b7326f9a5eebbe21842b2fdf18718cc1efe80a1f04f4331082b5b2386
 @agent @framework @T-01 @T-02 @T-11 @T-12 @F-026
 Feature: /aa-fw-extend walks a need to a valid, installable extension
   The step reads what is installed before adding, fits the kind to the need, refuses what would

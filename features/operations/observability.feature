@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/operations/observability. Do not edit: change the page, then pull it.
+# Checksum: sha256:355082a46467e8e8aed8d4435e9b9767b2dff64771e5cec06592a515033daa5a
 @agent @operations @O-16 @F-048
 Feature: /aa-ops-observability makes the running system visible
   Every scenario maps to a signal production can show, the dashboards show the outcome metrics

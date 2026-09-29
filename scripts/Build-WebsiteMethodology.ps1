@@ -310,7 +310,7 @@ $status = @(
     "        <li><span class=`"status-count`">$($disciplines.Count)</span> disciplines and <span class=`"status-count`">$($processes.Count)</span> processes defined as workflow data</li>"
     "        <li><span class=`"status-count`">$($steps.Count)</span> steps, each with a skill and a command: <span class=`"status-count`">$skillCount</span> of $($steps.Count) skills present</li>"
     "        <li><span class=`"status-count`">$tenetCount</span> tenets, <span class=`"status-count`">$opinionCount</span> opinions, <span class=`"status-count`">$requirementCount</span> requirements, each with a stable id</li>"
-    "        <li><span class=`"status-count`">$($featureFiles.Count)</span> feature files holding <span class=`"status-count`">$scenarioCount</span> scenarios: the framework&#39;s own requirements, in Gherkin</li>"
+    "        <li><span class=`"status-count`">$($featureFiles.Count)</span> feature pages holding <span class=`"status-count`">$scenarioCount</span> approved scenarios: the framework&#39;s own requirements, in Gherkin tables, pulled into the repository as feature files</li>"
     "        <li>The <code>aa</code> command line: verbs <code>$cliVerbs</code>, a native binary for six platforms, published to npm as <code>aa-sdlc</code> $cliVersion</li>"
     "        <li><span class=`"status-count`">$($supportedHarnesses.Count)</span> agent harnesses supported by the installer: $(Esc (($verifiedHarnesses | ForEach-Object { $_.name }) -join ', ')) verified in use, <span class=`"status-count`">$($checkedHarnesses.Count)</span> checked against a real install on Linux, the others installed as their documentation describes</li>"
     '    </ul>'

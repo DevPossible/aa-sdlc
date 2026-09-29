@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/new-tenet. Do not edit: change the page, then pull it.
+# Checksum: sha256:d017836d4588e68a4ac5548bdb0cb8023000e6a193313a2afcfb6f63736c9f7a
 @framework @agent @fw @F-033
 Feature: /aa-internal-new-tenet adds a tenet and makes existing content agree with it
   Tenets are few and govern everything. Adding one means showing it in action and checking

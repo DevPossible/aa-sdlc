@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/simplest-design. Do not edit: change the page, then pull it.
+# Checksum: sha256:18d9b8b13e071fbe8038e7274907a0bec86ea7c688dc3355b417173f6dda7268
 @framework @agent @O-20 @O-01 @T-07 @F-039
 Feature: The simplest design that meets the scenarios
   The design of a system, a component, or a change is the simplest one that satisfies the

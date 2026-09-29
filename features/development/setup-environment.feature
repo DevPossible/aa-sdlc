@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/development/setup-environment. Do not edit: change the page, then pull it.
+# Checksum: sha256:8f4c0d181acf5cea90ab38f6a44bb4c2ab14bd2b04543c784e5f8467b5b37a45
 @agent @development @O-05 @O-06 @O-07 @O-11 @O-12 @O-16 @O-21 @O-25 @F-015
 Feature: /aa-dev-setup-environment makes a fresh clone buildable and testable
   Fill in the root scripts, configure the tools the stack needs, split the configuration, define

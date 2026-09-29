@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/conventional-commits. Do not edit: change the page, then pull it.
+# Checksum: sha256:8caf6ced698b850fa87f696fc0c51f7e20aee7845f850a33a90024efd63b096a
 @framework @agent @O-14 @O-02 @T-07 @F-021
 Feature: Commit messages are Conventional Commits
   Every commit in a source code repository has a type from the project's list, an optional

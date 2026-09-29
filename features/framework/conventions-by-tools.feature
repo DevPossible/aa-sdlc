@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/conventions-by-tools. Do not edit: change the page, then pull it.
+# Checksum: sha256:4e9c966d45abd9e9e337986746fe904b1cf783bd79c1384309f064232806b04a
 @framework @agent @O-21 @T-09 @T-10 @F-022
 Feature: Conventions are enforced by tools, not by people
   Coding conventions live as formatter and linter configuration committed to the repository.
@@ -20,8 +22,7 @@ Feature: Conventions are enforced by tools, not by people
   Scenario: A linter finding is fixed or justified, never ignored
     Given the linter reports a finding on a changed file
     When "/aa-dev-implement" handles it
-    Then the finding is fixed
-    Or a suppression is added beside it with the reason
+    Then the finding is fixed, or a suppression is added beside it with the reason
     And the change is not presented with the finding outstanding
 
   @G-44 @F-022-03

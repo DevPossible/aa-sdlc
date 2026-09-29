@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/support/postmortem. Do not edit: change the page, then pull it.
+# Checksum: sha256:af58991d0e994e999f552025fb34d8ed186fc7f35bf653041b4fc63081bd6095
 @agent @support @O-18 @T-07 @F-070
 Feature: /aa-sup-postmortem finds contributing causes from the timeline and raises the tickets that prevent recurrence
   After an incident is closed, review what happened using the timeline and the evidence, find

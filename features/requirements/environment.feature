@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/requirements/environment. Do not edit: change the page, then pull it.
+# Checksum: sha256:e7d035408ec714351fe64d00457f81df1354a5dd4920a62c4cd6bd476245cd59
 @requirements @health @environment @F-064
 Feature: Environment requirements
   What the agent must be able to reach. These are probed by /aa-fw-health and can only be

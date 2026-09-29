@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/development/implement. Do not edit: change the page, then pull it.
+# Checksum: sha256:62ddcbeecedb05294fbe42b628cb27837dc0a560ee7c55a8a76f513a01c99e39
 @agent @development @O-08 @O-13 @O-17 @O-19 @F-012
 Feature: /aa-dev-implement builds a ticket with the tests that prove it
   Build what the anchor ticket asks for, following the confirmed plan, on a branch that

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/requirements/coverage. Do not edit: change the page, then pull it.
+# Checksum: sha256:5f4f322b073dcd865bbfaf43c4cb5fe0508c7829b17c2657d29a9fdc0ea87815
 @requirements @health @coverage @T-02 @F-063
 Feature: Coverage requirements
   What skills are in scope, and what the target can do. Coverage is where the core admits what

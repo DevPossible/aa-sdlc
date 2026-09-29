@@ -71,7 +71,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
+- **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
 - **G-21** Start from the feature files, then apply general testing strategies (boundaries, state transitions, error and recovery paths, concurrency, realistic user interaction sequences) to find what the requirement did not say. Record each gap as a question on the ticket and a new scenario in the feature file.
 - **G-23** State a time box for any open-ended investigation before starting it, stop when it is reached, and report what was found either way.
 - Follow the charter until the time box, then follow the most interesting surprise. Both halves matter.

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/product-management/iterate. Do not edit: change the page, then pull it.
+# Checksum: sha256:1720fd4bbf84ea9b63306341560d38cc827a73279808601cc98694e7ef4b0f13
 @agent @product-management @O-18 @F-053
 Feature: /aa-pd-iterate turns feedback into decisions and a roadmap update
   Group what users, support, and production are saying into themes with computed counts,

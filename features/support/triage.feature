@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/support/triage. Do not edit: change the page, then pull it.
+# Checksum: sha256:573100a82e9f38c47d9290d40e26e408429964098b86fb81db1307c207ef3a58
 @agent @support @O-09 @T-04 @T-13 @F-072
 Feature: /aa-sup-triage turns an incoming report into a ticket that can be acted on
   Take an incoming incident, defect report, or request and turn it into a ticket with the right

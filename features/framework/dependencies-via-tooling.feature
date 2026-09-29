@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/dependencies-via-tooling. Do not edit: change the page, then pull it.
+# Checksum: sha256:b88ed346f8e206a14552456dd09bcb11ca6527fee8e5389eaff964b146a0ad7c
 @framework @agent @O-22 @O-16 @T-07 @F-024
 Feature: Dependencies change through the package manager, never by hand
   A dependency is added, updated, or removed only through the ecosystem's package manager, so

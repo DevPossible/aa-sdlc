@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/extensibility. Do not edit: change the page, then pull it.
+# Checksum: sha256:37ce03a2beb0c930d71a69057500df4c3236c66b396574d6580a8ca569511cbd
 @framework @agent @T-02 @T-01 @F-027
 Feature: /aa-fw-extend helps the user create extensions to the framework
   The core roughs in the framework and expects others to supply the specifics (T-02). /aa-fw-extend

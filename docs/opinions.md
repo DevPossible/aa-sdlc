@@ -189,23 +189,29 @@ Requirements are Gherkin scenarios in the repository and the source of truth for
 software must do (T-12). They come before the mock-up, and the design is no larger than they
 require.
 
-**O-01 Requirements are written in Gherkin.**
-*The stance:* every requirement lives in the repository as a scenario in a feature file, and
-those feature files are the source of truth for what the software must do (T-12).
+**O-01 Requirements are written in Gherkin, on pages everyone can edit.**
+*The stance:* every requirement is a scenario on a feature page in the project's knowledge base,
+in structured tables of Given, When, and Then, and those pages are the source of truth for what
+the software must do (T-12). The repository's feature files are pulled from the pages, per
+ticket, with the approved scenarios only, and are never edited by hand.
 *Why:* Gherkin is structured natural language. Stakeholders can read it, agents process it
 without translation, and it executes as a test with no second artifact. One format serves the
-business analyst, the developer, the tester, and the model.
+business analyst, the developer, the tester, and the model. Keeping it on pages rather than only
+in the repository lets the people who own the requirements, many of whom never open source
+control, read and change them where they already work; pulling it into the repository still
+gives every agent the requirements beside the code, and the provenance header on each feature
+file makes a stale or hand-edited copy detectable (G-18). Every feature and scenario carries a
+stable id, and every test names the ids it proves, so which requirements are tested is a query,
+not an opinion (G-49).
 *Rejected:* prose requirements documents (drift from the code and cannot execute); acceptance
-criteria held only in tickets (no history, no review, not in the repository); user stories as
-the unit of truth (a story is a promise to have a conversation, not a specification).
-Because the feature files are in the repository, every agent working on it reads the
-requirements as it reads the code, with no connector and no copy that can be stale; the ticket
-and the knowledge base page are kept in step with them, never the other way round (G-18). Every
-feature and scenario carries a stable id, and every test names the ids it proves, so which
-requirements are tested is a query, not an opinion (G-49).
+criteria held only in tickets (no history, no structure, not executable); user stories as the
+unit of truth (a story is a promise to have a conversation, not a specification); feature files
+in the repository as the only copy (the people who own the requirements cannot reach them, and
+discovery ends up where only developers look); Gherkin pasted verbatim as a block of syntax on a
+page (exact, but unreadable to the people the page is for).
 *Would change our mind:* a structured natural-language format with equal or better executor
 support across stacks and equal readability for non-technical stakeholders.
-*Requirements:* R-16, R-17. *Guidance:* G-18, G-49.
+*Requirements:* R-03, R-16, R-17. *Guidance:* G-18, G-49.
 
 **O-15 A requirement starts with written goals; the mock-up comes after.**
 *The stance:* no requirement begins as a screenshot or a mock-up. It begins as written goals:
@@ -220,7 +226,7 @@ when it goes wrong, or about what the user could do afterwards that they could n
 Requirements written from a picture inherit its silences and its accidents: the placeholder
 text becomes a rule, the missing error state is never built. Agents make this worse: shown a
 mock-up, they reproduce it faithfully and invent the behaviour between the pixels. Goals first
-gives the mock-up something to be checked against (T-07) and keeps the feature file the source
+gives the mock-up something to be checked against (T-07) and keeps the scenarios the source
 of truth (O-01, T-12); a mock-up that shows behaviour no scenario states is a question, not a
 specification.
 *Rejected:* "build this" with a screenshot attached as the whole requirement; scenarios

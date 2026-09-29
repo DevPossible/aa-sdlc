@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/development/finish-branch. Do not edit: change the page, then pull it.
+# Checksum: sha256:dc7f03918358325bde24218374177b98a4784f5454f07cd5f52eb7fa55737177
 @agent @development @O-14 @O-17 @O-21 @F-010
 Feature: /aa-dev-finish-branch takes a branch from green to merged
   Format changed files, bring the branch up to date, run the full suite, open or update the

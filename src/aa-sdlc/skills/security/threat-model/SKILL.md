@@ -86,8 +86,8 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
-- **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
+- **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
+- **G-19** Tag every Approved scenario on its feature page with the ticket that asked for it, and link the ticket to the page and the scenario ids.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - Follow the data. Start from what is valuable and trace how it moves; threats appear at every boundary it crosses.
 - Accept explicitly. An accepted risk with a named owner and a reason is a decision; an unmentioned risk is a surprise.

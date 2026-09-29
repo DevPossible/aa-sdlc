@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/testing/performance-test. Do not edit: change the page, then pull it.
+# Checksum: sha256:74669e48edaf1dc6c38fb5d81ff2c4c3a71b24b935259d58960f781216c19445
 @agent @testing @O-23 @F-079
 Feature: /aa-qa-performance-test measures the system against stated targets
   Establish how the system behaves under expected and peak load against numeric targets, in

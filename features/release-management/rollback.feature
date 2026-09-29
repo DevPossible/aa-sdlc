@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/release-management/rollback. Do not edit: change the page, then pull it.
+# Checksum: sha256:486525ad471e37b548f293bd01b04890f6f23e5c656984dabaa1aa7f185bb799
 @agent @release-management @O-24 @F-062
 Feature: /aa-rel-rollback returns production to the previous known-good release
   The trigger is recorded first, the target is confirmed known-good by its verification record

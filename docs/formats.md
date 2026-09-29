@@ -326,33 +326,88 @@ requires: [R-dotnet-sdlc-01, R-dotnet-sdlc-02] # defined in features/requirement
   same shape as core's.
 - A plugin cannot list a core id under `adds`; `/aa-fw-extend` and the build validator refuse it.
 
-## 4. A project's feature files
+## 4. Feature pages and the feature files pulled from them
 
-The feature files in the project's features folder are the requirements (T-12, O-01). Each
-feature and each scenario carries a stable id, and each scenario carries its anchor ticket, so a
-requirement can be traced to its ticket, its page, and the tests that prove it (G-19, G-49).
+The requirements live in the knowledge base, one **feature page** per feature, under the
+project's own root: `<project root>/Requirements/<topic>/<feature>` (T-12, T-14, decision record
+0019). In a knowledge base shared with other teams, the project root is the project's page, not
+the space, and a page title carries the project's key where titles must be unique across the
+space. Where no knowledge base is in scope, the pages are markdown files in the documents folder,
+`docs/knowledge/Requirements/<topic>/<feature>.md`, in exactly this format, so they upload as
+they are when a knowledge base is adopted.
 
-```gherkin
-# features/orders/export-order-history.feature
-@F-012
-Feature: Customers can export their order history
-  Knowledge base page: Requirements / Orders / Export order history
+A page is structured tables with prose around them. The tables are the requirement; anything
+else on the page (explanation, diagrams, discussion) is for readers and is ignored by the
+conversion.
 
-  @F-012-01 @ABC-142
-  Scenario: Export the last twelve months as CSV
-    Given a customer with orders in the last twelve months
-    When they export their order history
-    Then they receive a CSV with one row per order
+```markdown
+# F-012 Customers can export their order history
+
+| Feature | F-012 |
+| --- | --- |
+| Name | Customers can export their order history |
+| Tags | @orders |
+| File | export-order-history |
+
+Why the feature exists, in a sentence or two. This text becomes the feature's description.
+
+## Background
+
+| Step | Text |
+| --- | --- |
+| Given | a signed-in customer |
+
+## F-012-01 Export the last twelve months as CSV
+
+| Scenario | F-012-01 |
+| --- | --- |
+| Name | Export the last twelve months as CSV |
+| Kind | Scenario |
+| Tags | @ABC-142 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | orders in the last twelve months |
+| When | they export their order history |
+| Then | they receive a CSV with one row per order |
 ```
 
-- A feature id is `@F-` and a number, unique in the repository, on the line above `Feature:`.
-- A scenario id is the feature id, a hyphen, and a number unique within the feature.
-- Ids are assigned once, when the feature or scenario is written, and never renumbered or
-  reused. A deleted scenario's id stays retired; a moved scenario keeps its id.
+- The feature table's header carries the feature id; `File` is the feature file's name. The
+  scenario table's header carries the scenario id; `Kind` is `Scenario` or `Scenario Outline`,
+  and an outline is followed by `### Examples` and a table whose header is the column names.
+- `Status` is `Draft` (being written; stays on the page), `Approved` (pulled into the
+  repository), or `Retired` (removed from the repository; the id stays retired).
+- A `|` inside a cell is written `\|`. Doc strings, step data tables, and `Rule` are not
+  supported; the conversion refuses them rather than lose them.
+- Ids are assigned on the page, once, and never renumbered or reused (G-49): a feature id is
+  `F-` and a number unique in the project, a scenario id is the feature id, a hyphen, and a
+  number unique within the feature. A moved scenario keeps its id.
+
+The repository's feature files are generated from the pages, in the features folder at
+`<topic>/<File>.feature`, with the Approved scenarios only and a two-line provenance header:
+
+```gherkin
+# Generated from the knowledge base page Requirements/orders/export-order-history (version 7). Do not edit: change the page, then pull it.
+# Checksum: sha256:<hash of everything below this line>
+@orders @F-012
+Feature: Customers can export their order history
+  ...
+```
+
+- A feature file with no header, a checksum that no longer matches, or no page that generates it
+  was not sourced from the knowledge base, and review refuses it: locally before the commit and
+  in the pipeline (`Test-FeatureProvenance.ps1` for any knowledge base, `Sync-FeatureFiles.ps1
+  -Check` for a documents-folder one).
 - Every automated test that proves a scenario names the scenario's id, in the form the test
   framework supports: a tag, a category, a trait, or the test's name. A scenario is covered when
   at least one test names its id.
 - The ticket tag follows the project config's `conventions.ticket.tag` (section 2).
+
+The conversion is `src/aa-sdlc/scripts/AaFeatures.psm1`: `ConvertTo-FeaturePage` (a feature file
+to a page, for seeding a knowledge base or proposing a change back), `ConvertFrom-FeaturePage` (a
+page to a feature file), and `Test-FeatureProvenance`. `ConvertTo-KnowledgePages.ps1` seeds
+pages from a repository whose requirements began as feature files.
 
 ## What this settles and what it does not
 

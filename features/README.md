@@ -1,9 +1,9 @@
 # Features
 
-The framework's own requirements, captured as Gherkin. Per tenet T-12 and opinion O-01, these
-feature files are the source of truth for what the framework must do. The tables in
-`docs/requirements.md` are an index; where they disagree with a feature file, the feature file
-wins.
+The framework's own requirements, as Gherkin feature files **generated** from the feature pages
+in [`docs/knowledge/Requirements/`](../docs/knowledge/Requirements/) (T-12, decision record 0019).
+The pages are the source of truth; these files are what the tests read. Do not edit them: each
+starts with a provenance header whose checksum the unit tier, and any review, checks.
 
 ## Layout
 
@@ -13,27 +13,29 @@ features/
   cli/            one feature per aa CLI verb
   agent/          one feature per agent-only command
   requirements/   the requirements registry as scenarios, one file per kind
+  <discipline>/   one feature per step
 ```
+
+Each folder is a topic: `docs/knowledge/Requirements/<topic>/<feature>.md` generates
+`features/<topic>/<feature>.feature`.
 
 ## Conventions
 
-- One `Feature:` per file. The feature description (the free text under the title) says why the
-  feature exists and links to its knowledge base page once one exists.
+- One feature per page. The feature description (the free text under the page's Feature table)
+  says why the feature exists.
 - Every scenario is tagged with the framework IDs it realises: `@T-nn`, `@O-nn`, `@R-nn`,
   `@G-nn`. Requirement scenarios also carry their level: `@required`, `@recommended`,
   `@informational`.
-- Every feature carries a stable id, `@F-nnn`, and every scenario one derived from it,
-  `@F-nnn-nn` (G-49). Ids are never renumbered or reused; `scripts/Add-FeatureId.ps1` gives the
-  next free id to anything new, and the unit tier fails on a missing or duplicated one.
-- In a consuming project the same shape applies, with a ticket tag per scenario
-  (`@TICKET-123` or the project's configured pattern) in place of framework IDs.
+- Every feature carries a stable id, `F-nnn`, and every scenario one derived from it, `F-nnn-nn`
+  (G-49). Ids are assigned on the page, never renumbered or reused.
+- A scenario is `Draft`, `Approved`, or `Retired` on its page; only `Approved` scenarios are
+  pulled into these files.
 - Scenarios describe observable behaviour in plain language. They name tool categories, never
   tools (T-01).
-- Steps are written so a person, an agent, and eventually an executor can all read them the same
-  way. Executable step definitions are a later concern; the text is the contract now.
 
 ## Changing a requirement
 
-Change the feature file first. The ticket and the knowledge base page follow from it, and the
-tooling keeps them aligned (T-12). A requirement edited only in a ticket or a page is a conflict
-to be surfaced, not a change.
+Change the page first: add or edit the Feature, Scenario, and Step tables in
+`docs/knowledge/Requirements/<topic>/<feature>.md`, leaving a new id cell empty. Then run
+`./scripts/Add-FeatureId.ps1`, which assigns the ids and pulls the feature files, and commit the
+page with the files it regenerated. The format is in `docs/formats.md`, section 4.

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/one-ticket-project. Do not edit: change the page, then pull it.
+# Checksum: sha256:b57c2bf433952e17a34c5267932bfc289c4912033ae3ac006d5332d18886579a
 @framework @agent @O-09 @O-03 @F-035
 Feature: One repository, one ticket project
   Every repository maps to exactly one ticket system project. Many repositories may share it;

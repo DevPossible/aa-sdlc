@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/whatsnext. Do not edit: change the page, then pull it.
+# Checksum: sha256:0e64d5d25d6e4ca658b1c511f6db7a97f7d433a375c84f6504b05b090b4015fb
 @agent @framework @T-03 @T-04 @T-10 @F-045
 Feature: /aa-fw-whatsnext names the one thing to do next
   The step reviews the working folder, and the ticket system and knowledge base it links to, in a
@@ -82,12 +84,12 @@ Feature: /aa-fw-whatsnext names the one thing to do next
     Then it recommends "<command>" with that ticket id
 
     Examples:
-      | state                            | command                    |
-      | New                              | /aa-rf-refine-ticket       |
-      | Refined                          | /aa-ip-plan-implementation |
-      | Planned                          | /aa-dev-implement          |
-      | In review, with its change merged | /aa-ba-uat                |
-      | Accepted                         | /aa-rel-prepare-release    |
+      | state                             | command                    |
+      | New                               | /aa-rf-refine-ticket       |
+      | Refined                           | /aa-ip-plan-implementation |
+      | Planned                           | /aa-dev-implement          |
+      | In review, with its change merged | /aa-ba-uat                 |
+      | Accepted                          | /aa-rel-prepare-release    |
 
   @F-045-10
   Scenario: No iteration and no backlog

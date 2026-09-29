@@ -74,8 +74,8 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
-- **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
+- **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
+- **G-19** Tag every Approved scenario on its feature page with the ticket that asked for it, and link the ticket to the page and the scenario ids.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
 - Split by scenario, not by layer. A story that delivers one scenario end to end can be tested; a "backend story" and a "frontend story" cannot until both are done.

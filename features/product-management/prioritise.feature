@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/product-management/prioritise. Do not edit: change the page, then pull it.
+# Checksum: sha256:5e833b676b74e60200c53ae78c73f503c686951b99158ff9f2d895699e674bbf
 @agent @product-management @O-18 @F-054
 Feature: /aa-pd-prioritise orders the backlog and records why
   Order epics and stories by contribution to the outcome, then risk, then cost, rank blocked

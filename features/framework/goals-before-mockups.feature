@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/goals-before-mockups. Do not edit: change the page, then pull it.
+# Checksum: sha256:56d3b9b28d90a41e0d035a515ec81ddf7835f5e206f56f79c2061b135b84dcc0
 @framework @agent @O-15 @O-01 @T-12 @F-028
 Feature: A requirement starts with written goals; the mock-up comes after
   No requirement begins as a screenshot or a mock-up. It begins as written goals, the outcome

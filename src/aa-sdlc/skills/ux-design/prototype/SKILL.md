@@ -76,7 +76,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
-- **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
+- **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-36** Generate every mock-up from confirmed scenarios and name on it the scenarios it renders. Behaviour a mock-up shows that no scenario states is a question on the ticket, not a requirement; change the scenario first, then the mock-up (T-12).
 - Prototype the flow, not the pixels. The question a prototype answers is "is this the right interaction", and polish hides that question.

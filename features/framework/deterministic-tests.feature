@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/deterministic-tests. Do not edit: change the page, then pull it.
+# Checksum: sha256:0acdf36441a69fb00417b4945a089633579400220b14d3e10c9c0a1bf5f989f2
 @framework @agent @O-23 @O-07 @T-07 @F-025
 Feature: Tests are deterministic and independent
   Every test, at every tier, gives the same result every time, alone or with any other tests

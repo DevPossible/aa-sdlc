@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/ux-design/prototype. Do not edit: change the page, then pull it.
+# Checksum: sha256:41bce3673a62774c8018afaaf0c4052fd9303f48e08b3244a1b7e537cfd229e0
 @agent @ux-design @O-15 @F-081
 Feature: /aa-ux-prototype makes the requirement visible before it is built
   Produce a mockup for every scenario with a user interface, made from the confirmed scenarios

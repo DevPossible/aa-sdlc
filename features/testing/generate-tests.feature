@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/testing/generate-tests. Do not edit: change the page, then pull it.
+# Checksum: sha256:52826cf274fa8f882761c586b822fdaf35104736b4ca60a37b8d9f04ac142c09
 @agent @testing @O-08 @O-23 @F-078
 Feature: /aa-qa-generate-tests tests what the requirement did not say
   Start from the scenarios and the tests Development wrote, then apply boundaries, state

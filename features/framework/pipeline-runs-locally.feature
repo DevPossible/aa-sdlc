@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/pipeline-runs-locally. Do not edit: change the page, then pull it.
+# Checksum: sha256:41b121cabd6d92ba3cb101911a073751e40088339439915cda7eb1aa95953560
 @framework @agent @O-11 @O-06 @T-07 @T-13 @F-036
 Feature: Every pipeline step runs locally, exactly
   Every step the delivery pipeline performs can be reproduced exactly on any machine, from the

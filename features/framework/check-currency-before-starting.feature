@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/check-currency-before-starting. Do not edit: change the page, then pull it.
+# Checksum: sha256:23c0e5db9b9662caa17cd286bfb7296bec5ec00fe2c52bba036116d54f6eed6d
 @framework @agent @O-13 @T-12 @T-03 @F-019
 Feature: A refined ticket is checked against the repository before work starts
   Refinement has a shelf life. A ticket records the repository revision its scenarios and plan

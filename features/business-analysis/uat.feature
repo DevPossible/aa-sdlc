@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/business-analysis/uat. Do not edit: change the page, then pull it.
+# Checksum: sha256:1952d01005ee72ebcb045b65c462459fecd25722019c73cb802fb21772d016df
 @agent @business-analysis @T-07 @T-12 @F-005
 Feature: /aa-ba-uat confirms with stakeholders that what was built is what they meant
   Walk stakeholders through the scenarios as written against the deployed software, record

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/testing/test-strategy. Do not edit: change the page, then pull it.
+# Checksum: sha256:cf98fb10726378a9851a7a408c0a7dea09d96ce4c56f7ef306a046b60a258028
 @agent @testing @O-23 @F-080
 Feature: /aa-qa-test-strategy decides what is tested where, and what is not
   For an epic or release, assign every scenario a tier and an approach, rank the risks the

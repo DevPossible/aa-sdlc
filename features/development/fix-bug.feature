@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/development/fix-bug. Do not edit: change the page, then pull it.
+# Checksum: sha256:bd88b318e4c2b3bb85311baaed5f4893ab5e547766e4639223e7c017eac1cc34
 @agent @development @O-23 @T-12 @F-011
 Feature: /aa-dev-fix-bug reproduces a defect before fixing its cause
   Reproduce a reported defect with a failing test, find the cause, fix the cause, and prove it

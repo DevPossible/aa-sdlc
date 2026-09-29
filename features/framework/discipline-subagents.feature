@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/discipline-subagents. Do not edit: change the page, then pull it.
+# Checksum: sha256:40c7724d2232f6959fffb2a44ac9c9650020347b6cfe7abd446d63aa12ec73f0
 @framework @agent @T-11 @O-08 @F-086
 Feature: Each delivery discipline has a generated subagent, and every step works without one
   Where a harness supports subagents, each delivery discipline is installed as one, so a step can

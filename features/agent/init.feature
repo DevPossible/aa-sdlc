@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/agent/init. Do not edit: change the page, then pull it.
+# Checksum: sha256:5aaed26aedce5381ff5034f06695c70c986193b1e64a27ac7cd14193c56c7f9b
 @agent @T-06 @T-11 @F-002
 Feature: /aa-fw-init bootstraps what needs judgement
   aa init on the CLI lays down files. /aa-fw-init in the agent works through the unmet

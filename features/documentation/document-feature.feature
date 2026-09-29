@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/documentation/document-feature. Do not edit: change the page, then pull it.
+# Checksum: sha256:a5d545cc650d2f0ea02b3ee5a78aca8c2dd9fe1dde19a5ad13d8083d2d9fb716
 @agent @documentation @O-16 @F-016
 Feature: /aa-doc-document-feature documents a ticket from its scenarios
   Write or update the user-facing and developer-facing documentation for a ticket, written

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/operations/setup-pipeline. Do not edit: change the page, then pull it.
+# Checksum: sha256:26863d3d92fa25498d3737cbf99c181b031d0502006a3e0af0ef00fcd34ed76f
 @agent @operations @O-06 @O-11 @O-16 @O-17 @O-21 @O-24 @O-25 @F-050
 Feature: /aa-ops-setup-pipeline builds the path from a merged change to production
   The pipeline calls the root scripts and holds no logic of its own, runs every test tier and the

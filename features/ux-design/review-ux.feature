@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/ux-design/review-ux. Do not edit: change the page, then pull it.
+# Checksum: sha256:5185254a1566d680c63ebf1a1667f5a1ec99a1faa65ab5df41781a474a39412d
 @agent @ux-design @O-15 @F-082
 Feature: /aa-ux-review-ux uses the built software the way a user would
   Follow each scenario literally against the running feature, then wander as a user would,

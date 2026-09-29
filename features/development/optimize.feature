@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/development/optimize. Do not edit: change the page, then pull it.
+# Checksum: sha256:7dccdbd3f136e357a4e44c61919c48c1354e5151c7ba09ade0670fc32ff312b6
 @agent @development @O-19 @F-013
 Feature: /aa-dev-optimize improves performance against a measured baseline
   Reproduce the baseline, profile, change the one thing the profile says, measure again with

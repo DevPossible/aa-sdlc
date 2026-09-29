@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/size-from-thinking. Do not edit: change the page, then pull it.
+# Checksum: sha256:cfba18a0d53ef4d1eca30b7d906cb33aa85a6ff4bf8a41f9bb5888c01e13262e
 @framework @agent @O-10 @T-07 @F-040
 Feature: A size is grounded in implementation thinking
   No unit of work carries a size or an effort estimate that is not backed by written thought

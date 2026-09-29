@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/cli/plugin. Do not edit: change the page, then pull it.
+# Checksum: sha256:5f74ab45182fd4020df2ac5df7439ad0af7741c8292acea2982917bd201522b2
 @cli @T-02 @F-007
 Feature: aa plugin manages plugins at a scope
   Plugins supply the specifics the core deliberately leaves out: tech-stack packs, tool packs,

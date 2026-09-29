@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/testing/explore. Do not edit: change the page, then pull it.
+# Checksum: sha256:e92f5b3f885fa5f3f061d7f1ef9b4d57afdc021f3ac0eb1123e7e52d8ca21c15
 @agent @testing @T-07 @F-077
 Feature: /aa-qa-explore finds what the scenarios did not think of
   A time-boxed session using the running system with a charter and a testing lens, recording

@@ -72,7 +72,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
+- **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
 - **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.
 - Test the scenario, not the demo. Walk the stakeholder through the Given, When, Then as written; if they want something else, that is a requirement change, and it goes through the feature file.
 - A gap is not a failure of the build if the scenario was met. Record it as a new requirement so Development is not blamed for a discovery miss.

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/small-commits-made-by-the-user. Do not edit: change the page, then pull it.
+# Checksum: sha256:c9a2310cfde457efd555d6241aa08a37048a20a5dfa260e39fe3f68a593b2f3a
 @framework @agent @O-17 @O-02 @T-06 @F-041
 Feature: Small, cohesive commits, made by the user
   Every commit is one understandable change, small enough to review in one sitting. The agent

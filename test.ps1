@@ -59,6 +59,8 @@ try {
         $problems = @()
         $problems += & (Join-Path 'scripts' 'Test-SkillStructure.ps1')
         $problems += & (Join-Path 'scripts' 'Test-FeatureStructure.ps1')
+        # The feature files are pulled from the knowledge base pages and never edited by hand (decision record 0019)
+        $problems += & (Join-Path 'src' 'aa-sdlc' 'scripts' 'Sync-FeatureFiles.ps1') -KnowledgeRoot (Join-Path 'docs' 'knowledge') -FeaturesRoot 'features' -Check
         $problems += & (Join-Path 'scripts' 'Test-WorkflowStructure.ps1')
         # Every skill carries its guidance verbatim from docs/guidance.md (decision record 0011)
         $problems += & (Join-Path 'scripts' 'Test-SkillGuidance.ps1')
@@ -83,7 +85,7 @@ try {
             Write-Host '[unit] go test passed.' -ForegroundColor Green
         } finally { Pop-Location }
 
-        Invoke-PesterTier -Name 'unit' -Paths @('src')
+        Invoke-PesterTier -Name 'unit' -Paths @('src', (Join-Path 'tests' 'unit'))
     }
 
     if ($Tier -in 'all', 'integration') {

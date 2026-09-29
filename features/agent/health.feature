@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/agent/health. Do not edit: change the page, then pull it.
+# Checksum: sha256:7afdad806b1f9679adcffea5f57a38ee499aa8fa04a28acebc543fe5aeeca8f1
 @agent @T-10 @T-11 @F-001
 Feature: /aa-fw-health reports every declared requirement
   The single place the framework's expectations are enumerated and checked. Agent-only, because

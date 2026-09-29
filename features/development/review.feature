@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/development/review. Do not edit: change the page, then pull it.
+# Checksum: sha256:21c536257a8c8c7d57e069a26baa3e8ef9af1ca65ac107e630815f2c8d1a540b
 @agent @development @O-19 @O-20 @O-23 @T-07 @F-014
 Feature: /aa-dev-review reviews a merge request against its purpose
   Review a merge request against its ticket, scenarios, plan, and the project's conventions,

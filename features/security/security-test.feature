@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/security/security-test. Do not edit: change the page, then pull it.
+# Checksum: sha256:50fcc02249738540c118f7ba42ded2235cdac6abc2f75668256ec60bd18a5abc
 @agent @security @F-068
 Feature: /aa-sec-security-test proves the built system against the threat model
   Test the built system for the weaknesses the threat model and the common weakness classes

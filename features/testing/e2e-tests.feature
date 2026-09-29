@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/testing/e2e-tests. Do not edit: change the page, then pull it.
+# Checksum: sha256:de6121793fea0cd819e2334fe3a85aace0853eeaf1d270a206724febde3d2799
 @agent @testing @O-07 @O-12 @O-23 @F-076
 Feature: /aa-qa-e2e-tests proves through the whole system what only it can prove
   Automate the scenarios the strategy assigns to the end-to-end tier by driving the system the

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/product-management/define-outcome. Do not edit: change the page, then pull it.
+# Checksum: sha256:5f8584fe633690dca75b4b857e0baedac606f43bfe1dfb78da21d274dc402af9
 @agent @product-management @O-15 @O-18 @F-052
 Feature: /aa-pd-define-outcome writes down what an initiative is for and how we will know
   Write the outcome of an initiative as a change in a measure, with the metric, its current

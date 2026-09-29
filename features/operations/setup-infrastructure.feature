@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/operations/setup-infrastructure. Do not edit: change the page, then pull it.
+# Checksum: sha256:d81a48ddddeaf828e81c9b07095d5c380ce9d80993cf2fc660bc7e208cd7d267
 @agent @operations @O-16 @O-17 @O-18 @O-25 @F-049
 Feature: /aa-ops-setup-infrastructure defines the environments as code
   Every environment the system runs in is reproducible from code in the repository, with one

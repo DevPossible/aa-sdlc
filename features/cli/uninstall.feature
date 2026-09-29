@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/cli/uninstall. Do not edit: change the page, then pull it.
+# Checksum: sha256:161310de4ba8dd25d4030f63a27c00b6e78e777bab790287c838e32906ee1372
 @cli @T-03 @F-083
 Feature: aa uninstall removes the framework from the harnesses the user picks
   The reverse of aa setup and aa init. It removes only what the framework installed: the aa-

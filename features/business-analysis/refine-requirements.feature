@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/business-analysis/refine-requirements. Do not edit: change the page, then pull it.
+# Checksum: sha256:1f9e78f526f1d500bfec2c1752dc3fb024d4d9fccfcbf20564b7a35d053569be
 @agent @business-analysis @O-01 @O-15 @F-004
 Feature: /aa-ba-refine-requirements turns draft scenarios into testable ones
   Close the gaps in the draft scenarios: apply stakeholder answers to the feature file first,

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/security/threat-model. Do not edit: change the page, then pull it.
+# Checksum: sha256:5d676d59728561026b62d2ed8be8a290f0d6c8a52012930f791f295c74974838
 @agent @security @O-18 @F-069
 Feature: /aa-sec-threat-model turns threats into decisions and testable requirements
   Work through the architecture from an attacker's view, following the data across every

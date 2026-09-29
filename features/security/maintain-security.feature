@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/security/maintain-security. Do not edit: change the page, then pull it.
+# Checksum: sha256:501195950afa7fc702c788ca89ff6f3de90d4b31991cd3fa5ad6fab62bddf344
 @agent @security @O-16 @O-22 @F-067
 Feature: /aa-sec-maintain-security keeps the released system safe and its evidence current
   Recurring maintenance anchored on a ticket: patch dependencies through the package manager

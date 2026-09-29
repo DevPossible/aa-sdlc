@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/knowledge-base-structure. Do not edit: change the page, then pull it.
+# Checksum: sha256:2815ba2b4854e4d4c877277379d09442ba7a0fa2574dfff04de54da4434ef79b
 @framework @agent @O-27 @T-12 @F-084
 Feature: The knowledge base has one structure
   Every project's knowledge base space has six top-level sections: Overview, Requirements,

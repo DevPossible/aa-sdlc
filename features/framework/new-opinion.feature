@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/new-opinion. Do not edit: change the page, then pull it.
+# Checksum: sha256:32c8794f2139fd5d11d346a57448ca98d16a3c401653093da8955222f0e7f29a
 @framework @agent @fw @F-030
 Feature: /aa-internal-new-opinion adds an opinion with all of its plumbing
   An opinion is only real when the framework depends on it. The command adds the entry and

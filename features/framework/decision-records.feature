@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/decision-records. Do not edit: change the page, then pull it.
+# Checksum: sha256:eec6f996290581350ba7835860865d05a4c685031178272767ac9ad4b66da18d
 @framework @agent @O-18 @O-04 @T-04 @F-023
 Feature: Decisions are decision records
   Every significant decision, technical, product, or process, is a decision record: one

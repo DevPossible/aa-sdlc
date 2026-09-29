@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/documentation/maintain-docs. Do not edit: change the page, then pull it.
+# Checksum: sha256:14d77520524f6e32bf019ebb966b4b5aea52906935502738ebd24fd0bed01957
 @agent @documentation @O-16 @F-017
 Feature: /aa-doc-maintain-docs audits documentation against the feature files
   Walk from the feature files outward to the knowledge base and the documents folder, fix

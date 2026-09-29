@@ -75,10 +75,10 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
-- **G-19** Tag every scenario with its anchor ticket, and name the feature's knowledge base page in the feature description.
+- **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
+- **G-19** Tag every Approved scenario on its feature page with the ticket that asked for it, and link the ticket to the page and the scenario ids.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
-- **G-49** Give every feature a stable id tag (@F-nnn) and every scenario one derived from it (@F-nnn-nn), assigned once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
+- **G-49** Give every feature a stable id (F-nnn) and every scenario one derived from it (F-nnn-nn), assigned on its feature page once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
 - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a draft scenario can be wrong in a way everyone can see.
 - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.
 - Record what was not said. Silence on error cases, permissions, and edge conditions is a question, not an assumption.

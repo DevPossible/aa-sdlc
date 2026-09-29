@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/refinement/refine-ticket. Do not edit: change the page, then pull it.
+# Checksum: sha256:7ee28fdfa5ddc737ac8a5df96e6bdb9a87e381456ddee79146639d739e7c3b22
 @agent @refinement @O-10 @O-13 @T-12 @F-059
 Feature: /aa-rf-refine-ticket brings one ticket to the definition of ready
   Scenarios linked and complete, acceptance criteria checkable, size grounded in implementation

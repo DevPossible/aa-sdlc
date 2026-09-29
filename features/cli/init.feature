@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/cli/init. Do not edit: change the page, then pull it.
+# Checksum: sha256:f2eff188ca53d4a17889acf4ef83cd081e7ea9e13918df11a4bf8a3d62cb2ded
 @cli @T-11 @R-05 @R-06 @R-07 @R-08 @R-16 @F-006
 Feature: aa init bootstraps a repository
   Lays down what a repository needs before an agent is involved: the project config, the

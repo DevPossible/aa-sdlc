@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/support/respond-incident. Do not edit: change the page, then pull it.
+# Checksum: sha256:b50f618dfe91f87615d8f0df6a1d060237aabf1c0e18d28349810efe4585c1af
 @agent @support @O-19 @T-06 @T-07 @F-071
 Feature: /aa-sup-respond-incident contains an incident and keeps the record as it happens
   Coordinate an active incident: keep a timeline on the incident ticket, contain the impact

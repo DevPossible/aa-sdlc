@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/operations/validate-production. Do not edit: change the page, then pull it.
+# Checksum: sha256:6e1d507873c0de98fd37ccf523c25934c7ae7e350287261f3f65f2eaa8af9a0f
 @agent @operations @O-24 @F-051
 Feature: /aa-ops-validate-production confirms from evidence that the release did what it claimed
   After a release, the running artifact identity is checked against the one the release named,

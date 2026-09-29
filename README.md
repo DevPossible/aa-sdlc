@@ -22,8 +22,8 @@ in [docs/opinions.md](docs/opinions.md).
   every knowledge base has the same six sections.
 - **The shape of a repository** (O-05, O-06, O-07, O-16): one folder layout, four root scripts,
   three test tiers, and everything needed to build and operate the software, versioned.
-- **Requirements** (O-01, O-15, O-20): Gherkin in the repository is the source of truth; goals
-  before mock-ups; the simplest design that meets the scenarios.
+- **Requirements** (O-01, O-15, O-20): Gherkin on knowledge base pages everyone can edit is the
+  source of truth, pulled into the repository per ticket; goals before mock-ups; the simplest design that meets the scenarios.
 - **Tickets** (O-10, O-13, O-26): five kinds and one life cycle, moved by the steps that produce
   the evidence; a size is grounded in implementation thinking; a waiting ticket is checked
   against the repository before work starts.
@@ -35,8 +35,9 @@ in [docs/opinions.md](docs/opinions.md).
 - **Practice** (O-08, O-18, O-21, O-23): Development proves the requirement and Testing goes
   beyond it; decisions are records; conventions are enforced by tools; tests are deterministic.
 
-The framework's own requirements follow opinion 1: they are feature files under
-[features/](features/).
+The framework's own requirements follow opinion 1: they are feature pages under
+[docs/knowledge/Requirements/](docs/knowledge/Requirements/), and the feature files under
+[features/](features/) are generated from them.
 
 ## Install
 
@@ -76,7 +77,7 @@ framework itself are `/aa-internal-*` and only work in this repository.
 
 ```
 docs/          design, tenets, opinions, vocabulary, guidance, requirements index, generated discipline review
-features/      the framework's own requirements as Gherkin (source of truth)
+features/      the framework's own requirements as Gherkin, generated from docs/knowledge/Requirements/
 scripts/       build and validation helpers
 src/aa-sdlc/    the SDK content: skills, commands, workflow, plugins, targets
 tests/         integration/ and e2e/ tiers (unit tests live with each project in src/)

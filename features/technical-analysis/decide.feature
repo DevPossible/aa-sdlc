@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/technical-analysis/decide. Do not edit: change the page, then pull it.
+# Checksum: sha256:2f1029fe7928358a823b37dd8987588a7be162cbeff417250ad9c520737fe343
 @agent @technical-analysis @O-04 @O-18 @O-20 @F-074
 Feature: /aa-ta-decide records one significant decision as a decision record
   Capture one technical decision, made in an architecture session or in the middle of a

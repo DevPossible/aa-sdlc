@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/implementation-planning/plan-implementation. Do not edit: change the page, then pull it.
+# Checksum: sha256:dc7deaeb1f97afd42cdc813d4de7790472016abb2c23ced270c15eed0d1463cc
 @agent @implementation-planning @O-10 @O-13 @O-20 @F-047
 Feature: /aa-ip-plan-implementation writes down how before anyone builds
   Before building a ticket, write down which files and components change, in what order, what

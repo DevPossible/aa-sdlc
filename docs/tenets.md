@@ -1,6 +1,6 @@
 # AA-SDLC Tenets
 
-**Status:** working draft, under active brainstorming. Last updated 2026-09-21.
+**Status:** working draft, under active brainstorming. Last updated 2026-09-28.
 
 Tenets are the principles that govern how the SDK and everything in it is designed. They are
 few and stable. Every discipline, process, step, and piece of guidance must be consistent with
@@ -9,7 +9,8 @@ and the [vocabulary](vocabulary.md).
 
 Each tenet has a stable ID so design decisions, skills, and reviews can cite it. Ten govern the
 shape of the content (T-01 to T-10); T-11 and T-12 govern how the framework keeps that content
-honest; T-13 governs who the framework is for. The concrete stances the framework takes where alternatives exist are **opinions**, kept
+honest; T-13 governs who the framework is for; T-14 governs what the framework may touch in
+systems it shares with others. The concrete stances the framework takes where alternatives exist are **opinions**, kept
 in [opinions.md](opinions.md).
 
 ---
@@ -71,15 +72,20 @@ requirement, the framework aggregates those declarations, health checks them, an
 gaps it can. Bootstrapping a project to meet its requirements is part of the framework's job,
 not something the agent works out the first time a step runs.
 
-**T-12 The repository holds the requirements, in Gherkin, and they are the source of truth.**
+**T-12 The knowledge base holds the requirements, in structured Gherkin, and they are the source of truth.**
 Every project using the framework, and the framework itself, captures its requirements as
-feature files in the repository. Gherkin is structured natural language, so one artifact serves
-stakeholders, agents, and tests alike (O-01). Each feature is linked to its ticket and its
-knowledge base page, and the tooling maintains that relationship in every direction: a change
-to a feature file propagates outward, and a change made only in a ticket or a page is surfaced
-as a conflict, never silently absorbed. The ticket system remains the truth for work state and
-the knowledge base for decisions; the feature files are the truth for what the software must
-do.
+feature pages in its knowledge base: one page per feature, in structured tables that a business
+analyst, a product manager, and an agent can all read and edit, under the project's
+Requirements section by topic. The repository's feature files are generated from those pages,
+per ticket, with only the approved scenarios, and each carries a provenance header that proves
+it was not edited by hand; a feature file that no page generates, or that differs from its page,
+is caught at review, locally before the commit and again in the pipeline. A change to a
+requirement is made on its page, through a ticket, and pulled into the repository; a change
+found necessary while building is proposed back to the page, never made only in the repository.
+Where a project has no knowledge base, its documents folder holds the pages in the same format,
+so moving to a knowledge base later is an upload, not a rewrite (decision record 0019). The
+ticket system remains the truth for work state; the pages are the truth for what the software
+must do; the feature files at a commit are the truth for what was built there.
 
 **T-13 One person or fifteen: the same framework.**
 A discipline is a kind of work, not a headcount. A solo developer on a personal project and a
@@ -89,6 +95,15 @@ never asks. Every step is written so that the person running it may be the one w
 previous step or someone who has never seen the project. Nothing in the framework assumes a
 particular team size, a hand-off between people, or a role that exists only in large
 organisations.
+
+**T-14 The project does not own the ticket system or the knowledge base.**
+The ticket project, its workflow and board, and the knowledge base space a project uses may also
+serve other projects, products, repositories, builds, and teams. Every step reads, counts,
+creates, and changes only what belongs to this project: its tickets as the project config
+selects them, and the pages under its own root. Nothing is inferred from the whole space or the
+whole ticket project, and nothing shared (a workflow, a board, a space's structure, another
+team's page or ticket) is changed without its owner's consent; where the owner is someone else,
+the step names the change for them instead of making it.
 
 ---
 

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/trace-to-purpose. Do not edit: change the page, then pull it.
+# Checksum: sha256:812e8342baf17072a1e85afe983498c0c92f3a4bdb0abca9b0842cbea14710e5
 @framework @agent @O-19 @O-03 @T-12 @F-043
 Feature: Every change traces back to its purpose
   Every change to the repository can be followed back to why it was made. The commit names a

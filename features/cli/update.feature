@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/cli/update. Do not edit: change the page, then pull it.
+# Checksum: sha256:d6731e99dc05fded04ba3a95bb49366ee85e15c1b4967bef96b4ea921790abbd
 @cli @F-009
 Feature: aa update brings the install up to the package version
   Everything setup and init installed is updated together, so the CLI and the skills it

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/technical-analysis/spike. Do not edit: change the page, then pull it.
+# Checksum: sha256:197a52bfd175fc72e3035bd733c765e3065bdd7d52c4fcd43e9ff7ffbe4b22db
 @agent @technical-analysis @O-18 @F-075
 Feature: /aa-ta-spike answers a technical question inside a time box
   Resolve a technical unknown with a time-boxed investigation whose artifact is the finding on

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/cli/setup. Do not edit: change the page, then pull it.
+# Checksum: sha256:df484bb0c3a64ddaa226b5c813ea396bab4b8eea2ea89a265dffa217760d3084
 @cli @T-11 @F-008
 Feature: aa setup bootstraps the machine
   The main CLI verb. Run once per machine after installing the package globally. It prepares

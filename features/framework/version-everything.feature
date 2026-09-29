@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/version-everything. Do not edit: change the page, then pull it.
+# Checksum: sha256:21621933f0d2b722e8434c7df5612380a6c64f8ffe55cbc30ed1efae6bb35820
 @framework @agent @O-16 @O-02 @T-07 @F-044
 Feature: Version everything needed to build and operate the software
   The repository holds everything required to build, deploy, and run the system: the code,

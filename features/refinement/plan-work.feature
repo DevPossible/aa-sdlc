@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/refinement/plan-work. Do not edit: change the page, then pull it.
+# Checksum: sha256:ed2c9b20aae58ddd830786db95b5afff154105471736e235413e24542413bfe7
 @agent @refinement @F-058
 Feature: /aa-rf-plan-work turns an epic and its feature files into stories
   Break an epic into stories and tasks in the ticket system, split by scenario rather than by

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/containers-for-e2e. Do not edit: change the page, then pull it.
+# Checksum: sha256:d50b7f0846118675763646f88ba12aecd66532ee736893fb2da7c310eb01b3f8
 @framework @agent @O-12 @O-07 @O-11 @T-07 @F-020
 Feature: End-to-end tests run against containers
   The end-to-end tier starts the system and its dependencies in containers, from definitions

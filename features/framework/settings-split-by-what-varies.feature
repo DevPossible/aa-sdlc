@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/settings-split-by-what-varies. Do not edit: change the page, then pull it.
+# Checksum: sha256:7ffbdfa6c36dca4d4c193390ddb27f9bc92e51ec2a00290fffd37c7959aec7ee
 @framework @agent @O-25 @O-16 @O-24 @T-01 @F-038
 Feature: Environment settings and functional settings live apart
   Configuration is split by what varies. Settings that differ between deployed environments,

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/release-management/prepare-release. Do not edit: change the page, then pull it.
+# Checksum: sha256:b89de119e65c1fc2fd7c28165b0f41becd981f6738e78fd65680a4a890862888
 @agent @release-management @O-14 @O-19 @O-24 @F-060
 Feature: /aa-rel-prepare-release assembles everything needed to say ready or not yet
   The version is derived from the commit types since the last tag, every commit traces to a

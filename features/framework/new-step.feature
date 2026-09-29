@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/new-step. Do not edit: change the page, then pull it.
+# Checksum: sha256:f3a16d4d073349d699ae3603ac9df1d06be6c289b8731a470c28092d495347d3
 @framework @agent @fw @F-032
 Feature: /aa-internal-new-step adds a step with all of its plumbing
   A step is a definition, a command, a skill, scenarios, guidance, and requirements, listed by

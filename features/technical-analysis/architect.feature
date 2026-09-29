@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/technical-analysis/architect. Do not edit: change the page, then pull it.
+# Checksum: sha256:75087d010b571b6dc960e7e7dc6ec8da6d0f11c03a62c359ae1dc060d3dcddad
 @agent @technical-analysis @O-04 @O-18 @O-20 @F-073
 Feature: /aa-ta-architect decides the shape of the system with the reasons
   Decide the components, boundaries, integrations, data, and technology stack for an epic,

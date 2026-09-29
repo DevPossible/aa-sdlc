@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/new-discipline. Do not edit: change the page, then pull it.
+# Checksum: sha256:f27120f8b370211901f6d851214d6753c4f4321a82f30451b0a9ad088b1ccbba
 @framework @agent @fw @T-13 @F-029
 Feature: /aa-internal-new-discipline adds a discipline that can be reviewed on day one
   A discipline with no steps, no code, or no boundaries cannot be reviewed or installed. The

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/test-responsibility. Do not edit: change the page, then pull it.
+# Checksum: sha256:5ecafdf0f413fbd4d8b1f1d072a060917365430cf558a98a5211cf921c15e85a
 @framework @agent @O-08 @T-07 @F-042
 Feature: Development proves the requirement; Testing goes beyond it
   The Development discipline writes the automated tests that show a requirement is met. The

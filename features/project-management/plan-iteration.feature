@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/project-management/plan-iteration. Do not edit: change the page, then pull it.
+# Checksum: sha256:3a8663f90f3e0e103614745c51ce68420be235300348bfbe5da12a3333d164e3
 @agent @project-management @O-10 @T-06 @T-13 @F-055
 Feature: /aa-pm-plan-iteration commits ready tickets to an iteration against computed capacity
   Commit a set of ready tickets to an iteration against known capacity, in priority order, and

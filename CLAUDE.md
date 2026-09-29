@@ -6,13 +6,15 @@ vocabulary exactly: Tenet, Opinion, Discipline, Process, Step, Guidance, Guidanc
 Command, Artifact, Anchor ticket, Feature file, Decision record, Currency check, Environment
 file, Artifact identity.
 
-## Requirements are Gherkin
+## Requirements live on knowledge base pages
 
-The framework's own requirements are feature files under `features/` and they are the source of
-truth (T-12). When behaviour changes, change the feature file first, then the docs that index
-it. `docs/requirements.md` is an index and defers to `features/requirements/`. Every feature and
-scenario carries a stable `@F` id (G-49); after adding one, run `./scripts/Add-FeatureId.ps1`,
-which assigns the next free id and never renumbers.
+The framework's own requirements are feature pages under `docs/knowledge/Requirements/`, and they
+are the source of truth (T-12, decision record 0019). The feature files under `features/` are
+generated from them and must never be edited by hand: the unit tier fails on any that differ.
+When behaviour changes, change the page first, then the docs that index it. `docs/requirements.md`
+is an index and defers to the requirement pages. Every feature and scenario carries a stable
+`F` id (G-49); leave a new id cell empty and run `./scripts/Add-FeatureId.ps1`, which assigns the
+next free id, never renumbers, and pulls the feature files.
 
 ## Structure
 

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/release-management/release. Do not edit: change the page, then pull it.
+# Checksum: sha256:b7d793d3e67ebaf957fba91e9c29848874dcb3343b2a3b36d5e7a903990e0e00
 @agent @release-management @O-24 @F-061
 Feature: /aa-rel-release deploys a prepared release to production and proves it
   The deployment goes through the pipeline with the artifact identity the release names, never

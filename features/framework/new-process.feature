@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/new-process. Do not edit: change the page, then pull it.
+# Checksum: sha256:e5347707fba70f90a037069d7910b722b5113d745b43ad732e46346876fc6d91
 @framework @agent @fw @T-03 @F-031
 Feature: /aa-internal-new-process adds a described, never enforced, process
   A process is an ordering of steps toward a goal. Every step in it still runs alone.

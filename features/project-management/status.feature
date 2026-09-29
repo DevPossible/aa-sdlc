@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/project-management/status. Do not edit: change the page, then pull it.
+# Checksum: sha256:238024a76e1ca6e4599412722c3d129474afcbb12553342c78085589021b24a9
 @agent @project-management @O-03 @T-04 @T-07 @F-057
 Feature: /aa-pm-status reports status from the record, not from memory
   Produce a status report for an iteration, epic, or release from the ticket system and source

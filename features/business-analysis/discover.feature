@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/business-analysis/discover. Do not edit: change the page, then pull it.
+# Checksum: sha256:a75112febc76291b8de20963e4799ef2f87da28590feae4f629cb2163b236c96
 @agent @business-analysis @O-01 @O-15 @F-003
 Feature: /aa-ba-discover captures what stakeholders need as draft scenarios
   Capture stakeholder input as draft Gherkin scenarios in the features folder from the first

@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/framework/build-once-promote. Do not edit: change the page, then pull it.
+# Checksum: sha256:848a5d2aea9c4fab0ae65a54c5167366a3b31b834ff7457163d81508b89bdbcd
 @framework @agent @O-24 @O-06 @O-11 @T-07 @F-018
 Feature: Build once; promote the same artifact
   A release artifact is built once, from one commit, and given an immutable identity. That

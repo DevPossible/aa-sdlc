@@ -65,7 +65,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
-- **G-18** Change a requirement in its feature file first, then let the tooling update the ticket and the knowledge base page. Never edit a requirement in the ticket or the page alone; if you find one edited there, raise it as a conflict.
+- **G-18** Change a requirement on its feature page in the knowledge base, under the ticket that asks for it, then pull the page into the repository. Never edit a feature file by hand; a change found while building is converted to the page format and proposed on the page for its owner to approve.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-31** When a ticket is refined or its plan is confirmed, record on the ticket the repository revision its scenarios and plan were checked against.
 - **G-51** Move a ticket to a life-cycle state only in the step that produces its evidence, and write that evidence on the ticket as it moves: Refined when its scenarios are linked and the revision recorded, Planned when the plan is confirmed and sized, In progress when work starts on its branch, In review when its merge request is open, Accepted when the stakeholder confirms it, Done when it is released; use the ticket system's names for the states as the project config maps them.

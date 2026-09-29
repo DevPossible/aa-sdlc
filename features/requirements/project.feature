@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/requirements/project. Do not edit: change the page, then pull it.
+# Checksum: sha256:21fee7d4f6654b6d5157f244dc7326e757a17d2b04265fc431be87252deef73d
 @requirements @health @project @F-065
 Feature: Project requirements
   What the repository must contain. aa init lays most of these down; /aa-fw-health reports them.

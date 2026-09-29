@@ -1,3 +1,5 @@
+# Generated from the knowledge base page Requirements/implementation-planning/breakdown-tasks. Do not edit: change the page, then pull it.
+# Checksum: sha256:872d315a8f123a6075ad6f6b96e31f61c65c0fbd68c5a42c1074a9f7810cff21
 @agent @implementation-planning @F-046
 Feature: /aa-ip-breakdown-tasks splits a confirmed plan into buildable tasks
   When a confirmed implementation plan is too large to build as one change, split it into
