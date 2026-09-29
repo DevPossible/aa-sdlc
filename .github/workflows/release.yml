@@ -37,8 +37,9 @@ jobs:
         run: |
           VERSION=$(jq -r .version version.json)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          # a prerelease goes to its own dist-tag, so npm install aa-sdlc never picks it by accident
-          if [[ "$VERSION" == *-* ]]; then echo "tag=${VERSION#*-}" | sed 's/\..*//' >> "$GITHUB_OUTPUT"; else echo "tag=latest" >> "$GITHUB_OUTPUT"; fi
+          # every release, prereleases included, becomes latest, so npm install aa-sdlc always gets the
+          # newest; trusted publishing can publish but not move a tag afterwards (decision record 0020)
+          echo "tag=latest" >> "$GITHUB_OUTPUT"
           if [[ "${{ inputs.dry_run }}" == "true" ]]; then
             echo "dry run: test, pack, and sign; publish nothing"
             echo "publish=true" >> "$GITHUB_OUTPUT"; echo "dry=true" >> "$GITHUB_OUTPUT"

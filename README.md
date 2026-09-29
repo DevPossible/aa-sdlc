@@ -42,7 +42,7 @@ The framework's own requirements follow opinion 1: they are feature pages under
 ## Install
 
 ```
-npm install -g aa-sdlc@alpha      # the alpha; Windows binaries are signed
+npm install -g aa-sdlc            # the newest release; Windows binaries are signed
 aa setup                          # once per machine
 cd c:\dev\myproject
 aa init                           # once per repository
