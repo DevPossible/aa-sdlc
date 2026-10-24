@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/doctrines. Do not edit: change the page, then pull it.
-# Checksum: sha256:cbbebb7bf60a4d3902576f8eaa8c4f0c40402862e1ec3a53625c98ab80747ede
+# Checksum: sha256:5a7f20f6b68b6902d4acecb12c2ea12e468c153e74ec8f1595a3349ac02c0854
 @framework @agent @O-28 @O-18 @T-03 @T-07 @F-087
 Feature: Every product has doctrines, and every requirement is checked against them
   Every product has one set of doctrines on a page in the Overview section of its knowledge base:
@@ -37,7 +37,8 @@ Feature: Every product has doctrines, and every requirement is checked against t
   @G-58 @O-18 @F-087-04
   Scenario: The doctrines are amended deliberately, with a record
     Given feedback from production shows a doctrine no longer describes what the product is for
-    When "/aa-pd-iterate" proposes an amendment and the user agrees
+    When "/aa-pd-iterate" proposes an amendment
+    And "/aa-pd-amend-doctrines" makes it once the user agrees
     Then a decision record states what changed in the doctrines and why
     And a new doctrine takes the next free D-nn id
     And a doctrine it replaces is marked retired and keeps its id

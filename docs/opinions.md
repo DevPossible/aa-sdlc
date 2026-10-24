@@ -270,7 +270,9 @@ an epic's outcome says what one initiative achieves (`define-outcome`); the doct
 every initiative must stay within. They live on a page in the Overview section of the knowledge
 base (O-27). They are written when a project is bootstrapped, drafted from what an existing
 project's code, documents, decision records, and tickets already show or asked for from
-scratch in a new one, and Product Management keeps them after that. Outcomes, scenarios,
+scratch in a new one, and Product Management keeps them after that: `discover-doctrines`
+proposes them, `define-doctrines` writes the first set, `amend-doctrines` changes one, and
+`check-doctrines` reports what conflicts with them. Outcomes, scenarios,
 architecture and decision records, the order of the backlog, and every merge request are
 checked against them, and the work cites the doctrine it serves or is bounded by. A conflict is
 never absorbed silently: either the work changes, or the doctrines are amended deliberately,

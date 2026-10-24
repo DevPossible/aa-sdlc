@@ -1,0 +1,31 @@
+id: check-doctrines
+name: Check against the doctrines
+discipline: product-management
+command: /aa-pd-check-doctrines
+summary: >
+  Read the doctrines and report which open tickets, approved scenarios, and decision records
+  conflict with which doctrine or non-goal, and which doctrines nothing cites. Change nothing.
+anchor: none
+inputs:
+  - The doctrines page
+  - The open tickets in the ticket project, through the project's ticket filter
+  - The approved scenarios on the feature pages under the project's knowledge root
+  - The decision records
+artifacts:
+  - name: Doctrine conflict report
+    location: returned to the user; nothing is written
+    acceptance:
+      - "Lists every conflict as a pair: the item (ticket, scenario, or decision record) and the doctrine or non-goal it conflicts with, with the sentence in each that disagrees"
+      - Lists the doctrines and non-goals nothing cites, and the open epics that cite no doctrine
+      - Recommends one next command per conflict, such as /aa-pd-amend-doctrines, or /aa-ba-refine-requirements with the ticket id
+      - Says which sources could not be read and why, and never reports an unread source as clean
+guidance_sets: [every-step]
+guidance: [G-57]
+guidance_inline:
+  - Change nothing. Read the doctrines, tickets, pages, and records; do not edit, comment, transition, or amend anything, even to record a finding.
+  - Read only what is this project's (T-14). Take its tickets through the ticket filter in the project config and its pages from under its knowledge root.
+  - A conflict is specific. Name the doctrine, the item, and the sentence in each that disagree; a vague tension is not a finding.
+  - Where there are no doctrines, report that alone and recommend /aa-pd-discover-doctrines for a project with anything to read, or /aa-pd-define-doctrines for a new one.
+requires: [R-02, R-03, R-48]
+tenets: [T-03, T-07, T-10]
+opinions: [O-28]

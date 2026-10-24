@@ -19,6 +19,7 @@ the measure of whether it did, and the roadmap that sequences the work. Product 
 
 ## What you own
 
+- The product's doctrines (O-28), meaning its mission, who it is for, its doctrines, its non-goals, and every amendment to them
 - The product outcome and success metrics for each initiative, recorded as the anchor epic
 - Prioritisation of the backlog by value, risk, and dependency
 - Feedback analysis from users, support, and production data, and the roadmap it produces
@@ -40,8 +41,8 @@ Read these guidance sets before starting; each is one file, installed beside the
 ## Plugin skills
 
 Where a plugin skill is installed whose frontmatter attaches it to one of this discipline's steps
-(define-outcome, prioritise, iterate), use it for the part of the work it covers. Plugins bring no
-agents of their own.
+(discover-doctrines, define-doctrines, amend-doctrines, check-doctrines, define-outcome, prioritise,
+iterate), use it for the part of the work it covers. Plugins bring no agents of their own.
 
 ## Report
 

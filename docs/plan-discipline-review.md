@@ -27,7 +27,7 @@ validates every cross-reference.
 | # | Discipline | Code | Commands | Gate 1 Role | Gate 2 Commands | Gate 3 Guidance |
 |---|------------|------|----------|-------------|-----------------|-----------------|
 | 0 | Framework | `fw` | 9 | drafted | drafted | drafted |
-| 1 | Product Management | `pd` | 3 | drafted | drafted | drafted |
+| 1 | Product Management | `pd` | 7 | drafted | drafted | drafted |
 | 2 | Business Analysis | `ba` | 3 | drafted | drafted | drafted |
 | 3 | UX Design | `ux` | 2 | drafted | drafted | drafted |
 | 4 | Technical Analysis | `ta` | 3 | drafted | drafted | drafted |
@@ -42,7 +42,7 @@ validates every cross-reference.
 | 13 | Operations | `ops` | 4 | drafted | drafted | drafted |
 | 14 | Support | `sup` | 3 | drafted | drafted | drafted |
 
-52 commands in total. Status values: pending, drafted, approved.
+57 commands in total. Status values: pending, drafted, approved.
 
 ## Choices made while drafting, for the reviewer's attention
 

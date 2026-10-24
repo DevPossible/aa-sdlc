@@ -7,7 +7,7 @@ Every discipline in SDLC order: its role and bounded responsibilities, its comma
 ## Contents
 
 - 0. [Framework](#0-framework) (`fw`): 9 commands
-- 1. [Product Management](#1-product-management) (`pd`): 3 commands
+- 1. [Product Management](#1-product-management) (`pd`): 7 commands
 - 2. [Business Analysis](#2-business-analysis) (`ba`): 3 commands
 - 3. [UX Design](#3-ux-design) (`ux`): 2 commands
 - 4. [Technical Analysis](#4-technical-analysis) (`ta`): 3 commands
@@ -143,7 +143,7 @@ Run health, then work through the unmet requirements that need judgement, fixing
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
 - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
 - The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01). Record this project's ticket filter where the ticket project is shared and its own root page in the knowledge base (T-14); with no knowledge base in scope, offer the documents folder's knowledge folder in the same page format.
-- Ask for the doctrines once the knowledge base is known (O-28). In a project that already has code, documents, decision records, or tickets, read them first and propose a mission, who the product is for, candidate doctrines, and non-goals, each with the evidence it was drawn from; in a blank one, ask. Write only what the user confirms, numbered from D-01. A user who is not ready may skip it; R-48 is then listed as unmet, never guessed.
+- Ask for the doctrines once the knowledge base is known (O-28). In a project that already has code, documents, decision records, or tickets, follow /aa-pd-discover-doctrines to propose a mission, who the product is for, candidate doctrines, and non-goals, each with the evidence it was drawn from; then follow /aa-pd-define-doctrines, which asks where there is nothing to read. Write only what the user confirms, numbered from D-01. A user who is not ready may skip it; R-48 is then listed as unmet, never guessed.
 - Survey only what the repository cannot answer. Infer the stack from what is there; when the repository is blank or leaves it open, ask what is being built, in which languages and frameworks at which versions, for which platforms, deployed where, and built by which pipeline, and record the answers so no one is asked twice.
 - Record every tool with the command that checks it and the command that installs it on each platform, and put the install in the root initialize script, so the next machine gets the same tools without this conversation.
 - Check the ticket project the moment it is confirmed, before anything else. Read its workflow, the moves between states, the parent links, and the board, and hold them to R-41 and R-43; propose each missing piece with the step that would stumble on it, make it with consent where the user may administer the project and the workflow is this project's alone, and otherwise list it for the administrator or the shared workflow's owner (T-14). A project that cannot carry the life cycle is found hours later, in the middle of other work, when it is not checked first.
@@ -449,7 +449,7 @@ Add a new step to an existing discipline with all of its plumbing: the step defi
 
 ## 1. Product Management
 
-**Code:** `pd` | **Id:** `product-management` | **Commands:** `/aa-pd-define-outcome`, `/aa-pd-prioritise`, `/aa-pd-iterate`
+**Code:** `pd` | **Id:** `product-management` | **Commands:** `/aa-pd-discover-doctrines`, `/aa-pd-define-doctrines`, `/aa-pd-amend-doctrines`, `/aa-pd-check-doctrines`, `/aa-pd-define-outcome`, `/aa-pd-prioritise`, `/aa-pd-iterate`
 
 ### Role
 
@@ -457,6 +457,7 @@ Decides what to build and why, and in what order. Owns the outcome the software 
 
 **Owns**
 
+- The product's doctrines (O-28), meaning its mission, who it is for, its doctrines, its non-goals, and every amendment to them
 - The product outcome and success metrics for each initiative, recorded as the anchor epic
 - Prioritisation of the backlog by value, risk, and dependency
 - Feedback analysis from users, support, and production data, and the roadmap it produces
@@ -473,15 +474,193 @@ Decides what to build and why, and in what order. Owns the outcome the software 
 - **Business Analysis** when an initiative has an approved outcome and needs its requirements discovered
 - **Refinement** when priorities are set and epics must become a well-formed backlog
 
-*Tenets: T-04, T-13 | Opinions: O-03, O-15, O-18*
+*Tenets: T-04, T-13 | Opinions: O-03, O-15, O-18, O-28*
 
 ### Commands
 
 | Command | Step | Anchor | Primary artifact |
 |---------|------|--------|------------------|
+| `/aa-pd-discover-doctrines` | Discover the doctrines | optional | Doctrine proposal |
+| `/aa-pd-define-doctrines` | Define the doctrines | optional | Doctrines page |
+| `/aa-pd-amend-doctrines` | Amend the doctrines | optional | Amended doctrines page |
+| `/aa-pd-check-doctrines` | Check against the doctrines | none | Doctrine conflict report |
 | `/aa-pd-define-outcome` | Define the outcome | optional | Anchor epic |
 | `/aa-pd-prioritise` | Prioritise the backlog | optional | Ordered backlog |
 | `/aa-pd-iterate` | Analyse feedback and update the roadmap | optional | Product feedback analysis |
+
+### `/aa-pd-discover-doctrines`
+
+Read what an existing product already shows about what it is for, in its code, documents, decision records, and tickets, and propose a mission, who it is for, candidate doctrines, and non-goals, each with the evidence it was drawn from. It proposes; it writes no doctrine.
+
+**Inputs**
+
+- The repository's README, documents folder, and decision records
+- The code, for what it does and what it conspicuously does not do
+- The knowledge base pages under the project's root, including any doctrines page that already exists
+- The epics and recent tickets in the ticket project, through the project's ticket filter
+
+**Artifacts**
+
+- **Doctrine proposal** in returned to the user, and written on the anchor ticket when one is given
+  - Proposes a one-sentence mission, who the product is for, candidate doctrines, and non-goals
+  - Every proposal names the evidence it was drawn from, by file, decision record, page, or ticket
+  - Marks each proposal as stated (written down somewhere) or inferred (implied by what was built), and lists where the sources contradict each other
+  - Changes no doctrines page and assigns no D-nn id
+
+**Guidance**
+
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+  - **G-55** In a ticket system or knowledge base shared with others (T-14), read, count, create, and change only what the project config selects as this project's: its tickets through the configured ticket filter, and its pages under the configured knowledge root. Never change a shared workflow, board, space structure, or another project's ticket or page without its owner's consent; name the change for the owner instead.
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+  - **G-54** Begin every step that anchors on a ticket by pulling the feature pages the ticket links to: their Approved scenarios into the features folder, each file with its provenance header, and the page versions recorded on the ticket. Work only from freshly pulled feature files; a feature file that differs from its page is not the requirement.
+- **G-16** State assumptions and unverified claims explicitly, and put unresolved questions on the anchor ticket.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
+- Read before proposing. Start from what the project says about itself, then hold it against what it built; a stated aim the code contradicts is a contradiction to list, not a doctrine.
+- Few and governing. Propose the handful of statements a requirement could actually be checked against, not a list of values; a candidate that no conceivable requirement could violate is not a doctrine.
+- Non-goals are evidence too. What the product deliberately leaves out, in decision records, rejected tickets, and scope notes, is where its non-goals come from.
+- Where there is nothing to read, say so and recommend /aa-pd-define-doctrines, which asks the user instead.
+- Where doctrines already exist, propose only what they miss or what the project now contradicts, and recommend /aa-pd-amend-doctrines for each.
+
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-48 | Tenets: T-04, T-06, T-07 | Opinions: O-28*
+
+### `/aa-pd-define-doctrines`
+
+Write the product's first set of doctrines with the user: a one-sentence mission, who the product is for, a few doctrines with permanent D-nn ids, and its non-goals, on a page in the Overview section of the knowledge base, holding only what the user confirmed.
+
+**Inputs**
+
+- The doctrine proposal from /aa-pd-discover-doctrines, when the project has anything to read
+- The user's answers, when it does not
+- The Overview section under the project's knowledge root
+
+**Artifacts**
+
+- **Doctrines page** in the Overview section under the project's knowledge root, or the documents folder's knowledge folder where no knowledge base is in scope
+  - Holds a one-sentence mission, who the product is for, at least one doctrine, and the non-goals
+  - Every doctrine has a permanent id, numbered from D-01, and a sentence on why it holds
+  - Holds only statements the user confirmed or wrote
+  - Records the date the set was adopted and links the decision record and the proposal it came from, if any
+- **Decision record** in the decision record location the project config names
+  - Records adopting the first set of doctrines, with the candidates the user rejected and why
+
+**Guidance**
+
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+  - **G-55** In a ticket system or knowledge base shared with others (T-14), read, count, create, and change only what the project config selects as this project's: its tickets through the configured ticket filter, and its pages under the configured knowledge root. Never change a shared workflow, board, space structure, or another project's ticket or page without its owner's consent; name the change for the owner instead.
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+  - **G-54** Begin every step that anchors on a ticket by pulling the feature pages the ticket links to: their Approved scenarios into the features folder, each file with its provenance header, and the page versions recorded on the ticket. Work only from freshly pulled feature files; a feature file that differs from its page is not the requirement.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-53** Put each knowledge base page under the project's own root, in the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
+- One page, one set. If a doctrines page already exists, stop and recommend /aa-pd-amend-doctrines; this step never overwrites a set.
+- Where there is no proposal, ask one question at a time, in this order. What is the product for, who is it for, what must it always do, and what must it never become.
+- Few and checkable. Push back on a doctrine no requirement could violate, and on more doctrines than anyone will read before deciding; three to seven is usual.
+- Write each doctrine as one sentence a requirement can be checked against, followed by why it holds.
+
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-32, R-42, R-48 | Tenets: T-04, T-06 | Opinions: O-18, O-27, O-28*
+
+### `/aa-pd-amend-doctrines`
+
+Add, change, or retire one doctrine or non-goal, deliberately and from evidence, with a decision record that says what changed and why. Ids are permanent; a retired doctrine keeps its id and is marked retired.
+
+**Inputs**
+
+- The doctrines page as it is now
+- The evidence for the change: a conflict a step raised (G-57), a /aa-pd-check-doctrines report, or what users, support, or production showed
+- The open tickets, approved scenarios, and decision records that cite the doctrine being changed
+
+**Artifacts**
+
+- **Amended doctrines page** in the Overview section under the project's knowledge root
+  - A new doctrine takes the next free D-nn id; no id is reused or renumbered
+  - A changed doctrine keeps its id, and the page shows its earlier wording or links the version that held it
+  - A retired doctrine is marked retired, keeps its id, and links the decision record that retired it
+  - Every amendment links its decision record
+- **Decision record** in the decision record location the project config names
+  - States the doctrine before and after, the evidence, the options considered, and the consequences
+  - Lists the tickets, scenarios, and decision records that cited the doctrine and whether each still holds
+
+**Guidance**
+
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+  - **G-55** In a ticket system or knowledge base shared with others (T-14), read, count, create, and change only what the project config selects as this project's: its tickets through the configured ticket filter, and its pages under the configured knowledge root. Never change a shared workflow, board, space structure, or another project's ticket or page without its owner's consent; name the change for the owner instead.
+- *From the `anchored-step` set:* What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+  - **G-12** End every step by updating the anchor ticket with what was done, what was produced, and what remains.
+  - **G-22** Anchor first. Before doing anything, read the anchor ticket, its linked scenarios, and its knowledge base page. If there is no ticket and the step needs one, create it or ask; never work from the conversation alone.
+  - **G-25** Produce each artifact in the location the workflow names for it, with the name it gives. Never invent a new location or a variant name; if the named location is wrong for this project, change the project config, not the artifact (T-08).
+  - **G-26** Link in both directions. Every artifact links to its anchor ticket, and the ticket links back to the artifact; a feature links to its page and the page to the feature.
+  - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
+  - **G-54** Begin every step that anchors on a ticket by pulling the feature pages the ticket links to: their Approved scenarios into the features folder, each file with its provenance header, and the page versions recorded on the ticket. Work only from freshly pulled feature files; a feature file that differs from its page is not the requirement.
+- **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
+- One amendment per run. Each change to the doctrines is its own decision, so it gets its own record and its own run.
+- Follow the citations. Before writing the record, find every ticket, scenario, and decision record that cites the doctrine, say which the amendment invalidates, and raise those as questions on their tickets rather than changing them here.
+- Evidence, not convenience. If the only reason for the change is the requirement in hand, say so and recommend changing the requirement instead.
+- The user decides. Propose the wording and the record, and write them only once the user confirms.
+
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-32, R-48 | Tenets: T-04, T-06, T-07 | Opinions: O-18, O-28*
+
+### `/aa-pd-check-doctrines`
+
+Read the doctrines and report which open tickets, approved scenarios, and decision records conflict with which doctrine or non-goal, and which doctrines nothing cites. Change nothing.
+
+**Inputs**
+
+- The doctrines page
+- The open tickets in the ticket project, through the project's ticket filter
+- The approved scenarios on the feature pages under the project's knowledge root
+- The decision records
+
+**Artifacts**
+
+- **Doctrine conflict report** in returned to the user; nothing is written
+  - Lists every conflict as a pair: the item (ticket, scenario, or decision record) and the doctrine or non-goal it conflicts with, with the sentence in each that disagrees
+  - Lists the doctrines and non-goals nothing cites, and the open epics that cite no doctrine
+  - Recommends one next command per conflict, such as /aa-pd-amend-doctrines, or /aa-ba-refine-requirements with the ticket id
+  - Says which sources could not be read and why, and never reports an unread source as clean
+
+**Guidance**
+
+- *From the `every-step` set:* What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
+  - **G-02** Perform any arithmetic, date calculation, counting, or unit conversion by executing code or a tool, and report the executed result, never an estimate.
+  - **G-03** Read the current contents of a file, ticket, or document immediately before modifying it; never edit from memory of an earlier read.
+  - **G-06** Never suppress a failing test, warning, or error to make a step pass. Fix the cause, or record the unresolved problem on the anchor ticket.
+  - **G-15** Report outcomes exactly: failures with their output, skipped steps as skipped, partial work as partial.
+  - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
+  - **G-55** In a ticket system or knowledge base shared with others (T-14), read, count, create, and change only what the project config selects as this project's: its tickets through the configured ticket filter, and its pages under the configured knowledge root. Never change a shared workflow, board, space structure, or another project's ticket or page without its owner's consent; name the change for the owner instead.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
+- Change nothing. Read the doctrines, tickets, pages, and records; do not edit, comment, transition, or amend anything, even to record a finding.
+- Read only what is this project's (T-14). Take its tickets through the ticket filter in the project config and its pages from under its knowledge root.
+- A conflict is specific. Name the doctrine, the item, and the sentence in each that disagree; a vague tension is not a finding.
+- Where there are no doctrines, report that alone and recommend /aa-pd-discover-doctrines for a project with anything to read, or /aa-pd-define-doctrines for a new one.
+
+*Requires: R-04, R-02, R-03, R-48 | Tenets: T-03, T-07, T-10 | Opinions: O-28*
 
 ### `/aa-pd-define-outcome`
 
@@ -606,6 +785,7 @@ Turn what users, support, and production are saying into decisions: what to enha
 - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
 - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
 - Close the loop. Where feedback came from a ticket, comment on it with the decision.
+- Where the feedback shows a doctrine no longer describes what the product is for, propose the amendment with that evidence and recommend /aa-pd-amend-doctrines; never decide against a doctrine without saying so.
 
 *Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-32, R-48 | Tenets: T-04, T-07 | Opinions: O-18, O-28 | Methodology: phase 6 step 6.3*
 

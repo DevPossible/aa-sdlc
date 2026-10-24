@@ -1,0 +1,35 @@
+id: define-doctrines
+name: Define the doctrines
+discipline: product-management
+command: /aa-pd-define-doctrines
+summary: >
+  Write the product's first set of doctrines with the user: a one-sentence mission, who the
+  product is for, a few doctrines with permanent D-nn ids, and its non-goals, on a page in the
+  Overview section of the knowledge base, holding only what the user confirmed.
+anchor: optional
+inputs:
+  - The doctrine proposal from /aa-pd-discover-doctrines, when the project has anything to read
+  - The user's answers, when it does not
+  - The Overview section under the project's knowledge root
+artifacts:
+  - name: Doctrines page
+    location: the Overview section under the project's knowledge root, or the documents folder's knowledge folder where no knowledge base is in scope
+    acceptance:
+      - Holds a one-sentence mission, who the product is for, at least one doctrine, and the non-goals
+      - Every doctrine has a permanent id, numbered from D-01, and a sentence on why it holds
+      - Holds only statements the user confirmed or wrote
+      - Records the date the set was adopted and links the decision record and the proposal it came from, if any
+  - name: Decision record
+    location: the decision record location the project config names
+    acceptance:
+      - Records adopting the first set of doctrines, with the candidates the user rejected and why
+guidance_sets: [every-step, anchored-step]
+guidance: [G-41, G-53, G-58]
+guidance_inline:
+  - One page, one set. If a doctrines page already exists, stop and recommend /aa-pd-amend-doctrines; this step never overwrites a set.
+  - Where there is no proposal, ask one question at a time, in this order. What is the product for, who is it for, what must it always do, and what must it never become.
+  - Few and checkable. Push back on a doctrine no requirement could violate, and on more doctrines than anyone will read before deciding; three to seven is usual.
+  - Write each doctrine as one sentence a requirement can be checked against, followed by why it holds.
+requires: [R-32, R-42, R-48]
+tenets: [T-04, T-06]
+opinions: [O-18, O-27, O-28]

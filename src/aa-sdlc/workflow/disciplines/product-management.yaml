@@ -7,6 +7,7 @@ purpose: >
   achieve, the measure of whether it did, and the roadmap that sequences the work. Product
   Management answers "should we", Business Analysis answers "what exactly".
 owns:
+  - The product's doctrines (O-28), meaning its mission, who it is for, its doctrines, its non-goals, and every amendment to them
   - The product outcome and success metrics for each initiative, recorded as the anchor epic
   - Prioritisation of the backlog by value, risk, and dependency
   - Feedback analysis from users, support, and production data, and the roadmap it produces
@@ -20,6 +21,6 @@ hands_off_to:
     when: an initiative has an approved outcome and needs its requirements discovered
   - discipline: refinement
     when: priorities are set and epics must become a well-formed backlog
-steps: [define-outcome, prioritise, iterate]
+steps: [discover-doctrines, define-doctrines, amend-doctrines, check-doctrines, define-outcome, prioritise, iterate]
 tenets: [T-04, T-13]
-opinions: [O-03, O-15, O-18]
+opinions: [O-03, O-15, O-18, O-28]

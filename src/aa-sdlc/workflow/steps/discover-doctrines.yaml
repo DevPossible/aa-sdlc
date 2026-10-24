@@ -1,0 +1,33 @@
+id: discover-doctrines
+name: Discover the doctrines
+discipline: product-management
+command: /aa-pd-discover-doctrines
+summary: >
+  Read what an existing product already shows about what it is for, in its code, documents,
+  decision records, and tickets, and propose a mission, who it is for, candidate doctrines, and
+  non-goals, each with the evidence it was drawn from. It proposes; it writes no doctrine.
+anchor: optional
+inputs:
+  - The repository's README, documents folder, and decision records
+  - The code, for what it does and what it conspicuously does not do
+  - The knowledge base pages under the project's root, including any doctrines page that already exists
+  - The epics and recent tickets in the ticket project, through the project's ticket filter
+artifacts:
+  - name: Doctrine proposal
+    location: returned to the user, and written on the anchor ticket when one is given
+    acceptance:
+      - Proposes a one-sentence mission, who the product is for, candidate doctrines, and non-goals
+      - Every proposal names the evidence it was drawn from, by file, decision record, page, or ticket
+      - Marks each proposal as stated (written down somewhere) or inferred (implied by what was built), and lists where the sources contradict each other
+      - Changes no doctrines page and assigns no D-nn id
+guidance_sets: [every-step, anchored-step]
+guidance: [G-16, G-58]
+guidance_inline:
+  - Read before proposing. Start from what the project says about itself, then hold it against what it built; a stated aim the code contradicts is a contradiction to list, not a doctrine.
+  - Few and governing. Propose the handful of statements a requirement could actually be checked against, not a list of values; a candidate that no conceivable requirement could violate is not a doctrine.
+  - Non-goals are evidence too. What the product deliberately leaves out, in decision records, rejected tickets, and scope notes, is where its non-goals come from.
+  - Where there is nothing to read, say so and recommend /aa-pd-define-doctrines, which asks the user instead.
+  - Where doctrines already exist, propose only what they miss or what the project now contradicts, and recommend /aa-pd-amend-doctrines for each.
+requires: [R-48]
+tenets: [T-04, T-06, T-07]
+opinions: [O-28]

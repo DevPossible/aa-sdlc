@@ -75,6 +75,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
 - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
 - Close the loop. Where feedback came from a ticket, comment on it with the decision.
+- Where the feedback shows a doctrine no longer describes what the product is for, propose the amendment with that evidence and recommend /aa-pd-amend-doctrines; never decide against a doctrine without saying so.
 
 ## Report
 

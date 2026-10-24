@@ -1,0 +1,36 @@
+id: amend-doctrines
+name: Amend the doctrines
+discipline: product-management
+command: /aa-pd-amend-doctrines
+summary: >
+  Add, change, or retire one doctrine or non-goal, deliberately and from evidence, with a
+  decision record that says what changed and why. Ids are permanent; a retired doctrine keeps
+  its id and is marked retired.
+anchor: optional
+inputs:
+  - The doctrines page as it is now
+  - "The evidence for the change: a conflict a step raised (G-57), a /aa-pd-check-doctrines report, or what users, support, or production showed"
+  - The open tickets, approved scenarios, and decision records that cite the doctrine being changed
+artifacts:
+  - name: Amended doctrines page
+    location: the Overview section under the project's knowledge root
+    acceptance:
+      - A new doctrine takes the next free D-nn id; no id is reused or renumbered
+      - A changed doctrine keeps its id, and the page shows its earlier wording or links the version that held it
+      - A retired doctrine is marked retired, keeps its id, and links the decision record that retired it
+      - Every amendment links its decision record
+  - name: Decision record
+    location: the decision record location the project config names
+    acceptance:
+      - States the doctrine before and after, the evidence, the options considered, and the consequences
+      - Lists the tickets, scenarios, and decision records that cited the doctrine and whether each still holds
+guidance_sets: [every-step, anchored-step]
+guidance: [G-41, G-57, G-58]
+guidance_inline:
+  - One amendment per run. Each change to the doctrines is its own decision, so it gets its own record and its own run.
+  - Follow the citations. Before writing the record, find every ticket, scenario, and decision record that cites the doctrine, say which the amendment invalidates, and raise those as questions on their tickets rather than changing them here.
+  - Evidence, not convenience. If the only reason for the change is the requirement in hand, say so and recommend changing the requirement instead.
+  - The user decides. Propose the wording and the record, and write them only once the user confirms.
+requires: [R-32, R-48]
+tenets: [T-04, T-06, T-07]
+opinions: [O-18, O-28]

@@ -80,7 +80,8 @@ doctrines are amended from evidence with a decision record. No step blocks when 
 | Step | Text |
 | --- | --- |
 | Given | feedback from production shows a doctrine no longer describes what the product is for |
-| When | "/aa-pd-iterate" proposes an amendment and the user agrees |
+| When | "/aa-pd-iterate" proposes an amendment |
+| And | "/aa-pd-amend-doctrines" makes it once the user agrees |
 | Then | a decision record states what changed in the doctrines and why |
 | And | a new doctrine takes the next free D-nn id |
 | And | a doctrine it replaces is marked retired and keeps its id |
