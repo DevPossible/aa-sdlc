@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/whatsnext. Do not edit: change the page, then pull it.
-# Checksum: sha256:0e64d5d25d6e4ca658b1c511f6db7a97f7d433a375c84f6504b05b090b4015fb
+# Checksum: sha256:9e373ffed68cc37eed2959328e00e71dca6009a2bcc6b0352552ddcd8346ef9c
 @agent @framework @T-03 @T-04 @T-10 @F-045
 Feature: /aa-fw-whatsnext names the one thing to do next
   The step reviews the working folder, and the ticket system and knowledge base it links to, in a
@@ -125,3 +125,10 @@ Feature: /aa-fw-whatsnext names the one thing to do next
   Scenario: It changes nothing
     When I run "/aa-fw-whatsnext" in any folder
     Then no file, ticket, page, commit, or install is created or changed
+
+  @O-28 @R-48 @F-045-16
+  Scenario: A product with no doctrines is a foundation gap
+    Given a repository whose health report shows R-48 unmet and no earlier foundation gap
+    When I run "/aa-fw-whatsnext"
+    Then it recommends "/aa-fw-init" to draft the product's doctrines
+    And it reports no later layer

@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/requirements/project. Do not edit: change the page, then pull it.
-# Checksum: sha256:dc3ebb96873864185d4ec7c41cf8bb130a3a8ecdd2db47408e8cfcbfee3bbe11
+# Checksum: sha256:886aa3e4194a28af59a009d1703d8be319eeaf312f62eba94198a0aaefcc0170
 @requirements @health @project @F-065
 Feature: Project requirements
   What the repository must contain. aa init lays most of these down; /aa-fw-health reports them.
@@ -579,3 +579,18 @@ Feature: Project requirements
     And it cannot carry the life cycle
     When "/aa-fw-init" continues
     Then it names each change for the workflow's owner and makes none of them itself unless the owner has consented
+
+  @R-48 @required @O-28 @F-065-77
+  Scenario: The product has doctrines
+    Given the Overview section under the project's knowledge root has a doctrines page
+    And the page holds a mission, who the product is for, at least one D-nn doctrine, and a list of non-goals
+    When "/aa-fw-health" probes R-48
+    Then R-48 is reported as met
+
+  @R-48 @required @O-28 @F-065-78
+  Scenario: The product has no doctrines
+    Given the Overview section under the project's knowledge root has no doctrines page, or one with no D-nn doctrine
+    When "/aa-fw-health" probes R-48
+    Then R-48 is reported as unmet
+    And the steps that check against the doctrines are listed as depending on it
+    And the remedy is "/aa-fw-init", which drafts the doctrines with the user

@@ -24,11 +24,11 @@ artifacts:
     acceptance:
       - Every "enhance" or "fix" decision has a ticket; every "stop" has a closed ticket with the reason
 guidance_sets: [every-step, anchored-step]
-guidance: [G-41]
+guidance: [G-41, G-58]
 guidance_inline:
   - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
   - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
   - Close the loop. Where feedback came from a ticket, comment on it with the decision.
-requires: [R-32]
+requires: [R-32, R-48]
 tenets: [T-04, T-07]
-opinions: [O-18]
+opinions: [O-18, O-28]

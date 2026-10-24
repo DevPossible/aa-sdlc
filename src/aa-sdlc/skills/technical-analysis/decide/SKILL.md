@@ -5,8 +5,8 @@ aa:
   discipline: technical-analysis
   step: decide
   guidance_sets: [every-step, anchored-step, repository-write]
-  guidance: [G-16, G-41, G-43, G-53]
-  requires: [R-06, R-32, R-34, R-42]
+  guidance: [G-16, G-41, G-43, G-53, G-57, G-58]
+  requires: [R-06, R-32, R-34, R-42, R-48]
 ---
 
 # /aa-ta-decide
@@ -73,6 +73,8 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - **G-53** Put each knowledge base page under the project's own root, in the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
 - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
 - Record the losing options with the same care as the winner; the next person will ask about them first.
 - Write it when it happens. A decision reconstructed a month later is a story, not a record.

@@ -5,8 +5,8 @@ aa:
   discipline: product-management
   step: iterate
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-41]
-  requires: [R-32]
+  guidance: [G-41, G-58]
+  requires: [R-32, R-48]
 ---
 
 # /aa-pd-iterate
@@ -71,6 +71,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 *For this step:*
 
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
 - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
 - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
 - Close the loop. Where feedback came from a ticket, comment on it with the decision.

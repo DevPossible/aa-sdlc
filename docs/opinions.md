@@ -1,6 +1,6 @@
 # AA-SDLC Opinions
 
-**Status:** working draft. Last updated 2026-09-22.
+**Status:** working draft. Last updated 2026-10-23.
 
 The framework is opinionated, and we say so up front. An opinion is a deliberate stance the
 framework takes where reasonable alternatives exist, chosen so that every project using the
@@ -24,6 +24,7 @@ another's truth.
 | What was built | source control (O-02) |
 | What is happening, and what happened | the ticket system (O-03) |
 | Why, and what was decided | the knowledge repository (O-04) and its decision records (O-18) |
+| What the product is for, and what it will not be | the product's doctrines, on the knowledge base's Overview (O-28) |
 ---
 
 ## The three systems
@@ -88,7 +89,7 @@ link outward.
 
 **O-27 The knowledge base has one structure.**
 *The stance:* every project's knowledge base space has the same six top-level sections: Overview
-(the outcome, the roadmap, the glossary), Requirements (one page per feature file, named with its
+(the doctrines, the outcome, the roadmap, the glossary), Requirements (one page per feature file, named with its
 feature id), Architecture (the design, and an index of the decision records), Operations
 (environments, runbooks, observability), Releases (one page per release), and Guides (for the
 people who use the software and for the people who build it). The pages explain and index; the
@@ -186,8 +187,8 @@ operate the system but is not versioned with the version of the system it descri
 ## Requirements
 
 Requirements are Gherkin scenarios in the repository and the source of truth for what the
-software must do (T-12). They come before the mock-up, and the design is no larger than they
-require.
+software must do (T-12). They come before the mock-up, the design is no larger than they
+require, and every one is checked against the product's doctrines.
 
 **O-01 Requirements are written in Gherkin, on pages everyone can edit.**
 *The stance:* every requirement is a scenario on a feature page in the project's knowledge base,
@@ -259,6 +260,42 @@ where "simple" means copying the same code a fourth time rather than naming the 
 *Would change our mind:* nothing foreseeable. A decision record can always justify an
 exception, which is precisely why the exception must be recorded.
 *Requirements:* R-16, R-34. *Guidance:* G-43.
+
+**O-28 Every product has doctrines, and every requirement is checked against them.**
+*The stance:* every product has one set of doctrines: the few governing statements that every
+outcome, requirement, and decision is checked against. The set is a one-sentence mission, who
+the product is for, a small number of doctrines each with a stable id (`D-nn`), and the
+non-goals the product will not pursue. There is one set per product, never one per initiative:
+an epic's outcome says what one initiative achieves (`define-outcome`); the doctrines say what
+every initiative must stay within. They live on a page in the Overview section of the knowledge
+base (O-27). They are written when a project is bootstrapped, drafted from what an existing
+project's code, documents, decision records, and tickets already show or asked for from
+scratch in a new one, and Product Management keeps them after that. Outcomes, scenarios,
+architecture and decision records, the order of the backlog, and every merge request are
+checked against them, and the work cites the doctrine it serves or is bounded by. A conflict is
+never absorbed silently: either the work changes, or the doctrines are amended deliberately,
+from evidence, with a decision record (O-18) that says why. A doctrine id is permanent; a
+retired doctrine keeps its id and is marked retired. No step blocks when there are none (T-03);
+health reports them missing, and a step that checks against them says it checked against
+nothing.
+*Why:* a scenario can be complete, testable, and traced to its purpose (O-19) and still take
+the product somewhere it was never meant to go. Each requirement is judged on its own, and
+nothing in the chain from ticket to scenario to code asks whether the product as a whole is
+still the product. Products drift by accumulation, one reasonable requirement at a time, and
+the drift is invisible until it is expensive to reverse. Agents make this worse: asked for a
+feature, they build it well, and they cannot know it contradicts what the product is for unless
+that is written where they read. A short written set with ids gives every step something to
+check against (T-07) and turns "should we build this at all" into a question with a reference
+rather than a debate from memory. The framework holds itself to the same rule: its tenets are
+aa-sdlc's doctrines.
+*Rejected:* a vision statement written once and never read again; product principles held in a
+founder's head; values with no ids that nothing can cite; doctrines per initiative or per team,
+which reintroduce the conflicts they exist to settle; editing a doctrine to fit the requirement
+that conflicts with it; so many doctrines, or such detailed ones, that they become a second
+requirements document.
+*Would change our mind:* nothing foreseeable. A product too small to need more than a mission
+and a non-goal still has those, and they are its doctrines.
+*Requirements:* R-48. *Guidance:* G-57, G-58.
 
 ---
 

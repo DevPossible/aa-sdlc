@@ -118,6 +118,7 @@ Run health, then work through the unmet requirements that need judgement, fixing
   - Where the ticket project is shared, conventions.ticket.filter selects this project's tickets, and no shared workflow or board was changed without its owner's consent (T-14)
   - The project's own root page is recorded as conventions.knowledge.root, or the documents folder's knowledge folder is recorded as the knowledge base (R-03)
   - Feature files that existed before the pages were offered for seeding as pages and pulled back with provenance headers, or R-46 is listed as unmet
+  - The product's doctrines are on a page in the Overview section, drafted from the project's code, documents, decision records, and tickets or asked for where there was nothing to read, holding only what the user confirmed; or R-48 is listed as unmet
   - The stack is recorded in the project config, inferred from the repository or answered by the user in a survey
   - Every category the framework and the stack prescribe has a tool recorded under tools, chosen by the user, or is recorded as having none
   - Every recorded tool is installed on this machine at its minimum version, or its install was declined and is listed
@@ -136,16 +137,18 @@ Run health, then work through the unmet requirements that need judgement, fixing
   - **G-55** In a ticket system or knowledge base shared with others (T-14), read, count, create, and change only what the project config selects as this project's: its tickets through the configured ticket filter, and its pages under the configured knowledge root. Never change a shared workflow, board, space structure, or another project's ticket or page without its owner's consent; name the change for the owner instead.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-50** Start each language's static analyser rule set from a published best-practice baseline for the language, framework version, and kind of application, or from a widely used alternative the user picks, or from the user's stated preferences; tailor it in the rule set file rather than with suppressions in code, and record the baseline, its version, and every departure with its reason in a decision record.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
 - Propose, then act. State each fix as a one-line proposal with what it creates or changes, and perform it only after the user agrees. Batch trivial fixes (folders, stubs) into one proposal.
 - Never choose a tool for the project. When a language has no formatter or a technology has no skill, name the gap and list what is available in the project's scope or as plugins; the user chooses (T-01).
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
 - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
 - The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01). Record this project's ticket filter where the ticket project is shared and its own root page in the knowledge base (T-14); with no knowledge base in scope, offer the documents folder's knowledge folder in the same page format.
+- Ask for the doctrines once the knowledge base is known (O-28). In a project that already has code, documents, decision records, or tickets, read them first and propose a mission, who the product is for, candidate doctrines, and non-goals, each with the evidence it was drawn from; in a blank one, ask. Write only what the user confirms, numbered from D-01. A user who is not ready may skip it; R-48 is then listed as unmet, never guessed.
 - Survey only what the repository cannot answer. Infer the stack from what is there; when the repository is blank or leaves it open, ask what is being built, in which languages and frameworks at which versions, for which platforms, deployed where, and built by which pipeline, and record the answers so no one is asked twice.
 - Record every tool with the command that checks it and the command that installs it on each platform, and put the install in the root initialize script, so the next machine gets the same tools without this conversation.
 - Check the ticket project the moment it is confirmed, before anything else. Read its workflow, the moves between states, the parent links, and the board, and hold them to R-41 and R-43; propose each missing piece with the step that would stumble on it, make it with consent where the user may administer the project and the workflow is this project's alone, and otherwise list it for the administrator or the shared workflow's owner (T-14). A project that cannot carry the life cycle is found hours later, in the middle of other work, when it is not checked first.
 
-*Requires: R-04, R-07, R-14, R-15, R-41, R-42, R-43, R-44, R-45 | Tenets: T-06, T-11*
+*Requires: R-04, R-07, R-14, R-15, R-41, R-42, R-43, R-44, R-45, R-48 | Tenets: T-06, T-11 | Opinions: O-28*
 
 ### `/aa-fw-whatsnext`
 
@@ -180,7 +183,7 @@ Review the working folder, and the ticket system and knowledge base it links to,
   - **G-24** Write every artifact for a reader with no context: someone who was not in this session and may never have seen the project. If it needs the conversation to make sense, it is not finished (T-13).
   - **G-55** In a ticket system or knowledge base shared with others (T-14), read, count, create, and change only what the project config selects as this project's: its tickets through the configured ticket filter, and its pages under the configured knowledge root. Never change a shared workflow, board, space structure, or another project's ticket or page without its owner's consent; name the change for the owner instead.
 - **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
-- Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project able to carry the life cycle, the knowledge base, and feature files all pulled from their pages), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios on their feature pages, no feature file changed by hand), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap.
+- Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project able to carry the life cycle, the knowledge base, the product's doctrines, and feature files all pulled from their pages), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios on their feature pages, no feature file changed by hand), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap.
 - A gap is major when it breaks a required requirement, an opinion on the default branch, or work already started. Anything smaller is not reported; the command answers one question, what to do next, not what could be better.
 - Take the foundation layer from /aa-fw-health's required-and-unmet findings rather than probing requirements again; health owns requirement checks, and this step owns choosing among them.
 - Recommend the step that closes the gap, named as its command with its arguments, such as /aa-qa-generate-tests with the ticket id. Where no command fits, say plainly what to do.
@@ -189,7 +192,7 @@ Review the working folder, and the ticket system and knowledge base it links to,
 - Read only what is this project's (T-14). Take its tickets through the ticket filter in the project config and its pages from under its knowledge root; in a shared ticket system or knowledge base, nothing outside them is this project's gap.
 - When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.
 
-*Requires: R-04, R-01, R-02, R-03, R-07, R-40, R-41, R-43 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19*
+*Requires: R-04, R-01, R-02, R-03, R-07, R-40, R-41, R-43, R-48 | Tenets: T-03, T-04, T-10 | Opinions: O-01, O-02, O-03, O-04, O-07, O-17, O-18, O-19, O-28*
 
 ### `/aa-fw-extend`
 
@@ -516,11 +519,12 @@ Write down what an initiative is meant to achieve and how we will know. Produces
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-52** Create every ticket as one of the five kinds, in the ticket system's name for it from the project config: an epic for an outcome, a story for one behaviour a user can observe with its scenarios, a task for a buildable piece of a story's plan, a bug for behaviour that contradicts a scenario, a spike for a time-boxed question; link each to its parent (task to story, story to epic).
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - Outcome, not output. If the statement can be satisfied by shipping something nobody uses, rewrite it until it cannot.
 - Put a number on it. A metric with no baseline is a wish; measure or estimate the current value and say which.
 - Say what is out of scope in the same place, so refinement does not have to guess.
 
-*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-29, R-32, R-41, R-43 | Tenets: T-04, T-07 | Opinions: O-15, O-18*
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-29, R-32, R-41, R-43, R-48 | Tenets: T-04, T-07 | Opinions: O-15, O-18, O-28*
 
 ### `/aa-pd-prioritise`
 
@@ -557,11 +561,12 @@ Order epics and stories by value against the outcome, risk, and dependency, and 
   - **G-54** Begin every step that anchors on a ticket by pulling the feature pages the ticket links to: their Approved scenarios into the features folder, each file with its provenance header, and the page versions recorded on the ticket. Work only from freshly pulled feature files; a feature file that differs from its page is not the requirement.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - Rank by outcome contribution first, then risk reduction, then cost. When two items tie, prefer the one that retires an unknown.
 - Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why, and a demotion of committed work is a decision record (O-18).
 - Ask before demoting. If an item someone is working on drops out of the iteration, that is a conversation, not a rank change.
 
-*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-23, R-32 | Tenets: T-04, T-06 | Opinions: O-18*
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-23, R-32, R-48 | Tenets: T-04, T-06 | Opinions: O-18, O-28*
 
 ### `/aa-pd-iterate`
 
@@ -597,11 +602,12 @@ Turn what users, support, and production are saying into decisions: what to enha
   - **G-27** Create and anchor tickets only in the repository's one configured ticket project. If the work touches a ticket in another project, create or use a ticket in this project and link the two; never anchor a step on a ticket outside the configured project.
   - **G-54** Begin every step that anchors on a ticket by pulling the feature pages the ticket links to: their Approved scenarios into the features folder, each file with its provenance header, and the page versions recorded on the ticket. Work only from freshly pulled feature files; a feature file that differs from its page is not the requirement.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
 - Count before you conclude. Compute theme frequencies and metric movements with a tool; do not eyeball a list and call it a trend.
 - Separate signal from volume. One report from a critical workflow can outrank twenty from a cosmetic one; say so explicitly when you rank that way.
 - Close the loop. Where feedback came from a ticket, comment on it with the decision.
 
-*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-32 | Tenets: T-04, T-07 | Opinions: O-18 | Methodology: phase 6 step 6.3*
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-32, R-48 | Tenets: T-04, T-07 | Opinions: O-18, O-28 | Methodology: phase 6 step 6.3*
 
 ## 2. Business Analysis
 
@@ -687,12 +693,13 @@ Capture what stakeholders need, as they say it and as they mean it. Produces the
 - **G-19** Tag every Approved scenario on its feature page with the ticket that asked for it, and link the ticket to the page and the scenario ids.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-49** Give every feature a stable id (F-nnn) and every scenario one derived from it (F-nnn-nn), assigned on its feature page once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a Draft scenario on a feature page can be wrong in a way everyone can see, and the repository gets it only once it is Approved.
 - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.
 - Record what was not said. Silence on error cases, permissions, and edge conditions is a question, not an assumption.
 - A picture is a witness, not a specification. When the request arrives as a screenshot or mock-up, write the goals and scenarios it implies, log what it does not show as questions, and let the mock-up be regenerated from the confirmed scenarios later (O-15).
 
-*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-05, R-28, R-31, R-33, R-16, R-29 | Tenets: T-04, T-06, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.1*
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-05, R-28, R-31, R-33, R-16, R-29, R-48 | Tenets: T-04, T-06, T-12 | Opinions: O-01, O-15, O-28 | Methodology: phase 1 step 1.1*
 
 ### `/aa-ba-refine-requirements`
 
@@ -741,12 +748,13 @@ Close the gaps. Turn draft scenarios into complete, unambiguous, testable ones; 
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-49** Give every feature a stable id (F-nnn) and every scenario one derived from it (F-nnn-nn), assigned on its feature page once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
 - **G-53** Put each knowledge base page under the project's own root, in the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
 - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.
 - Trace every change. Change the scenario on its feature page first; the ticket's acceptance criteria follow the page and the repository gets the change by pulling it (T-12). Never edit the ticket first, and never edit a feature file.
 - A scenario is Approved when the stakeholder confirms it, not when it reads well. Until then it stays Draft on the page and never reaches the repository.
 
-*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-05, R-28, R-31, R-33, R-16, R-29, R-42 | Tenets: T-07, T-12 | Opinions: O-01, O-15 | Methodology: phase 1 step 1.2*
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-05, R-28, R-31, R-33, R-16, R-29, R-42, R-48 | Tenets: T-07, T-12 | Opinions: O-01, O-15, O-28 | Methodology: phase 1 step 1.2*
 
 ### `/aa-ba-uat`
 
@@ -997,11 +1005,12 @@ Decide the shape of the system for an epic or initiative: components, boundaries
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - **G-53** Put each knowledge base page under the project's own root, in the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - Decide the fewest things that let work start. Every decision made before it is needed is a decision made with the least information.
 - Name the alternatives you rejected. An architecture without rejected options is a preference, not a decision (G-41).
 - Constrain, do not prescribe. Say what a component must guarantee, not how its code must look; the how belongs to Implementation Planning and the stack.
 
-*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-05, R-28, R-31, R-33, R-06, R-32, R-34, R-42 | Tenets: T-01, T-04 | Opinions: O-04, O-18, O-20 | Methodology: phase 1 step 1.4*
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-05, R-28, R-31, R-33, R-06, R-32, R-34, R-42, R-48 | Tenets: T-01, T-04 | Opinions: O-04, O-18, O-20, O-28 | Methodology: phase 1 step 1.4*
 
 ### `/aa-ta-decide`
 
@@ -1044,11 +1053,13 @@ Record one significant technical decision: the context, the options, the choice,
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
 - **G-43** Design for the scenarios that exist, not the ones you expect: choose the simplest structure that satisfies them, and add an abstraction, extension point, configuration option, or feature only when a scenario requires it or a decision record justifies it, naming which. In review, code or structure that serves no scenario is a finding, and so is a fourth copy of the same code where one named thing would do.
 - **G-53** Put each knowledge base page under the project's own root, in the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
 - Short enough to read, complete enough to trust. One screen. If it needs more, the decision is several decisions.
 - Record the losing options with the same care as the winner; the next person will ask about them first.
 - Write it when it happens. A decision reconstructed a month later is a story, not a record.
 
-*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-05, R-28, R-31, R-33, R-06, R-32, R-34, R-42 | Tenets: T-04 | Opinions: O-04, O-18, O-20*
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-05, R-28, R-31, R-33, R-06, R-32, R-34, R-42, R-48 | Tenets: T-04 | Opinions: O-04, O-18, O-20, O-28*
 
 ### `/aa-ta-spike`
 
@@ -1980,6 +1991,7 @@ Review a merge request against its ticket, its scenarios, its plan, and the proj
 - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
 - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
 - Run the feature-file check on the branch every time. A feature file with no provenance header, a checksum that does not match, or no page that generates it was not pulled from the knowledge base; it blocks the change until the page is changed and pulled (G-56).
@@ -1987,7 +1999,7 @@ Review a merge request against its ticket, its scenarios, its plan, and the proj
 - Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).
 - Report faithfully: "approved" means every scenario has a passing test that you saw run.
 
-*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39 | Tenets: T-07 | Opinions: O-14, O-17, O-19, O-20, O-21, O-22, O-23, O-25*
+*Requires: R-04, R-02, R-03, R-07, R-22, R-46, R-01, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39, R-48 | Tenets: T-07 | Opinions: O-14, O-17, O-19, O-20, O-21, O-22, O-23, O-25, O-28*
 
 ### `/aa-dev-finish-branch`
 

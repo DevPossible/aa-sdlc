@@ -2,7 +2,7 @@
 
 Agent skills and commands implementing the AA-SDLC methodology. Read `docs/design.md`,
 `docs/tenets.md`, `docs/opinions.md`, and `docs/vocabulary.md` before changing anything. Use the
-vocabulary exactly: Tenet, Opinion, Discipline, Process, Step, Guidance, Guidance set, Requirement, Skill,
+vocabulary exactly: Tenet, Doctrine, Opinion, Discipline, Process, Step, Guidance, Guidance set, Requirement, Skill,
 Command, Artifact, Anchor ticket, Feature file, Decision record, Currency check, Environment
 file, Artifact identity.
 

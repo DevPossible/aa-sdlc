@@ -5,8 +5,8 @@ aa:
   discipline: development
   step: review
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-04, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48]
-  requires: [R-01, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39]
+  guidance: [G-04, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48, G-57]
+  requires: [R-01, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39, R-48]
 ---
 
 # /aa-dev-review
@@ -98,6 +98,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-45** Change dependencies only through the ecosystem's package manager: add, update, and remove with its commands so it resolves conflicts, surfaces warnings, and updates transitive dependencies and the lock file together, and stage the manifest and lock file changes as their own commit (G-39). Never edit a version in a manifest or lock file by hand; if the tool refuses, record the refusal on the ticket and resolve it, never bypass it.
 - **G-46** Make every test deterministic and independent: inject or freeze time, seed or inject randomness, give each test its own state and clean it up, and replace external dependencies with a container, a fake, or a recorded response; never depend on test order, on state another test left, or on a sleep. A test that fails intermittently is a defect: quarantine it with a ticket the same day, never retry it into green or skip it without one (G-06).
 - **G-48** Split configuration by what varies: settings that differ between environments (endpoints, connection strings, resource names, credentials) go in an environment file or the platform's equivalent, one per environment with a committed template, supplied at deploy time; settings that are the same everywhere (timeouts, limits, behaviour) go in the application configuration committed once with the code. Never put a key in both; when adding a setting, ask which kind it is and put it in that one place, and if a functional setting must differ for one environment, record why in a decision record rather than copying the configuration.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
 - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
 - Run the feature-file check on the branch every time. A feature file with no provenance header, a checksum that does not match, or no page that generates it was not pulled from the knowledge base; it blocks the change until the page is changed and pulled (G-56).

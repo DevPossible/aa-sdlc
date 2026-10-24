@@ -24,7 +24,7 @@ artifacts:
       - A feature file that fails the feature-file check (no provenance header, a checksum mismatch, or no page that generates it) is a blocking finding; the fix is to change the page and pull it (G-56)
       - The review says what it did not check
 guidance_sets: [every-step, anchored-step]
-guidance: [G-04, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48]
+guidance: [G-04, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48, G-57]
 guidance_inline:
   - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
   - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
@@ -32,6 +32,6 @@ guidance_inline:
   - Blocking findings are about correctness, security, and the requirement. Style is the formatter's and linter's job, never a review comment (O-21); if a style issue reached review, the finding is that the tools did not run.
   - Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).
   - "Report faithfully: \"approved\" means every scenario has a passing test that you saw run."
-requires: [R-01, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39]
-opinions: [O-14, O-17, O-19, O-20, O-21, O-22, O-23, O-25]
+requires: [R-01, R-09, R-10, R-11, R-12, R-28, R-31, R-33, R-34, R-35, R-36, R-37, R-39, R-48]
+opinions: [O-14, O-17, O-19, O-20, O-21, O-22, O-23, O-25, O-28]
 tenets: [T-07]

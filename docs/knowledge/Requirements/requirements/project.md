@@ -1283,3 +1283,36 @@ What the repository must contain. aa init lays most of these down; /aa-fw-health
 | And | it cannot carry the life cycle |
 | When | "/aa-fw-init" continues |
 | Then | it names each change for the workflow's owner and makes none of them itself unless the owner has consented |
+
+## F-065-77 The product has doctrines
+
+| Scenario | F-065-77 |
+| --- | --- |
+| Name | The product has doctrines |
+| Kind | Scenario |
+| Tags | @R-48 @required @O-28 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the Overview section under the project's knowledge root has a doctrines page |
+| And | the page holds a mission, who the product is for, at least one D-nn doctrine, and a list of non-goals |
+| When | "/aa-fw-health" probes R-48 |
+| Then | R-48 is reported as met |
+
+## F-065-78 The product has no doctrines
+
+| Scenario | F-065-78 |
+| --- | --- |
+| Name | The product has no doctrines |
+| Kind | Scenario |
+| Tags | @R-48 @required @O-28 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the Overview section under the project's knowledge root has no doctrines page, or one with no D-nn doctrine |
+| When | "/aa-fw-health" probes R-48 |
+| Then | R-48 is reported as unmet |
+| And | the steps that check against the doctrines are listed as depending on it |
+| And | the remedy is "/aa-fw-init", which drafts the doctrines with the user |

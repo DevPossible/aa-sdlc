@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/agent/init. Do not edit: change the page, then pull it.
-# Checksum: sha256:5aaed26aedce5381ff5034f06695c70c986193b1e64a27ac7cd14193c56c7f9b
+# Checksum: sha256:3c4d491530218134842375f6cd2caa4dbda106d7c22094051d12c25328ab3d9f
 @agent @T-06 @T-11 @F-002
 Feature: /aa-fw-init bootstraps what needs judgement
   aa init on the CLI lays down files. /aa-fw-init in the agent works through the unmet
@@ -138,3 +138,26 @@ Feature: /aa-fw-init bootstraps what needs judgement
     Then it offers the connectors available for that system, a server the agent can load or a command line tool, and the user chooses
     And with consent it installs and configures the chosen one for this harness
     And it tells the user exactly what to do to authorise it, then probes R-02 or R-03 again
+
+  @O-28 @R-48 @G-58 @T-06 @F-002-18
+  Scenario: Draft the doctrines from an existing project
+    Given the repository already has code, documents, or decision records, or the ticket project already has tickets
+    And the product has no doctrines page
+    When "/aa-fw-init" continues once the knowledge base is known
+    Then it reads them and proposes a mission, who the product is for, candidate doctrines, and non-goals
+    And each proposal names the evidence it was drawn from
+    And it writes the doctrines page with only what the user confirms or edits, numbered from D-01
+
+  @O-28 @R-48 @T-06 @F-002-19
+  Scenario: Ask for the doctrines in a blank project
+    Given a blank repository and an empty ticket project
+    When "/aa-fw-init" continues once the knowledge base is known
+    Then it asks the user for the product's mission, who it is for, its doctrines, and its non-goals
+    And it writes the doctrines page with the answers the user confirms
+
+  @O-28 @R-48 @T-03 @F-002-20
+  Scenario: A user not ready to write doctrines
+    Given the user declines to write the doctrines now
+    When "/aa-fw-init" finishes
+    Then no doctrines page is written
+    And R-48 is listed as unmet with its remedy

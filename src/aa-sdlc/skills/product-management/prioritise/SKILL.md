@@ -5,8 +5,8 @@ aa:
   discipline: product-management
   step: prioritise
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-28, G-41]
-  requires: [R-23, R-32]
+  guidance: [G-28, G-41, G-57]
+  requires: [R-23, R-32, R-48]
 ---
 
 # /aa-pd-prioritise
@@ -72,6 +72,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
 - **G-41** Write every significant decision, technical, product, or process, as a decision record the moment it is made: one screen, numbered next in the repository's sequence, dated, with context, options considered, decision, and consequences, linked from the anchor ticket. Never edit an accepted record; supersede it with a new one that links back.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - Rank by outcome contribution first, then risk reduction, then cost. When two items tie, prefer the one that retires an unknown.
 - Never reorder silently. Every change of rank is a comment on the ticket saying what moved and why, and a demotion of committed work is a decision record (O-18).
 - Ask before demoting. If an item someone is working on drops out of the iteration, that is a conversation, not a rank change.

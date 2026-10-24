@@ -298,3 +298,53 @@ requirements that need a decision, with the user's consent, and reports the rest
 | Then | it offers the connectors available for that system, a server the agent can load or a command line tool, and the user chooses |
 | And | with consent it installs and configures the chosen one for this harness |
 | And | it tells the user exactly what to do to authorise it, then probes R-02 or R-03 again |
+
+## F-002-18 Draft the doctrines from an existing project
+
+| Scenario | F-002-18 |
+| --- | --- |
+| Name | Draft the doctrines from an existing project |
+| Kind | Scenario |
+| Tags | @O-28 @R-48 @G-58 @T-06 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the repository already has code, documents, or decision records, or the ticket project already has tickets |
+| And | the product has no doctrines page |
+| When | "/aa-fw-init" continues once the knowledge base is known |
+| Then | it reads them and proposes a mission, who the product is for, candidate doctrines, and non-goals |
+| And | each proposal names the evidence it was drawn from |
+| And | it writes the doctrines page with only what the user confirms or edits, numbered from D-01 |
+
+## F-002-19 Ask for the doctrines in a blank project
+
+| Scenario | F-002-19 |
+| --- | --- |
+| Name | Ask for the doctrines in a blank project |
+| Kind | Scenario |
+| Tags | @O-28 @R-48 @T-06 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a blank repository and an empty ticket project |
+| When | "/aa-fw-init" continues once the knowledge base is known |
+| Then | it asks the user for the product's mission, who it is for, its doctrines, and its non-goals |
+| And | it writes the doctrines page with the answers the user confirms |
+
+## F-002-20 A user not ready to write doctrines
+
+| Scenario | F-002-20 |
+| --- | --- |
+| Name | A user not ready to write doctrines |
+| Kind | Scenario |
+| Tags | @O-28 @R-48 @T-03 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | the user declines to write the doctrines now |
+| When | "/aa-fw-init" finishes |
+| Then | no doctrines page is written |
+| And | R-48 is listed as unmet with its remedy |

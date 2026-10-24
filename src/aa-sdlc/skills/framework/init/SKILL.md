@@ -5,8 +5,8 @@ aa:
   discipline: framework
   step: init
   guidance_sets: [every-step]
-  guidance: [G-13, G-50]
-  requires: [R-07, R-14, R-15, R-41, R-42, R-43, R-44, R-45]
+  guidance: [G-13, G-50, G-58]
+  requires: [R-07, R-14, R-15, R-41, R-42, R-43, R-44, R-45, R-48]
 ---
 
 # /aa-fw-init
@@ -143,11 +143,13 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-50** Start each language's static analyser rule set from a published best-practice baseline for the language, framework version, and kind of application, or from a widely used alternative the user picks, or from the user's stated preferences; tailor it in the rule set file rather than with suppressions in code, and record the baseline, its version, and every departure with its reason in a decision record.
+- **G-58** Change the doctrines only deliberately and from evidence: a conflict G-57 raised, or what users, support, or production showed. Propose each doctrine with the evidence beside it, drawn from the project's code, documents, decision records, and tickets wherever there is anything to read, and write only what the user confirms. Record every amendment after the first set as a decision record that says what changed and why. Give a new doctrine the next `D-nn` id; never reuse or renumber one, and mark a retired doctrine retired rather than deleting it. Never edit a doctrine to fit the requirement in hand.
 - Propose, then act. State each fix as a one-line proposal with what it creates or changes, and perform it only after the user agrees. Batch trivial fixes (folders, stubs) into one proposal.
 - Never choose a tool for the project. When a language has no formatter or a technology has no skill, name the gap and list what is available in the project's scope or as plugins; the user chooses (T-01).
 - Map before you create. If the repository already has an equivalent of a conventional folder, propose the mapping in the project config rather than a second folder.
 - Leave stubs honest. A stub root script must say, in its first lines, exactly what it must do when filled in and must exit non-zero until it is.
 - The ticket project and knowledge base are a conversation, not a lookup. Ask the user; when they name a system and paste a URL, search the agent's own scope for a skill, MCP server, or CLI for that system (T-05), confirm the project through it, and record the mapping. If the connector is absent or unauthorised, say exactly that, record the mapping anyway, and let health report R-02 or R-03. Never name a system the user did not name (T-01). Record this project's ticket filter where the ticket project is shared and its own root page in the knowledge base (T-14); with no knowledge base in scope, offer the documents folder's knowledge folder in the same page format.
+- Ask for the doctrines once the knowledge base is known (O-28). In a project that already has code, documents, decision records, or tickets, read them first and propose a mission, who the product is for, candidate doctrines, and non-goals, each with the evidence it was drawn from; in a blank one, ask. Write only what the user confirms, numbered from D-01. A user who is not ready may skip it; R-48 is then listed as unmet, never guessed.
 - Survey only what the repository cannot answer. Infer the stack from what is there; when the repository is blank or leaves it open, ask what is being built, in which languages and frameworks at which versions, for which platforms, deployed where, and built by which pipeline, and record the answers so no one is asked twice.
 - Record every tool with the command that checks it and the command that installs it on each platform, and put the install in the root initialize script, so the next machine gets the same tools without this conversation.
 - Check the ticket project the moment it is confirmed, before anything else. Read its workflow, the moves between states, the parent links, and the board, and hold them to R-41 and R-43; propose each missing piece with the step that would stumble on it, make it with consent where the user may administer the project and the workflow is this project's alone, and otherwise list it for the administrator or the shared workflow's owner (T-14). A project that cannot carry the life cycle is found hours later, in the middle of other work, when it is not checked first.

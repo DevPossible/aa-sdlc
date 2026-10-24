@@ -25,12 +25,12 @@ artifacts:
     acceptance:
       - Lists the constraints (platform, integration, compliance, performance) the scenarios must satisfy, each with its source
 guidance_sets: [every-step, anchored-step, repository-write]
-guidance: [G-16, G-18, G-19, G-35, G-49, G-53]
+guidance: [G-16, G-18, G-19, G-35, G-49, G-53, G-57]
 guidance_inline:
   - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
   - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.
   - Trace every change. Change the scenario on its feature page first; the ticket's acceptance criteria follow the page and the repository gets the change by pulling it (T-12). Never edit the ticket first, and never edit a feature file.
   - A scenario is Approved when the stakeholder confirms it, not when it reads well. Until then it stays Draft on the page and never reaches the repository.
-requires: [R-16, R-29, R-42]
+requires: [R-16, R-29, R-42, R-48]
 tenets: [T-07, T-12]
-opinions: [O-01, O-15]
+opinions: [O-01, O-15, O-28]

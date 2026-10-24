@@ -22,8 +22,9 @@ in [docs/opinions.md](docs/opinions.md).
   every knowledge base has the same six sections.
 - **The shape of a repository** (O-05, O-06, O-07, O-16): one folder layout, four root scripts,
   three test tiers, and everything needed to build and operate the software, versioned.
-- **Requirements** (O-01, O-15, O-20): Gherkin on knowledge base pages everyone can edit is the
-  source of truth, pulled into the repository per ticket; goals before mock-ups; the simplest design that meets the scenarios.
+- **Requirements** (O-01, O-15, O-20, O-28): Gherkin on knowledge base pages everyone can edit is the
+  source of truth, pulled into the repository per ticket; goals before mock-ups; the simplest design that meets the scenarios;
+  every requirement checked against the product's doctrines.
 - **Tickets** (O-10, O-13, O-26): five kinds and one life cycle, moved by the steps that produce
   the evidence; a size is grounded in implementation thinking; a waiting ticket is checked
   against the repository before work starts.

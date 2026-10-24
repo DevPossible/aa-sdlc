@@ -12,6 +12,14 @@ A principle governing how the SDK and its content are designed. Tenets are few, 
 framework-level. They shape every discipline, process, step, and piece of guidance. See
 [tenets.md](tenets.md).
 
+**Doctrine**
+One of the few governing statements of a product that every outcome, requirement, and decision
+in that product is checked against (O-28). A product's doctrines are one set: a one-sentence
+mission, who the product is for, a small number of doctrines each with a permanent `D-nn` id,
+and its non-goals, on a page in the Overview section of the knowledge base. Doctrines are to a
+product what tenets are to the framework; the word Tenet is kept for the framework's own
+principles, which are aa-sdlc's doctrines.
+
 **Opinion**
 A deliberate stance the framework takes where reasonable alternatives exist, so that every
 project does it the same way. Tenets say how the framework is designed; opinions say which
@@ -168,6 +176,7 @@ no `aa health`.
 ```
 Tenets            govern everything below
 Opinions          the stances the framework takes where alternatives exist
+Doctrines         govern one product's requirements, as tenets govern the framework
   Discipline      groups skills by kind of work
     Step          one unit of work, delivered as a Skill, invoked by a Command
       Guidance    how best to perform the step

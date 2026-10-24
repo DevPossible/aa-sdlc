@@ -5,8 +5,8 @@ aa:
   discipline: business-analysis
   step: discover
   guidance_sets: [every-step, anchored-step, repository-write]
-  guidance: [G-16, G-18, G-19, G-35, G-49]
-  requires: [R-16, R-29]
+  guidance: [G-16, G-18, G-19, G-35, G-49, G-57]
+  requires: [R-16, R-29, R-48]
 ---
 
 # /aa-ba-discover
@@ -94,6 +94,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-19** Tag every Approved scenario on its feature page with the ticket that asked for it, and link the ticket to the page and the scenario ids.
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-49** Give every feature a stable id (F-nnn) and every scenario one derived from it (F-nnn-nn), assigned on its feature page once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - Write it as Gherkin from the first pass. A requirement captured in prose has to be translated later and loses something each time; a Draft scenario on a feature page can be wrong in a way everyone can see, and the repository gets it only once it is Approved.
 - Ask the confirming question, not the leading one. "So when X happens you need Y?" invites agreement; "What happens when X?" invites the truth.
 - Record what was not said. Silence on error cases, permissions, and edge conditions is a question, not an assumption.

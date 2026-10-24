@@ -266,3 +266,19 @@ never blocks; a layer it cannot reach is reported as not checked, never as passe
 | --- | --- |
 | When | I run "/aa-fw-whatsnext" in any folder |
 | Then | no file, ticket, page, commit, or install is created or changed |
+
+## F-045-16 A product with no doctrines is a foundation gap
+
+| Scenario | F-045-16 |
+| --- | --- |
+| Name | A product with no doctrines is a foundation gap |
+| Kind | Scenario |
+| Tags | @O-28 @R-48 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a repository whose health report shows R-48 unmet and no earlier foundation gap |
+| When | I run "/aa-fw-whatsnext" |
+| Then | it recommends "/aa-fw-init" to draft the product's doctrines |
+| And | it reports no later layer |

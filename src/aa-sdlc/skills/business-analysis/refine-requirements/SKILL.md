@@ -5,8 +5,8 @@ aa:
   discipline: business-analysis
   step: refine-requirements
   guidance_sets: [every-step, anchored-step, repository-write]
-  guidance: [G-16, G-18, G-19, G-35, G-49, G-53]
-  requires: [R-16, R-29, R-42]
+  guidance: [G-16, G-18, G-19, G-35, G-49, G-53, G-57]
+  requires: [R-16, R-29, R-42, R-48]
 ---
 
 # /aa-ba-refine-requirements
@@ -93,6 +93,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-35** Start every requirement from written goals: the outcome, then the scenarios. When a screenshot or mock-up arrives first, treat it as evidence of what someone wants: write the goals and scenarios it implies, record what it does not show as questions on the ticket, get them confirmed, and only then produce a mock-up from them.
 - **G-49** Give every feature a stable id (F-nnn) and every scenario one derived from it (F-nnn-nn), assigned on its feature page once and never renumbered or reused; tag or name every automated test with the ids of the scenarios it proves, so coverage is the set of scenario ids that at least one test names.
 - **G-53** Put each knowledge base page under the project's own root, in the section its content belongs to (Overview, Requirements, Architecture, Operations, Releases, Guides, or the names the project config maps them to), name a requirement page after its feature and its feature id, and when a page is superseded mark it and link to what replaced it rather than deleting it.
+- **G-57** Before writing or approving an outcome, a scenario, an architecture, a decision record, an order of the backlog, or a merge request, read the product's doctrines and check the work against each doctrine and non-goal, and cite the doctrine it serves or is bounded by (`D-nn`). When the work conflicts with one, name the doctrine and the conflict and do not go on with that part until the user decides: change the work, or propose an amendment (G-58). Never absorb a conflict silently. Where there are no doctrines, say the check was made against nothing.
 - One behaviour per scenario. If a scenario needs "and" in its Then to describe two outcomes that could fail independently, split it.
 - Make it executable in principle. Every step must be something a test could observe; if it cannot be observed, it is not a requirement, it is a hope.
 - Trace every change. Change the scenario on its feature page first; the ticket's acceptance criteria follow the page and the repository gets the change by pulling it (T-12). Never edit the ticket first, and never edit a feature file.
