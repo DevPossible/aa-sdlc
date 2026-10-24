@@ -113,6 +113,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 | R-45 | unmet | added 2026-09-28, after this baseline: nothing to check until R-44 lists the tools; `./initialize.ps1` installs today's set | same |
 | R-46 | met | added 2026-09-28: every file under `features/` is pulled from `docs/knowledge/Requirements/` with a provenance header; the unit tier runs `Sync-FeatureFiles.ps1 -Check` | none |
 | R-47 | unmet (recommended) | added 2026-09-28: the unit tier and the release workflow run the check, but no local pre-commit hook does | `aa init` in a clone writes the hook |
+| R-48 | unmet | added 2026-10-23, after this baseline: the framework's own doctrines are its tenets in `docs/tenets.md`; no doctrines page exists in the Overview section, and the knowledge base cannot be read until the connector is authorised (R-03) | `/aa-fw-init` drafts the doctrines page from `docs/tenets.md` once the knowledge base is reachable |
 
 ### Everything else
 
