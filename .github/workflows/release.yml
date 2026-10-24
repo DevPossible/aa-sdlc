@@ -141,5 +141,7 @@ jobs:
           Push-Location .dist/npm
           Get-ChildItem -Filter '*.tgz' | ForEach-Object { "{0}  {1}" -f (Get-FileHash $_.Name -Algorithm SHA256).Hash.ToLower(), $_.Name } | Set-Content SHA256SUMS
           Pop-Location
-          $pre = if ($version -like '*-*') { '--prerelease' } else { '' }
-          gh release create "v$version" (Get-ChildItem .dist/npm/*.tgz).FullName .dist/npm/SHA256SUMS --title "aa $version" --generate-notes $pre --target $env:GITHUB_SHA
+          # an empty string would reach gh as an empty asset pattern, so a stable release passes no flag at all
+          $pre = @(if ($version -like '*-*') { '--prerelease' })
+          gh release create "v$version" (Get-ChildItem .dist/npm/*.tgz).FullName .dist/npm/SHA256SUMS --title "aa $version" --generate-notes @pre --target $env:GITHUB_SHA
+          if ($LASTEXITCODE -ne 0) { throw 'gh release create failed' }
