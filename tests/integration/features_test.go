@@ -47,7 +47,7 @@ func TestFeatures(t *testing.T) {
 			Paths:    []string{"../../features/cli"},
 			Tags:     "@cli",
 			TestingT: t,
-			Strict:   false, // undefined steps (aa update, aa plugin) are reported, not failed
+			Strict:   true, // an unimplemented acceptance step must fail instead of silently passing
 		},
 	}
 	if suite.Run() != 0 {
