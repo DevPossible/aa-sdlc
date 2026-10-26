@@ -30,6 +30,9 @@ type world struct {
 	config  string // the project config as it was before a step, for later steps
 	plugin  string // a fixture plugin folder created for the scenario
 	targets string // the harnesses aa init is told to install into, as -targets; claude-code unless a step says otherwise
+	unnamed bool   // exercise automatic project selection rather than the default explicit target
+	noInput bool   // exercise init with no terminal
+	tools   *toolFixture
 }
 
 func TestFeatures(t *testing.T) {
@@ -103,8 +106,8 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		}
 		return w.run(w.project, "", "setup", "-org", org)
 	})
-	sc.Step(`^I run "aa init"$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
-	sc.Step(`^I run "aa init" again$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
+	sc.Step(`^I run "aa init"$`, func() error { return w.runInit() })
+	sc.Step(`^I run "aa init" again$`, func() error { return w.runInit() })
 	sc.Step(`^"aa init" completes$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
 	sc.Step(`^"aa init" has already been run here$`, func() error { return w.run(w.project, "ABC\n", "init", "-interactive", "-targets", w.initTargets()) })
 	sc.Step(`^I am in a repository initialised with "aa init"$`, func() error {
@@ -338,7 +341,16 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 		return nil
 	})
 	sc.Step(`^any newly installed agent targets are picked up$`, func() error {
-		return godog.ErrPending // only one target is supported so far; nothing new can appear
+		if err := os.MkdirAll(filepath.Join(w.home, ".codex"), 0o755); err != nil {
+			return err
+		}
+		if err := w.run(w.project, "", "setup"); err != nil {
+			return err
+		}
+		if err := w.exists(w.home, ".agents/skills/aa-fw-health/SKILL.md"); err != nil {
+			return err
+		}
+		return w.outputContains("Codex:")
 	})
 	sc.Step(`^no supported agent target is installed$`, func() error { return os.RemoveAll(filepath.Join(w.home, ".claude")) })
 	sc.Step(`^it names the targets it supports$`, func() error { return w.outputContains("supported: Claude Code") })
@@ -508,6 +520,7 @@ func initializeScenario(sc *godog.ScenarioContext, bin string) {
 	})
 	sc.Step(`^the reason names the unknown step$`, func() error { return w.errContains(`"soak-test"`) })
 	registerHarnessSteps(sc, w)
+	registerDeliveryAcceptanceSteps(sc, w)
 	sc.Step(`^I run "aa plugin remove <plugin>"$`, func() error { return w.run(w.project, "", "plugin", "remove", "fixture") })
 	sc.Step(`^its skills and commands are removed from that scope$`, func() error {
 		if _, err := os.Stat(filepath.Join(w.project, ".claude", "skills", "aa-fixture-notes")); err == nil {
@@ -627,6 +640,9 @@ func (w *world) writeFixtureSkill(skill, front string) error {
 
 // run executes aa with the scenario's AA_HOME, feeding stdin, from dir.
 func (w *world) run(dir, stdin string, args ...string) error {
+	if w.tools != nil && len(args) > 0 && (args[0] == "setup" || args[0] == "init") {
+		return w.runWithTools(dir, stdin, args...)
+	}
 	cmd := exec.Command(w.bin, args...)
 	cmd.Dir = dir
 	cmd.Env = append(os.Environ(), "AA_HOME="+w.home)

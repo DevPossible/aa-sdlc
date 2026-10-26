@@ -4,7 +4,10 @@ go 1.26
 
 require github.com/cucumber/godog v0.15.1
 
+require gopkg.in/yaml.v3 v3.0.1 // indirect
+
 require (
+	aasdlc.com/aa v0.0.0
 	github.com/cucumber/gherkin/go/v26 v26.2.0 // indirect
 	github.com/cucumber/messages/go/v21 v21.0.1 // indirect
 	github.com/gofrs/uuid v4.3.1+incompatible // indirect
@@ -13,3 +16,5 @@ require (
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/spf13/pflag v1.0.7 // indirect
 )
+
+replace aasdlc.com/aa => ../../src/aa-sdlc-cli
