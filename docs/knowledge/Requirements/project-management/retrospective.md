@@ -126,4 +126,4 @@ record and a ticket with an owner and a way to tell whether it worked.
 | Given | the project keeps decision records in the documents folder |
 | When | "/aa-pm-retrospective" finishes |
 | Then | the new records are staged and presented with a Conventional Commit message |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |

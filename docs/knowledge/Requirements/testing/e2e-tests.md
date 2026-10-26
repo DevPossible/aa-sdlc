@@ -97,11 +97,11 @@ repository, with a visual regression suite where a user interface exists.
 | And | each new test passes alone and the tier passes in shuffled order |
 | And | the output is quoted |
 
-## F-076-06 A flaky test is quarantined with a ticket, never retried
+## F-076-06 An intermittent failure is retained, never retried into acceptance
 
 | Scenario | F-076-06 |
 | --- | --- |
-| Name | A flaky test is quarantined with a ticket, never retried |
+| Name | An intermittent failure is retained, never retried into acceptance |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -110,7 +110,8 @@ repository, with a visual regression suite where a user interface exists.
 | --- | --- |
 | Given | a new test passes on one run and fails on the next |
 | When | "/aa-qa-e2e-tests" sees this |
-| Then | the test is quarantined with a ticket the same day |
+| Then | its failure and affected claim are retained with a defect ticket and distinguishing experiment |
+| And | quarantine requires explicit authorization and leaves affected acceptance unresolved |
 | And | no retry is added around it |
 
 ## F-076-07 Visual baselines are versioned and reviewed when they change
@@ -129,11 +130,11 @@ repository, with a visual regression suite where a user interface exists.
 | Then | the baselines are versioned beside the tests |
 | And | a changed baseline appears in the staged diff rather than being accepted silently |
 
-## F-076-08 The suite is staged and presented, never committed
+## F-076-08 The suite is staged and presented, committed only with authorization
 
 | Scenario | F-076-08 |
 | --- | --- |
-| Name | The suite is staged and presented, never committed |
+| Name | The suite is staged and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -142,5 +143,5 @@ repository, with a visual regression suite where a user interface exists.
 | --- | --- |
 | When | "/aa-qa-e2e-tests" finishes |
 | Then | the tests, baselines, and feature file changes are staged as one change set with a Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 | And | the ticket records which scenarios now have end-to-end tests and what remains |

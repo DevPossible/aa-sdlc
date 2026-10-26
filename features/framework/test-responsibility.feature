@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/test-responsibility. Do not edit: change the page, then pull it.
-# Checksum: sha256:dfdeb0f90ce26668e593c18e6c7e69c31a3a4f1b16d1d68321b46be488ac1c32
+# Checksum: sha256:616c3df0193363a6cb9eaedc4a6a7a8d6e6cbc7bfcc746d4f7ef198858731125
 @framework @agent @O-08 @T-07 @F-042
 Feature: Development proves the requirement; Testing goes beyond it
   The Development discipline writes the automated tests that show a requirement is met. The
@@ -13,10 +13,10 @@ Feature: Development proves the requirement; Testing goes beyond it
   @G-20 @F-042-01
   Scenario: Implementing a ticket includes the tests that prove it
     When "/aa-dev-implement" runs for the ticket
-    Then unit and integration tests exist for every happy path in the ticket's scenarios
-    And unit and integration tests exist for the general permutations and cases
-    And unit and integration tests exist for the obvious negative cases
-    And a happy-path end-to-end test exists for each scenario
+    Then each delivered scenario has passing tests at justified tiers with its test mapping and rationale recorded
+    And tests cover the happy paths, relevant permutations and obvious negative cases
+    And changed boundaries have integration proof and user-visible flows have happy-path end-to-end proof
+    And equivalent assertions are not automatically duplicated at every tier
 
   @G-20 @F-042-02
   Scenario: A ticket is not done without its tests

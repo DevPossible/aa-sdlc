@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/documentation/maintain-docs. Do not edit: change the page, then pull it.
-# Checksum: sha256:46a445eff97e210392ba7644972777390aed4f93bd2026be40063cd9b449b051
+# Checksum: sha256:9eae413dcb533aef95279d302e5ea7d72f1286c5f04308a9f2515dbd8067d339
 @agent @documentation @O-16 @T-12 @F-017
 Feature: /aa-doc-maintain-docs audits feature files and documentation against the feature pages
   Walk from the feature pages outward: check that every feature file in the repository was
@@ -47,11 +47,11 @@ Feature: /aa-doc-maintain-docs audits feature files and documentation against th
     And the report is linked from the ticket
 
   @F-017-07
-  Scenario: Fixes are staged on a branch and presented, never committed
+  Scenario: Fixes are staged on a branch and presented, committed only with authorization
     When "/aa-doc-maintain-docs" finishes
     Then the documentation changes are on a branch that references the ticket
     And they are staged as one change set with a Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
 
   @R-46 @F-017-08
   Scenario: A feature file behind its page is pulled again

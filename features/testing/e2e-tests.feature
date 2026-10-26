@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/testing/e2e-tests. Do not edit: change the page, then pull it.
-# Checksum: sha256:de6121793fea0cd819e2334fe3a85aace0853eeaf1d270a206724febde3d2799
+# Checksum: sha256:cd8d20d37cb3ba44f061c000e216a24b46e40d94266d46f7d7a845e6aa684717
 @agent @testing @O-07 @O-12 @O-23 @F-076
 Feature: /aa-qa-e2e-tests proves through the whole system what only it can prove
   Automate the scenarios the strategy assigns to the end-to-end tier by driving the system the
@@ -46,10 +46,11 @@ Feature: /aa-qa-e2e-tests proves through the whole system what only it can prove
     And the output is quoted
 
   @F-076-06
-  Scenario: A flaky test is quarantined with a ticket, never retried
+  Scenario: An intermittent failure is retained, never retried into acceptance
     Given a new test passes on one run and fails on the next
     When "/aa-qa-e2e-tests" sees this
-    Then the test is quarantined with a ticket the same day
+    Then its failure and affected claim are retained with a defect ticket and distinguishing experiment
+    And quarantine requires explicit authorization and leaves affected acceptance unresolved
     And no retry is added around it
 
   @F-076-07
@@ -60,8 +61,8 @@ Feature: /aa-qa-e2e-tests proves through the whole system what only it can prove
     And a changed baseline appears in the staged diff rather than being accepted silently
 
   @F-076-08
-  Scenario: The suite is staged and presented, never committed
+  Scenario: The suite is staged and presented, committed only with authorization
     When "/aa-qa-e2e-tests" finishes
     Then the tests, baselines, and feature file changes are staged as one change set with a Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
     And the ticket records which scenarios now have end-to-end tests and what remains

@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/technical-analysis/decide. Do not edit: change the page, then pull it.
-# Checksum: sha256:2f1029fe7928358a823b37dd8987588a7be162cbeff417250ad9c520737fe343
+# Checksum: sha256:e9b93612eb0606a860319655e018cad22ff4170c74345709ace6b636a09d0b44
 @agent @technical-analysis @O-04 @O-18 @O-20 @F-074
 Feature: /aa-ta-decide records one significant decision as a decision record
   Capture one technical decision, made in an architecture session or in the middle of a
@@ -45,8 +45,8 @@ Feature: /aa-ta-decide records one significant decision as a decision record
     And anything the decision left open is a question on the ticket
 
   @F-074-06
-  Scenario: A record in the repository is staged, never committed
+  Scenario: A record in the repository is staged, committed only with authorization
     Given the project config keeps decision records in the documents folder
     When "/aa-ta-decide" finishes
     Then the new record is staged with a Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task

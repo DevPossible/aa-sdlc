@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/testing/explore. Do not edit: change the page, then pull it.
-# Checksum: sha256:e92f5b3f885fa5f3f061d7f1ef9b4d57afdc021f3ac0eb1123e7e52d8ca21c15
+# Checksum: sha256:abb350c56bf4a38543572bfc3801a692dc48394ebd4f56d73cf53cf1d2e0ce88
 @agent @testing @T-07 @F-077
 Feature: /aa-qa-explore finds what the scenarios did not think of
   A time-boxed session using the running system with a charter and a testing lens, recording
@@ -60,7 +60,7 @@ Feature: /aa-qa-explore finds what the scenarios did not think of
 
   @F-077-08
   Scenario: The session is run by a separate mind where one is available
-    Given the harness can run the aa-qa subagent
+    Given the harness has explicit authorization to run the aa-qa subagent
     When "/aa-qa-explore" runs
     Then it hands the session, from starting the system to sorting the surprises, to the aa-qa subagent with the charter
-    And where no subagent is available it runs the session itself
+    And where no separate reviewer is authorized or available it runs the session itself

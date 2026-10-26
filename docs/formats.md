@@ -251,6 +251,21 @@ Merge rules:
 The CLI validates every file against a published schema before merging and reports the file
 and key that fails.
 
+State mapping changes names, not evidence or permission. `in-review` means a verified candidate
+ready for review, linked through a merge request or an authorized local review record; it does
+not mean independent acceptance, merged completion or release (O-26). Task-scoped commit and
+delegation permissions are explicit instructions, not implicit consequences of config keys.
+
+### Verification evidence
+
+Keep one proportionate evidence index on the ticket or its linked durable record (G-59).
+Identify the candidate, executor and independence, relevant dependency and requirement/environment inputs, commands,
+actual results/output links, required coverage, findings and owned-resource cleanup. For a
+small change one ticket note can suffice. Reuse a valid independent combined-candidate run
+for reviewer and integrator; record their distinct decisions. Rerun affected proof when
+relevant inputs or validity changes. A scoped integration result never substitutes for the
+full-suite branch-finish or release artifact checks.
+
 ## 3. Declaring requirements in skills and plugins
 
 ### Skill frontmatter

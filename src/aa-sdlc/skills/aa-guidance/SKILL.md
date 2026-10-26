@@ -25,3 +25,7 @@ The files are generated from the workflow data (`src/aa-sdlc/workflow/guidance-s
 `docs/guidance.md` in the framework repository) by `scripts/Sync-SkillGuidance.ps1`; do not edit
 them by hand. This folder is installed beside the step skills and has no command of its own
 (decision record 0012).
+
+An explicitly authorized project-local fork records its original installation identity and
+the changes to backport. Before regeneration or upgrade, compare and deliberately migrate
+those changes; never rewrite original checksums to present a fork as an unchanged install.

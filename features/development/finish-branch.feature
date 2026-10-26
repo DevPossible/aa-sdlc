@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/development/finish-branch. Do not edit: change the page, then pull it.
-# Checksum: sha256:3688e5bb121efc9a61bcaf31110a97b6eafec700a1123a1b6ae6ef2e1b22c1d1
+# Checksum: sha256:5518649ac0056c39e01289077658359971011805b49712f2887ae647877744a1
 @agent @development @O-14 @O-17 @O-21 @F-010
 Feature: /aa-dev-finish-branch takes a branch from green to merged
   Format changed files, bring the branch up to date, run the full suite, open or update the
@@ -26,6 +26,7 @@ Feature: /aa-dev-finish-branch takes a branch from green to merged
   @F-010-03
   Scenario: Uncommitted changes wait for the user
     Given the working tree has uncommitted changes
+    And no commit authorization covers the task
     When "/aa-dev-finish-branch" runs
     Then the changes are staged and presented with a message
     And the report says the branch waits on the user's commit

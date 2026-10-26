@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/development/review. Do not edit: change the page, then pull it.
-# Checksum: sha256:5503106ebfe4ae664407ee86b95164ae82a2133f871f12d2ec159594b216e0ce
+# Checksum: sha256:ff652efd2cb19d545f92b58a4ea8281615b3b13d50c9419aa8ef5dc3c3935324
 @agent @development @O-19 @O-20 @O-23 @T-07 @F-014
 Feature: /aa-dev-review reviews a merge request against its purpose
   Review a merge request against its ticket, scenarios, plan, and the project's conventions,
@@ -7,13 +7,14 @@ Feature: /aa-dev-review reviews a merge request against its purpose
 
   Background:
     Given a project bootstrapped with "aa init"
-    And a merge request for a ticket with scenarios and a plan
+    And an identified candidate for a ticket with scenarios and a plan
 
   @F-014-01
   Scenario: Purpose before diff, and the branch is run
     When "/aa-dev-review" starts
     Then it reads the ticket, scenarios, and plan before the diff
-    And it builds and tests the branch itself and keeps the output
+    And it executes the independent candidate gate or validates a still-current independently executed run for the same scope
+    And it retains actual output, executor identity and independence rather than trusting author-only results
 
   @F-014-02
   Scenario: A hunk that serves no scenario is a finding
@@ -43,22 +44,22 @@ Feature: /aa-dev-review reviews a merge request against its purpose
   @F-014-06
   Scenario: Findings are recorded where the author sees them
     When "/aa-dev-review" finishes
-    Then each finding is on the merge request with file, line, reason, and blocking or not
+    Then each finding is on the authorized merge request or local review record with file, line, reason, and blocking or not
     And a summary is on the ticket
     And the review says what it did not check
 
   @F-014-07
   Scenario: Approval means the tests were seen to pass
     When "/aa-dev-review" approves
-    Then every scenario had a passing test that the reviewer saw run
+    Then every required scenario has passing proof in an independently executed run the reviewer observed or validated for the same scope
 
   @F-014-08
   Scenario: The review goes to a separate mind where one is available
-    Given the harness can run the aa-dev subagent
+    Given the harness can run a separate reviewer and delegation is explicitly authorized
     When "/aa-dev-review" runs
-    Then it hands the build, the walk through the diff, and the checks of the commits and the proof to the aa-dev subagent
-    And it records what the agent returns on the merge request
-    And where no subagent is available it does that work itself, reading the change as if it had not written it
+    Then it hands the candidate, brief and evidence to the separate reviewer
+    And it records the reviewer's findings on the authorized review surface
+    And without an authorized reviewer it labels its own review as self-review and does not substitute it for required independent acceptance
 
   @G-56 @R-46 @F-014-09
   Scenario: A feature file not pulled from its page is blocking

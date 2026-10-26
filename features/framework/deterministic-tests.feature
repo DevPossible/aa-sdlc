@@ -1,12 +1,13 @@
 # Generated from the knowledge base page Requirements/framework/deterministic-tests. Do not edit: change the page, then pull it.
-# Checksum: sha256:0acdf36441a69fb00417b4945a089633579400220b14d3e10c9c0a1bf5f989f2
+# Checksum: sha256:e438a0fd6a09d5e07ee804bb6b90a48b180bb248eafb7d59130630e53f7b0de3
 @framework @agent @O-23 @O-07 @T-07 @F-025
 Feature: Tests are deterministic and independent
   Every test, at every tier, gives the same result every time, alone or with any other tests
   in any order. Time is injected or frozen, randomness is seeded or injected, state is owned
   and cleaned up by the test that needs it, and external dependencies are replaced by a
-  container, a fake, or a recorded response. A flaky test is a defect, quarantined with a
-  ticket and never retried into green.
+  container, a fake, or a recorded response. An intermittent failure is unresolved evidence:
+  retain it, track the affected claim and choose a distinguishing experiment. Authorized
+  quarantine requires a defect ticket and never makes the affected acceptance claim green.
 
   Background:
     Given a project bootstrapped with "aa init"
@@ -49,11 +50,12 @@ Feature: Tests are deterministic and independent
     Then each run gives the same result as the full run
 
   @G-46 @G-06 @F-025-06
-  Scenario: A flaky test is quarantined, not retried
+  Scenario: An intermittent failure remains unresolved, never retried into acceptance
     Given a test that failed once in five runs with no code change
     When "/aa-dev-fix-bug" or "/aa-qa-e2e-tests" handles it
-    Then a ticket is raised for the test the same day
-    And the test is quarantined with the ticket referenced
+    Then the failure and affected acceptance claim are retained on a defect ticket
+    And a distinguishing experiment is named and quarantine requires explicit authorization
+    And any quarantine leaves the affected acceptance claim unresolved
     And no retry is added and no sleep is lengthened to make it pass
 
   @G-46 @F-025-07

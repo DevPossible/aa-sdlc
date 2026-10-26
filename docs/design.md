@@ -64,7 +64,7 @@ test tiers, everything needed to build and operate it versioned. Requirements: G
 source of truth, goals before mock-ups, the simplest design that meets the scenarios, every
 requirement checked against the product's doctrines. Tickets:
 five kinds and one life cycle moved by the steps, a size is grounded in implementation thinking,
-a waiting ticket is re-checked against the repository. Commits and history: Conventional Commits, small, made by the user, traceable, with
+a waiting ticket is re-checked against the repository. Commits and history: Conventional Commits, small, explicitly authorized by the user, traceable, with
 dependencies changed through the package manager. The delivery path: every pipeline step runs
 locally, end-to-end tests run against containers, one artifact is promoted, environment
 settings live apart from functional ones. Practice: Development proves and Testing goes
@@ -84,7 +84,7 @@ Skills are grouped by discipline, the kind of work they perform. Current discipl
 | Technical Analysis | `technical-analysis` | `ta` | architecture, technology choices, decision records |
 | Refinement | `refinement` | `rf` | turning requirements into a well-formed, prioritised backlog of tickets |
 | Implementation Planning | `implementation-planning` | `ip` | planning how a single ticket will be built before building it |
-| Development | `development` | `dev` | building, reviewing, and merging code, and proving each requirement is met with unit, integration, and happy-path end-to-end tests (O-08) |
+| Development | `development` | `dev` | building, reviewing, and merging code, and proving scenarios at justified tiers with early real integration (O-08) |
 | Testing | `testing` | `qa` | making the test suite as comprehensive as is reasonable: beyond the stated requirement, to find gaps in understanding and in user interaction (O-08) |
 | Security | `security` | `sec` | threat modelling, security testing, dependency and secret hygiene, compliance maintenance |
 | Documentation | `documentation` | `doc` | keeping the knowledge base and repo docs true |
@@ -541,6 +541,7 @@ row it supersedes; the superseded row gains only a "Superseded by" note.
 | 70 | 2026-09-29 | A release's tag is created on origin with the release commit and pushed with it; the mirror carries it to GitHub, where the workflow creates the release on the existing tag | The push mirror makes GitHub's refs match origin's, so a tag the workflow created only on GitHub was deleted by the next push and its release reverted to an untagged draft |
 | 71 | 2026-10-23 | Opinion O-28: every product has one set of doctrines (a mission, who it is for, doctrines with permanent `D-nn` ids, and non-goals) on a page in the knowledge base's Overview; `/aa-fw-init` drafts the first set from an existing project's code, documents, decision records, and tickets, or asks for it in a new one, and writes only what the user confirms; `define-outcome`, `discover`, `refine-requirements`, `architect`, `decide`, `prioritise`, and `review` check their work against them and cite the doctrine (G-57); a conflict changes the work or amends the doctrines from evidence with a decision record, never silently (G-58); R-48 is required, probed by health and named by `/aa-fw-whatsnext`. Tenet stays the word for the framework's own principles, which are aa-sdlc's doctrines | Requirements were checked for completeness and traced to their tickets, but nothing checked them against what the product is for, so a product could drift one sound requirement at a time |
 | 72 | 2026-10-24 | Product Management gains four steps for the doctrines (O-28), one command per operation: `/aa-pd-discover-doctrines` proposes them from the project's code, documents, decision records, and tickets with the evidence for each and writes nothing; `/aa-pd-define-doctrines` writes the first set with the user and records the adoption; `/aa-pd-amend-doctrines` adds, changes, or retires one doctrine from evidence with a decision record and raises what it invalidates; `/aa-pd-check-doctrines` reports what conflicts with them and what nothing cites, and changes nothing. `/aa-fw-init` hands off to discover and define | O-28 shipped in 0.5.0 with no command to keep the doctrines after bootstrap; one command per operation keeps each one obvious, and separating discovery from definition keeps a proposal from being written as if it were agreed |
+| 73 | 2026-10-26 | Adopt proportionate briefs, scoped persistent commit permission, justified test tiers, early real collaborators, reusable independent evidence, actionable authorized handoffs and a continuous runnable-delivery lane (decision record 0021); revise O-08, O-17, O-23 and O-26 | Agent Possible field evidence exposed approval churn, duplicate proof and late integration despite component progress; this supersedes the per-commit-stop policy in decision 46 and the automatic-delegation wording of 0015 while retaining acceptance and release gates |
 
 ## 12. Open questions
 

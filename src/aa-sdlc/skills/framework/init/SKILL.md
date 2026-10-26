@@ -131,7 +131,7 @@ down as the first proposals (config, folders, root script stubs), with consent.
     requirement.
 14. **Stage and present.** Stage every file you created or changed as one change set and present
     the summary with a Conventional Commit message such as `chore(aa): bootstrap the project`.
-    Commit only if the user asked for the commit (O-17, G-40). No attribution trailers.
+    honor existing explicit task commit authorization (O-17, G-40). No attribution trailers.
 
 ## Guidance
 

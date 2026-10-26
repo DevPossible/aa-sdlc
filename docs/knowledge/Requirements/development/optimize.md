@@ -127,11 +127,11 @@ passes, with every round recorded on the ticket.
 | Then | the unrelated change is not made on this branch |
 | And | a ticket is raised for it or it is left alone |
 
-## F-013-08 The change is staged and presented, never committed
+## F-013-08 The change is staged and presented, committed only with authorization
 
 | Scenario | F-013-08 |
 | --- | --- |
-| Name | The change is staged and presented, never committed |
+| Name | The change is staged and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -141,5 +141,5 @@ passes, with every round recorded on the ticket.
 | When | "/aa-dev-optimize" finishes |
 | Then | the change is on a branch that references the ticket with the full suite passing and its output quoted |
 | And | it is staged with a perf-typed Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 | And | the ticket holds the baseline, each change, the after measurement, and the method |

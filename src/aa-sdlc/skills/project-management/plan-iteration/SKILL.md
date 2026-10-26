@@ -5,7 +5,7 @@ aa:
   discipline: project-management
   step: plan-iteration
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-13, G-28]
+  guidance: [G-13, G-28, G-62]
   requires: [R-23]
 ---
 
@@ -41,7 +41,10 @@ A ticket is optional here. When one is given, read it and its page and pull the 
    computed with a tool (G-02), and stop when the next item would exceed capacity. Never pull a
    lower item over a higher one because it is smaller unless the higher one is blocked; if a
    candidate depends on a ticket that is not committed, commit both or neither and record which.
-5. **Record risks and assumptions** on the iteration: the capacity figures and their source,
+5. **Protect the delivery lane.** Name the current runnable outcome, its next missing user
+   operation and its integration owner. Supporting work names the blocker it removes; finish
+   a bounded active checkpoint before redirecting noncritical work (G-62).
+   **Record risks and assumptions** on the iteration: the capacity figures and their source,
    carry-over and its reasons, dependencies and blocked items, and any overage with who agreed
    it. Nothing uncertain is smoothed over.
 6. **Present the commitment and ask.** The plan is a proposal until the people doing the work
@@ -51,7 +54,7 @@ A ticket is optional here. When one is given, read it and its page and pull the 
 7. **Write the plan into the ticket system** once agreed, as the iteration or milestone with its
    committed tickets, and update the anchor ticket with what was committed, the capacity used,
    and what was left out and why (G-12). If the plan had to be written locally, stage it and
-   present it; commit only if the user asked for that commit (O-17, G-40). Then report.
+   present it; honor existing explicit task commit authorization (O-17, G-40). Then report.
 
 ## Artifacts
 
@@ -66,16 +69,17 @@ A ticket is optional here. When one is given, read it and its page and pull the 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
 - `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and check requirement currency, update the ticket at meaningful checkpoints, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-28** Before recording a size, write on the ticket how the work will be built (what changes, what is unknown, what could go wrong) at a depth that matches the stakes, and cite that reasoning from the size. If a number is needed before that thinking exists, give a range labelled as a guess, do not record it as the size, and never commit an iteration on it.
+- **G-62** Protect a continuous integration lane for the current runnable outcome; supporting work names the blocker it removes, and complete an active bounded checkpoint before redirecting noncritical work. Report first working behavior, first real join, setup-invalidated runs, next executable user operation and the age of the current integration failure; ticket, component and test counts alone are not delivery.
 - Fill in priority order and stop at capacity. Do not pull a lower item over a higher one because it is smaller unless the higher one is blocked.
 - Capacity is computed, not felt. Use the team's actual completed size from recent iterations, calculated with a tool (G-02).
 - Commitment is a proposal until the people doing the work agree; present it and ask.
 
 ## Report
 
-State what was produced and where, quote the output of anything that was run, list what was skipped or could not be done and why, and name what remains (G-15). Update the anchor ticket with the same (G-12). Stage every changed file as one change set and present the summary with a Conventional Commit message; commit only if the user asked for that commit (O-17, G-40).
+State what was produced and where, link actual run output and summarize its scope and results, name failures/skips and what remains (G-15). Update the anchor at the meaningful milestone (G-12), referencing one proportionate evidence record instead of repacking unchanged proof. Stage only task-owned changes; honor existing explicit task commit authorization, otherwise present the diff and Conventional Commit message without committing (G-40).

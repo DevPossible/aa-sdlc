@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/business-analysis/discover. Do not edit: change the page, then pull it.
-# Checksum: sha256:71eed82b23bc1a3ad87351e7b720fd67f2de1cf9784d31d24e9bdad1c05123b5
+# Checksum: sha256:3cec4a09a6f737740db86b06a6450c1cc50f5bd1147c76830bda8e48bb46241d
 @agent @business-analysis @O-01 @O-15 @F-003
 Feature: /aa-ba-discover captures what stakeholders need as draft scenarios
   Capture stakeholder input as Draft scenarios on feature pages in the knowledge base from the
@@ -59,11 +59,11 @@ Feature: /aa-ba-discover captures what stakeholders need as draft scenarios
     And it does not absorb it silently
 
   @F-003-07
-  Scenario: The pages are linked and presented, never committed
+  Scenario: The pages are linked and presented, committed only with authorization
     When "/aa-ba-discover" finishes
     Then the epic links to each feature page and its scenario ids, and each page links back
     And where the pages are in the documents folder, the new and changed pages are staged with a Conventional Commit message
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
 
   @G-18 @F-003-08
   Scenario: A requirement found only in a feature file is a conflict

@@ -114,11 +114,11 @@ scenario in the feature file, and every test added is deterministic and independ
 | Then | a defect ticket linked to the anchor ticket records the failure with its output |
 | And | the test is not weakened, skipped, or retried |
 
-## F-078-07 The change is staged and presented, never committed
+## F-078-07 The change is staged and presented, committed only with authorization
 
 | Scenario | F-078-07 |
 | --- | --- |
-| Name | The change is staged and presented, never committed |
+| Name | The change is staged and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -127,7 +127,7 @@ scenario in the feature file, and every test added is deterministic and independ
 | --- | --- |
 | When | "/aa-qa-generate-tests" finishes |
 | Then | the tests and feature file changes are staged as one change set with a Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 | And | the ticket records what was added, the questions raised, and what remains |
 
 ## F-078-08 Tests beyond Development's come from a separate mind where one is available
@@ -141,7 +141,7 @@ scenario in the feature file, and every test added is deterministic and independ
 
 | Step | Text |
 | --- | --- |
-| Given | the harness can run the aa-qa subagent |
+| Given | the harness has explicit authorization to run the aa-qa subagent |
 | When | "/aa-qa-generate-tests" runs |
 | Then | it hands the reading of Development's tests and of the built code, and the sorting of the findings, to the aa-qa subagent |
-| And | where no subagent is available it does that work itself, without relying on how the code was meant to work |
+| And | where no separate reviewer is authorized or available it does that work itself, without relying on how the code was meant to work |

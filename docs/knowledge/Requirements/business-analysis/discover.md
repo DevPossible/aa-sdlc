@@ -119,11 +119,11 @@ requirement.
 | Then | it raises the requirement as a conflict on the epic |
 | And | it does not absorb it silently |
 
-## F-003-07 The pages are linked and presented, never committed
+## F-003-07 The pages are linked and presented, committed only with authorization
 
 | Scenario | F-003-07 |
 | --- | --- |
-| Name | The pages are linked and presented, never committed |
+| Name | The pages are linked and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -133,7 +133,7 @@ requirement.
 | When | "/aa-ba-discover" finishes |
 | Then | the epic links to each feature page and its scenario ids, and each page links back |
 | And | where the pages are in the documents folder, the new and changed pages are staged with a Conventional Commit message |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 
 ## F-003-08 A requirement found only in a feature file is a conflict
 

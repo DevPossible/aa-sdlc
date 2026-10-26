@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/security/threat-model. Do not edit: change the page, then pull it.
-# Checksum: sha256:5d676d59728561026b62d2ed8be8a290f0d6c8a52012930f791f295c74974838
+# Checksum: sha256:04f2c45fa6c31332c31acbca4be2ae631dd742903a3112f1681d98cc0930fa9c
 @agent @security @O-18 @F-069
 Feature: /aa-sec-threat-model turns threats into decisions and testable requirements
   Work through the architecture from an attacker's view, following the data across every
@@ -45,15 +45,15 @@ Feature: /aa-sec-threat-model turns threats into decisions and testable requirem
     And each ticket links to its scenario
 
   @F-069-06
-  Scenario: The new scenarios are staged and presented, never committed
+  Scenario: The new scenarios are staged and presented, committed only with authorization
     When "/aa-sec-threat-model" finishes
     Then the threat model is in the knowledge base and linked from the epic
     And the new feature files are staged with a Conventional Commit message naming the epic
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
 
   @F-069-07
   Scenario: The threats are enumerated by a separate mind where one is available
-    Given the harness can run the aa-sec subagent
+    Given the harness has explicit authorization to run the aa-sec subagent
     When "/aa-sec-threat-model" runs
     Then it hands following the data, enumerating the threats, and rating them to the aa-sec subagent
-    And where no subagent is available it does that work itself
+    And where no separate reviewer is authorized or available it does that work itself

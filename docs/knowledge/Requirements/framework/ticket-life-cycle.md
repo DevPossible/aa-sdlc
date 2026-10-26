@@ -50,11 +50,11 @@ ticket system's own names.
 | Then | the step says the ticket is not Planned and names the step that plans it |
 | And | it does not move the ticket to Planned itself |
 
-## F-085-03 Each state is set by one step
+## F-085-03 States follow their producing evidence
 
 | Scenario | F-085-03 |
 | --- | --- |
-| Name | Each state is set by one step |
+| Name | States follow their producing evidence |
 | Kind | Scenario Outline |
 | Tags |  |
 | Status | Approved |
@@ -70,7 +70,7 @@ ticket system's own names.
 | --- | --- |
 | /aa-rf-refine-ticket | Refined |
 | /aa-ip-plan-implementation | Planned |
-| /aa-dev-implement | In progress |
+| /aa-dev-implement | In review |
 | /aa-dev-finish-branch | In review |
 | /aa-ba-uat | Accepted |
 | /aa-rel-release | Done |

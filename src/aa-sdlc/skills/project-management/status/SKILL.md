@@ -5,7 +5,7 @@ aa:
   discipline: project-management
   step: status
   guidance_sets: [every-step, anchored-step]
-  guidance: [G-04]
+  guidance: [G-04, G-62]
   requires: [R-01]
 ---
 
@@ -40,6 +40,8 @@ A ticket is optional here. When one is given, read it and its page and pull the 
 4. **Name the blockers first.** For each blocked or at-risk item, record the blocker, the ticket
    or merge request that evidences it, and who owns unblocking it; if nobody does, say so and
    propose an owner. The reader can act on a blocker; they cannot act on praise.
+   Name the demonstrated user operation, next missing real join, owner and age of the current
+   integration failure. Ticket and test counts alone do not establish delivery (G-62).
 5. **State what changed** since the previous report: items that moved state, blockers raised or
    cleared, scope added or removed, computed by comparing the two reports (G-02). With no
    previous report, say this is the first.
@@ -51,8 +53,7 @@ A ticket is optional here. When one is given, read it and its page and pull the 
    session (G-24). Return it to the user; post it to the knowledge base or the iteration ticket
    only if asked.
 8. **Update the ticket** with the report or a link to it and its date (G-12). If the report was
-   written as a file in the repository, stage it and present it; commit only if the user asked
-   for that commit (O-17, G-40). Then report.
+   written as a file in the repository, stage it and present it; honor existing explicit task commit authorization (O-17, G-40). Then report.
 
 ## Artifacts
 
@@ -61,21 +62,23 @@ A ticket is optional here. When one is given, read it and its page and pull the 
 - Every claim traces to a ticket or a merge request
 - Blocked and at-risk items name the blocker and who owns unblocking it
 - Says what changed since the last report
+- Names demonstrated user operations, the next missing real join, its owner and the age of an unresolved integration failure
 
 ## Guidance
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
 - `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and check requirement currency, update the ticket at meaningful checkpoints, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-04** During development run focused checks; before review run the affected build, lint and relevant test tiers, retaining actual output and declaring the scope. At actual branch finish run full build, lint, provenance and every test tier; at release satisfy the release checks. Instruction-only changes use the framework's applicable structural validation rather than claiming product behavior.
+- **G-62** Protect a continuous integration lane for the current runnable outcome; supporting work names the blocker it removes, and complete an active bounded checkpoint before redirecting noncritical work. Report first working behavior, first real join, setup-invalidated runs, next executable user operation and the age of the current integration failure; ticket, component and test counts alone are not delivery.
 - Count with a tool and quote the count. "Most tickets are done" is not status; "14 of 19 committed tickets are done, 3 in review, 2 blocked" is.
 - Report the blocked item before the finished ones. The reader can act on a blocker; they cannot act on praise.
 - Say what you could not see. If a system was unreachable, the report says so rather than silently omitting it.
 
 ## Report
 
-State what was produced and where, quote the output of anything that was run, list what was skipped or could not be done and why, and name what remains (G-15). Update the anchor ticket with the same (G-12). Stage every changed file as one change set and present the summary with a Conventional Commit message; commit only if the user asked for that commit (O-17, G-40).
+State what was produced and where, link actual run output and summarize its scope and results, name failures/skips and what remains (G-15). Update the anchor at the meaningful milestone (G-12), referencing one proportionate evidence record instead of repacking unchanged proof. Stage only task-owned changes; honor existing explicit task commit authorization, otherwise present the diff and Conventional Commit message without committing (G-40).

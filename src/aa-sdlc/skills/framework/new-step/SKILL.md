@@ -71,15 +71,14 @@ stop and say so.
     validator rejects is not added. Then run `./test.ps1 -Tier unit` and
     `./scripts/Build-DisciplineReview.ps1`.
 11. **Stage and present.** Stage every changed file as one change set and present the staged
-    summary with the message `feat(workflow): add <discipline> step <id>`. Commit only if the
-    user asked for the commit in this invocation (O-17, G-40). No attribution trailers.
+    summary with the message `feat(workflow): add <discipline> step <id>`. Honor existing explicit task commit authorization (O-17, G-40). No attribution trailers.
 
 ## Guidance
 
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
 - `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
-- `src/aa-sdlc/skills/aa-guidance/sets/framework-authoring.md`: What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and stage rather than commit.
+- `src/aa-sdlc/skills/aa-guidance/sets/framework-authoring.md`: What the framework authoring commands do in the aa-sdlc repository: prove with the unit tier, produce each artifact where the workflow names it, and honor explicit task commit authorization.
 
 *For this step:*
 

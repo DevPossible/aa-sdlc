@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/security/maintain-security. Do not edit: change the page, then pull it.
-# Checksum: sha256:501195950afa7fc702c788ca89ff6f3de90d4b31991cd3fa5ad6fab62bddf344
+# Checksum: sha256:9cfa157061033b9aac98e27e9ee3b6b046d1eb1e0b278ab252850ecd92f28a99
 @agent @security @O-16 @O-22 @F-067
 Feature: /aa-sec-maintain-security keeps the released system safe and its evidence current
   Recurring maintenance anchored on a ticket: patch dependencies through the package manager
@@ -50,7 +50,7 @@ Feature: /aa-sec-maintain-security keeps the released system safe and its eviden
     Then every control has current evidence or an open ticket
 
   @F-067-07
-  Scenario: Each patch is staged as its own commit, never committed
+  Scenario: Each patch is staged as its own commit, committed only with authorization
     When "/aa-sec-maintain-security" finishes
     Then each dependency change is staged as its own commit with a Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task

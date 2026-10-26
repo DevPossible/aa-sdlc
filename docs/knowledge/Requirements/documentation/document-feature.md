@@ -110,11 +110,11 @@ keeps each kind, linked from the ticket and the feature's knowledge base page.
 | Then | it names where the feature lives, its configuration keys and environment templates, and any migration |
 | And | it names how the feature is tested at each tier and how to run those tests from the root test script |
 
-## F-016-07 The change is staged, linked, and presented, never committed
+## F-016-07 The change is staged, linked, and presented, committed only with authorization
 
 | Scenario | F-016-07 |
 | --- | --- |
-| Name | The change is staged, linked, and presented, never committed |
+| Name | The change is staged, linked, and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -124,4 +124,4 @@ keeps each kind, linked from the ticket and the feature's knowledge base page.
 | When | "/aa-doc-document-feature" finishes |
 | Then | the documentation links to the ticket and the feature's knowledge base page and both link back |
 | And | the changes are staged as one change set with a docs-typed Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |

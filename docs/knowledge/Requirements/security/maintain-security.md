@@ -110,11 +110,11 @@ and keep the patch log and compliance evidence current.
 | When | "/aa-sec-maintain-security" updates the compliance audit evidence |
 | Then | every control has current evidence or an open ticket |
 
-## F-067-07 Each patch is staged as its own commit, never committed
+## F-067-07 Each patch is staged as its own commit, committed only with authorization
 
 | Scenario | F-067-07 |
 | --- | --- |
-| Name | Each patch is staged as its own commit, never committed |
+| Name | Each patch is staged as its own commit, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -123,4 +123,4 @@ and keep the patch log and compliance evidence current.
 | --- | --- |
 | When | "/aa-sec-maintain-security" finishes |
 | Then | each dependency change is staged as its own commit with a Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |

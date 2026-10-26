@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/technical-analysis/architect. Do not edit: change the page, then pull it.
-# Checksum: sha256:75087d010b571b6dc960e7e7dc6ec8da6d0f11c03a62c359ae1dc060d3dcddad
+# Checksum: sha256:b78468b8c7db91888ac302d171696c47eb1bf2e2b6ecb65457948145288ee9cc
 @agent @technical-analysis @O-04 @O-18 @O-20 @F-073
 Feature: /aa-ta-architect decides the shape of the system with the reasons
   Decide the components, boundaries, integrations, data, and technology stack for an epic,
@@ -45,8 +45,8 @@ Feature: /aa-ta-architect decides the shape of the system with the reasons
     And an unknown that survives the box becomes a spike ticket and a labelled assumption on the epic
 
   @F-073-06
-  Scenario: The architecture is staged and presented, never committed
+  Scenario: The architecture is staged and presented, committed only with authorization
     When "/aa-ta-architect" finishes
     Then the architecture and its decision records are linked from the epic and the knowledge base page
     And the changed files are staged with a Conventional Commit message naming the epic
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task

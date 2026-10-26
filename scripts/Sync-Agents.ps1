@@ -76,7 +76,7 @@ foreach ($d in ($disciplines.Values | Where-Object { $_.id -ne 'framework' } | S
     [void]$body.Append("`n## Plugin skills`n`n")
     [void]$body.Append((Get-Wrapped "Where a plugin skill is installed whose frontmatter attaches it to one of this discipline's steps ($(($stepIds | ForEach-Object { $_ }) -join ', ')), use it for the part of the work it covers. Plugins bring no agents of their own.") + "`n`n")
     [void]$body.Append("## Report`n`n")
-    [void]$body.Append((Get-Wrapped "Return what you did, what you found with its evidence (file and line, the command and its output), and anything you could not check and why. Change nothing the step did not ask you to change, and commit nothing.") + "`n")
+    [void]$body.Append((Get-Wrapped "Return what you did, the candidate and scope, durable evidence links with actual commands and results, and anything you could not check and why. Reference valid predecessor proof rather than repacking it. Work only inside the authorized assignment; installed definitions grant no delegation authority. Honor explicit local task commit permission carried by the assignment, otherwise present task-owned changes without committing. Route actionable findings to their authorized owner and verify an idle worker starts; a notification alone is not execution.") + "`n")
     $expected["$name.md"] = $body.ToString()
 }
 

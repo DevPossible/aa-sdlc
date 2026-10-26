@@ -1,11 +1,11 @@
 # Generated from the knowledge base page Requirements/framework/small-commits-made-by-the-user. Do not edit: change the page, then pull it.
-# Checksum: sha256:c9a2310cfde457efd555d6241aa08a37048a20a5dfa260e39fe3f68a593b2f3a
+# Checksum: sha256:10eef1e6f876830ab2beb209c868718e6992d25dae8cf0844fc86e003136c274
 @framework @agent @O-17 @O-02 @T-06 @F-041
-Feature: Small, cohesive commits, made by the user
-  Every commit is one understandable change, small enough to review in one sitting. The agent
-  never makes the commit unless the user asked for that commit. It stages the change, writes
-  the message, presents the staged diff and the message, and stops. Reviewing the change
-  before it is committed is the primary point at which a person directs the work.
+Feature: Small, cohesive commits under explicit user authorization
+  Every commit is one understandable change, small enough to review in one sitting. Commit
+  only under explicit user authorization, including standing permission for local commits
+  within a named task. Without it, stage task-owned changes and present the diff and message.
+  Local checkpoints do not establish stakeholder acceptance or grant external-action authority.
 
   Background:
     Given a project bootstrapped with "aa init"
@@ -42,7 +42,7 @@ Feature: Small, cohesive commits, made by the user
     When "/aa-internal-new-opinion" finishes its checks
     Then every changed file is staged as one change set
     And the proposed commit message is presented
-    And the command does not commit unless the user asked it to in this invocation
+    And the command does not commit without explicit authorization covering this task
 
   @G-39 @F-041-05
   Scenario: A change that bundles two concerns is split before staging
@@ -61,6 +61,7 @@ Feature: Small, cohesive commits, made by the user
   @F-041-07
   Scenario: The stance holds for one person or fifteen
     Given a solo developer running an agent on a personal project
+    And no local commit permission was granted
     When the agent reaches a green build
     Then it still stages and presents rather than committing
     And the developer reviews the diff before committing it themselves

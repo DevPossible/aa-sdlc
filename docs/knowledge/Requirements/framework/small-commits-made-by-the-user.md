@@ -1,15 +1,15 @@
-# F-041 Small, cohesive commits, made by the user
+# F-041 Small, cohesive commits under explicit user authorization
 
 | Feature | F-041 |
 | --- | --- |
-| Name | Small, cohesive commits, made by the user |
+| Name | Small, cohesive commits under explicit user authorization |
 | Tags | @framework @agent @O-17 @O-02 @T-06 |
 | File | small-commits-made-by-the-user |
 
-Every commit is one understandable change, small enough to review in one sitting. The agent
-never makes the commit unless the user asked for that commit. It stages the change, writes
-the message, presents the staged diff and the message, and stops. Reviewing the change
-before it is committed is the primary point at which a person directs the work.
+Every commit is one understandable change, small enough to review in one sitting. Commit
+only under explicit user authorization, including standing permission for local commits
+within a named task. Without it, stage task-owned changes and present the diff and message.
+Local checkpoints do not establish stakeholder acceptance or grant external-action authority.
 
 ## Background
 
@@ -85,7 +85,7 @@ before it is committed is the primary point at which a person directs the work.
 | When | "/aa-internal-new-opinion" finishes its checks |
 | Then | every changed file is staged as one change set |
 | And | the proposed commit message is presented |
-| And | the command does not commit unless the user asked it to in this invocation |
+| And | the command does not commit without explicit authorization covering this task |
 
 ## F-041-05 A change that bundles two concerns is split before staging
 
@@ -131,6 +131,7 @@ before it is committed is the primary point at which a person directs the work.
 | Step | Text |
 | --- | --- |
 | Given | a solo developer running an agent on a personal project |
+| And | no local commit permission was granted |
 | When | the agent reaches a green build |
 | Then | it still stages and presents rather than committing |
 | And | the developer reviews the diff before committing it themselves |

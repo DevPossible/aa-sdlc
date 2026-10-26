@@ -131,11 +131,11 @@ repository, and record the technical constraints the scenarios must live within.
 | And | the document is linked from the epic |
 | And | a constraint that contradicts a scenario is a question on the ticket |
 
-## F-004-08 The changes are staged and presented, never committed
+## F-004-08 The changes are staged and presented, committed only with authorization
 
 | Scenario | F-004-08 |
 | --- | --- |
-| Name | The changes are staged and presented, never committed |
+| Name | The changes are staged and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -144,7 +144,7 @@ repository, and record the technical constraints the scenarios must live within.
 | --- | --- |
 | When | "/aa-ba-refine-requirements" finishes |
 | Then | the pulled feature files, and the changed pages where they are in the documents folder, are staged with a Conventional Commit message |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 
 ## F-004-09 Only what the stakeholder confirmed is Approved and pulled
 

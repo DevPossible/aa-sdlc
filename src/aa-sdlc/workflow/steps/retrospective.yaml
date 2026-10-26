@@ -25,7 +25,7 @@ artifacts:
     acceptance:
       - Every "change" is a ticket with an owner and a way to tell whether it worked
 guidance_sets: [every-step, anchored-step]
-guidance: [G-41]
+guidance: [G-41, G-62]
 guidance_inline:
   - Measure first, then ask. Present the numbers before opinions so the discussion is about causes, not impressions.
   - Three changes, not thirty. An improvement backlog nobody works is a complaint log.

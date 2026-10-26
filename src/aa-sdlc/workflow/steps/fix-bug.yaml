@@ -13,7 +13,7 @@ artifacts:
   - name: Reproducing test
     location: the test tier where the defect is observable
     acceptance:
-      - Fails before the fix and passes after; staged with the fix for the user to commit (O-17)
+      - Fails before the fix and passes after; kept with the fix under explicit task commit authorization (G-40)
   - name: Fix
     location: source folder, on a branch named per the ticket convention
     acceptance:

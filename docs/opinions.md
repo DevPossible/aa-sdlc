@@ -357,26 +357,21 @@ refinement and start passes the check trivially and pays nothing for it.
 *Requirements:* R-01, R-02, R-05, R-16, R-27. *Guidance:* G-31, G-32.
 
 **O-26 Tickets follow one hierarchy and one life cycle.**
-*The stance:* every ticket is one of five kinds, and every ticket moves through the same seven
-states. An epic is an outcome (`define-outcome`); a story is one behaviour a user can observe,
-with its scenarios in a feature file (`plan-work`); a task is a buildable piece of a story's plan
-(`breakdown-tasks`); a bug is behaviour that contradicts a scenario (`triage`); a spike is a
-time-boxed question (`spike`). The states are New, Refined, Planned, In progress, In review,
-Accepted, and Done, and a ticket moves only when the step that produces the evidence for the new
-state runs and writes that evidence on the ticket: `refine-ticket` makes it Refined,
-`plan-implementation` Planned, `implement` In progress, `finish-branch` In review, `uat`
-Accepted, and `release` Done. The project config maps each kind and state to the name the ticket
-system uses, once, so the framework says what a state means and the tool keeps its own words
-(T-01).
-*Why:* a state that means the same thing in every project can be read by a step, a report, or
-`/aa-fw-whatsnext` without guessing, and a state only a step can set is evidence rather than an
-impression of progress. Five kinds are enough to say whether a ticket is an outcome, a behaviour,
-a piece of work, a defect, or a question, which is all the steps need to know.
-*Rejected:* a workflow per team; states named after who holds the ticket ("with QA"); moving
-tickets by hand to show progress; states no step produces; labels standing in for states;
-renaming the ticket system's own states to match the framework's.
-*Would change our mind:* a step that needs a distinction the seven states cannot express, shown
-in a real project; the state would be added here and mapped, not invented per team.
+*The stance:* the five kinds are epic, story, task, bug and spike. The seven states are New,
+Refined, Planned, In progress, In review, Accepted and Done, mapped to the ticket system's
+names. States follow evidence: linked scenarios/revision make work Refined, a confirmed brief
+makes it Planned, implementation starts In progress, and a verified reviewable candidate makes
+it In review. The candidate links a merge request or, when remote review is outside scope,
+an authorized local review record. Stakeholder confirmation makes it Accepted; release makes
+it Done. Record author verification, independent review, local integration and release
+separately. Ready-for-review coding is not left In progress merely while a reviewer waits.
+*Why:* the state should identify the next work and its evidence rather than the location of
+a remote artifact. A local reviewable candidate can be real progress without establishing
+independent acceptance, merged completion or release.
+*Rejected:* moving states without evidence, invented per-team meanings, treating a local
+candidate as merged or released, and interpreting a status-name mapping as action authority.
+*Would change our mind:* a real distinction the seven states cannot express would be added
+here with explicit evidence semantics and mapping.
 *Requirements:* R-02, R-41, R-43. *Guidance:* G-51, G-52.
 
 ---
@@ -406,28 +401,21 @@ rather than a convention the tooling reads.
 release, versioning, and changelog tooling. None is in sight.
 *Requirements:* R-01, R-05, R-08, R-28. *Guidance:* G-08, G-09, G-33, G-34.
 
-**O-17 Small, cohesive commits, made by the user.**
-*The stance:* every commit is one understandable change: one concern, one ticket, a subject
-that says what and a body that says why, small enough to review in one sitting. And the agent
-never makes the commit unless the user asked for that commit. The agent does everything up to
-it: stages the change, writes the message, presents the staged diff and the message, and stops.
-A request to implement, fix, finish, or run a step is not a request to commit. Reviewing the
-change before it is committed is the primary point at which a person directs the work, and the
-framework does not let an agent take it away.
-*Why:* small cohesive commits are what make review possible, bisecting meaningful, and revert
-safe; a commit that needs a tour is three commits. The second half is about who is in charge.
-An agent that commits on its own turns the history into a record of what it did rather than
-what the user accepted, and moves the human's review from before the commit, where a change
-can be shaped, to after, where it can only be undone. The agent proposes; the human decides
-(T-06). Commits made under the user's identity, at the user's request, keep the history honest
-about who is accountable for it, which is also why no commit carries an agent attribution.
-*Rejected:* "commit at every green" performed by the agent; agents committing under their own
-identity or with attribution trailers; a standing permission to commit granted once and never
-revisited; squashing a day's work into one commit at the end; review after the fact as a
-substitute for review before the commit.
-*Would change our mind:* nothing foreseeable about who commits. On size, a repository whose
-tooling cannot bisect or revert would lose one benefit and keep the rest.
-*Requirements:* R-01, R-05, R-31. *Guidance:* G-39, G-40.
+**O-17 Small, cohesive commits under explicit user authorization.**
+*The stance:* each commit is one understandable change, one concern and one ticket, small
+enough to review. Commit only under explicit user authorization, including standing permission
+for local checkpoints within a named task until revoked or the task ends. Without it, stage
+only task-owned changes and present the diff and message. Implementation alone grants no
+commit permission. A local checkpoint records development progress, not stakeholder acceptance.
+*Why:* small commits support review, bisect and rollback. Human control is expressed by the
+approved boundary and permitted actions; repeatedly asking for the same permission adds a
+handoff without adding a decision. Review and release retain their own evidence and authority.
+*Rejected:* committing without permission, absorbing another worker's files, treating local
+commit permission as delegation or remote/release authority, unbounded permanent permission,
+agent identities or attribution trailers, and repeating authorization already granted.
+*Would change our mind:* evidence that bounded authorization cannot preserve ownership and
+reviewability; a project may always choose approval for each individual commit.
+*Requirements:* R-01, R-05, R-31. *Guidance:* G-11, G-39, G-40.
 
 **O-19 Every change traces back to its purpose.**
 *The stance:* every change to the repository can be followed back to why it was made: the
@@ -588,24 +576,22 @@ Development proves the requirement and Testing goes beyond it; decisions are rec
 conventions are enforced by tools; tests are deterministic and independent.
 
 **O-08 Development proves the requirement; Testing goes beyond it.**
-*The stance:* the Development discipline is responsible for the automated tests that show a
-requirement is met: unit tests and integration tests covering every happy path, the general
-permutations and cases, and the obvious negative tests, plus a happy-path end-to-end test for
-each scenario. A ticket
-is not done until those exist and pass; they are part of meeting the requirement, not a separate
-task. The Testing discipline is responsible for making the suite as comprehensive as is
-reasonable: starting from the feature files, then applying general testing strategies to find
-what the requirement did not say, including gaps in understanding and in how users actually
-interact with the system. Every gap Testing finds becomes a question on the ticket and a new
-scenario in the feature file.
-*Why:* a developer who does not write the tests does not know if the code works. A tester who
-only checks the stated requirement finds only the defects someone already imagined. Splitting the
-responsibility this way gives each discipline a job the other cannot do, and keeps "done" honest
-(T-07).
-*Rejected:* throwing code over the wall to a test team; a test team that only automates the
-acceptance criteria; treating tests as a phase after development rather than part of it.
-*Would change our mind:* nothing foreseeable.
-*Requirements:* R-11, R-16, R-21. *Guidance:* G-20, G-21.
+*The stance:* Development supplies the tests proving each delivered scenario: behavior and
+relevant negative cases, integration at changed boundaries, and happy-path end-to-end proof
+for user-visible flows. The scenario-to-test mapping and tier rationale are recorded; identical
+assertions are not automatically repeated at every tier. All promised acceptance cases and
+required coverage remain due before acceptance. Testing starts from those scenarios and tests,
+then applies broader strategies to find what the requirement did not say. Each gap becomes a
+question on the ticket and a proposed scenario on its feature page.
+*Why:* the implementer must know the behavior works, and independent examination must challenge
+the assumptions. Early real collaborators expose mistaken boundaries and setup sooner than
+expanding private tests first. Test volume does not establish runnable progress.
+*Rejected:* throwing untested code over the wall, postponing tests until after implementation,
+calling a missing-type error behavioral proof, freezing every private helper before coding,
+and silently dropping promised cases under the name of proportionate testing.
+*Would change our mind:* defects escaping justified tier selection would strengthen the
+required proof for that class of boundary.
+*Requirements:* R-11, R-16, R-21. *Guidance:* G-20, G-21, G-60.
 
 **O-18 Decisions are decision records.**
 *The stance:* every significant decision, technical, product, or process, is recorded as a
@@ -664,29 +650,20 @@ that they are configured, committed, and run.
 *Requirements:* R-09, R-12, R-15, R-35, R-44, R-45. *Guidance:* G-01, G-06, G-44, G-50.
 
 **O-23 Tests are deterministic and independent.**
-*The stance:* every test, at every tier, produces the same result every time it runs, alone or
-with any other tests in any order. To make that true, a test controls the four things that
-make results vary: time is injected or frozen, randomness is seeded or injected, state is
-owned by the test that needs it and cleaned up after, and external dependencies are replaced
-by a container (O-12), a fake, or a recorded response. A test that fails intermittently is a
-defect in the test or the system; it is quarantined with a ticket the same day and is never
-retried into green (G-06). The root test script can run one test alone and can run a tier in
-a shuffled order, and both give the same answer as the full run.
-*Why:* a test suite is evidence (T-07) only while its results mean something. One flaky test
-teaches everyone to re-run the suite, and from then on a real failure looks like noise and a
-retry hides a real defect. Order dependence means a test proves nothing on its own and a
-failure cannot be reproduced by running it. Hidden time, randomness, shared state, and live
-dependencies are the four sources of variance in practice, and each has a known control. Agents
-write flaky tests readily, because a sleep or a live call is the shortest path to green, and
-they will happily add a retry when asked to fix one; naming the four controls and forbidding
-the retry is what keeps the suite honest.
-*Rejected:* retry-on-failure as a test setting; tests that pass only in a fixed order; a shared
-test database or environment that tests mutate and do not restore; sleeps as synchronisation;
-live calls to external services from unit or integration tests; skipping a flaky test without
-a ticket.
-*Would change our mind:* nothing foreseeable. Tests that must exercise genuine nondeterminism
-(property-based, chaos, soak) record their seed or their run and live where the strategy puts
-them, outside the tiers a change must pass.
+*The stance:* every test produces the same result alone or with others: time and randomness
+are controlled, state is owned and cleaned up, and external dependencies use containers,
+fakes or recorded responses. An intermittent failure is unresolved evidence. Retain its
+output, track the affected claim and name a distinguishing experiment. Quarantine requires
+explicit authorization and a defect ticket; it never makes affected acceptance green.
+Independent work may continue, but a narrower green run does not erase a failure.
+*Why:* rerunning until green destroys the meaning of evidence. Automatically removing a
+failing test can hide a product defect just as readily as a test defect. Experiments must
+distinguish setup failure, reproduced product failure and unexplained observation.
+*Rejected:* retry-on-failure settings, order dependence, unowned state, sleeps as
+synchronization, untracked quarantine, suppressing failures and treating quarantine as
+acceptance. Unit and integration tests do not make uncontrolled external service calls.
+*Would change our mind:* tests exploring genuine nondeterminism record their seed or run and
+live where the strategy puts them, apart from deterministic acceptance tiers.
 *Requirements:* R-11, R-21, R-25, R-37. *Guidance:* G-06, G-46.
 
 ---

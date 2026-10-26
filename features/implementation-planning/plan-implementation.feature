@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/implementation-planning/plan-implementation. Do not edit: change the page, then pull it.
-# Checksum: sha256:dc7deaeb1f97afd42cdc813d4de7790472016abb2c23ced270c15eed0d1463cc
+# Checksum: sha256:301b683f15a6f36ed933598e4ae03f9e3f1ab0d897e907cc10a329d9a63717de
 @agent @implementation-planning @O-10 @O-13 @O-20 @F-047
 Feature: /aa-ip-plan-implementation writes down how before anyone builds
   Before building a ticket, write down which files and components change, in what order, what
@@ -37,10 +37,11 @@ Feature: /aa-ip-plan-implementation writes down how before anyone builds
     Then the size on the ticket is revised with the reason
 
   @F-047-05
-  Scenario: A plan longer than the change hands the ticket back
+  Scenario: An over-specified plan is shortened before splitting
     Given the plan runs to more steps than the change it describes
     When "/aa-ip-plan-implementation" reviews it
-    Then the ticket is handed back to refinement to split
+    Then the plan is shortened to the scenarios, boundaries, risks, proof and next runnable join
+    And the ticket is split only if scope, risk or dependencies prevent coherent implementation and review
 
   @F-047-06
   Scenario: Build waits for confirmation

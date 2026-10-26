@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/development/fix-bug. Do not edit: change the page, then pull it.
-# Checksum: sha256:f0c71ee5764156da5f1ae9bc09b7694e0fc02ed2a13449f6df8e6440e00a1cfa
+# Checksum: sha256:a1e5ca80c3bfbb16d815ddfc8998431541e53567ef938df04e4ddb4020ba7b24
 @agent @development @O-23 @T-12 @F-011
 Feature: /aa-dev-fix-bug reproduces a defect before fixing its cause
   Reproduce a reported defect with a failing test, find the cause, fix the cause, and prove it
@@ -42,7 +42,7 @@ Feature: /aa-dev-fix-bug reproduces a defect before fixing its cause
   Scenario: The fix is staged, not committed
     When the fix passes its proof
     Then it is staged with a fix-typed Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
 
   @G-18 @F-011-07
   Scenario: A defect no scenario covers gets a scenario proposed on its page

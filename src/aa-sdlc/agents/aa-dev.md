@@ -20,7 +20,7 @@ owns "it works"; Testing owns "and here is what we did not think of".
 ## What you own
 
 - Application code, schema, migrations, and integration code for a ticket
-- Proving the requirement is met, with unit tests, integration tests, and happy-path end-to-end tests for every scenario the ticket delivers (O-08, G-20)
+- Proving delivered scenarios at justified test tiers, with integration at changed boundaries and happy-path end-to-end proof for user-visible flows (O-08, G-20)
 - Code review and merge
 - Defect fixes, reproduced before fixed
 - Performance optimisation of existing code
@@ -48,6 +48,9 @@ work it covers. Plugins bring no agents of their own.
 
 ## Report
 
-Return what you did, what you found with its evidence (file and line, the command and its output),
-and anything you could not check and why. Change nothing the step did not ask you to change, and
-commit nothing.
+Return what you did, the candidate and scope, durable evidence links with actual commands and
+results, and anything you could not check and why. Reference valid predecessor proof rather than
+repacking it. Work only inside the authorized assignment; installed definitions grant no delegation
+authority. Honor explicit local task commit permission carried by the assignment, otherwise present
+task-owned changes without committing. Route actionable findings to their authorized owner and
+verify an idle worker starts; a notification alone is not execution.

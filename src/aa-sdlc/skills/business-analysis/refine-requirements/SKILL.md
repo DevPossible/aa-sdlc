@@ -15,7 +15,7 @@ Close the gaps. Turn draft scenarios into complete, unambiguous, testable ones; 
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check requirement currency under G-54. Pull instructions below apply only when the snapshot changed or currency is unknown. If no ticket system is reachable, record the anchor and artifacts locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -62,8 +62,7 @@ Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pul
    ids of its scenarios, and each page back (G-19, G-26). Update the ticket with which
    ambiguities were resolved, which remain as open questions, and what remains (G-12). Stage the
    pulled feature files, and the changed pages where they are in the documents folder, and
-   present the summary with a Conventional Commit message; commit only if the user asked for
-   that commit (O-17, G-40). Then report.
+   present the summary with a Conventional Commit message; honor existing explicit task commit authorization (O-17, G-40). Then report.
 
 ## Artifacts
 
@@ -82,7 +81,7 @@ Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pul
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
 - `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and check requirement currency, update the ticket at meaningful checkpoints, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 - `src/aa-sdlc/skills/aa-guidance/sets/repository-write.md`: What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
 
 *For this step:*
@@ -101,4 +100,4 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 ## Report
 
-State what was produced and where, quote the output of anything that was run, list what was skipped or could not be done and why, and name what remains (G-15). Update the anchor ticket with the same (G-12). Stage every changed file as one change set and present the summary with a Conventional Commit message; commit only if the user asked for that commit (O-17, G-40).
+State what was produced and where, link actual run output and summarize its scope and results, name failures/skips and what remains (G-15). Update the anchor at the meaningful milestone (G-12), referencing one proportionate evidence record instead of repacking unchanged proof. Stage only task-owned changes; honor existing explicit task commit authorization, otherwise present the diff and Conventional Commit message without committing (G-40).

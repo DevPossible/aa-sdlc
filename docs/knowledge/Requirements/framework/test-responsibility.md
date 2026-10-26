@@ -29,10 +29,10 @@ finds into a scenario. Each has a job the other cannot do.
 | Step | Text |
 | --- | --- |
 | When | "/aa-dev-implement" runs for the ticket |
-| Then | unit and integration tests exist for every happy path in the ticket's scenarios |
-| And | unit and integration tests exist for the general permutations and cases |
-| And | unit and integration tests exist for the obvious negative cases |
-| And | a happy-path end-to-end test exists for each scenario |
+| Then | each delivered scenario has passing tests at justified tiers with its test mapping and rationale recorded |
+| And | tests cover the happy paths, relevant permutations and obvious negative cases |
+| And | changed boundaries have integration proof and user-visible flows have happy-path end-to-end proof |
+| And | equivalent assertions are not automatically duplicated at every tier |
 
 ## F-042-02 A ticket is not done without its tests
 

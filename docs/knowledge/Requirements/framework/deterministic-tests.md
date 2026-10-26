@@ -9,8 +9,9 @@
 Every test, at every tier, gives the same result every time, alone or with any other tests
 in any order. Time is injected or frozen, randomness is seeded or injected, state is owned
 and cleaned up by the test that needs it, and external dependencies are replaced by a
-container, a fake, or a recorded response. A flaky test is a defect, quarantined with a
-ticket and never retried into green.
+container, a fake, or a recorded response. An intermittent failure is unresolved evidence:
+retain it, track the affected claim and choose a distinguishing experiment. Authorized
+quarantine requires a defect ticket and never makes the affected acceptance claim green.
 
 ## Background
 
@@ -100,11 +101,11 @@ ticket and never retried into green.
 | And | runs the tier in a shuffled order |
 | Then | each run gives the same result as the full run |
 
-## F-025-06 A flaky test is quarantined, not retried
+## F-025-06 An intermittent failure remains unresolved, never retried into acceptance
 
 | Scenario | F-025-06 |
 | --- | --- |
-| Name | A flaky test is quarantined, not retried |
+| Name | An intermittent failure remains unresolved, never retried into acceptance |
 | Kind | Scenario |
 | Tags | @G-46 @G-06 |
 | Status | Approved |
@@ -113,8 +114,9 @@ ticket and never retried into green.
 | --- | --- |
 | Given | a test that failed once in five runs with no code change |
 | When | "/aa-dev-fix-bug" or "/aa-qa-e2e-tests" handles it |
-| Then | a ticket is raised for the test the same day |
-| And | the test is quarantined with the ticket referenced |
+| Then | the failure and affected acceptance claim are retained on a defect ticket |
+| And | a distinguishing experiment is named and quarantine requires explicit authorization |
+| And | any quarantine leaves the affected acceptance claim unresolved |
 | And | no retry is added and no sleep is lengthened to make it pass |
 
 ## F-025-07 An agent asked to fix a flaky test does not add a retry

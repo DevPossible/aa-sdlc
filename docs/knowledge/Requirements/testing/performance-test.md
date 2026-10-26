@@ -113,4 +113,4 @@ a ticket for every target that was missed.
 | Then | a baseline report in the knowledge base lists each target with its measured value, method, environment, and pass or fail |
 | And | the report is linked from the ticket and links back |
 | And | the suite is staged with a Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |

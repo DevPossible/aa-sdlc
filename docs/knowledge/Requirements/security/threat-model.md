@@ -96,11 +96,11 @@ reason, and turn every mitigation into a scenario in the features folder and a t
 | Then | each mitigation has a ticket in the configured ticket project as a child of the epic |
 | And | each ticket links to its scenario |
 
-## F-069-06 The new scenarios are staged and presented, never committed
+## F-069-06 The new scenarios are staged and presented, committed only with authorization
 
 | Scenario | F-069-06 |
 | --- | --- |
-| Name | The new scenarios are staged and presented, never committed |
+| Name | The new scenarios are staged and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -110,7 +110,7 @@ reason, and turn every mitigation into a scenario in the features folder and a t
 | When | "/aa-sec-threat-model" finishes |
 | Then | the threat model is in the knowledge base and linked from the epic |
 | And | the new feature files are staged with a Conventional Commit message naming the epic |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 
 ## F-069-07 The threats are enumerated by a separate mind where one is available
 
@@ -123,7 +123,7 @@ reason, and turn every mitigation into a scenario in the features folder and a t
 
 | Step | Text |
 | --- | --- |
-| Given | the harness can run the aa-sec subagent |
+| Given | the harness has explicit authorization to run the aa-sec subagent |
 | When | "/aa-sec-threat-model" runs |
 | Then | it hands following the data, enumerating the threats, and rating them to the aa-sec subagent |
-| And | where no subagent is available it does that work itself |
+| And | where no separate reviewer is authorized or available it does that work itself |

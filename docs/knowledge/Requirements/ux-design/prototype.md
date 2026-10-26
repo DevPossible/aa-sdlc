@@ -142,11 +142,11 @@ feed what stakeholders say back through the feature file.
 | When | "/aa-ux-prototype" builds the interactive prototype |
 | Then | a stakeholder can complete the scenario's When without help |
 
-## F-081-09 Artifacts are linked, staged, and presented, never committed
+## F-081-09 Artifacts are linked, staged, and presented, committed only with authorization
 
 | Scenario | F-081-09 |
 | --- | --- |
-| Name | Artifacts are linked, staged, and presented, never committed |
+| Name | Artifacts are linked, staged, and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |

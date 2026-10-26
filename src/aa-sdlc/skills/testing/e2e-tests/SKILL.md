@@ -15,7 +15,7 @@ Automate the scenarios that can only be proven through the whole system as the u
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check requirement currency under G-54. Pull instructions below apply only when the snapshot changed or currency is unknown. If no ticket system is reachable, record the anchor and artifacts locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -56,12 +56,12 @@ Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pul
    than being accepted silently.
 6. **Run the tier from the root test script** with the end-to-end tier selected, then each new
    test alone and the tier in shuffled order, and quote the output (G-04, O-23). A test that
-   fails intermittently is quarantined with a ticket the same day and is never wrapped in a
+   fails intermittently remains unresolved evidence under G-46 and is never wrapped in a
    retry (G-06). Tear the environment down afterwards.
 7. **Stage and present.** Stage the tests, the baselines, any container definition changes, and
    the page changes where the knowledge base is the documents folder, as one change set with a
    Conventional Commit message naming the ticket (G-33, G-39), present the staged diff and the
-   message, and stop. Commit only if the user asked for that commit (O-17, G-40).
+   message; honor existing explicit task commit authorization (O-17, G-40).
 8. **Update the ticket** with which scenarios now have end-to-end tests, which tests depend on
    a shared environment and why, which tests are quarantined and under what ticket, and what
    remains, linked both ways (G-12, G-26). Then report.
@@ -71,7 +71,7 @@ Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pul
 **End-to-end test suite** in tests/e2e. Done when:
 
 - Runs from the root test script with the e2e tier
-- Each test maps to a scenario by tag; flaky tests are quarantined with a ticket, not retried into green
+- Each test maps to a scenario by tag; intermittent failures remain tracked and unresolved, with only explicitly authorized quarantine and no retry into green
 
 **Visual regression suite** in tests/e2e. Done when:
 
@@ -82,7 +82,7 @@ Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pul
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
 - `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and check requirement currency, update the ticket at meaningful checkpoints, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 - `src/aa-sdlc/skills/aa-guidance/sets/repository-write.md`: What every step that changes files in the repository does: keep artifacts with the code, write Conventional Commit messages, one cohesive change per commit, stage and present rather than commit, and name the purpose of every change.
 - `src/aa-sdlc/skills/aa-guidance/sets/test-writing.md`: What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
 
@@ -94,8 +94,8 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - Drive the system the way a user does, through its real entry points; do not reach into internals to make a test pass.
 - Own the test data. Every end-to-end test creates what it needs and cleans up; a test that depends on leftover state will lie eventually.
 - Own the environment too. Start it from the repository's container definitions and tear it down after; a test that needs a shared environment is marked and the reason recorded (O-12).
-- A flaky test is a defect in the test or the system. Quarantine it with a ticket the same day; never wrap it in a retry to hide it (G-06, O-23).
+- Retain intermittent failures and affected claims with a distinguishing experiment; quarantine requires explicit authorization and a defect ticket and never makes affected acceptance green (G-06, G-46, O-23).
 
 ## Report
 
-State what was produced and where, quote the output of anything that was run, list what was skipped or could not be done and why, and name what remains (G-15). Update the anchor ticket with the same (G-12). Stage every changed file as one change set and present the summary with a Conventional Commit message; commit only if the user asked for that commit (O-17, G-40).
+State what was produced and where, link actual run output and summarize its scope and results, name failures/skips and what remains (G-15). Update the anchor at the meaningful milestone (G-12), referencing one proportionate evidence record instead of repacking unchanged proof. Stage only task-owned changes; honor existing explicit task commit authorization, otherwise present the diff and Conventional Commit message without committing (G-40).

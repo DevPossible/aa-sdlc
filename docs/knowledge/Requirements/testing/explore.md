@@ -139,7 +139,7 @@ question on the ticket, or a pending scenario in the feature file.
 
 | Step | Text |
 | --- | --- |
-| Given | the harness can run the aa-qa subagent |
+| Given | the harness has explicit authorization to run the aa-qa subagent |
 | When | "/aa-qa-explore" runs |
 | Then | it hands the session, from starting the system to sorting the surprises, to the aa-qa subagent with the charter |
-| And | where no subagent is available it runs the session itself |
+| And | where no separate reviewer is authorized or available it runs the session itself |

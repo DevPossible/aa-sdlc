@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/documentation/document-feature. Do not edit: change the page, then pull it.
-# Checksum: sha256:a5d545cc650d2f0ea02b3ee5a78aca8c2dd9fe1dde19a5ad13d8083d2d9fb716
+# Checksum: sha256:cb9c66e999acfa22cdcefcecb468627a982fc3feef20b38c86cc3c9ba4e2f40b
 @agent @documentation @O-16 @F-016
 Feature: /aa-doc-document-feature documents a ticket from its scenarios
   Write or update the user-facing and developer-facing documentation for a ticket, written
@@ -50,8 +50,8 @@ Feature: /aa-doc-document-feature documents a ticket from its scenarios
     And it names how the feature is tested at each tier and how to run those tests from the root test script
 
   @F-016-07
-  Scenario: The change is staged, linked, and presented, never committed
+  Scenario: The change is staged, linked, and presented, committed only with authorization
     When "/aa-doc-document-feature" finishes
     Then the documentation links to the ticket and the feature's knowledge base page and both link back
     And the changes are staged as one change set with a docs-typed Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task

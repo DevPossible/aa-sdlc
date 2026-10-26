@@ -4,11 +4,12 @@ Agent skills and commands that implement the Agent Assisted Software Development
 (AA-SDLC) methodology. The methodology says what a well-run agent-assisted project produces at
 each step and why; this SDK gives an agent the how.
 
-**Status:** first complete cut, unproven in the field. All 53 steps have a skill, a command,
-and a feature file; the `aa` CLI (`setup`, `init`) is a Go binary packed for six platforms;
-the unit, integration, and e2e tiers run. Nothing is published to npm yet, and the skills have
-not been exercised against a real project. See [docs/design.md](docs/design.md) and
-[docs/plan-framework-gaps.md](docs/plan-framework-gaps.md).
+**Status:** published on npm with a Go CLI packed for six platforms and unit, integration
+and installation E2E tests. Field use in Agent Possible informed the proportionate delivery
+loop: one approved brief, early real integration and explicit acceptance boundaries. Sustained
+delivery improvements still need measurement. See [docs/design.md](docs/design.md),
+[decision 0021](docs/decisions/0021-proportionate-delivery-and-early-integration.md) and
+[0.6.0 migration notes](docs/releases/0.6.0.md).
 
 ## We are opinionated, and here are the opinions
 
@@ -29,7 +30,7 @@ in [docs/opinions.md](docs/opinions.md).
   the evidence; a size is grounded in implementation thinking; a waiting ticket is checked
   against the repository before work starts.
 - **Commits and history** (O-14, O-17, O-19, O-22): Conventional Commits, small and cohesive,
-  made by the user, traceable to their purpose; dependencies change through the package manager.
+  made under explicit user authorization, traceable to their purpose; dependencies change through the package manager.
 - **The delivery path** (O-11, O-12, O-24, O-25): every pipeline step runs locally; end-to-end
   tests run against containers; build once and promote; environment settings live apart from
   functional settings.

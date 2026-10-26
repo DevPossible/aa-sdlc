@@ -8,7 +8,7 @@ purpose: >
   ticket. Development owns "it works"; Testing owns "and here is what we did not think of".
 owns:
   - Application code, schema, migrations, and integration code for a ticket
-  - Proving the requirement is met, with unit tests, integration tests, and happy-path end-to-end tests for every scenario the ticket delivers (O-08, G-20)
+  - Proving delivered scenarios at justified test tiers, with integration at changed boundaries and happy-path end-to-end proof for user-visible flows (O-08, G-20)
   - Code review and merge
   - Defect fixes, reproduced before fixed
   - Performance optimisation of existing code

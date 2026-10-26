@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/whatsnext. Do not edit: change the page, then pull it.
-# Checksum: sha256:9e373ffed68cc37eed2959328e00e71dca6009a2bcc6b0352552ddcd8346ef9c
+# Checksum: sha256:6a8387af52ea41ab88ccc25cc4f2096babfa7716f7d00dc8da2247411cbc325f
 @agent @framework @T-03 @T-04 @T-10 @F-045
 Feature: /aa-fw-whatsnext names the one thing to do next
   The step reviews the working folder, and the ticket system and knowledge base it links to, in a
@@ -24,19 +24,19 @@ Feature: /aa-fw-whatsnext names the one thing to do next
 
   @F-045-03
   Scenario: Unfinished work comes before new work
-    Given a repository with uncommitted changes on a branch that names a ticket
+    Given a repository with active bounded implementation and uncommitted changes on its ticket branch
     When I run "/aa-fw-whatsnext"
-    Then it recommends "/aa-dev-finish-branch" with that ticket id
+    Then it recommends continuing "/aa-dev-implement" with that ticket id
     And it does not recommend a new ticket
 
   @F-045-04
   Scenario: Recent code without tests
     Given the foundation passes and no work is in flight
-    And a recent commit on the default branch changed code and no test
+    And a recent commit on the default branch changed behavior without mapped proof at justified tiers
     When I run "/aa-fw-whatsnext"
     Then it recommends "/aa-qa-generate-tests" with the commit's ticket id
     And the evidence names the commit and the files it changed
-    And it cites O-07
+    And it cites O-08
 
   @F-045-14
   Scenario: A recently changed scenario that no test names
@@ -88,6 +88,9 @@ Feature: /aa-fw-whatsnext names the one thing to do next
       | New                               | /aa-rf-refine-ticket       |
       | Refined                           | /aa-ip-plan-implementation |
       | Planned                           | /aa-dev-implement          |
+      | In progress                       | /aa-dev-implement          |
+      | In review, awaiting review        | /aa-dev-review             |
+      | In review, reviewed but unmerged  | /aa-dev-finish-branch      |
       | In review, with its change merged | /aa-ba-uat                 |
       | Accepted                          | /aa-rel-prepare-release    |
 

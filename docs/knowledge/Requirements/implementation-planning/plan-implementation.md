@@ -79,11 +79,11 @@ ticket and is confirmed before build starts.
 | When | "/aa-ip-plan-implementation" finishes the plan |
 | Then | the size on the ticket is revised with the reason |
 
-## F-047-05 A plan longer than the change hands the ticket back
+## F-047-05 An over-specified plan is shortened before splitting
 
 | Scenario | F-047-05 |
 | --- | --- |
-| Name | A plan longer than the change hands the ticket back |
+| Name | An over-specified plan is shortened before splitting |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -92,7 +92,8 @@ ticket and is confirmed before build starts.
 | --- | --- |
 | Given | the plan runs to more steps than the change it describes |
 | When | "/aa-ip-plan-implementation" reviews it |
-| Then | the ticket is handed back to refinement to split |
+| Then | the plan is shortened to the scenarios, boundaries, risks, proof and next runnable join |
+| And | the ticket is split only if scope, risk or dependencies prevent coherent implementation and review |
 
 ## F-047-06 Build waits for confirmation
 

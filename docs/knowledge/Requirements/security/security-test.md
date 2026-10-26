@@ -96,11 +96,11 @@ map each required control to its evidence in the compliance report.
 | Then | every control the organisation requires maps to the evidence that it is met or to the ticket that will meet it |
 | And | no control is left unmapped |
 
-## F-068-06 Run output in the repository is staged, never committed
+## F-068-06 Run output in the repository is staged, committed only with authorization
 
 | Scenario | F-068-06 |
 | --- | --- |
-| Name | Run output in the repository is staged, never committed |
+| Name | Run output in the repository is staged, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -110,7 +110,7 @@ map each required control to its evidence in the compliance report.
 | Given | the project config keeps run output in the documents folder |
 | When | "/aa-sec-security-test" finishes |
 | Then | the run output is staged with a Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 
 ## F-068-07 The security pass is run by a separate mind where one is available
 
@@ -123,7 +123,7 @@ map each required control to its evidence in the compliance report.
 
 | Step | Text |
 | --- | --- |
-| Given | the harness can run the aa-sec subagent |
+| Given | the harness has explicit authorization to run the aa-sec subagent |
 | When | "/aa-sec-security-test" runs |
 | Then | it hands the plan, the tooling, the scenarios, and the findings to the aa-sec subagent with the threat model |
-| And | where no subagent is available it does that work itself |
+| And | where no separate reviewer is authorized or available it does that work itself |

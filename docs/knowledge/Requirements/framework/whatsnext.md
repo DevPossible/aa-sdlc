@@ -55,9 +55,9 @@ never blocks; a layer it cannot reach is reported as not checked, never as passe
 
 | Step | Text |
 | --- | --- |
-| Given | a repository with uncommitted changes on a branch that names a ticket |
+| Given | a repository with active bounded implementation and uncommitted changes on its ticket branch |
 | When | I run "/aa-fw-whatsnext" |
-| Then | it recommends "/aa-dev-finish-branch" with that ticket id |
+| Then | it recommends continuing "/aa-dev-implement" with that ticket id |
 | And | it does not recommend a new ticket |
 
 ## F-045-04 Recent code without tests
@@ -72,11 +72,11 @@ never blocks; a layer it cannot reach is reported as not checked, never as passe
 | Step | Text |
 | --- | --- |
 | Given | the foundation passes and no work is in flight |
-| And | a recent commit on the default branch changed code and no test |
+| And | a recent commit on the default branch changed behavior without mapped proof at justified tiers |
 | When | I run "/aa-fw-whatsnext" |
 | Then | it recommends "/aa-qa-generate-tests" with the commit's ticket id |
 | And | the evidence names the commit and the files it changed |
-| And | it cites O-07 |
+| And | it cites O-08 |
 
 ## F-045-14 A recently changed scenario that no test names
 
@@ -184,6 +184,9 @@ never blocks; a layer it cannot reach is reported as not checked, never as passe
 | New | /aa-rf-refine-ticket |
 | Refined | /aa-ip-plan-implementation |
 | Planned | /aa-dev-implement |
+| In progress | /aa-dev-implement |
+| In review, awaiting review | /aa-dev-review |
+| In review, reviewed but unmerged | /aa-dev-finish-branch |
 | In review, with its change merged | /aa-ba-uat |
 | Accepted | /aa-rel-prepare-release |
 

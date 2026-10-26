@@ -15,7 +15,7 @@ Test the built system for the weaknesses the threat model and common weakness cl
 
 ## Anchor
 
-Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pull the feature pages it links to into the features folder (G-54), before doing anything. If there is no ticket, create one or ask; if no ticket system is in scope, produce every artifact locally, say so, and continue (T-05, T-10).
+Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check requirement currency under G-54. Pull instructions below apply only when the snapshot changed or currency is unknown. If no ticket system is reachable, record the anchor and artifacts locally, say so, and continue (T-05, T-10).
 
 ## Inputs
 
@@ -25,12 +25,14 @@ Anchor first (G-22). Read the anchor ticket and its knowledge base page, and pul
 
 ## Procedure
 
-**Hand the independent part to a separate context where you can** (decision record 0015). If this
-harness can run the `aa-sec` subagent, give it steps 2 to 5 (plan against the model, run the
+**Use a separate context when explicitly authorized** (G-63, decision record 0021). If this
+assignment authorizes the harness to run the `aa-sec` subagent, give it steps 2 to 5 (plan against the model, run the
 tooling, exercise the scenarios, record the findings), with the ticket, the threat model, and the
 security scenarios, and write what it returns as the results in step 6, saying the findings came
 from the agent. Otherwise do those steps yourself, working from the threat model rather than from
 what the code was meant to do.
+Installed agents alone grant no delegation authority. Label a fallback as self-review and
+never substitute it for independent acceptance that the project requires.
 
 1. **Anchor and pull.** Read the ticket and pull the feature pages it links to: their Approved
    scenarios into the features folder, and the page versions recorded on the ticket (G-54). For
@@ -63,7 +65,7 @@ what the code was meant to do.
 8. **Update the ticket and present.** Record on the ticket what was tested and where, the
    findings and their tickets, what was not run and why, and what remains (G-12). If run output
    was written into the repository, stage it with a Conventional Commit message naming the
-   ticket, present the staged summary, and stop; commit only if the user asked for that commit
+   ticket, present the staged summary; honor existing explicit task commit authorization
    (O-17, G-40).
 
 ## Artifacts
@@ -82,11 +84,11 @@ what the code was meant to do.
 Read these guidance sets before starting; each is one file, installed beside this skill:
 
 - `src/aa-sdlc/skills/aa-guidance/sets/every-step.md`: What every step does regardless of discipline: compute rather than estimate, read before writing, never suppress a failure, report exactly, write for a reader with no context, and touch only what is this project's in systems shared with others.
-- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and pull the feature pages it links to, end by updating the ticket, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
+- `src/aa-sdlc/skills/aa-guidance/sets/anchored-step.md`: What every step that anchors on a ticket does: anchor first and check requirement currency, update the ticket at meaningful checkpoints, put artifacts where the workflow says, link both ways, stay inside the one configured ticket project.
 
 *For this step:*
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-04** During development run focused checks; before review run the affected build, lint and relevant test tiers, retaining actual output and declaring the scope. At actual branch finish run full build, lint, provenance and every test tier; at release satisfy the release checks. Instruction-only changes use the framework's applicable structural validation rather than claiming product behavior.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - Test against the model first, the checklist second. The threat model says what matters here; the checklist says what matters everywhere.
 - Never test a production system without written permission on the ticket. Prefer a production-like environment.
@@ -94,4 +96,4 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 ## Report
 
-State what was produced and where, quote the output of anything that was run, list what was skipped or could not be done and why, and name what remains (G-15). Update the anchor ticket with the same (G-12). Stage every changed file as one change set and present the summary with a Conventional Commit message; commit only if the user asked for that commit (O-17, G-40).
+State what was produced and where, link actual run output and summarize its scope and results, name failures/skips and what remains (G-15). Update the anchor at the meaningful milestone (G-12), referencing one proportionate evidence record instead of repacking unchanged proof. Stage only task-owned changes; honor existing explicit task commit authorization, otherwise present the diff and Conventional Commit message without committing (G-40).

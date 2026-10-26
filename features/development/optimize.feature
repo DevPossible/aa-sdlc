@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/development/optimize. Do not edit: change the page, then pull it.
-# Checksum: sha256:7dccdbd3f136e357a4e44c61919c48c1354e5151c7ba09ade0670fc32ff312b6
+# Checksum: sha256:54a9872ee1f99577b97ef9dc8b7172896d0c8970c2b5618093d0951a91269004
 @agent @development @O-19 @F-013
 Feature: /aa-dev-optimize improves performance against a measured baseline
   Reproduce the baseline, profile, change the one thing the profile says, measure again with
@@ -58,9 +58,9 @@ Feature: /aa-dev-optimize improves performance against a measured baseline
     And a ticket is raised for it or it is left alone
 
   @F-013-08
-  Scenario: The change is staged and presented, never committed
+  Scenario: The change is staged and presented, committed only with authorization
     When "/aa-dev-optimize" finishes
     Then the change is on a branch that references the ticket with the full suite passing and its output quoted
     And it is staged with a perf-typed Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
     And the ticket holds the baseline, each change, the after measurement, and the method

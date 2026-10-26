@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/testing/performance-test. Do not edit: change the page, then pull it.
-# Checksum: sha256:74669e48edaf1dc6c38fb5d81ff2c4c3a71b24b935259d58960f781216c19445
+# Checksum: sha256:62e064734133ded944782ba85652a2a197aeb2b20b400993990796cdb310023d
 @agent @testing @O-23 @F-079
 Feature: /aa-qa-performance-test measures the system against stated targets
   Establish how the system behaves under expected and peak load against numeric targets, in
@@ -52,4 +52,4 @@ Feature: /aa-qa-performance-test measures the system against stated targets
     Then a baseline report in the knowledge base lists each target with its measured value, method, environment, and pass or fail
     And the report is linked from the ticket and links back
     And the suite is staged with a Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task

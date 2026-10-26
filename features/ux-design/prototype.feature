@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/ux-design/prototype. Do not edit: change the page, then pull it.
-# Checksum: sha256:41bce3673a62774c8018afaaf0c4052fd9303f48e08b3244a1b7e537cfd229e0
+# Checksum: sha256:cb919c755bbdb4c2ed41d2481ec219bf18b35cef2f3a68bb7a5aeb29ed79d710
 @agent @ux-design @O-15 @F-081
 Feature: /aa-ux-prototype makes the requirement visible before it is built
   Produce a mockup for every scenario with a user interface, made from the confirmed scenarios
@@ -64,7 +64,7 @@ Feature: /aa-ux-prototype makes the requirement visible before it is built
     Then a stakeholder can complete the scenario's When without help
 
   @F-081-09
-  Scenario: Artifacts are linked, staged, and presented, never committed
+  Scenario: Artifacts are linked, staged, and presented, committed only with authorization
     When "/aa-ux-prototype" finishes
     Then every mockup and the prototype are linked from the ticket and the page
     And it asks before sending anything to an audience outside the project

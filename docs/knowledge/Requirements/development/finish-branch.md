@@ -60,6 +60,7 @@ user's; gates are never bypassed.
 | Step | Text |
 | --- | --- |
 | Given | the working tree has uncommitted changes |
+| And | no commit authorization covers the task |
 | When | "/aa-dev-finish-branch" runs |
 | Then | the changes are staged and presented with a message |
 | And | the report says the branch waits on the user's commit |

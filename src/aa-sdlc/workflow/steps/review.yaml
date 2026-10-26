@@ -3,17 +3,17 @@ name: Review code
 discipline: development
 command: /aa-dev-review
 summary: >
-  Review a merge request against its ticket, its scenarios, its plan, and the project's
-  conventions, and record findings on the merge request where the author will see them.
+  Review an identified candidate against its ticket, scenarios, brief and conventions;
+  record actionable findings on its authorized merge request or local review record.
 anchor: required
 inputs:
-  - The merge request and its diff
+  - The identified candidate and diff, with its merge request or authorized local review record
   - The ticket, its scenarios pulled from their feature pages, and the implementation plan
   - The feature files on the branch
   - The build and test results for the branch
 artifacts:
   - name: Review findings
-    location: the merge request, as comments, with a summary on the ticket
+    location: the authorized merge request or local review record, with a summary on the ticket
     acceptance:
       - Each finding names the file and line, says what is wrong and why, and is marked blocking or not
       - The review states whether every scenario has a test and whether the plan was followed
@@ -24,10 +24,10 @@ artifacts:
       - A feature file that fails the feature-file check (no provenance header, a checksum mismatch, or no page that generates it) is a blocking finding; the fix is to change the page and pull it (G-56)
       - The review says what it did not check
 guidance_sets: [every-step, anchored-step]
-guidance: [G-04, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48, G-57]
+guidance: [G-04, G-33, G-39, G-42, G-43, G-44, G-45, G-46, G-48, G-57, G-59]
 guidance_inline:
   - Read the ticket and scenarios before the diff. A diff reviewed without its purpose is proofread, not reviewed.
-  - Run it. Build and test the branch yourself; do not trust a green badge you did not see produced.
+  - Independently execute the candidate's affected gate, or reference a still-valid independently observed combined-candidate run for that same scope (G-59); author-only results cannot replace required independent proof.
   - Run the feature-file check on the branch every time. A feature file with no provenance header, a checksum that does not match, or no page that generates it was not pulled from the knowledge base; it blocks the change until the page is changed and pulled (G-56).
   - Blocking findings are about correctness, security, and the requirement. Style is the formatter's and linter's job, never a review comment (O-21); if a style issue reached review, the finding is that the tools did not run.
   - Check the commit messages as well as the diff. A commit that does not follow the configured format is a non-blocking finding that names the pattern (O-14).

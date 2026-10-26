@@ -17,8 +17,9 @@ artifacts:
       - Every claim traces to a ticket or a merge request
       - Blocked and at-risk items name the blocker and who owns unblocking it
       - Says what changed since the last report
+      - Names demonstrated user operations, the next missing real join, its owner and the age of an unresolved integration failure
 guidance_sets: [every-step, anchored-step]
-guidance: [G-04]
+guidance: [G-04, G-62]
 guidance_inline:
   - Count with a tool and quote the count. "Most tickets are done" is not status; "14 of 19 committed tickets are done, 3 in review, 2 blocked" is.
   - Report the blocked item before the finished ones. The reader can act on a blocker; they cannot act on praise.

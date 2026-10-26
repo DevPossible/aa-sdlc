@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/security/security-test. Do not edit: change the page, then pull it.
-# Checksum: sha256:50fcc02249738540c118f7ba42ded2235cdac6abc2f75668256ec60bd18a5abc
+# Checksum: sha256:84c7ba1daa08aff60c0c46a851dc73144a32f409094c56179071831d7e2eacd1
 @agent @security @F-068
 Feature: /aa-sec-security-test proves the built system against the threat model
   Test the built system for the weaknesses the threat model and the common weakness classes
@@ -45,15 +45,15 @@ Feature: /aa-sec-security-test proves the built system against the threat model
     And no control is left unmapped
 
   @F-068-06
-  Scenario: Run output in the repository is staged, never committed
+  Scenario: Run output in the repository is staged, committed only with authorization
     Given the project config keeps run output in the documents folder
     When "/aa-sec-security-test" finishes
     Then the run output is staged with a Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
 
   @F-068-07
   Scenario: The security pass is run by a separate mind where one is available
-    Given the harness can run the aa-sec subagent
+    Given the harness has explicit authorization to run the aa-sec subagent
     When "/aa-sec-security-test" runs
     Then it hands the plan, the tooling, the scenarios, and the findings to the aa-sec subagent with the threat model
-    And where no subagent is available it does that work itself
+    And where no separate reviewer is authorized or available it does that work itself

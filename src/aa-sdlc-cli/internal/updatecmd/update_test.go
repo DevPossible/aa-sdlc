@@ -12,7 +12,148 @@ import (
 	"aasdlc.com/aa/internal/initcmd"
 	"aasdlc.com/aa/internal/plugincmd"
 	"aasdlc.com/aa/internal/setupcmd"
+	"aasdlc.com/aa/internal/targets"
 )
+
+// F-009-02, F-009-05: update all recorded targets without changing project-owned artifacts.
+func TestUpdate_RefreshesDeliveryForkAcrossRecordedTargets(t *testing.T) {
+	home := t.TempDir()
+	project := t.TempDir()
+	userPath := filepath.Join(home, ".aa", config.FileName)
+	chosen := []string{"codex", "claude-code", "hermes"}
+	var out bytes.Buffer
+	if err := setupcmd.Run(setupcmd.Options{Run: present, Home: home, UserConfigPath: userPath, Targets: chosen}, &out); err != nil {
+		t.Fatal(err)
+	}
+	if err := initcmd.Run(initcmd.Options{Run: present, Path: project, Yes: true, Targets: chosen, Home: home, UserConfigPath: userPath, TicketProject: "AA"}, strings.NewReader(""), &out); err != nil {
+		t.Fatal(err)
+	}
+
+	// Real installation layouts: Hermes shares .agents at project scope.
+	// Preserve every non-framework artifact while replacing only old core instructions.
+	cfgPath := filepath.Join(project, config.FileName)
+	configBefore, err := os.ReadFile(cfgPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	custom := filepath.Join(project, ".claude", "skills", "project-only", "SKILL.md")
+	if err := os.MkdirAll(filepath.Dir(custom), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	customContent := []byte("project-owned instructions\n")
+	if err := os.WriteFile(custom, customContent, 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	expected := map[string][]byte{}
+	for _, scope := range []targets.Scope{targets.UserScope(home), targets.ProjectScope(project)} {
+		roots := []string{".agents/skills", ".claude/skills"}
+		if scope.Name == "user" {
+			roots = append(roots, ".hermes/skills")
+		}
+		for _, root := range roots {
+			policy := filepath.Join(scope.Dir, filepath.FromSlash(root), "aa-guidance", "sets", "code-change.md")
+			if _, err := os.Stat(policy); err != nil {
+				t.Fatalf("recorded target %s has no delivery guidance at %s: %v", scope.Name, root, err)
+			}
+		}
+		for path := range targets.Snapshot(scope) {
+			if !strings.Contains(path, "/aa-guidance/") && !strings.HasSuffix(path, "/aa-dev-implement/SKILL.md") && !strings.HasSuffix(path, "/aa-dev-review/SKILL.md") {
+				continue
+			}
+			full := filepath.Join(scope.Dir, filepath.FromSlash(path))
+			content, err := os.ReadFile(full)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if strings.HasSuffix(path, "/code-change.md") {
+				for _, rule := range []string{"G-59", "G-60", "G-61", "standing permission"} {
+					if !bytes.Contains(content, []byte(rule)) {
+						t.Fatalf("installed %s is missing delivery policy %q", path, rule)
+					}
+				}
+			}
+			expected[full] = content
+			if err := os.WriteFile(full, []byte("old project fork\n"), 0o644); err != nil {
+				t.Fatal(err)
+			}
+		}
+	}
+	if len(expected) == 0 {
+		t.Fatal("no framework instructions selected for update")
+	}
+	out.Reset()
+	if err := Run(Options{Path: project, Home: home, UserConfigPath: userPath}, &out); err != nil {
+		t.Fatalf("update: %v\n%s", err, out.String())
+	}
+	for path, want := range expected {
+		if got, err := os.ReadFile(path); err != nil || !bytes.Equal(got, want) {
+			t.Errorf("core instructions were not restored exactly at %s: %v", path, err)
+		}
+	}
+	if got, err := os.ReadFile(cfgPath); err != nil || !bytes.Equal(got, configBefore) {
+		t.Errorf("update changed project configuration: %v", err)
+	}
+	if got, err := os.ReadFile(custom); err != nil || !bytes.Equal(got, customContent) {
+		t.Errorf("update changed project-owned instructions: %v", err)
+	}
+}
+
+func TestUpdate_ReportsMalformedConfigurationAndPreservesUnknownTargets(t *testing.T) {
+	for _, tc := range []struct {
+		name, scope, contents string
+		wantError             bool
+	}{
+		{"malformed user config", "user", "version: [broken", true},
+		{"malformed project config", "project", "version: [broken", true},
+		{"unknown user target", "user", "version: 1\nscope: user\ntargets: [missing-target]\n", false},
+		{"unknown project target", "project", "version: 1\nscope: project\ntargets: [missing-target]\n", false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			home := t.TempDir()
+			project := t.TempDir()
+			userPath := filepath.Join(home, ".aa", config.FileName)
+			projectPath := filepath.Join(project, config.FileName)
+			for path, contents := range map[string]string{
+				userPath:    "version: 1\nscope: user\ntargets: [claude-code]\n",
+				projectPath: "version: 1\nscope: project\ntargets: [claude-code]\n",
+				filepath.Join(project, ".claude", "skills", "aa-fw-health", "SKILL.md"): "old core instructions\n",
+			} {
+				if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+					t.Fatal(err)
+				}
+				if err := os.WriteFile(path, []byte(contents), 0o644); err != nil {
+					t.Fatal(err)
+				}
+			}
+			invalid := userPath
+			if tc.scope == "project" {
+				invalid = projectPath
+			}
+			if err := os.WriteFile(invalid, []byte(tc.contents), 0o644); err != nil {
+				t.Fatal(err)
+			}
+			var out bytes.Buffer
+			err := Run(Options{Path: project, Home: home, UserConfigPath: userPath}, &out)
+			if (err != nil) != tc.wantError {
+				t.Fatalf("update error = %v, want error %t:\n%s", err, tc.wantError, out.String())
+			}
+			if tc.wantError || tc.scope == "project" {
+				if got, err := os.ReadFile(invalid); err != nil || string(got) != tc.contents {
+					t.Errorf("update rewrote project or malformed configuration: %v", err)
+				}
+			} else {
+				updated, err := config.Load(invalid)
+				if err != nil || updated == nil || len(updated.Targets) != 1 || updated.Targets[0] != "missing-target" {
+					t.Fatalf("update lost the user's unsupported target: %v", err)
+				}
+				if !strings.Contains(out.String(), "missing-target") || !strings.Contains(out.String(), "skipped") {
+					t.Error("unsupported user target was not reported as skipped")
+				}
+			}
+		})
+	}
+}
 
 func TestUpdate_ReinstallsUserAndProjectScopeAndReportsChanges(t *testing.T) {
 	home := filepath.Join(t.TempDir(), "home")

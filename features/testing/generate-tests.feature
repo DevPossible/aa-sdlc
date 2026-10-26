@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/testing/generate-tests. Do not edit: change the page, then pull it.
-# Checksum: sha256:52826cf274fa8f882761c586b822fdaf35104736b4ca60a37b8d9f04ac142c09
+# Checksum: sha256:546a2767f7a8bf2f0ef86ac08a8c6e1ac96ab95a42c8c0deeb62c98fd808e3c3
 @agent @testing @O-08 @O-23 @F-078
 Feature: /aa-qa-generate-tests tests what the requirement did not say
   Start from the scenarios and the tests Development wrote, then apply boundaries, state
@@ -54,15 +54,15 @@ Feature: /aa-qa-generate-tests tests what the requirement did not say
     And the test is not weakened, skipped, or retried
 
   @F-078-07
-  Scenario: The change is staged and presented, never committed
+  Scenario: The change is staged and presented, committed only with authorization
     When "/aa-qa-generate-tests" finishes
     Then the tests and feature file changes are staged as one change set with a Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
     And the ticket records what was added, the questions raised, and what remains
 
   @F-078-08
   Scenario: Tests beyond Development's come from a separate mind where one is available
-    Given the harness can run the aa-qa subagent
+    Given the harness has explicit authorization to run the aa-qa subagent
     When "/aa-qa-generate-tests" runs
     Then it hands the reading of Development's tests and of the built code, and the sorting of the findings, to the aa-qa subagent
-    And where no subagent is available it does that work itself, without relying on how the code was meant to work
+    And where no separate reviewer is authorized or available it does that work itself, without relying on how the code was meant to work

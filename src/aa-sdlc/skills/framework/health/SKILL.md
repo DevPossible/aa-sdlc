@@ -81,7 +81,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-04** During development run focused checks; before review run the affected build, lint and relevant test tiers, retaining actual output and declaring the scope. At actual branch finish run full build, lint, provenance and every test tier; at release satisfy the release checks. Instruction-only changes use the framework's applicable structural validation rather than claiming product behavior.
 - Probe by doing, not by looking. To check the ticket system, read a ticket; to check source control, read the remote; to check the build, run the build script. A configuration file that exists proves nothing.
 - Probe the ticket project's configuration, not only its names. Read its workflow states, the moves between them, the parent links it allows, and its board; a mapping whose names all exist can still leave two life-cycle states on one workflow state or a step with no move to make (R-43).
 - Report not-applicable as its own status. A requirement that cannot apply here (hooks on a target with no hooks) is not a failure and must not look like one.

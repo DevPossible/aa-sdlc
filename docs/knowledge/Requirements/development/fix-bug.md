@@ -109,7 +109,7 @@ with the test now passing, on a branch that references the ticket.
 | --- | --- |
 | When | the fix passes its proof |
 | Then | it is staged with a fix-typed Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 
 ## F-011-07 A defect no scenario covers gets a scenario proposed on its page
 

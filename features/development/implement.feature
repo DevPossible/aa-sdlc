@@ -1,10 +1,10 @@
 # Generated from the knowledge base page Requirements/development/implement. Do not edit: change the page, then pull it.
-# Checksum: sha256:62ddcbeecedb05294fbe42b628cb27837dc0a560ee7c55a8a76f513a01c99e39
+# Checksum: sha256:ab401d315336e2f94622ed93955c664b69f4a11d3ea35555cd8c2edb53682ea6
 @agent @development @O-08 @O-13 @O-17 @O-19 @F-012
 Feature: /aa-dev-implement builds a ticket with the tests that prove it
   Build what the anchor ticket asks for, following the confirmed plan, on a branch that
-  references the ticket, with unit, integration, and happy-path end-to-end tests for every
-  scenario, stopping at every green to stage and present rather than commit.
+  references the ticket, with tests at justified tiers. One approved brief covers the loop;
+  coherent checkpoints honor explicit task commit permission without stopping at every green.
 
   Background:
     Given a project bootstrapped with "aa init"
@@ -19,7 +19,7 @@ Feature: /aa-dev-implement builds a ticket with the tests that prove it
 
   @F-012-02
   Scenario: A changed scenario sends the ticket back
-    Given a linked scenario changed since the recorded revision
+    Given a linked scenario materially conflicts with the approved brief since the recorded revision
     When "/aa-dev-implement" starts
     Then it writes a question on the ticket naming the change
     And it does not write code until the question is answered
@@ -27,16 +27,18 @@ Feature: /aa-dev-implement builds a ticket with the tests that prove it
   @F-012-03
   Scenario: Tests come first and prove every scenario
     When "/aa-dev-implement" builds a plan step
-    Then a failing test for the scenario exists before the code that passes it
-    And when the ticket is reported done every scenario has unit, integration, and happy-path end-to-end tests as the change warrants
-    And the build and every touched tier were run and their output quoted
+    Then meaningful failing behavior is established and tests and implementation evolve together
+    And the named real collaborator is exercised after the first focused behavior before broad private test expansion
+    And every delivered scenario has passing tests at justified tiers and all promised cases remain required
+    And the affected build and relevant tiers were run with their actual output linked
 
   @F-012-04
-  Scenario: Every green is staged and presented, never committed
-    When "/aa-dev-implement" reaches a green build
+  Scenario: Coherent checkpoints respect existing authorization
+    When "/aa-dev-implement" reaches a coherent checkpoint
     Then the changed files are formatted and the lint switch passes
     And the change is staged with a Conventional Commit message naming the ticket
-    And no commit is made unless the user asked for that commit
+    And only task-owned changes are committed under existing explicit permission, or presented without committing
+    And a focused green check alone does not stop implementation for another approval
 
   @F-012-05
   Scenario: The change stays inside the ticket

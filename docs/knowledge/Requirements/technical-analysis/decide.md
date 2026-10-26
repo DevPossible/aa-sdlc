@@ -96,11 +96,11 @@ next in the repository sequence, dated, immutable once accepted, and linked from
 | Then | the record links to the ticket and the ticket links to the record |
 | And | anything the decision left open is a question on the ticket |
 
-## F-074-06 A record in the repository is staged, never committed
+## F-074-06 A record in the repository is staged, committed only with authorization
 
 | Scenario | F-074-06 |
 | --- | --- |
-| Name | A record in the repository is staged, never committed |
+| Name | A record in the repository is staged, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -110,4 +110,4 @@ next in the repository sequence, dated, immutable once accepted, and linked from
 | Given | the project config keeps decision records in the documents folder |
 | When | "/aa-ta-decide" finishes |
 | Then | the new record is staged with a Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |

@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/business-analysis/refine-requirements. Do not edit: change the page, then pull it.
-# Checksum: sha256:e5221f95d51127906aa3c0d31367cda7c5abe3717d53e4e2dc8cad046fbeae73
+# Checksum: sha256:6b3543e6da4da5d6e43b6147147492a0b11f45ddbfc54ed73a7dc1ad07d7cd11
 @agent @business-analysis @O-01 @O-15 @F-004
 Feature: /aa-ba-refine-requirements turns draft scenarios into testable ones
   Close the gaps in the Draft scenarios: apply stakeholder answers to the feature page first,
@@ -62,10 +62,10 @@ Feature: /aa-ba-refine-requirements turns draft scenarios into testable ones
     And a constraint that contradicts a scenario is a question on the ticket
 
   @F-004-08
-  Scenario: The changes are staged and presented, never committed
+  Scenario: The changes are staged and presented, committed only with authorization
     When "/aa-ba-refine-requirements" finishes
     Then the pulled feature files, and the changed pages where they are in the documents folder, are staged with a Conventional Commit message
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task
 
   @G-19 @G-54 @F-004-09
   Scenario: Only what the stakeholder confirmed is Approved and pulled

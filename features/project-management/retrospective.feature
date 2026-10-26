@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/project-management/retrospective. Do not edit: change the page, then pull it.
-# Checksum: sha256:e0057d5188886302d0dc799039be238d72a30f306dc8f5c7173114db24d38fc5
+# Checksum: sha256:4e0fa5011d80a110408212996437a0bb0831b8e27c31f830522f8ba2ff2ad2b8
 @agent @project-management @O-18 @T-07 @T-13 @F-056
 Feature: /aa-pm-retrospective turns the record of a period into a few improvements with owners
   Look at what actually happened in an iteration, release, or quarter, using the record rather
@@ -56,4 +56,4 @@ Feature: /aa-pm-retrospective turns the record of a period into a few improvemen
     Given the project keeps decision records in the documents folder
     When "/aa-pm-retrospective" finishes
     Then the new records are staged and presented with a Conventional Commit message
-    And no commit is made unless the user asked for that commit
+    And no commit is made without explicit authorization covering the task

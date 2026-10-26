@@ -96,11 +96,11 @@ record every significant choice as a numbered, dated, immutable decision record.
 | Then | a time box is stated before investigating |
 | And | an unknown that survives the box becomes a spike ticket and a labelled assumption on the epic |
 
-## F-073-06 The architecture is staged and presented, never committed
+## F-073-06 The architecture is staged and presented, committed only with authorization
 
 | Scenario | F-073-06 |
 | --- | --- |
-| Name | The architecture is staged and presented, never committed |
+| Name | The architecture is staged and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -110,4 +110,4 @@ record every significant choice as a numbered, dated, immutable decision record.
 | When | "/aa-ta-architect" finishes |
 | Then | the architecture and its decision records are linked from the epic and the knowledge base page |
 | And | the changed files are staged with a Conventional Commit message naming the epic |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |

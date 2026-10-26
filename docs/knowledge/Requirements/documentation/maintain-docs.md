@@ -114,11 +114,11 @@ and report what was checked, fixed, and ticketed.
 | Then | a health report in the knowledge base lists the revision range and page versions, what was checked, fixed, deleted, ticketed, and not checked |
 | And | the report is linked from the ticket |
 
-## F-017-07 Fixes are staged on a branch and presented, never committed
+## F-017-07 Fixes are staged on a branch and presented, committed only with authorization
 
 | Scenario | F-017-07 |
 | --- | --- |
-| Name | Fixes are staged on a branch and presented, never committed |
+| Name | Fixes are staged on a branch and presented, committed only with authorization |
 | Kind | Scenario |
 | Tags |  |
 | Status | Approved |
@@ -128,7 +128,7 @@ and report what was checked, fixed, and ticketed.
 | When | "/aa-doc-maintain-docs" finishes |
 | Then | the documentation changes are on a branch that references the ticket |
 | And | they are staged as one change set with a Conventional Commit message naming the ticket |
-| And | no commit is made unless the user asked for that commit |
+| And | no commit is made without explicit authorization covering the task |
 
 ## F-017-08 A feature file behind its page is pulled again
 

@@ -44,15 +44,16 @@ broken: there is no point choosing the next ticket while the last change broke t
    it (R-46) is a foundation gap: recommend `/aa-fw-init` for R-46 where the requirements have
    never been on pages, and otherwise changing the page and pulling it again.
 2. **Work in flight.** Read the working tree, the current branch, and the open merge requests
-   (O-02, O-17). Uncommitted changes, or a branch whose work looks complete but is not merged,
-   is the gap: recommend `/aa-dev-finish-branch` with the ticket id the branch names. An open
-   merge request with no review, or with review comments not answered, is the gap: recommend
-   `/aa-dev-review` or the author answering the comments.
+   (O-02, O-17). Continue active bounded implementation with `/aa-dev-implement`; uncommitted
+   work alone does not mean it is ready to finish. A verified local candidate or open request
+   awaiting review recommends `/aa-dev-review`; actionable findings go back to their owner.
+   Reviewed work ready for target-branch completion recommends `/aa-dev-finish-branch`.
+   Scoped work-in-progress integration does not establish that completion.
 3. **Recent changes held to the opinions.** Read the commits on the default branch since the
    last release tag, or the last twenty if there is no tag. For each, check what it touched:
    - A commit that references no ticket breaks O-19: recommend creating the ticket and linking
      it, naming the commits.
-   - Code changed with no test changed or added breaks O-07: recommend `/aa-qa-generate-tests`
+   - Changed behavior without mapped proof at justified tiers breaks O-08: recommend `/aa-qa-generate-tests`
      with the ticket id, or `/aa-dev-implement` if the change is unfinished.
    - A scenario added or changed with no test naming its id (G-49) leaves it uncovered (R-40):
      recommend `/aa-qa-generate-tests` with the scenario id and the ticket id. Use the coverage
@@ -75,8 +76,9 @@ broken: there is no point choosing the next ticket while the last change broke t
 5. **The next ticket.** Read the current iteration in the ticket system (O-03) and take the
    highest-priority ticket not done. Its life-cycle state (O-26), read through the project config's
    mapping, chooses the command: New is `/aa-rf-refine-ticket`; Refined is
-   `/aa-ip-plan-implementation`; Planned is `/aa-dev-implement`; In review with its change merged
-   is `/aa-ba-uat`; Accepted is `/aa-rel-prepare-release`. With no current
+   `/aa-ip-plan-implementation`; Planned or active In progress is `/aa-dev-implement`;
+   In review awaiting review is `/aa-dev-review`, reviewed but unmerged is
+   `/aa-dev-finish-branch`, and merged is `/aa-ba-uat`; Accepted is `/aa-rel-prepare-release`. With no current
    iteration, recommend `/aa-pm-plan-iteration`; with an empty backlog, `/aa-pd-prioritise`, or
    `/aa-pd-define-outcome` if there is no outcome to prioritise against.
 6. **Nothing found.** If every layer passes, say so, and recommend `/aa-pm-retrospective` if an
@@ -107,12 +109,12 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- **G-04** Before marking a step done, run the project's build and tests and quote their actual output. "It should work" is not evidence.
+- **G-04** During development run focused checks; before review run the affected build, lint and relevant test tiers, retaining actual output and declaring the scope. At actual branch finish run full build, lint, provenance and every test tier; at release satisfy the release checks. Instruction-only changes use the framework's applicable structural validation rather than claiming product behavior.
 - Check the layers in order and stop at the first major gap: foundation (a repository, the project config, the linked ticket project able to carry the life cycle, the knowledge base, the product's doctrines, and feature files all pulled from their pages), work in flight (uncommitted changes, an unfinished branch, a merge request awaiting review), recent changes held to the opinions (each commit traces to a ticket, code changes carry tests, significant decisions have records, behaviour changes have scenarios on their feature pages, no feature file changed by hand), the knowledge base in step with recent changes, then the next ticket. A later layer cannot be trusted while an earlier one has a gap.
 - A gap is major when it breaks a required requirement, an opinion on the default branch, or work already started. Anything smaller is not reported; the command answers one question, what to do next, not what could be better.
 - Take the foundation layer from /aa-fw-health's required-and-unmet findings rather than probing requirements again; health owns requirement checks, and this step owns choosing among them.
 - Recommend the step that closes the gap, named as its command with its arguments, such as /aa-qa-generate-tests with the ticket id. Where no command fits, say plainly what to do.
-- Choose the next ticket from the current iteration in priority order, and let its life-cycle state (O-26) choose the command. New is /aa-rf-refine-ticket; Refined is /aa-ip-plan-implementation; Planned is /aa-dev-implement; In review with its change merged is /aa-ba-uat; Accepted is /aa-rel-prepare-release. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
+- Choose the next ticket from the current iteration in priority order using state and evidence (O-26). New is /aa-rf-refine-ticket; Refined is /aa-ip-plan-implementation; Planned or active In progress is /aa-dev-implement; In review awaiting review is /aa-dev-review, reviewed but unmerged is /aa-dev-finish-branch, merged is /aa-ba-uat; Accepted is /aa-rel-prepare-release. No iteration is /aa-pm-plan-iteration; an empty backlog is /aa-pd-prioritise.
 - Change nothing. Read the folder, the tickets, and the pages; do not create, edit, commit, transition, or install anything, even to make a check possible.
 - Read only what is this project's (T-14). Take its tickets through the ticket filter in the project config and its pages from under its knowledge root; in a shared ticket system or knowledge base, nothing outside them is this project's gap.
 - When a system is out of reach, say which layer could not be checked and why, and continue with the layers that can be; never report a layer as passed that was not checked.

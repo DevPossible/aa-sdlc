@@ -18,7 +18,7 @@ artifacts:
       - Every committed ticket is ready; none is blocked by an uncommitted one
       - Risks and assumptions are recorded on the iteration
 guidance_sets: [every-step, anchored-step]
-guidance: [G-13, G-28]
+guidance: [G-13, G-28, G-62]
 guidance_inline:
   - Fill in priority order and stop at capacity. Do not pull a lower item over a higher one because it is smaller unless the higher one is blocked.
   - Capacity is computed, not felt. Use the team's actual completed size from recent iterations, calculated with a tool (G-02).

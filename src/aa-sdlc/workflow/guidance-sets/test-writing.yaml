@@ -1,5 +1,5 @@
 id: test-writing
 purpose: >
   What every step that writes or extends automated tests does: prove with the actual run, and keep every test deterministic and independent.
-guidance: [G-04, G-46]
+guidance: [G-04, G-46, G-60, G-61]
 requires: [R-11, R-21, R-37]
