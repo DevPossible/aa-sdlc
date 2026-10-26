@@ -79,3 +79,9 @@ node_modules/
 .claude/semantic-compressor-work/
 .claude/backups/
 .claude/disabled-skills/
+
+# Local framework installation: authoritative content is under src/aa-sdlc.
+/.claude/commands/aa-*.md
+/.claude/skills/aa-*/
+/.claude/agents/aa-*.md
+/scripts/aa-sdlc/
