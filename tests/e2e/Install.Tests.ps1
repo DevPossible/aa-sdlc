@@ -45,6 +45,25 @@ Describe 'Install from the packed npm tarballs' -Skip:(-not $script:havePack) {
         if ($script:prefix -and (Test-Path $script:prefix)) { Remove-Item -Path $script:prefix -Recurse -Force -ErrorAction SilentlyContinue }
     }
 
+    It 'F-093-04 F-093-05 F-093-08 F-093-09 F-093-10 imports and checks a selected snapshot using packed helpers' {
+        $toolProject = Join-Path $script:prefix 'tooling-project'
+        [IO.Directory]::CreateDirectory($toolProject) | Out-Null
+        & $script:aa init -path $toolProject -targets claude-code -ticket-project AA -knowledge-space PROOF -knowledge-url https://docs.example.test/wiki/spaces/PROOF -yes | Out-Null
+        $LASTEXITCODE | Should -Be 0
+        $scripts = Join-Path $toolProject 'scripts/aa-sdlc'
+        foreach ($name in 'AaFeatures.psd1', 'ConfluenceFeatureImport.psd1') {
+            (Test-ModuleManifest (Join-Path $scripts $name)).Version | Should -Be '0.1.2'
+        }
+        $command = Join-Path $scripts 'Import-ConfluenceFeatureSnapshot.ps1'
+        $snapshotPath = Join-Path $script:repo 'tests/fixtures/feature-tooling-snapshot.json'
+        $outputPath = Join-Path $toolProject 'selected.feature'
+        $configPath = Join-Path $toolProject 'aa.config.yaml'
+        & $command -SnapshotPath $snapshotPath -OutputPath $outputPath -ConfigPath $configPath -ScenarioId F-910-01 | Out-Null
+        [IO.File]::ReadAllText($outputPath) | Should -Match 'https://docs.example.test/wiki/spaces/PROOF/pages/42 \(version 3\)'
+        [IO.File]::ReadAllText($outputPath) | Should -Match '# Selected scenario IDs: F-910-01'
+        & $command -SnapshotPath $snapshotPath -OutputPath $outputPath -ConfigPath $configPath -ScenarioId F-910-01 -Check | Should -Match 'Feature matches'
+    }
+
     It 'installs a launcher that runs the platform binary and reports the packed version' {
         $version = (Get-Content -Path (Join-Path -Path $script:repo -ChildPath '.dist' -AdditionalChildPath 'version.json') -Raw | ConvertFrom-Json).Version
         $out = & $script:aa version

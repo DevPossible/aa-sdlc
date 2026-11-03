@@ -429,6 +429,10 @@ to a page, for seeding a knowledge base or proposing a change back), `ConvertFro
 page to a feature file), and `Test-FeatureProvenance`. `ConvertTo-KnowledgePages.ps1` seeds
 pages from a repository whose requirements began as feature files.
 
+The versioned module manifests also support offline storage-snapshot import, exact
+Approved-scenario projections and full-source checksums. See [feature tooling](feature-tooling.md)
+for configuration, supported export formats, destination protections and commands.
+
 ## What this settles and what it does not
 
 Settled: file formats, locations, id scheme, merge rules, where each kind of text lives once.

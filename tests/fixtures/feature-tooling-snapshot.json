@@ -1,0 +1,13 @@
+{
+  "id": "42",
+  "type": "page",
+  "title": "Installed",
+  "space": { "key": "PROOF" },
+  "version": { "number": 3 },
+  "body": {
+    "storage": {
+      "representation": "storage",
+      "value": "<table><tr><th>Feature</th><th>F-910</th></tr><tr><td>Name</td><td>Installed importer</td></tr><tr><td>Tags</td><td>@fixture</td></tr><tr><td>File</td><td>installed</td></tr></table><h2>Behavior</h2><table><tr><th>Scenario</th><th>F-910-01</th></tr><tr><td>Name</td><td>Installed behavior</td></tr><tr><td>Status</td><td>Approved</td></tr></table><table><tr><th>Step</th><th>Text</th></tr><tr><td>Given</td><td>installed helpers</td></tr><tr><td>Then</td><td>the real command works</td></tr></table>"
+    }
+  }
+}
