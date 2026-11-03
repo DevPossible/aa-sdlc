@@ -42,24 +42,33 @@ $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path -Path $PSScriptRoot -ChildPath 'AaFeatures.psm1') -Force
 
 $requirements = Join-Path -Path $KnowledgeRoot -ChildPath 'Requirements'
+if (-not (Test-Path -LiteralPath $requirements -PathType Container)) { throw "Requirements folder does not exist: $requirements" }
 $problems = [System.Collections.Generic.List[string]]::new()
 $expected = @{}   # feature file path relative to FeaturesRoot -> text ('' when the page generates none)
 
 if (Test-Path $requirements) {
     foreach ($page in Get-ChildItem -Path $requirements -Recurse -Filter '*.md' -File) {
-        $markdown = Get-Content -Path $page.FullName -Raw
-        if ($markdown -notmatch '(?m)^\|\s*Feature\s*\|') { continue } # a section index, not a feature page
+        $markdown = Get-Content -LiteralPath $page.FullName -Raw
+        if ($markdown -notmatch '(?m)^[ \t]*\|\s*(Feature|Scenario)\s*\|') { continue } # a section index, not a feature page
         $topic = [System.IO.Path]::GetRelativePath($requirements, $page.DirectoryName) -replace '\\', '/'
         $source = "Requirements/$topic/$($page.BaseName)"
         try {
             $text = ConvertFrom-FeaturePage -Markdown $markdown -Source $source
-            $file = [regex]::Match($markdown, '(?m)^\|\s*File\s*\|\s*([^|]+?)\s*\|').Groups[1].Value
+            $file = [regex]::Match($markdown, '(?m)^[ \t]*\|\s*File\s*\|\s*([^|]+?)\s*\|').Groups[1].Value
             if (-not $file) { $file = $page.BaseName }
+            if ($file -in '.', '..' -or $file -match '[<>:"/\\|?*\x00-\x1f\x7f]' -or $file.EndsWith('.') -or $file.EndsWith(' ') -or $file -match '^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\.|$)') {
+                throw 'File must be a portable base name without reserved characters or device names'
+            }
+            if ($expected.ContainsKey("$topic/$file.feature")) { throw 'multiple pages target the same feature file' }
             $expected["$topic/$file.feature"] = $text
         } catch {
             $problems.Add("$source`: $($_.Exception.Message)")
         }
     }
+}
+
+if ($problems.Count -gt 0) {
+    throw ("Feature synchronization refused invalid source pages; no files changed:`n" + ($problems -join "`n"))
 }
 
 $existing = @{}
@@ -72,11 +81,11 @@ if (Test-Path $FeaturesRoot) {
 foreach ($rel in $expected.Keys | Sort-Object) {
     $want = $expected[$rel]
     $path = Join-Path -Path $FeaturesRoot -ChildPath $rel
-    $have = if ($existing.ContainsKey($rel)) { (Get-Content -Path $path -Raw) -replace "`r`n", "`n" } else { $null }
+    $have = if ($existing.ContainsKey($rel)) { (Get-Content -LiteralPath $path -Raw) -replace "`r`n", "`n" } else { $null }
     if ($want -eq '') {
         if ($null -ne $have) {
             if ($Check) { $problems.Add("$rel`: its page has no Approved scenario, so it should not exist") }
-            elseif (-not (Test-FeatureProvenance -Text $have)) { Remove-Item -Path $path; Write-Verbose "removed $rel" }
+            elseif (-not (Test-FeatureProvenance -Text $have)) { Remove-Item -LiteralPath $path; Write-Verbose "removed $rel" }
             else { $problems.Add("$rel`: its page has no Approved scenario, but the file was not generated from it; left in place") }
         }
         continue
@@ -87,15 +96,15 @@ foreach ($rel in $expected.Keys | Sort-Object) {
         continue
     }
     New-Item -ItemType Directory -Path (Split-Path -Path $path -Parent) -Force | Out-Null
-    Set-Content -Path $path -Value $want -NoNewline -Encoding utf8
+    Set-Content -LiteralPath $path -Value $want -NoNewline -Encoding utf8
     Write-Verbose "wrote $rel"
 }
 
 foreach ($rel in $existing.Keys | Sort-Object) {
     if ($expected.ContainsKey($rel)) { continue }
-    $text = Get-Content -Path $existing[$rel] -Raw
+    $text = Get-Content -LiteralPath $existing[$rel] -Raw
     if (-not $Check -and -not (Test-FeatureProvenance -Text $text)) {
-        Remove-Item -Path $existing[$rel]
+        Remove-Item -LiteralPath $existing[$rel]
         Write-Verbose "removed ${rel}: its page no longer exists"
         continue
     }
