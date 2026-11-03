@@ -27,17 +27,10 @@ Describe 'Installed feature tooling' {
         }
     }
 
-    It 'F-093-05/08/09/10 generates and verifies a selected offline snapshot after installation' {
-        $storage = @'
-<table><tr><th>Feature</th><th>F-910</th></tr><tr><td>Name</td><td>Installed importer</td></tr><tr><td>Tags</td><td>@fixture</td></tr><tr><td>File</td><td>installed</td></tr></table>
-<h2>Behavior</h2>
-<table><tr><th>Scenario</th><th>F-910-01</th></tr><tr><td>Name</td><td>Installed behavior</td></tr><tr><td>Status</td><td>Approved</td></tr></table>
-<table><tr><th>Step</th><th>Text</th></tr><tr><td>Given</td><td>installed helpers</td></tr><tr><td>Then</td><td>the real command works</td></tr></table>
-'@
-        $snapshot = @{ id = '42'; type = 'page'; title = 'Installed'; space = @{ key = 'PROOF' }; version = @{ number = 3 }; body = @{ storage = @{ representation = 'storage'; value = $storage } } }
+    It 'F-093-05 F-093-08 F-093-09 F-093-10 generates and verifies a selected offline snapshot after installation' {
         $snapshotPath = Join-Path $project 'snapshot.json'
         $outputPath = Join-Path $project 'installed.feature'
-        [IO.File]::WriteAllText($snapshotPath, ($snapshot | ConvertTo-Json -Depth 10))
+        Copy-Item -LiteralPath (Join-Path $repo 'tests/fixtures/feature-tooling-snapshot.json') -Destination $snapshotPath
         $command = Join-Path $installed 'Import-ConfluenceFeatureSnapshot.ps1'
         & $command -SnapshotPath $snapshotPath -OutputPath $outputPath -ConfigPath $configPath -ScenarioId F-910-01 | Out-Null
         $generated = [IO.File]::ReadAllText($outputPath)

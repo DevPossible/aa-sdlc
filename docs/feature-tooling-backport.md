@@ -57,9 +57,9 @@ catalogs now pass **73 conversion/synchronization checks** and **125 snapshot
 checks**. The original AP fixture retains its independently recorded default-byte
 checksum; additional AS/PROJECT2 fixtures prove generalized configuration.
 
-Author checks observed so far:
+Author verification:
 
-- `pwsh -NoProfile -File build.ps1 -Lint`: passed; 38 scripts and 487 text files.
+- Final `pwsh -NoProfile -File build.ps1 -Lint`: passed; 39 scripts and 488 text files.
 - Focused Pester run of `AaFeatures.Tests.ps1`, `FeatureTooling.Tests.ps1` and
   `ConfluenceConfiguration.Tests.ps1`: **35 passed, zero failed/skipped**.
 - Pester command coverage over `AaFeatures.psm1`, `ConfluenceFeatureImport.psm1`,
@@ -72,16 +72,43 @@ Author checks observed so far:
   Project configuration is preserved, temporary output files are absent and
   Pester cleans the disposable project; the inherited `AA_HOME` is restored.
 
-Full unit/CLI-integration and packaged checks are still pending in this record.
+Additional completed verification:
+
+- `go test ./...` in `src/aa-sdlc-cli`: all packages passed.
+- `GOFLAGS=-v ./test.ps1 -Tier integration`: **63 scenarios / 302 steps passed**
+  under strict checking, followed by **3 installed-helper Pester tests passed**.
+  Log: `.aitemp/feature-tooling-integration.log` (absolute path in the invocation).
+- `./pack.ps1 -Version 0.6.1-backport.0 -Targets windows/amd64 -SkipTests`:
+  produced local candidate tarballs after the separately recorded test gates.
+  This is a disposable test version; the repository's release version is unchanged.
+- `./test.ps1 -Tier e2e`: **6 passed, zero failed/skipped**, installing those
+  actual npm tarballs into a disposable prefix/home. The added case uses packed
+  helpers to import and check selected output with configured provenance.
+- The installed-helper test was rerun after sharing its snapshot fixture with
+  the package E2E case: **3 passed**. Fixture sharing and fully spelled scenario
+  IDs change only test artifacts; product helper source remains at `27485f4`.
+- Final combined Pester run over `tests/unit` and the installed-helper integration
+  suite: **38 passed, zero failed/skipped** after spelling every scenario ID in full.
+
+Candidate packages identify source `27485f4`. SHA256 digests:
+
+- `aa-sdlc-0.6.1-backport.0.tgz`:
+  `cfa948f0be0b991a3db5a8f8135771299e773df70c8c0d73edecfb97c7bc570f`.
+- `devpossible-aa-sdlc-cli-win32-x64-0.6.1-backport.0.tgz`:
+  `78828d209964b5b7d696eddc4c911ba23d43ff5519a1a16f749c7746cfa6b767`.
+
 The first full unit attempt stops at the separate website's committed index:
 counts need 92/820 to 93/830 and its older displayed version needs 0.5.1 to 0.6.0.
 A generated preview is under `.aitemp/feature-tooling-website-preview/`; separate
 permission is pending for that repository's two-line local commit.
+All other structural checks in that invocation passed. The separate Go package
+and complete unit Pester runs above passed; the full root unit invocation is
+still blocked at website currency and is not reported as green.
 
 The first full integration attempt had a **reporting setup failure**: a relative
 Tee-Object log path resolved after the runner changed into `tests/integration`.
 It did not establish a test result. The maintained invocation uses an absolute
-log path and `GOFLAGS=-v`; its result will be recorded below. An earlier new-test
+log path and `GOFLAGS=-v`; the completed result is recorded above. An earlier new-test
 fixture also shared an output path between Pester cases; unique per-case roots
 correct that setup, and the final configuration suite passes. No failure was
 quarantined, skipped or retried without a changed cause.
