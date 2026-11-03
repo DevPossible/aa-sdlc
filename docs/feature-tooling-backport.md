@@ -2,8 +2,15 @@
 
 Local anchor for the eleven numbered changes approved by Richard on 2026-11-02.
 Framework baseline: `c4b36d0`; project helper baseline: `761cae17^`.
-The approval covers local implementation and validation. No remote issue, release,
-publication or installation refresh is part of this candidate.
+The initial approval covered local implementation and validation, without a remote
+issue, release, publication or installation refresh.
+
+On 2026-11-03 Richard authorized committing, pushing and merging the AA-SDLC
+backport. This extends the original local-only scope to source publication and
+merge through the configured GitLab checks. A supporting generated website
+index correction is committed locally at `07fac61`; its live-site deployment
+pipeline is outside this source merge. No package release or project installation
+refresh is requested.
 
 ## Approved scope and proof
 
@@ -97,13 +104,35 @@ Candidate packages identify source `27485f4`. SHA256 digests:
 - `devpossible-aa-sdlc-cli-win32-x64-0.6.1-backport.0.tgz`:
   `78828d209964b5b7d696eddc4c911ba23d43ff5519a1a16f749c7746cfa6b767`.
 
-The first full unit attempt stops at the separate website's committed index:
+The first full unit attempt stopped at the separate website's committed index:
 counts need 92/820 to 93/830 and its older displayed version needs 0.5.1 to 0.6.0.
-A generated preview is under `.aitemp/feature-tooling-website-preview/`; separate
-permission is pending for that repository's two-line local commit.
+A generated preview is under `.aitemp/feature-tooling-website-preview/`. The
+two-line local website commit `07fac61` now supplies the required committed
+index; `scripts/Test-WebsiteCurrency.ps1` passes against it.
 All other structural checks in that invocation passed. The separate Go package
-and complete unit Pester runs above passed; the full root unit invocation is
-still blocked at website currency and is not reported as green.
+and complete unit Pester runs above passed; that full root unit invocation
+was blocked at website currency and is not retrospectively reported as green.
+The newly authorized branch-finish run verifies the complete candidate below.
+
+## Branch-finish verification (2026-11-03)
+
+After fetching `origin/main`, the backport already contains the target's `c4b36d0`
+and needs no conflict resolution. The root build with lint and the full root
+`./test.ps1` run pass: all Go packages, **35 unit Pester tests**, **63 strict CLI
+scenarios / 302 steps**, **3 installed-helper integration tests**, and **6 packed
+E2E tests**. Generated-feature currency/provenance and website currency pass.
+The inherited Go commit-hook test initially skips because `sh` is not on PATH;
+an explicit rerun with Git's installed `sh.exe` available passes that actual test.
+No test is weakened to clear this environment condition.
+
+Commands and output: `.aitemp/feature-tooling-finish.log` and
+`.aitemp/feature-tooling-hook.log` (local generated evidence). The default full
+test tier excludes the opt-in external-agent Docker harness by its existing
+contract; no external-agent integration is claimed. `src/aa-sdlc/scripts/` is
+unchanged from package-tested implementation `27485f4`, verified with Git, so
+the recorded candidate tarballs and coverage remain applicable. This follow-up
+changes only the approval/verification record. GitLab merge-request and target
+pipeline results are recorded on the merge request rather than duplicated here.
 
 The first full integration attempt had a **reporting setup failure**: a relative
 Tee-Object log path resolved after the runner changed into `tests/integration`.
@@ -116,4 +145,4 @@ quarantined, skipped or retried without a changed cause.
 Validation at this boundary is author verification and self-review. No independent
 worker has been authorized. Snapshot fixtures and command integration need no
 live wiki, network, accounts or application host. Publication/activation and the
-project's stock-helper refresh remain separate from this local candidate.
+project's stock-helper refresh remain separate from this source merge.
