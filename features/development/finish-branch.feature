@@ -1,8 +1,8 @@
 # Generated from the knowledge base page Requirements/development/finish-branch. Do not edit: change the page, then pull it.
-# Checksum: sha256:5518649ac0056c39e01289077658359971011805b49712f2887ae647877744a1
-@agent @development @O-14 @O-17 @O-21 @F-010
+# Checksum: sha256:f363e5bfbc92347fb1c0967105d08b4b75aa1a288fddb92605159ab093139ce0
+@agent @development @O-14 @O-17 @O-21 @O-29 @F-010
 Feature: /aa-dev-finish-branch takes a branch from green to merged
-  Format changed files, bring the branch up to date, run the full suite, open or update the
+  Format changed files, bring the branch up to date, run the configured verification gate, open or update the
   merge request linked to the ticket, and transition the ticket. The user's commits stay the
   user's; gates are never bypassed.
 
@@ -12,6 +12,7 @@ Feature: /aa-dev-finish-branch takes a branch from green to merged
 
   @F-010-01
   Scenario: The whole suite runs, not just the tier worked in
+    Given testing.fullSuite.mode is absent or per-branch
     When "/aa-dev-finish-branch" runs
     Then the branch is brought up to date with the target branch
     And the root build with the lint switch and every test tier are run

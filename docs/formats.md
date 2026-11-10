@@ -233,6 +233,14 @@ tools:                              # one entry per tool the project uses (R-44)
     check: dotnet --version
     install:
       windows: winget install --id Microsoft.DotNet.SDK.9 --exact --source winget
+testing:
+  fullSuite:                        # O-29: optional; absent mode means per-branch
+    mode: per-branch                # full build, lint, provenance and every tier at branch finish
+    # mode: checkpoint
+    # integrationBranch: develop
+    # perMerge: [build, lint, smoke, changed-components]   # all four are mandatory
+    # checkpointBefore: [release, exposure, demonstration]
+    # backstop: { merges: 10, days: 3 }                  # optional; either bound triggers
 organisation:
   repository: https://git.example.com/platform/aa-config   # set at user or enterprise scope
 ```
@@ -246,6 +254,7 @@ Merge rules:
 - `tools`: one entry per name; a later scope's entry replaces an earlier one. `stack`: the later
   scope's replaces the earlier one.
 - `version` must match across scopes; the CLI refuses to merge mismatched versions.
+- `testing.fullSuite`: the later scope replaces the whole policy; an absent policy inherits.
 - A project config with no `folders` block means the conventional names are in use.
 
 The CLI validates every file against a published schema before merging and reports the file
@@ -263,8 +272,32 @@ Identify the candidate, executor and independence, relevant dependency and requi
 actual results/output links, required coverage, findings and owned-resource cleanup. For a
 small change one ticket note can suffice. Reuse a valid independent combined-candidate run
 for reviewer and integrator; record their distinct decisions. Rerun affected proof when
-relevant inputs or validity changes. A scoped integration result never substitutes for the
-full-suite branch-finish or release artifact checks.
+relevant inputs or validity changes. A scoped integration result never becomes full-suite
+evidence. Under checkpoint mode a scoped merge is recorded as such, with the full run still
+owed at the next checkpoint (O-29); release artifact checks remain unchanged.
+
+### Full-suite policy
+
+`testing.fullSuite` is optional; an absent policy or mode means `per-branch`. Selecting
+`checkpoint` requires a nonblank `integrationBranch`, all four `perMerge` entries shown above
+and at least one nonblank, project-named `checkpointBefore` event. The changed-components
+gate also includes the suites pinning any changed public API, schema or shared kernel; the
+event names select when full proof is due, not which tests full means. Additional merge checks
+may be named in `perMerge`. Provenance remains mandatory at every merge.
+
+Before each named event, run full build, lint, provenance and every tier on its integration-
+branch candidate. Record candidate, inputs, commands and results under G-59; relevant changes
+invalidate earlier proof. An optional `backstop` supplies positive integer `merges`, `days`
+or both, counted from the last successful full checkpoint; either bound makes a full run due
+before another merge. With no successful checkpoint recorded, run one before the next merge.
+Failed and partial runs never reset a backstop. Fix checkpoint failures forward, retain the
+affected claims, ticket flakes and never retry them into green. Existing release and
+installed/exposure gates apply even when those events are absent from `checkpointBefore`.
+
+`/aa-fw-health` reports an incomplete checkpoint policy as R-49 unmet without changing it;
+`/aa-fw-init` offers to complete it with the user or restore the default. This policy is
+guidance executed through the project's existing scripts and systems, not a new scheduler
+or process-state store (T-04, T-05).
 
 ## 3. Declaring requirements in skills and plugins
 

@@ -6,7 +6,7 @@ aa:
   step: health
   guidance_sets: [every-step]
   guidance: [G-04]
-  requires: [R-07, R-14, R-15]
+  requires: [R-07, R-14, R-15, R-49]
 ---
 
 # /aa-fw-health
@@ -46,6 +46,11 @@ remedy.
    repository root and merge it with any user, team, or enterprise scope it names. Read the
    development environment configuration in the documents folder if it exists: it records the
    requirements the project has declared not applicable and why, and the connectors it expects.
+   Read `testing.fullSuite` (R-49): absent policy or mode means `per-branch`. Under `checkpoint`,
+   report **unmet** for missing or empty `checkpointBefore`, a missing integration branch,
+   missing mandatory build/lint/smoke/changed-components gates, or invalid backstop bounds;
+   name the keys and the remedy of completing the policy with `/aa-fw-init` or restoring
+   `per-branch`. Unknown modes are unmet, never silently treated as a default. Change nothing.
    If there is no repository, every project and tooling requirement is **not applicable:
    no project in scope**.
 5. **Probe each requirement by doing.** Perform the met scenario's `Given` steps with the tools
@@ -81,7 +86,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- **G-04** During development run focused checks; before review run the affected build, lint and relevant test tiers, retaining actual output and declaring the scope. At actual branch finish run full build, lint, provenance and every test tier; at release satisfy the release checks. Instruction-only changes use the framework's applicable structural validation rather than claiming product behavior.
+- **G-04** During development run focused checks; before review run the affected build, lint and relevant test tiers, retaining output and scope; instruction-only changes use applicable structural validation. At branch finish default to full build, lint, provenance and every test tier; explicit checkpoint mode (O-29) instead requires build, lint, smoke, changed-component and changed public API/schema/shared-kernel suites plus provenance at each integration-branch merge, records the full run owed before each configured event or backstop, fixes failures forward without retry-to-green, and preserves G-59 and all release and installed/exposure gates.
 - Probe by doing, not by looking. To check the ticket system, read a ticket; to check source control, read the remote; to check the build, run the build script. A configuration file that exists proves nothing.
 - Probe the ticket project's configuration, not only its names. Read its workflow states, the moves between them, the parent links it allows, and its board; a mapping whose names all exist can still leave two life-cycle states on one workflow state or a step with no move to make (R-43).
 - Report not-applicable as its own status. A requirement that cannot apply here (hooks on a target with no hooks) is not a failure and must not look like one.

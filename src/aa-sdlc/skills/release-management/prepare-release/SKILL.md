@@ -6,7 +6,7 @@ aa:
   step: prepare-release
   guidance_sets: [every-step, anchored-step]
   guidance: [G-04, G-11, G-13, G-34, G-47]
-  requires: [R-01, R-05, R-11, R-20, R-28, R-33, R-38]
+  requires: [R-01, R-05, R-11, R-20, R-28, R-33, R-38, R-49]
 ---
 
 # /aa-rel-prepare-release
@@ -47,6 +47,10 @@ Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check
    test run for each tier, the security test results, the UAT record, the scan (G-04). Nothing
    is marked done on someone's word; an item that does not apply says why. Record the decision
    and who made it.
+   Under checkpoint mode (O-29), require the full integration-branch checkpoint for the
+   release candidate and clear its outstanding proof; a scoped merge gate cannot satisfy it
+   (G-59). Existing release and installed/exposure gates apply even when those events are not
+   named in `checkpointBefore`.
 7. **Record the release** in the ticket system and the knowledge base: the version, the
    artifact identity, and the notes, each linked from the release ticket and back (G-26).
 8. **Stage and present; do not cut the tag.** Stage the notes file with a Conventional Commit
@@ -76,7 +80,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 
 *For this step:*
 
-- **G-04** During development run focused checks; before review run the affected build, lint and relevant test tiers, retaining actual output and declaring the scope. At actual branch finish run full build, lint, provenance and every test tier; at release satisfy the release checks. Instruction-only changes use the framework's applicable structural validation rather than claiming product behavior.
+- **G-04** During development run focused checks; before review run the affected build, lint and relevant test tiers, retaining output and scope; instruction-only changes use applicable structural validation. At branch finish default to full build, lint, provenance and every test tier; explicit checkpoint mode (O-29) instead requires build, lint, smoke, changed-component and changed public API/schema/shared-kernel suites plus provenance at each integration-branch merge, records the full run owed before each configured event or backstop, fixes failures forward without retry-to-green, and preserves G-59 and all release and installed/exposure gates.
 - **G-11** Every artifact that belongs with the code goes into the same task-owned change set as the code, staged or committed under G-40. Nothing that matters is left only in a conversation or unrecorded on a local disk.
 - **G-13** Stop and ask before any irreversible action (deploy, delete, external message, merge to a protected branch) unless the user granted it in advance.
 - **G-34** Derive the release from the history: the version bump from the commit types since the last tag (breaking change, feature, fix) and the release notes by grouping commits by type and ticket, then edit the notes for the reader. A commit that does not parse is a finding on the release ticket, not something to work around.

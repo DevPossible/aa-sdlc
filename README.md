@@ -31,9 +31,9 @@ in [docs/opinions.md](docs/opinions.md).
   against the repository before work starts.
 - **Commits and history** (O-14, O-17, O-19, O-22): Conventional Commits, small and cohesive,
   made under explicit user authorization, traceable to their purpose; dependencies change through the package manager.
-- **The delivery path** (O-11, O-12, O-24, O-25): every pipeline step runs locally; end-to-end
+- **The delivery path** (O-11, O-12, O-24, O-25, O-29): every pipeline step runs locally; end-to-end
   tests run against containers; build once and promote; environment settings live apart from
-  functional settings.
+  functional settings; full-suite branch finish by default, integration-branch checkpoints by opt-in.
 - **Practice** (O-08, O-18, O-21, O-23): Development proves the requirement and Testing goes
   beyond it; decisions are records; conventions are enforced by tools; tests are deterministic.
 
