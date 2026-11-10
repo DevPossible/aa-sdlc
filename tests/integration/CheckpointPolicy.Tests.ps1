@@ -5,7 +5,7 @@ Describe 'F-094-08 Installed checkpoint policy' {
     BeforeAll {
         $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
         $binaryName = if ($IsWindows) { 'aa.exe' } else { 'aa' }
-        $binary = Join-Path $repo ".build/aa-sdlc-cli/$binaryName"
+        $script:binary = Join-Path $repo ".build/aa-sdlc-cli/$binaryName"
         $script:savedAaHome = $env:AA_HOME
         $env:AA_HOME = Join-Path $TestDrive 'home'
         $project = Join-Path $TestDrive 'project'
@@ -30,7 +30,7 @@ testing:
     }
 
     It 'preserves an inherited policy through init and delivers its guidance' {
-        & $binary init -path $project -targets codex -ticket-project ABC -yes | Out-Null
+        & $script:binary init -path $project -targets codex -ticket-project ABC -yes | Out-Null
         $LASTEXITCODE | Should -Be 0
         $config = ConvertFrom-Yaml ([IO.File]::ReadAllText((Join-Path $project 'aa.config.yaml')))
         $policy = $config.testing.fullSuite
