@@ -1,6 +1,6 @@
 ---
 name: finish-branch
-description: "Take a branch from \"the tests pass\" to merged: format changed files, rebase or merge from the target branch, run the full test suite, open or update the merge request linked to the ticket, and transition the ticket."
+description: "Take a branch from \"the tests pass\" to merged: format changed files, rebase or merge from the target branch, run the configured full-suite or checkpoint merge gate, open or update the merge request linked to the ticket, and transition the ticket."
 aa:
   discipline: development
   step: finish-branch
@@ -11,7 +11,7 @@ aa:
 
 # /aa-dev-finish-branch
 
-Take a branch from "the tests pass" to merged: format changed files, rebase or merge from the target branch, run the full test suite, open or update the merge request linked to the ticket, and transition the ticket.
+Take a branch from "the tests pass" to merged: format changed files, rebase or merge from the target branch, run the configured full-suite or checkpoint merge gate, open or update the merge request linked to the ticket, and transition the ticket.
 
 ## Anchor
 
@@ -21,6 +21,7 @@ Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check
 
 - The branch and its ticket
 - The project's branch, commit, and merge conventions from the project config
+- The merged testing.fullSuite policy (absent mode means per-branch)
 
 ## Procedure
 
@@ -40,9 +41,20 @@ Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check
    Otherwise leave the task changes for the user's commit. Never absorb another worker's files.
 4. **Bring the branch up to date** with the target branch by the project's convention (rebase
    or merge). Resolve conflicts honestly; a conflict that changes behaviour goes on the ticket.
-5. **Prove the whole thing.** Format only the files this branch changed (G-01). Run the root
-   build with the lint switch and the full test suite, every tier, not just the one you worked
-   in, and quote the output (G-04). Run the feature-file check (G-56):
+5. **Prove the configured gate.** Format only the files this branch changed (G-01). Read
+   `testing.fullSuite` from the merged config. An absent policy or mode means `per-branch`:
+   run the full root build with lint and the full test suite, every tier, and quote the output
+   (G-04). Under explicit `checkpoint`, for a merge into `integrationBranch`, run build, lint,
+   smoke and changed-component suites plus the suites pinning every changed public API,
+   schema or shared kernel, and every additional `perMerge` check. Record the commands and
+   actual scope/results under G-59; name the integration branch and full run owed at the next
+   `checkpointBefore` event. Outside that integration branch the per-branch gate still applies.
+   A missing or invalid checkpoint policy cannot justify deferral: name the gap and retain the
+   full gate until corrected. If a configured backstop is due, the integration branch also
+   needs a full checkpoint before another merge: either merges or days since its last
+   successful full run reaching the bound is enough; without a recorded successful run, one
+   is due now. Failed or partial runs never reset the bounds.
+   In both modes run the feature-file check (G-56):
    `scripts/aa-sdlc/Test-FeatureProvenance.ps1 -FeaturesRoot <features>` for any knowledge base,
    or `scripts/aa-sdlc/Sync-FeatureFiles.ps1 -KnowledgeRoot <folder> -FeaturesRoot <features>
    -Check` for a documents-folder one, and quote its output; a feature file that fails it blocks
@@ -50,9 +62,14 @@ Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check
    locally with the same script before anything else is done (G-29). Nothing is skipped or
    suppressed (G-06).
    This is the actual branch-finish gate, not a prerequisite for each development checkpoint
-   or scoped local integration. A prior independent full-suite run can satisfy this gate only
+   or scoped local integration. A prior independent run can satisfy its named scope only
    when its candidate, relevant dependencies/environment, requirements, and evidence remain
    valid for the branch as it will be merged. Do not relabel a partial run as the full suite.
+   Before each configured event, the integration-branch candidate must pass full build, lint,
+   provenance and every tier. Fix checkpoint failures forward and retain their affected claims;
+   ticket flaky tests with a distinguishing experiment, never retry-to-green (O-23).
+   Release and installed/exposure artifact, full-suite, independent acceptance and authorization
+   gates remain unchanged even when those events are not listed in `checkpointBefore`.
 6. **Open or update the merge request.** Title and description reference the ticket and
    summarise the change and the tests that prove it. Link the request from the ticket and the
    ticket from the request (G-26).
@@ -69,7 +86,7 @@ Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check
 
 - Title and description reference the ticket and summarise the change and its tests; every commit on the branch references the ticket (O-19)
 - Changed files are formatted; unrelated files are untouched (G-01); the root build passes with the lint switch (O-21)
-- Full test suite passes on the branch as it will be merged
+- Full test suite passes on the branch as it will be merged by default; checkpoint mode passes the scoped gate into the integration branch and records the full run owed (O-29)
 - The feature-file check passes on the branch as it will be merged; every feature file was pulled from its page (G-56)
 - Every commit is a task-owned cohesive Conventional Commit made under explicit user authorization (O-17)
 
@@ -92,7 +109,7 @@ Read these guidance sets before starting; each is one file, installed beside thi
 - **G-29** Put every pipeline step's logic in a root script or a command committed to the repository and call it from the pipeline with the same arguments; when a pipeline step fails, reproduce it locally with that same script before changing anything. A step that can only run in the pipeline is a defect: ticket it and move the logic out.
 - **G-51** Move tickets only with their producing evidence: Refined when scenarios/revision are recorded, Planned when the brief is confirmed and sized, In progress when implementation starts, In review when a verified candidate is ready with a linked merge request or authorized local review record, Accepted when the stakeholder confirms, Done when released. Distinguish author verification, independent review, local integration and release, using the configured state names.
 - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
-- Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
+- Bring the branch up to date before the final gate. Default to the whole suite; checkpoint mode uses the mandatory scoped integration-branch merge gate and records the full run owed (O-29), never labelling partial evidence full (G-59).
 - Run the feature-file check before opening or merging the request. A feature file that fails it blocks the merge; change the page and pull it, never edit the file (G-56).
 - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
 - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).

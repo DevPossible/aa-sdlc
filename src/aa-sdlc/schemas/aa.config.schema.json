@@ -80,6 +80,52 @@
         "decisions": { "type": "string", "minLength": 1, "description": "Decision record location (O-18); a folder or a knowledge base page." }
       }
     },
+    "testing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fullSuite": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "O-29: per-branch by default; an explicit checkpoint policy moves full proof to integration-branch events. Later scopes replace this policy as a whole.",
+          "properties": {
+            "mode": { "type": "string", "enum": ["per-branch", "checkpoint"], "default": "per-branch" },
+            "integrationBranch": { "type": "string", "pattern": "\\S" },
+            "perMerge": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "\\S" },
+              "uniqueItems": true,
+              "allOf": [
+                { "contains": { "const": "build" } },
+                { "contains": { "const": "lint" } },
+                { "contains": { "const": "smoke" } },
+                { "contains": { "const": "changed-components" } }
+              ],
+              "description": "Mandatory merge gates, plus project additions. Changed-component coverage includes suites pinning changed public APIs, schemas and shared kernels."
+            },
+            "checkpointBefore": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "pattern": "\\S" },
+              "uniqueItems": true,
+              "description": "Project-named events requiring a full integration-branch run first. Existing release and exposure gates remain in force."
+            },
+            "backstop": {
+              "type": "object",
+              "additionalProperties": false,
+              "minProperties": 1,
+              "properties": {
+                "merges": { "type": "integer", "minimum": 1 },
+                "days": { "type": "integer", "minimum": 1 }
+              },
+              "description": "Optional bounds since the last successful full checkpoint; either makes a full run due before another merge."
+            }
+          },
+          "if": { "required": ["mode"], "properties": { "mode": { "const": "checkpoint" } } },
+          "then": { "required": ["integrationBranch", "perMerge", "checkpointBefore"] }
+        }
+      }
+    },
     "organisation": {
       "type": "object",
       "additionalProperties": false,

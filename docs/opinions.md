@@ -473,7 +473,8 @@ dependencies in this sense, and the opinion does not apply to it.
 
 Everything the pipeline does runs locally, the end-to-end tier runs against containers, one
 built artifact is promoted through every environment, and what varies by environment is kept
-apart from what does not.
+apart from what does not. Full-suite branch finish is the default; projects may opt into
+scoped merges with full integration-branch checkpoints.
 
 **O-11 Every pipeline step runs locally, exactly.**
 *The stance:* every step the delivery pipeline performs can be reproduced exactly, on the
@@ -567,6 +568,28 @@ single flat settings store where the two kinds are told apart by naming conventi
 *Would change our mind:* nothing foreseeable. The file format and the platform mechanism are
 the project's choice (T-01); the separation is not.
 *Requirements:* R-30, R-39. *Guidance:* G-38, G-48.
+
+**O-29 Full-suite branch finish by default; checkpoints by explicit project choice.**
+*The stance:* the default is `per-branch`: full build, lint, provenance and every test tier
+at branch finish. A project may select `testing.fullSuite.mode: checkpoint`, naming its
+integration branch, mandatory per-merge gates and the events before which a full run is owed.
+Every merge passes build, lint, smoke and changed-component suites, including suites pinning
+changed public APIs, schemas and shared kernels; provenance still passes. Before each named
+event the integration-branch candidate passes the full run. An optional positive merge-count
+or elapsed-day backstop makes a full run due before another merge when either bound is reached
+since the last successful full checkpoint; without one recorded, run a checkpoint first.
+Failures are fixed forward, flaky tests get defect tickets, and retries never make acceptance
+green. Evidence names what ran and what remains owed (G-59); release and installed/exposure
+gates keep their existing full-suite, artifact, independent acceptance and authorization checks.
+*Why:* long full suites can delay integration of small changes. A declared checkpoint policy
+makes the deferred proof visible while retaining contract coverage at every merge and full
+proof before the events the project relies on.
+*Rejected:* implicitly dropping full suites, calling a partial run full, optional mandatory
+merge gates, checkpoint mode without events, retry-to-green, and treating a scoped merge as
+release or exposure acceptance.
+*Would change our mind:* escaped defects or stale checkpoint evidence justify stricter merge
+coverage, shorter backstops or a return to per-branch for that project.
+*Requirements:* R-11, R-49. *Guidance:* G-04, G-06, G-46, G-59.
 
 ---
 

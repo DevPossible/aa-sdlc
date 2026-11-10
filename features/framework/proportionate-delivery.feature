@@ -1,5 +1,5 @@
 # Generated from the knowledge base page Requirements/framework/proportionate-delivery. Do not edit: change the page, then pull it.
-# Checksum: sha256:c45d09d3bb6c8e1b422f803384b9baff3cbf9b01a4c7bf210ce7d1bb4d669a8e
+# Checksum: sha256:11b10fc8fa18e774d66a0e111194fb9e4bc64eebce688b4f6b104955aff450ff
 @framework @agent @O-08 @O-13 @O-17 @O-23 @O-26 @T-07 @F-092
 Feature: Proportionate delivery and early integration
   One approved boundary supports autonomous implementation, early real integration and
@@ -62,7 +62,7 @@ Feature: Proportionate delivery and early integration
     Given affected component and real-collaborator checks pass on a work-in-progress candidate
     When the candidate is locally integrated
     Then the record states the limited integrated scope
-    And full build, lint, provenance and every tier remain required at actual branch finish
+    And full build, lint, provenance and every tier remain required at actual branch finish by default, or at configured integration-branch checkpoints under O-29
     And release and activation retain their own artifact and authorization checks
 
   @F-092-09

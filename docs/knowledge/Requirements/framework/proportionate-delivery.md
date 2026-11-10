@@ -138,7 +138,7 @@ acceptance, independent review where required and full branch-finish/release gat
 | Given | affected component and real-collaborator checks pass on a work-in-progress candidate |
 | When | the candidate is locally integrated |
 | Then | the record states the limited integrated scope |
-| And | full build, lint, provenance and every tier remain required at actual branch finish |
+| And | full build, lint, provenance and every tier remain required at actual branch finish by default, or at configured integration-branch checkpoints under O-29 |
 | And | release and activation retain their own artifact and authorization checks |
 
 ## F-092-09 Failures do not disappear behind narrower green runs

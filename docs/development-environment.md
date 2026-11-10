@@ -119,6 +119,7 @@ Every unmet item below is addressed by a plan task or accepted here with a reaso
 
 | Id | Status | How probed |
 |----|--------|------------|
+| R-49 | met | added 2026-11-10: this repository has no testing.fullSuite policy, so per-branch remains the default; config schema and CLI round-trip/merge tests cover the opt-in checkpoint policy |
 | R-09 | met | PowerShell and Go by their formatters; YAML, Gherkin, Markdown, and JSON by the text-convention check in `build.ps1 -Lint` (decision record 0006) |
 | R-01 | met | `git ls-remote` read main on the GitLab remote |
 | R-03 | unmet (recommended) | same connector state as R-02; Confluence space AS recorded |

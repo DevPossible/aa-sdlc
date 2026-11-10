@@ -79,6 +79,9 @@ down as the first proposals (config, folders, root script stubs), with consent.
 4. **Propose each fixable unmet requirement** as one line: what it creates or changes, and why
    (the requirement id and what depends on it). Batch trivial fixes such as folders and stubs
    into one proposal. Perform a fix only after the user agrees (G-13).
+   For R-49, offer to complete the checkpoint policy's integration branch, mandatory merge
+   gates and named events, with optional positive backstop bounds, or restore `per-branch`.
+   Leave an absent policy at its default; never opt a project into checkpoint mode implicitly.
 5. **Establish the stack, and survey the user where it cannot be inferred** (R-44). Read the
    repository: project files, lock files, source by language, the pipeline configuration. When
    it settles the stack, state it and ask the user to confirm. When the repository is blank or

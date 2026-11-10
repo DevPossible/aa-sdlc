@@ -1316,3 +1316,68 @@ What the repository must contain. aa init lays most of these down; /aa-fw-health
 | Then | R-48 is reported as unmet |
 | And | the steps that check against the doctrines are listed as depending on it |
 | And | the remedy is "/aa-fw-init", which drafts the doctrines with the user |
+
+## F-065-79 The default full-suite policy is met
+
+| Scenario | F-065-79 |
+| --- | --- |
+| Name | The default full-suite policy is met |
+| Kind | Scenario |
+| Tags | @R-49 @required @O-29 @AP-413 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | testing.fullSuite or its mode is absent, or mode is per-branch |
+| When | "/aa-fw-health" probes R-49 |
+| Then | R-49 is reported as met with the per-branch default named |
+
+## F-065-80 A complete checkpoint policy is met
+
+| Scenario | F-065-80 |
+| --- | --- |
+| Name | A complete checkpoint policy is met |
+| Kind | Scenario |
+| Tags | @R-49 @required @O-29 @AP-413 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | testing.fullSuite.mode is checkpoint |
+| And | the policy names an integration branch and at least one checkpointBefore event |
+| And | perMerge includes build, lint, smoke and changed-components and any backstop has positive integer bounds |
+| When | "/aa-fw-health" probes R-49 |
+| Then | R-49 is reported as met with the configured policy named |
+
+## F-065-81 A checkpoint policy without events is unmet
+
+| Scenario | F-065-81 |
+| --- | --- |
+| Name | A checkpoint policy without events is unmet |
+| Kind | Scenario |
+| Tags | @R-49 @required @O-29 @AP-413 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | testing.fullSuite.mode is checkpoint but checkpointBefore is missing or empty |
+| When | "/aa-fw-health" probes R-49 |
+| Then | R-49 is reported as unmet with testing.fullSuite.checkpointBefore named |
+| And | the remedy is "/aa-fw-init", which offers to name the events with the user or restore per-branch |
+| And | health changes nothing and never silently treats the policy as per-branch |
+
+## F-065-82 A malformed checkpoint policy is unmet
+
+| Scenario | F-065-82 |
+| --- | --- |
+| Name | A malformed checkpoint policy is unmet |
+| Kind | Scenario |
+| Tags | @R-49 @required @O-29 @AP-413 |
+| Status | Approved |
+
+| Step | Text |
+| --- | --- |
+| Given | a full-suite policy has an unknown mode, no integration branch, a missing mandatory perMerge gate or an invalid backstop |
+| When | "/aa-fw-health" probes R-49 |
+| Then | R-49 is reported as unmet with the invalid keys named |
+| And | the remedy is "/aa-fw-init", which offers to correct the policy with the user |

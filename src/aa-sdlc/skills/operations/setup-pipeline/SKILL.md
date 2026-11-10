@@ -39,6 +39,13 @@ Anchor first (G-22). Read the ticket, linked scenarios and knowledge page; check
    that fails on any failure, the security checks, and a pack stage. Each stage is one call to
    a script or command in the repository with the same arguments; no logic lives in the
    configuration (O-11). A stage that must be skipped carries the reason beside it.
+   Read the merged `testing.fullSuite` policy (O-29). Under checkpoint mode, schedule the
+   mandatory scoped gate at every merge into its integration branch, including changed public
+   API/schema/shared-kernel suites and provenance; schedule full build, lint, provenance and
+   every tier on that branch before each named event and any due backstop. Keep results and
+   the outstanding checkpoint in the existing evidence record (G-59), fix failures forward
+   and ticket flakes without retry-to-green. Preserve every release and installed/exposure
+   gate; checkpoint scheduling does not replace the full release pipeline described here.
 4. **Build once, deploy that identity everywhere.** The pack stage runs once per commit and
    gives the artifact an immutable identity, a digest or a version the pipeline never reuses.
    Each deploy stage takes that identity and the committed template for its environment,

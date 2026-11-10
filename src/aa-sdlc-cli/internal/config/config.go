@@ -25,6 +25,7 @@ type Config struct {
 	Folders        map[string]string `yaml:"folders,omitempty"`
 	Stack          *Stack            `yaml:"stack,omitempty"`
 	Tools          []Tool            `yaml:"tools,omitempty"`
+	Testing        *Testing          `yaml:"testing,omitempty"`
 	Organisation   *Organisation     `yaml:"organisation,omitempty"`
 	Install        *Install          `yaml:"install,omitempty"`
 }
@@ -100,6 +101,26 @@ type Tool struct {
 	Check    string            `yaml:"check,omitempty"`
 	Install  map[string]string `yaml:"install,omitempty"`
 	Docs     string            `yaml:"docs,omitempty"`
+}
+
+// Testing holds the project's verification policy (O-29).
+type Testing struct {
+	FullSuite *FullSuite `yaml:"fullSuite,omitempty"`
+}
+
+// FullSuite names when full proof is owed. An absent policy or mode means per-branch.
+type FullSuite struct {
+	Mode              string    `yaml:"mode,omitempty"`
+	IntegrationBranch string    `yaml:"integrationBranch,omitempty"`
+	PerMerge          []string  `yaml:"perMerge,omitempty"`
+	CheckpointBefore  []string  `yaml:"checkpointBefore,omitempty"`
+	Backstop          *Backstop `yaml:"backstop,omitempty"`
+}
+
+// Backstop optionally bounds merges or elapsed days since a successful full checkpoint.
+type Backstop struct {
+	Merges int `yaml:"merges,omitempty"`
+	Days   int `yaml:"days,omitempty"`
 }
 
 // Organisation points at the enterprise and team scopes.
@@ -263,6 +284,10 @@ func Merge(cfgs ...*Config) (*Config, error) {
 		out.Tools = mergeTools(out.Tools, c.Tools)
 		if c.Stack != nil {
 			out.Stack = c.Stack
+		}
+		// A later full-suite policy replaces the whole policy, never a partial mixture.
+		if c.Testing != nil && c.Testing.FullSuite != nil {
+			out.Testing = c.Testing
 		}
 		if c.Organisation != nil {
 			if out.Organisation == nil {

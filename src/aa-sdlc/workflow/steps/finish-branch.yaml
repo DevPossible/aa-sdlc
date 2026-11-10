@@ -4,19 +4,20 @@ discipline: development
 command: /aa-dev-finish-branch
 summary: >
   Take a branch from "the tests pass" to merged: format changed files, rebase or merge from the
-  target branch, run the full test suite, open or update the merge request linked to the ticket,
+  target branch, run the configured full-suite or checkpoint merge gate, open or update the merge request linked to the ticket,
   and transition the ticket.
 anchor: required
 inputs:
   - The branch and its ticket
   - The project's branch, commit, and merge conventions from the project config
+  - The merged testing.fullSuite policy (absent mode means per-branch)
 artifacts:
   - name: Merge request
     location: source control, linked from and to the ticket
     acceptance:
       - Title and description reference the ticket and summarise the change and its tests; every commit on the branch references the ticket (O-19)
       - Changed files are formatted; unrelated files are untouched (G-01); the root build passes with the lint switch (O-21)
-      - Full test suite passes on the branch as it will be merged
+      - Full test suite passes on the branch as it will be merged by default; checkpoint mode passes the scoped gate into the integration branch and records the full run owed (O-29)
       - The feature-file check passes on the branch as it will be merged; every feature file was pulled from its page (G-56)
       - Every commit is a task-owned cohesive Conventional Commit made under explicit user authorization (O-17)
   - name: Ticket transition
@@ -27,11 +28,11 @@ guidance_sets: [every-step, anchored-step, code-change]
 guidance: [G-13, G-14, G-29, G-51]
 guidance_inline:
   - Format only what you changed. Reformatting untouched files hides the change and creates conflicts for everyone else.
-  - Bring the branch up to date before the final test run, and run the whole suite, not the tier you were working in.
+  - Bring the branch up to date before the final gate. Default to the whole suite; checkpoint mode uses the mandatory scoped integration-branch merge gate and records the full run owed (O-29), never labelling partial evidence full (G-59).
   - Run the feature-file check before opening or merging the request. A feature file that fails it blocks the merge; change the page and pull it, never edit the file (G-56).
   - Never bypass a hook or a protected-branch rule. If a gate blocks, fix the cause or tell the user (G-14).
   - Merge only if the project's conventions let you; otherwise open the request and stop (G-13).
   - Honor explicit local task commit permission; otherwise present task-owned changes without committing (G-40). Remote writes, protected merges and release require separate authorization.
 requires: [R-11, R-24, R-41, R-43]
 tenets: [T-06, T-07]
-opinions: [O-14, O-17, O-19, O-21]
+opinions: [O-14, O-17, O-19, O-21, O-29]
