@@ -257,8 +257,11 @@ Merge rules:
 - `testing.fullSuite`: the later scope replaces the whole policy; an absent policy inherits.
 - A project config with no `folders` block means the conventional names are in use.
 
-The CLI validates every file against a published schema before merging and reports the file
-and key that fails.
+The CLI decodes each file as YAML into its config types before merging. It reports decoding
+errors with the file path, rejects a missing or zero `version`, and refuses to merge mismatched
+versions. It does not validate files against the published JSON schema or reject unknown keys.
+The config schema at `src/aa-sdlc/schemas/aa.config.schema.json` describes the intended shape
+and is tested separately; `/aa-fw-health` checks the checkpoint policy as R-49 (below).
 
 State mapping changes names, not evidence or permission. `in-review` means a verified candidate
 ready for review, linked through a merge request or an authorized local review record; it does
@@ -470,6 +473,6 @@ for configuration, supported export formats, destination protections and command
 
 Settled: file formats, locations, id scheme, merge rules, where each kind of text lives once.
 
-Not settled: the JSON schema files themselves for workflow and config (to be written with the
-CLI); how `/aa-fw-health` performs a plain-language `detect` on targets with no script support;
+Not settled: CLI enforcement of the published config schema; how `/aa-fw-health` performs a
+plain-language `detect` on targets with no script support;
 the folder-mapping UX in `/aa-fw-init` for existing repositories.
